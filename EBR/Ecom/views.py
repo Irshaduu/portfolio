@@ -8,8 +8,7 @@ from .models import Category, Product
 from .forms import ProductForm, CategoryForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .forms import ReviewForm
-from django.views.generic.edit import FormView
+
 
 
 
@@ -196,15 +195,3 @@ def remove_from_cart(request, pro_id):
 
 #-------------------------------------------
 
-def send_email(request):
-    return render (request,'review.html')
-
-
-class ReviewEmailView(FormView):
-    template_name = 'review.html'
-    form_class = ReviewForm
-
-    def form_valid(self, form):
-        form.send_email()
-        msg = "Thanks for the review!"
-        return HttpResponse(msg)

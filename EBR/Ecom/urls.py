@@ -1,6 +1,5 @@
 from django.urls import path
 from . import views
-from .views import ReviewEmailView
 
 app_name = 'Ecom'
 
@@ -31,8 +30,5 @@ urlpatterns = [
     path('add-to-cart/<int:pro_id>', views.add_to_cart, name='add_to_cart'),
     path('cart', views.cart_view, name='cart'),
     path('remove-from-cart/<int:pro_id>', views.remove_from_cart, name='remove_from_cart'),
-
-    # Reviews
-    path('review', views.ReviewEmailView.as_view(), name="reviews"),
 
 ]
