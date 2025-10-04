@@ -1,0 +1,127 @@
+/* product.css */
+:root {
+  --primary-color: #2c3e50;
+  --accent-color: #2c3e50;
+  --hover-effect: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar {
+  background: linear-gradient(135deg, var(--primary-color), #34495e);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+.nav-link {
+  transition: var(--hover-effect);
+  border-radius: 8px;
+  margin: 0 5px;
+}
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+.btn-action {
+  background: var(--accent-color);
+  color: white !important;
+  border-radius: 8px;
+  transition: var(--hover-effect);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-action:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+}
+
+.card {
+  transition: all 0.3s ease;
+  border: none;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+.card-img-top {
+  height: 250px;
+  object-fit: cover;
+}
+.card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2c3e50;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+.card-text {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #666;
+}
+.price {
+  font-size: 1rem;
+  color: #27ae60;
+}
+.product-info {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+}
+.category-tag {
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+.product-name {
+  font-size: 0.8rem;
+  font-family: 'Arial', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: linear-gradient(45deg, #3498db, #5dade2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.search-btn {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+.search-input {
+  border-radius: 20px 0 0 20px;
+}
+.search-btn {
+  border-radius: 0 20px 20px 0;
+}
+
+.btn-edit {
+  border: 2px solid #3498db !important;
+  color: #3498db !important;
+  background-color: transparent !important;
+}
+.btn-edit:hover {
+  background-color: #3498db !important;
+  color: white !important;
+}
+.btn-delete {
+  border: 2px solid #e74c3c !important;
+  color: #e74c3c !important;
+  background-color: transparent !important;
+}
+.btn-delete:hover {
+  background-color: #e74c3c !important;
+  color: white !important;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin-top: 30px;
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    width: 100%;
+    margin: 10px 0;
+  }
+}

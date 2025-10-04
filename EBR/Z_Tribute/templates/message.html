@@ -1,0 +1,413 @@
+<!--message.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Final Message from Aiby - Our Amazing Teacher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e2e8f0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating celebration elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 24px;
+            animation: celebrate 15s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .floating-item:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .floating-item:nth-child(2) { left: 20%; animation-delay: 3s; }
+        .floating-item:nth-child(3) { left: 30%; animation-delay: 6s; }
+        .floating-item:nth-child(4) { left: 40%; animation-delay: 1s; }
+        .floating-item:nth-child(5) { left: 50%; animation-delay: 4s; }
+        .floating-item:nth-child(6) { left: 60%; animation-delay: 7s; }
+        .floating-item:nth-child(7) { left: 70%; animation-delay: 2s; }
+        .floating-item:nth-child(8) { left: 80%; animation-delay: 5s; }
+        .floating-item:nth-child(9) { left: 90%; animation-delay: 8s; }
+
+        @keyframes celebrate {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(40vh) rotate(180deg);
+                opacity: 1;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #daa520);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .teacher-name {
+            font-size: 1.4rem;
+            background: linear-gradient(135deg, #ec4899, #be185d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .message-container {
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            /* Even bigger fixed height container to fit all content comfortably */
+            height: 800px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ffd700, #ffed4e, #10b981, #3b82f6, #ec4899);
+            background-size: 200% 100%;
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .message-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 10px;
+        }
+
+        .message-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .message-scroll::-webkit-scrollbar-track {
+            background: rgba(71, 85, 105, 0.2);
+            border-radius: 4px;
+        }
+
+        .message-scroll::-webkit-scrollbar-thumb {
+            background: rgba(251, 191, 36, 0.5);
+            border-radius: 4px;
+        }
+
+        .message-scroll::-webkit-scrollbar-thumb:hover {
+            background: rgba(251, 191, 36, 0.7);
+        }
+
+        .message-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+            font-weight: 400;
+            text-align: left;
+        }
+
+        .cursor {
+            display: inline-block;
+            background-color: #ffd700;
+            width: 2px;
+            height: 1.2em;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(71, 85, 105, 0.3);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #fbbf24;
+            font-style: italic;
+            flex-shrink: 0;
+            opacity: 0;
+            animation: signatureFadeIn 1s ease-out 20s forwards;
+        }
+
+        @keyframes signatureFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+                margin-bottom: 30px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .message-container {
+                padding: 30px 20px;
+                height: 680px;
+            }
+
+            .message-text {
+                font-size: 1rem;
+            }
+
+            .back-btn {
+                top: 10px;
+                left: 10px;
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .floating-item {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .teacher-name {
+                font-size: 1.2rem;
+            }
+
+            .message-container {
+                padding: 20px 15px;
+                height: 620px;
+            }
+
+            .message-text {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating celebration elements -->
+    <div class="floating-elements">
+        <div class="floating-item">🎊</div>
+        <div class="floating-item">🎉</div>
+        <div class="floating-item">🌟</div>
+        <div class="floating-item">🎓</div>
+        <div class="floating-item">💫</div>
+        <div class="floating-item">🏆</div>
+        <div class="floating-item">✨</div>
+        <div class="floating-item">🎈</div>
+        <div class="floating-item">🎯</div>
+    </div>
+
+    <div class="container">
+        <a href="#" class="back-btn" onclick="history.back()">← Back to Special</a>
+
+        <div class="header">
+            <h1>A Final Message</h1>
+            <div class="subtitle">Words of inspiration and encouragement</div>
+            <div class="teacher-name">From Aiby 💖</div>
+        </div>
+
+        <div class="message-container">
+            <div class="message-scroll">
+                <div class="message-text" id="messageText">
+                    <span class="cursor" id="cursor"></span>
+                </div>
+            </div>
+            
+            <div class="signature" id="signature">
+                — Aiby Sara Biju
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fullMessage = `Dear Students, @everyone
+
+A big congratulations to all of you! 🎊 🎉 
+
+You've successfully completed the course and passed the exam. I am truly proud of how far you've come. This journey wasn't always easy — there were challenges, doubts, and lots of learning. But you stayed consistent, worked hard, and never gave up. And today, you've proved to yourself that with effort and dedication, anything is possible.
+
+Remember, this is just the beginning. Keep learning, keep growing, and never stop believing in yourself. The skills you've gained will open many doors for you. I'm confident that each one of you has a bright future ahead.
+
+Wishing you all the best for your next steps — whether it's a job, further studies, or new challenges. Keep shining, and always stay curious.
+
+"Success is not a destination but a journey."
+
+......Keep moving forward!
+
+Proud of you all!`;
+
+        let currentIndex = 0;
+        let typingInterval;
+        const currentSpeed = 50; // milliseconds per character
+
+        const messageElement = document.getElementById('messageText');
+        const cursorElement = document.getElementById('cursor');
+        const scrollContainer = messageElement.closest('.message-scroll');
+
+        function typeMessage() {
+            if (currentIndex < fullMessage.length) {
+                const char = fullMessage[currentIndex];
+                
+                // Create a span for each character to handle line breaks properly
+                if (char === '\n') {
+                    messageElement.insertBefore(document.createElement('br'), cursorElement);
+                } else {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    messageElement.insertBefore(span, cursorElement);
+                }
+                
+                // Add some pause for punctuation
+                let delay = currentSpeed;
+                if (char === '.' || char === '!' || char === '?') {
+                    delay = currentSpeed * 3;
+                } else if (char === ',' || char === ';') {
+                    delay = currentSpeed * 2;
+                }
+                
+                currentIndex++;
+                
+                // Auto-scroll to keep the cursor visible within the fixed container
+                scrollContainer.scrollTop = scrollContainer.scrollHeight;
+                
+                typingInterval = setTimeout(typeMessage, delay);
+            } else if (currentIndex >= fullMessage.length) {
+                // Hide cursor when done
+                cursorElement.style.display = 'none';
+            }
+        }
+
+        // Start the typing animation when page loads
+        window.addEventListener('load', () => {
+            setTimeout(typeMessage, 1000);
+        });
+    </script>
+</body>
+</html>

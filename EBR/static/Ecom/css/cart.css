@@ -1,0 +1,128 @@
+:root {
+    --primary-color: #2c3e50;
+    --accent-color: #2c3e50;
+    --hover-effect: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Reuse navbar styles */
+  .navbar {
+    background: linear-gradient(135deg, var(--primary-color), #34495e);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  }
+  .navbar-brand {
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+  .nav-link {
+    transition: var(--hover-effect);
+    border-radius: 8px;
+    margin: 0 5px;
+  }
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  /* Table styles for the cart page */
+  .table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #2c3e50;
+    border-collapse: collapse;
+  }
+  .table th,
+  .table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+  .table thead th {
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f8f9fa;
+    font-weight: 700;
+  }
+  .table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    transition: var(--hover-effect);
+  }
+  
+  /* Cart totals styling */
+  .cart-total {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #27ae60;
+    text-align: right;
+    margin-top: 1rem;
+  }
+  
+  /* Buttons styling */
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: var(--hover-effect);
+  }
+  .btn-success {
+    background-color: #27ae60;
+    border: none;
+    color: #fff;
+  }
+  .btn-success:hover {
+    background-color: #1e8449;
+  }
+  .btn-danger {
+    background-color: #e74c3c;
+    border: none;
+    color: #fff;
+  }
+  .btn-danger:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Container and heading styles */
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+  }
+  h2 {
+    font-size: 1.75rem;
+    margin-top: 30px;
+    text-align: center;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .table,
+    .table thead,
+    .table tbody,
+    .table th,
+    .table td,
+    .table tr {
+      display: block;
+    }
+    .table thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    .table tr {
+      margin-bottom: 1rem;
+    }
+    .table td {
+      border: none;
+      position: relative;
+      padding-left: 50%;
+      text-align: right;
+    }
+    .table td::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45%;
+      padding-left: 15px;
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+  

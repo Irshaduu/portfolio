@@ -1,0 +1,109 @@
+<!--base.html-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Choose Your Learning Path ✨</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+      background:linear-gradient(135deg,#667eea 0%,#764ba2 50%,#f093fb 85%,#ff6b9d 100%);
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:20px;color:#fff;overflow-x:hidden;
+      font-weight:500;
+      letter-spacing:.015em;
+      line-height:1.45;
+    }
+    .orb{position:fixed;border-radius:50%;background:rgba(255,255,255,.08);filter:blur(30px);z-index:1}
+    .o1{width:200px;height:200px;top:10%;left:10%}
+    .o2{width:180px;height:180px;top:60%;right:8%}
+    .o3{width:140px;height:140px;bottom:10%;left:20%}
+    .molecules{position:fixed;inset:0;z-index:2;pointer-events:none}
+    .molecules span{position:absolute;font-size:28px;left:calc(var(--x)*1%);top:110%;animation:up 12s linear infinite;animation-delay:var(--d)}
+    @keyframes up{to{top:-10%}}
+    .card{position:relative;max-width:480px;width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:28px;padding:40px 30px;text-align:center;backdrop-filter:blur(24px);box-shadow:0 20px 40px rgba(0,0,0,.25)}
+    .atom{position:absolute;top:-18px;right:-18px;width:60px;height:60px}
+    .atom i{position:absolute;inset:0;border:1px solid rgba(255,255,255,.35);border-radius:50%}
+    .atom i:nth-child(1){transform:rotate(60deg)}
+    .atom i:nth-child(2){transform:rotate(-60deg)}
+    .atom b{display:block;position:absolute;top:50%;left:50%;width:8px;height:8px;background:#fff;border-radius:50%;transform:translate(-50%,-50%)}
+    header h1{
+      font-family:'Poppins',sans-serif;
+      font-size:2.2rem;
+      font-weight:700;
+      margin-bottom:6px;
+      letter-spacing:-.5px;
+    }
+    header p{
+      font-size:1.2rem;
+      font-weight:600;
+      opacity:.9;
+      letter-spacing:-.25px;
+    }
+    header small{
+      font-size:.8rem;
+      opacity:.8;
+      font-style:italic;
+      letter-spacing:.4px;
+    }
+    .bar{width:100px;height:5px;background:linear-gradient(90deg,#ff6b9d,#74b9ff);border-radius:3px;margin:24px auto}
+    .btns{display:flex;flex-direction:column;gap:18px;margin-top:24px}
+    .btn{
+      display:flex;align-items:center;justify-content:center;gap:12px;
+      padding:18px 24px;border-radius:24px;font-size:1.2rem;
+      font-weight:600;text-decoration:none;color:#fff;
+      transition:transform .25s,box-shadow .25s;
+      letter-spacing:.5px;
+    }
+    .btn.en{background:linear-gradient(135deg,#ff6b9d,#c44569)}
+    .btn.hi{background:linear-gradient(135deg,#6c5ce7,#764ba2)}
+    .btn:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(0,0,0,.25)}
+    footer{
+      margin-top:28px;font-size:.9rem;opacity:.7;font-style:italic;
+      letter-spacing:.3px;
+    }
+    @media(max-width:480px){
+      header h1{font-size:1.9rem}
+      header p{font-size:1.1rem}
+      .btn{font-size:1.1rem;padding:16px 20px}
+    }
+  </style>
+</head>
+<body>
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+
+  <div class="molecules">
+    <span style="--x:5; --d:0s">🧬</span>
+    <span style="--x:25; --d:1s">💉</span>
+    <span style="--x:45; --d:2s">🔬</span>
+    <span style="--x:65; --d:3s">🧪</span>
+    <span style="--x:85; --d:4s">⚗️</span>
+  </div>
+
+  <main class="card">
+    <div class="atom">
+      <i></i><i></i><b></b>
+    </div>
+
+    <header>
+      <h1>Cringe One ✨</h1>
+      <p>Choose A Language Hibaz</p>
+      <small>Look positively, we can fall in love with anything! 🌟</small>
+    </header>
+
+    <div class="bar"></div>
+
+    <section class="btns">
+      <a href="{% url 'Z_Motivation:booster' %}" class="btn en">English🧪</a>
+      <a href="{% url 'Z_Motivation:hbooster' %}" class="btn hi">Hindi🧬</a>
+    </section>
+
+    <footer> In the language of molecules, we all speak the same 💫</footer>
+  </main>
+</body>
+</html>

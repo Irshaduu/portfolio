@@ -1,0 +1,3023 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohammed Irshad C - Django Developer Portfolio</title>
+
+    <!-- Add these new meta tags -->
+    <meta name="description" content="Python Django Developer specializing in web applications. View my projects including ChatLink, E-Commerce platform, and Travel Blog.">
+    <meta name="keywords" content="Django Developer, Python Developer, Web Developer, Portfolio">
+    <meta name="author" content="Mohammed Irshad C">
+
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="Mohammed Irshad C - Django Developer Portfolio">
+    <meta property="og:description" content="Python Django Developer Portfolio showcasing web applications and projects">
+    <meta property="og:image" content="{% static 'Main_page/images/profile.jpg' %}">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mohammed Irshad C - Django Developer">
+    <meta name="twitter:description" content="Python Django Developer Portfolio">
+    <meta name="twitter:image" content="{% static 'Main_page/images/profile.jpg' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400 ;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons " rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js "></script>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #3182ce;
+            --accent-light: #63b3ed;
+            --light: #ebf8ff;
+            --dark: #1a202c;
+            --gray: #4a5568;
+            --light-gray: #edf2f7;
+            --white: #ffffff;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --accent-color: var(--accent);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+        /* Skip link for keyboard accessibility */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: var(--white);
+            padding: 8px 16px;
+            text-decoration: none;
+            z-index: 10001;
+            border-radius: 0 0 4px 0;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: top 0.3s ease;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 3px solid var(--accent-light);
+            outline-offset: 2px;
+        }        
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fd 25%, #e6f4ff 50%, #f0f7ff 75%, #ebf8ff 100%);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Background Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(49, 130, 206, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(49, 130, 206, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(49, 130, 206, 0.03) 0%, transparent 30%);
+            z-index: -2;
+        }
+        
+        /* Dot Grid Pattern */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, rgba(49, 130, 206, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        /* Floating Geometric Shapes */
+        .bg-shape {
+            position: fixed;
+            z-index: -1;
+            opacity: 0.1;
+            animation: float 20s infinite ease-in-out;
+        }
+        
+        .bg-shape-1 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+        
+        .bg-shape-2 {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+            top: 60%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        
+        .bg-shape-3 {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-light), var(--accent));
+            border-radius: 40% 60% 60% 40% / 40% 60% 40% 60%;
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 5s;
+        }
+        
+        .bg-shape-4 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%;
+            top: 30%;
+            right: 20%;
+            animation-delay: 7s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(10px) rotate(-5deg);
+            }
+            75% {
+                transform: translateY(-10px) rotate(3deg);
+            }
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Individual Sticky Navigation Buttons */
+        .nav-button {
+            position: fixed;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(26, 54, 93, 0.85);
+            border: 1px solid rgba(49, 130, 206, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--white);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            right: 8px;
+        }
+        
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.05));
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .nav-button:hover::before {
+            opacity: 1;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: rgba(26, 54, 93, 0.95);
+            border-color: rgba(49, 130, 206, 1);
+        }
+        
+        .nav-button .material-icons {
+            font-size: 14px;
+            z-index: 1;
+        }
+        
+        .nav-tooltip {
+            position: absolute;
+            right: 35px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+        }
+        
+        .nav-button:hover .nav-tooltip {
+            opacity: 1;
+        }
+        
+        /* Position each button vertically in right corner */
+        #profile-btn { top: calc(50% - 74px); }
+        #certificates-btn { top: calc(50% - 38px); }
+        #skills-btn { top: calc(50% - 2px); }
+        #projects-btn { top: calc(50% + 34px); }
+        #contact-btn { top: calc(50% + 70px); }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 4rem;
+            display: flex;
+            align-items: center;
+            min-height: 500px;
+        }
+        
+        /* Vanta Birds Container */
+        #vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        /* Animated background elements */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 30%);
+            z-index: 0;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg  '%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.4;
+            z-index: 0;
+        }
+        
+        /* Animated shapes */
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .shape-1 {
+            width: 200px;
+            height: 200px;
+            top: -100px;
+            right: -50px;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            bottom: -50px;
+            left: -50px;
+            animation-delay: 2s;
+        }
+        
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            top: 50%;
+            right: 10%;
+            animation-delay: 4s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            33% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            66% {
+                transform: translateY(20px) rotate(-5deg);
+            }
+        }
+        
+        .hero-content {
+            display: flex;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .profile-section {
+            flex: 0 0 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-right: 3rem;
+        }
+        
+        .profile-photo-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
+        }
+        
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-photo-container::after {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            animation: circlePulse 3s infinite ease-in-out;
+        }
+        
+        @keyframes circlePulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .info-section {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(90deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .hero .profession {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profession .material-icons {
+            margin-right: 0.5rem;
+            font-size: 1.6rem;
+        }
+        
+        .hero .tagline {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        /* Single Row Button Container */
+        .all-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons-group {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .social-buttons-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-left: 1.5rem;
+        }
+
+        .button-divider {
+            width: 2px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 1rem;
+        }
+
+        /* Social Links - Smaller */
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .social-link:hover::before {
+            width: 100%;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .social-link i {
+            font-size: 0.95rem;
+        }
+
+        .social-link.linkedin:hover {
+            background: #0077b5;
+            border-color: #0077b5;
+        }
+
+        .social-link.github:hover {
+            background: #333;
+            border-color: #333;
+        }
+
+        /* Hero Button Styles */
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .hero-btn .material-icons {
+            font-size: 1rem;
+        }
+
+        .hero-btn-primary {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .hero-btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .hero-btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .skill-tag .material-icons {
+            font-size: 1rem;
+        }
+
+        /* Section Styles */
+        .section {
+            margin-bottom: 5rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* Certificates Section - Optimized & Compact */
+        .certificates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 2rem;
+            perspective: 1000px;
+            max-width: 1000px; /* Added: Limits total width */
+            margin: 0 auto; /* Added: Centers the grid */
+        }
+
+        .certificate-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transform-style: preserve-3d;
+            min-height: 160px;
+        }
+
+        .certificate-card:hover {
+            transform: translateY(-8px) rotateX(2deg);
+            box-shadow: 
+                0 20px 40px rgba(49, 130, 206, 0.15),
+                0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .certificate-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary), var(--accent-light));
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .certificate-card::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--accent), var(--secondary), var(--accent-light));
+            border-radius: 16px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .certificate-card:hover::after {
+            opacity: 0.1;
+        }
+
+        .certificate-header {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(49, 130, 206, 0.1), rgba(49, 130, 206, 0.05));
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .certificate-header::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .certificate-card:hover .certificate-header::before {
+            opacity: 0.3;
+        }
+
+        .certificate-icon {
+            font-size: 2.8rem;
+            color: var(--accent);
+            display: block;
+            position: relative;
+            animation: iconFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 2px 4px rgba(49, 130, 206, 0.3));
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .certificate-card:hover .certificate-icon {
+            animation: iconBounce 0.6s ease;
+            color: var(--secondary);
+        }
+
+        @keyframes iconBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        .certificate-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .certificate-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary);
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .certificate-card:hover .certificate-title {
+            color: var(--accent);
+        }
+
+        .certificate-issuer {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin: 0;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        .certificate-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 0.6rem;
+        }
+
+        .certificate-grade {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: linear-gradient(135deg, rgba(49, 130, 206, 0.1), rgba(49, 130, 206, 0.15));
+            color: var(--accent);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border: 2px solid rgba(49, 130, 206, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .certificate-grade::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .certificate-card:hover .certificate-grade::before {
+            left: 100%;
+        }
+
+        .certificate-card:hover .certificate-grade {
+            transform: scale(1.05);
+            border-color: var(--accent);
+        }
+
+        .certificate-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(49, 130, 206, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .certificate-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--accent);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease, height 0.4s ease;
+            z-index: -1;
+        }
+
+        .certificate-link:hover::before {
+            width: 250px;
+            height: 250px;
+        }
+
+        .certificate-link:hover {
+            color: var(--white);
+            border-color: var(--accent);
+            transform: translateX(3px);
+        }
+
+        .certificate-link .material-icons {
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .certificate-link:hover .material-icons {
+            transform: translateX(2px) rotate(-5deg);
+        }
+
+        @media (max-width: 768px) {                   
+            .certificate-header {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .certificate-icon {
+                font-size: 2.5rem;
+            }
+            
+            .certificate-info {
+                align-items: center;
+            }
+            
+            .certificate-title {
+                font-size: 1.2rem;
+            }
+            
+            .certificate-footer {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .certificate-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        /* Skills Section - Enhanced Digital Board */
+        .skills-section {
+            position: relative;
+            margin-bottom: 5rem;
+            width: 100%;
+            padding: 0;
+            background: transparent;
+        }
+        
+        .skills-container-wrapper {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+        }
+        
+        .skills-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .skills-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* Digital Screen with Bezel */
+        .screen-container {
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            height: 180px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                inset 0 2px 5px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .screen-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.8),
+                0 0 10px rgba(49, 130, 206, 0.3);
+        }
+        
+        .screen-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(49, 130, 206, 0.1) 0%, rgba(49, 130, 206, 0.05) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .screen-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #111;
+            overflow: hidden;
+            z-index: 2;
+        }
+        
+        .digital-board {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .digital-board-track {
+            display: flex;
+            position: absolute;
+            animation: scroll 30s linear infinite;
+            width: fit-content;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .digital-board:hover .digital-board-track {
+            animation-play-state: paused;
+        }
+        
+        @keyframes scroll {
+            0% { transform: translateY(-50%) translateX(0); }
+            100% { transform: translateY(-50%) translateX(-50%); }
+        }
+        
+        .skill-badge {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            padding: 0.7rem 1.2rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            margin: 0 15px;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-badge:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .skill-badge .material-icons {
+            font-size: 1.2rem;
+        }
+        
+        .skill-badge i {
+            font-size: 1.2rem;
+        }
+        
+        /* Remote Control */
+        .remote-control {
+            position: absolute;
+            bottom: -60px;
+            right: 50px;
+            width: 120px;
+            height: 50px;
+            background: #333;
+            border-radius: 25px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            z-index: 10;
+        }
+        
+        .remote-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #444, #222);
+            box-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+        }
+        
+        .remote-btn:hover {
+            background: linear-gradient(145deg, #555, #333);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        }
+        
+        .remote-btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .remote-btn .material-icons {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        /* Left Side Button */
+        .list-control {
+            position: absolute;
+            bottom: -60px;
+            left: 50px;
+            width: 120px;
+            height: 50px;
+            background: #333;
+            border-radius: 25px;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2),
+                inset 0 -1px 2px rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .list-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #444, #222);
+            box-shadow: 
+                0 2px 5px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .list-btn:hover {
+            background: linear-gradient(145deg, #555, #333);
+            transform: translateY(-2px);
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.2);
+        }
+        
+        .list-btn:active {
+            transform: translateY(0);
+            box-shadow: 
+                0 1px 3px rgba(0, 0, 0, 0.3),
+                inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .list-btn .material-icons {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .list-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            font-size: 14px;
+            margin-left: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Screen Branding */
+        .screen-brand {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+            letter-spacing: 1px;
+            z-index: 3;
+        }
+        
+        /* Screen Power Indicator */
+        .power-indicator {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            width: 6px;
+            height: 6px;
+            background: #4caf50;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #4caf50;
+            z-index: 3;
+        }
+        
+        /* MAIN PROJECT SECTION - MODIFIED */
+        .main-project {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            padding: 0;
+            color: var(--white);
+            text-decoration: none;
+            display: block;
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-project:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            text-decoration: none;
+            color: var(--white);
+        }
+        
+        .main-project::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #63b3ed, #4299e1);
+        }
+        
+        .main-project-content {
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .main-project-info {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .main-project-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .main-image-container {
+            width: 728px; /* Half of 1456px */
+            height: 409.5px; /* Half of 819px */
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+        
+        .main-image-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .image-slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .image-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: none; /* Hide the navigation buttons */
+            justify-content: space-between;
+            padding: 0 1rem;
+            z-index: 10;
+        }
+        
+        .slider-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+        
+        .slider-btn .material-icons {
+            font-size: 20px;
+        }
+        
+        .slider-indicators {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .main-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .title-icon-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        .main-project-icon {
+            font-size: 2.5rem;
+            display: block;
+            opacity: 0.9;
+        }
+        
+        .main-project-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .main-project-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        .main-project .tech-tag {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Projects Grid - Modified */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2.5rem;
+        }
+        
+        .project-card {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+        }
+        
+        .project-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .project-image {
+            width: 100%;
+            position: relative;
+            border-radius: 16px 16px 0 0;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio (1456/819 ≈ 1.78) */
+        }
+        
+        .project-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .project-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.15) 100%);
+            border-radius: 16px 16px 0 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .project-info {
+            padding: 2rem;
+        }
+        
+        .title-icon-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        .project-icon {
+            font-size: 2.5rem;
+            display: block;
+            color: var(--accent);
+        }
+        
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .project-description {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+        
+        .tech-tag {
+            background: var(--light);
+            color: var(--accent);
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(49, 130, 206, 0.2);
+        }
+        
+        /* Mini Works Grid - Modified */
+        .mini-works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .mini-work-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--dark);
+            display: block;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .mini-work-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+            text-decoration: none;
+            color: var(--dark);
+        }
+        
+        .mini-work-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #63b3ed, #4299e1);
+        }
+        
+        .mini-work-content {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .mini-work-image {
+            width: 100%;
+            position: relative;
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            height: 0;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio (1456/819 ≈ 1.78) */
+        }
+        
+        .mini-work-image:hover {
+            transform: scale(1.02);
+        }
+        
+        .mini-work-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.15) 100%);
+            border-radius: 12px 12px 0 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .mini-work-info {
+            padding: 2rem;
+        }
+        
+        .mini-title-icon-container {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        .mini-work-icon {
+            font-size: 2rem;
+            display: block;
+            color: var(--accent);
+        }
+        
+        .mini-work-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .mini-work-description {
+            color: var(--gray);
+            margin-bottom: 1.2rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .mini-tech-tag {
+            background: rgba(49, 130, 206, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.7rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 1px solid rgba(49, 130, 206, 0.2);
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 3rem;
+            box-shadow: var(--shadow-md);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3rem;
+            justify-content: space-between;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--light);
+            color: var(--accent);
+            border-radius: 50%;
+            font-size: 1.2rem;
+        }
+        
+        .contact-text {
+            flex: 1;
+        }
+        
+        .contact-label {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 0.2rem;
+        }
+        
+        .contact-value-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .contact-value {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-value:hover {
+            color: var(--accent-color);
+        }
+        
+        .copy-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .copy-btn:hover {
+            opacity: 1;
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: white;
+        }
+        
+        .copy-btn .material-icons {
+            font-size: 16px;
+        }
+        
+        .copy-btn.copied {
+            background: #4caf50;
+            border-color: #4caf50;
+            color: white;
+        }
+        
+        .contact-cta {
+            flex: 1;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            color: var(--white);
+        }
+        
+        .contact-cta h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-cta p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+        
+        .contact-cta .hero-btn {
+            background: var(--white);
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0;
+            color: var(--gray);
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .footer p {
+            font-size: 0.95rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .hero {
+                padding: 2rem;
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .profile-section {
+                flex: 0 0 100%;
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .info-section {
+                flex: 0 0 100%;
+            }
+            
+            .profile-photo {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .profession {
+                font-size: 1.5rem;
+                justify-content: center;
+            }
+            
+            /* Button responsive styles */
+            .all-buttons {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+
+            .action-buttons-group,
+            .social-buttons-group {
+                flex-direction: column;
+                width: 100%;
+                margin-left: 0;
+                gap: 0.8rem;
+            }
+
+            .button-divider {
+                width: 80%;
+                height: 2px;
+                margin: 0.8rem auto;
+            }
+
+            .hero-btn,
+            .social-link {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+                margin: 0 auto;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .certificates-grid, .projects-grid, .mini-works-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .certificates-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .certificate-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+                min-height: auto;
+            }
+            
+            .certificate-header {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .certificate-icon {
+                font-size: 2.5rem;
+            }
+            
+            .certificate-info {
+                align-items: center;
+            }
+            
+            .certificate-title {
+                font-size: 1.2rem;
+            }
+            
+            .certificate-footer {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .certificate-link {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .contact-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            /* Main Project Responsive Styles */
+            .main-project-content {
+                flex-direction: column;
+            }
+            
+            .main-project-info {
+                padding: 2rem;
+            }
+            
+            .main-project-image {
+                padding: 1rem;
+            }
+            
+            .main-image-container {
+                width: 100%;
+                height: 250px;
+            }
+            
+            .main-project-title {
+                font-size: 1.8rem;
+            }
+            
+            .main-project-description {
+                font-size: 1rem;
+            }
+            
+            .project-card {
+                padding: 0;
+            }
+            
+            .skills-section {
+                padding: 0;
+            }
+            
+            .skills-title {
+                font-size: 2rem;
+            }
+            
+            .skill-badge {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+                margin: 0 10px;
+            }
+            
+            .screen-container {
+                height: 140px;
+            }
+            
+            .remote-control {
+                bottom: -50px;
+                right: 20px;
+                width: 100px;
+                height: 40px;
+            }
+            
+            .remote-btn {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .list-control {
+                bottom: -50px;
+                left: 20px;
+                width: 100px;
+                height: 40px;
+            }
+            
+            .list-btn {
+                width: 30px;
+                height: 30px;
+            }
+            
+            .list-label {
+                font-size: 12px;
+            }
+            
+            /* Adjust individual buttons for mobile */
+            .nav-button {
+                width: 24px;
+                height: 24px;
+                right: 8px;
+            }
+            
+            .nav-button .material-icons {
+                font-size: 12px;
+            }
+            
+            #profile-btn { top: calc(50% - 74px); }
+            #certificates-btn { top: calc(50% - 38px); }
+            #skills-btn { top: calc(50% - 2px); }
+            #projects-btn { top: calc(50% + 34px); }
+            #contact-btn { top: calc(50% + 70px); }
+            
+            .nav-tooltip {
+                right: 30px;
+                font-size: 10px;
+            }
+            
+            /* Adjust background shapes for mobile */
+            .bg-shape-1, .bg-shape-2, .bg-shape-3, .bg-shape-4 {
+                display: none;
+            }
+        }
+        
+        /* Loading animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero, .section {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        .section:nth-child(5) { animation-delay: 0.8s; }
+        .section:nth-child(6) { animation-delay: 1.0s; }
+        .section:nth-child(7) { animation-delay: 1.2s; }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#profile" class="skip-link">Skip to main content</a>
+    <!-- Background Shapes -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+    <div class="bg-shape bg-shape-3"></div>
+    <div class="bg-shape bg-shape-4"></div>
+    
+    <!-- Individual Sticky Navigation Buttons -->
+    <a href="#profile" class="nav-button" id="profile-btn" aria-label="Navigate to profile section">
+        <span class="material-icons" aria-hidden="true">person</span>
+        <span class="nav-tooltip">Profile</span>
+    </a>
+    
+    <a href="#certificates" class="nav-button" id="certificates-btn">
+        <span class="material-icons">school</span>
+        <span class="nav-tooltip">Certificates</span>
+    </a>
+    
+    <a href="#skills" class="nav-button" id="skills-btn">
+        <span class="material-icons">code</span>
+        <span class="nav-tooltip">Skills</span>
+    </a>
+    
+    <a href="#projects" class="nav-button" id="projects-btn">
+        <span class="material-icons">work</span>
+        <span class="nav-tooltip">Projects</span>
+    </a>
+    
+    <a href="#contact" class="nav-button" id="contact-btn">
+        <span class="material-icons">mail</span>
+        <span class="nav-tooltip">Contact</span>
+    </a>
+
+    <div class="container">
+        <!-- HERO SECTION -->
+        <div class="hero" id="profile">
+            <!-- Vanta Birds Container -->
+            <div id="vanta-bg"></div>
+            
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            
+            <div class="hero-content">
+                <div class="profile-section">
+                    <div class="profile-photo-container">
+                        <img src="{% static 'Main_page/images/profile.jpg' %}" alt="Mohammed Irshad C" class="profile-photo" loading="lazy">
+                    </div>
+                    <div class="skills-container">
+                        <div class="skill-tag">
+                            <span class="material-icons">code</span>
+                            Python
+                        </div>
+                        <div class="skill-tag">
+                            <span class="material-icons">web</span>
+                            Django
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h1>Mohammed Irshad C</h1>
+                    <p class="profession">
+                        <span class="material-icons">laptop</span>
+                        Python Django Developer
+                    </p>
+                    <p class="tagline">Building robust web applications with Django, Python, and modern web technologies. Passionate about clean code, user experience, and continuous learning.</p>
+                    <!-- Social Links -->
+                    <div class="all-buttons">
+                        <div class="action-buttons-group">
+                            <a href="https://drive.google.com/file/d/1NI0V68GdFAQs5a0AzCuLC8m881asYjoZ/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="hero-btn hero-btn-primary">
+                                <span class="material-icons">description</span>
+                                View Resume
+                            </a>
+                            <a href="#contact" class="hero-btn hero-btn-secondary">
+                                <span class="material-icons">mail</span>
+                                Contact Me
+                            </a>
+                        </div>
+                        
+                        <div class="button-divider"></div>
+                        
+                        <div class="social-buttons-group">
+                            <a href="https://www.linkedin.com/in/mohammed-irshadc" target="_blank" rel="noopener noreferrer" class="social-link linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                                LinkedIn
+                            </a>
+                            <a href="https://github.com/Irshaduu" target="_blank" rel="noopener noreferrer" class="social-link github">
+                                <i class="fab fa-github"></i>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<!-- CERTIFICATES SECTION -->
+<div class="section" id="certificates">
+    <h2 class="section-title">Certificates & Achievements</h2>
+    <div class="certificates-grid">
+        <!-- Certificate 1 -->
+        <div class="certificate-card">
+            <div class="certificate-header">
+                <span class="material-icons certificate-icon">school</span>
+            </div>
+            <div class="certificate-info">
+                <h3 class="certificate-title">Python Programming</h3>
+                <p class="certificate-issuer">Entri Elevate / NSDC</p>
+                <div class="certificate-footer">
+                    <span class="certificate-grade">Grade: A+</span>
+                    <a href="https://drive.google.com/file/d/1UAyONTgqtz4LS-RRmtEA_eNLqoZmbMXj/view?usp=drive_link" target="_blank" class="certificate-link">
+                        <span class="material-icons">open_in_new</span>
+                        View Certificate
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Certificate 2 -->
+        <div class="certificate-card">
+            <div class="certificate-header">
+                <span class="material-icons certificate-icon">workspace_premium</span>
+            </div>
+            <div class="certificate-info">
+                <h3 class="certificate-title">Python Programming Certified User</h3>
+                <p class="certificate-issuer">Illinois Institute of Technology, USA</p>
+                <div class="certificate-footer">
+                    <span class="certificate-grade">Professional Certificate</span>
+                    <a href="https://drive.google.com/file/d/1XD050TSbyzIJoRNt8BLxX-G7MVdO7LRP/view?usp=drive_link" target="_blank" class="certificate-link">
+                        <span class="material-icons">open_in_new</span>
+                        View Certificate
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <!-- SKILLS SECTION -->
+        <div class="section" id="skills">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-section">
+                <div class="skills-container-wrapper">
+                    <div class="screen-container">
+                        <div class="screen-frame">
+                            <div class="screen-content">
+                                <div class="digital-board">
+                                    <div class="digital-board-track" id="skillsTrack">
+                                        <!-- Skills will be duplicated for seamless looping -->
+                                        <div class="skill-badge">
+                                            <i class="fab fa-python"></i>
+                                            Python Advanced
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-globe"></i>
+                                            Django Advanced
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-plug"></i>
+                                            REST Framework
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-shield-alt"></i>
+                                            Authentication
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-database"></i>
+                                            SQL
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-database"></i>
+                                            PostgreSQL
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-database"></i>
+                                            SQLite
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-exchange-alt"></i>
+                                            RESTful APIs
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-bootstrap"></i>
+                                            Bootstrap
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-html5"></i>
+                                            HTML & CSS
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            Responsive Web Design
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-universal-access"></i>
+                                            Accessibility
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                            Performance
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-js-square"></i>
+                                            JavaScript Basic
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-code"></i>
+                                            C Basic
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-git-alt"></i>
+                                            Git & GitHub
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-rocket"></i>
+                                            Deployment
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-brain"></i>
+                                            AI Tools
+                                        </div>
+                                        <!-- Duplicate for seamless loop -->
+                                        <div class="skill-badge">
+                                            <i class="fab fa-python"></i>
+                                            Python Advanced
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-globe"></i>
+                                            Django Advanced
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-plug"></i>
+                                            REST Framework
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-shield-alt"></i>
+                                            Authentication
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-database"></i>
+                                            SQL
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-database"></i>
+                                            PostgreSQL
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-database"></i>
+                                            SQLite
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-exchange-alt"></i>
+                                            RESTful APIs
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-bootstrap"></i>
+                                            Bootstrap
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-html5"></i>
+                                            HTML & CSS
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-mobile-alt"></i>
+                                            Responsive Web Design
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-universal-access"></i>
+                                            Accessibility
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-tachometer-alt"></i>
+                                            Performance
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-js-square"></i>
+                                            JavaScript Basic
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-code"></i>
+                                            C Basic
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fab fa-git-alt"></i>
+                                            Git & GitHub
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-rocket"></i>
+                                            Deployment
+                                        </div>
+                                        <div class="skill-badge">
+                                            <i class="fas fa-brain"></i>
+                                            AI Tools
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="screen-glow"></div>
+                                <div class="power-indicator"></div>
+                                <div class="screen-brand">TECH</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Left Side List Button -->
+                    <div class="list-control">
+                        <a href="{% url 'my_skills' %}" class="list-btn" title="View Skills List">
+                            <span class="material-icons">list</span>
+                        </a>
+                        <span class="list-label">List</span>
+                    </div>
+                    
+                    <!-- Remote Control -->
+                    <div class="remote-control">
+                        <button class="remote-btn" id="pauseBtn" title="Pause">
+                            <span class="material-icons">pause</span>
+                        </button>
+                        <button class="remote-btn" id="speedBtn" title="Change Speed">
+                            <span class="material-icons">speed</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- MAIN PROJECT SECTION -->
+        <div class="section" id="projects">
+            <h2 class="section-title">Projects</h2>
+            <a class="main-project" href="{% url 'ChatLink' %}">
+                <div class="main-project-content">
+                    <div class="main-project-info">
+                        <div class="title-icon-container">
+                            <span class="material-icons main-project-icon">language</span>
+                            <h3 class="main-project-title">ChatLink</h3>
+                        </div>
+                        <p class="main-project-description">A global platform that connects language learners through real-time chat, smart user matching, cultural exchange forums, and interactive tools designed to make language practice fun and effective.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Django</span>
+                            <span class="tech-tag">Real-time Chat</span>
+                            <span class="tech-tag">User Matching</span>
+                            <span class="tech-tag">WebSocket</span>
+                            <span class="tech-tag">Multi-language Support</span>
+                        </div>
+                    </div>
+                    <div class="main-project-image">
+                        <div class="main-image-container">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Language1.png" alt="Language Exchange Platform" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Language2.png" alt="Language Exchange Platform" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Language3.png" alt="Language Exchange Platform" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        
+        <!-- PROJECTS SECTION -->
+        <div class="section">
+            <div class="projects-grid">
+                <!-- E-commerce Project -->
+                <a class="project-card" href="/Ecom/">
+                    <div class="project-content">
+                        <div class="project-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Ecom1.png" alt="E-Commerce Website" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Ecom2.png" alt="E-Commerce Website" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Ecom3.png" alt="E-Commerce Website" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <div class="title-icon-container">
+                                <span class="material-icons project-icon">shopping_cart</span>
+                                <h3 class="project-title">E-Commerce</h3>
+                            </div>
+                            <p class="project-description">Comprehensive product catalog system featuring category management, image uploads for products and categories, and an intuitive admin interface for efficient content organization and display.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Django</span>
+                                <span class="tech-tag">Celery</span>
+                                <span class="tech-tag">Catalog & Cart</span>
+                                <span class="tech-tag">Admin Interface</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Blog Project -->
+                <a class="project-card" href="/Blog/">
+                    <div class="project-content">
+                        <div class="project-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Blog1.png" alt="Travel Blog Site" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Blog2.png" alt="Travel Blog Site" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Blog3.png" alt="Travel Blog Site" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <div class="title-icon-container">
+                                <span class="material-icons project-icon">article</span>
+                                <h3 class="project-title">Travel Blog Site</h3>
+                            </div>
+                            <p class="project-description">Complete travel blogging platform supporting user registration, profile management, post creation/editing/deletion, image carousels, like systems, trending content, and responsive templates for enhanced user engagement.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Django</span>
+                                <span class="tech-tag">Rich Text</span>
+                                <span class="tech-tag">Image Galleries</span>
+                                <span class="tech-tag">Authentication</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Real Estate Project -->
+                <a class="project-card" href="https://irshadu1.pythonanywhere.com/" target="_blank" rel="noopener noreferrer">
+                    <div class="project-content">
+                        <div class="project-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Estate1.png" alt="Real Estate Listing" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Estate2.png" alt="Real Estate Listing" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Estate3.png" alt="Real Estate Listing" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <div class="title-icon-container">
+                                <span class="material-icons project-icon">home</span>
+                                <h3 class="project-title">Real Estate Listing</h3>
+                            </div>
+                            <p class="project-description">Multi-planet themed real estate app built with Django, featuring property listings, category-specific models, user profiles, messaging system for conversations between buyers/sellers, favorites tracking, advanced search with filters, image galleries, and integrated authentication including Google sign-in.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Django</span>
+                                <span class="tech-tag">Allauth</span>
+                                <span class="tech-tag">Messaging</span>
+                                <span class="tech-tag">Property Management</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- MINI WORKS SECTION -->
+        <div class="section">
+            <h2 class="section-title">Mini Works</h2>
+            <div class="mini-works-grid">
+                <!-- Motivation -->
+                <a class="mini-work-card" href="{% url 'Z_Motivation:mot_home' %}">
+                    <div class="mini-work-content">
+                        <div class="mini-work-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Motivation1.png" alt="Motivation for Friend" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Motivation2.png" alt="Motivation for Friend" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Motivation3.png" alt="Motivation for Friend" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mini-work-info">
+                            <div class="mini-title-icon-container">
+                                <span class="material-icons mini-work-icon">fitness_center</span>
+                                <h3 class="mini-work-title">Motivation for a Friend</h3>
+                            </div>
+                            <p class="mini-work-description">"I'm dropping my studies to be a housewife." So I built this to show her Biochemistry makes that dream better. A simple visualized motivation page.</p>
+                            <div class="project-tech">
+                                <span class="mini-tech-tag">JS</span>
+                                <span class="mini-tech-tag">Responsive design</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Resume Showcase -->
+                <a class="mini-work-card" href="{% url 'Z_Resume:indro' %}">
+                    <div class="mini-work-content">
+                        <div class="mini-work-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Resume1.png" alt="Resume Showcase" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Resume2.png" alt="Resume Showcase" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Resume3.png" alt="Resume Showcase" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mini-work-info">
+                            <div class="mini-title-icon-container">
+                                <span class="material-icons mini-work-icon">description</span>
+                                <h3 class="mini-work-title">Resume Showcase</h3>
+                            </div>
+                            <p class="mini-work-description">A simple static project created while learning HTML, featuring a clean resume display with profile information.</p>
+                            <div class="project-tech">
+                                <span class="mini-tech-tag">HTML, CSS, Bootstrap</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Calculator -->
+                <a class="mini-work-card" href="{% url 'Z_Calculator:calculate' %}">
+                    <div class="mini-work-content">
+                        <div class="mini-work-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Calculator1.png" alt="JS Calculator" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Calculator2.png" alt="JS Calculator" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Calculator3.png" alt="JS Calculator" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mini-work-info">
+                            <div class="mini-title-icon-container">
+                                <span class="material-icons mini-work-icon">calculate</span>
+                                <h3 class="mini-work-title">JS Calculator</h3>
+                            </div>
+                            <p class="mini-work-description">A simple JavaScript calculator application featuring basic arithmetic operations and a user-friendly interface.</p>
+                            <div class="project-tech">
+                                <span class="mini-tech-tag">JavaScript</span>
+                                <span class="mini-tech-tag">Small utility</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Tribute Page -->
+                <a class="mini-work-card" href="{% url 'Z_Tribute:Tri_home' %}">
+                    <div class="mini-work-content">
+                        <div class="mini-work-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Tribute1.png" alt="Teacher Tribute" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Tribute2.png" alt="Teacher Tribute" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Tribute3.png" alt="Teacher Tribute" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mini-work-info">
+                            <div class="mini-title-icon-container">
+                                <span class="material-icons mini-work-icon">school</span>
+                                <h3 class="mini-work-title">Teacher Tribute</h3>
+                            </div>
+                            <p class="mini-work-description">A media tribute platform for honoring my Django teacher, featuring meme uploads, testimonials, and gallery displays with validation and sharing capabilities.</p>
+                            <div class="project-tech">
+                                <span class="mini-tech-tag">Django</span>
+                                <span class="mini-tech-tag">Gallery Display</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                
+                <!-- Quran Verses -->
+                <a class="mini-work-card" href="{% url 'Z_Quran:qr_base' %}">
+                    <div class="mini-work-content">
+                        <div class="mini-work-image">
+                            <div class="image-slider">
+                                <div class="image-track">
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Quran1.png" alt="Quran Verses Jar" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Quran2.png" alt="Quran Verses Jar" loading="lazy">
+                                    </div>
+                                    <div class="slide">
+                                        <img src="static/Main_page/images/Quran3.png" alt="Quran Verses Jar" loading="lazy">
+                                    </div>
+                                </div>
+                                <div class="slider-nav">
+                                    <button class="slider-btn prev-btn">
+                                        <span class="material-icons">chevron_left</span>
+                                    </button>
+                                    <button class="slider-btn next-btn">
+                                        <span class="material-icons">chevron_right</span>
+                                    </button>
+                                </div>
+                                <div class="slider-indicators">
+                                    <div class="indicator active"></div>
+                                    <div class="indicator"></div>
+                                    <div class="indicator"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mini-work-info">
+                            <div class="mini-title-icon-container">
+                                <span class="material-icons mini-work-icon">menu_book</span>
+                                <h3 class="mini-work-title">Quran Verses Jar</h3>
+                            </div>
+                            <p class="mini-work-description">A Quran verse resource platform with organized content and responsive design, created as a birthday gift while testing AI research functions.</p>
+                            <div class="project-tech">
+                                <span class="mini-tech-tag">Django</span>
+                                <span class="mini-tech-tag">Daily Verses</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        
+        <!-- CONTACT SECTION -->
+        <div class="section" id="contact">
+            <h2 class="section-title">Contact Information</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Get In Touch</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <span class="material-icons">phone</span>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-label">Phone</div>
+                            <div class="contact-value-wrapper">
+                                <a href="tel:+919846135537" class="contact-value">+91 9846135537</a>
+                                <button class="copy-btn" onclick="copyToClipboard('+919846135537', this)" title="Copy phone number">
+                                    <span class="material-icons">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <span class="material-icons">email</span>
+                        </div>
+                        <div class="contact-text">
+                            <div class="contact-label">Email</div>
+                            <div class="contact-value-wrapper">
+                                <a href="mailto:irshaduu01@gmail.com?subject=Contact%20from%20Portfolio" class="contact-value">irshaduu01@gmail.com</a>
+                                <button class="copy-btn" onclick="copyToClipboard('irshaduu01@gmail.com', this)" title="Copy email">
+                                    <span class="material-icons">content_copy</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-cta">
+                    <h3>Let's Work Together</h3>
+                    <p>Have a project or opportunity in mind? I'm always open to exploring exciting challenges and meaningful collaborations.</p>
+                    <a href="https://wa.me/919846135537?text=Hi%20Mohammed%20Irshad%2C%0A%0AI%20found%20your%20portfolio%20and%20would%20like%20to%20discuss%20an%20opportunity%20with%20you " class="hero-btn" target="_blank" rel="noopener noreferrer">
+                        <span class="material-icons">send</span>
+                        Send Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Vanta.js background with accessibility check
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            VANTA.BIRDS({
+                el: "#vanta-bg",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                backgroundColor: 0x000000,
+                backgroundAlpha: 0.0,
+                color1: 0x3b82f6,
+                color2: 0x1d4ed8,
+                birdSize: 1.2,
+                wingSpan: 20.0,
+                speedLimit: 3.0,
+                separation: 20.0,
+                alignment: 20.0,
+                cohesion: 20.0,
+                quantity: 2.0  // Reduced from 3.0
+            });
+        } else {
+            document.getElementById('vanta-bg').style.display = 'none';
+        }
+        
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Change icon to checkmark
+                const icon = button.querySelector('.material-icons');
+                const originalIcon = icon.textContent;
+                icon.textContent = 'check';
+                button.classList.add('copied');
+                
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    icon.textContent = originalIcon;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+        
+        // Digital Skills Board Controls
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillsTrack = document.getElementById('skillsTrack');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const speedBtn = document.getElementById('speedBtn');
+            let currentSpeed = 30; // Default animation duration in seconds
+            let isPaused = false;
+            
+            // Pause functionality
+            pauseBtn.addEventListener('click', function() {
+                if (isPaused) {
+                    skillsTrack.style.animationPlayState = 'running';
+                    pauseBtn.innerHTML = '<span class="material-icons">pause</span>';
+                    isPaused = false;
+                } else {
+                    skillsTrack.style.animationPlayState = 'paused';
+                    pauseBtn.innerHTML = '<span class="material-icons">play_arrow</span>';
+                    isPaused = true;
+                }
+            });
+            
+            // Speed control functionality
+            speedBtn.addEventListener('click', function() {
+                // Cycle through different speeds: 30s -> 15s -> 45s -> 30s
+                if (currentSpeed === 30) {
+                    currentSpeed = 15; // Faster
+                } else if (currentSpeed === 15) {
+                    currentSpeed = 45; // Slower
+                } else {
+                    currentSpeed = 30; // Default
+                }
+                
+                // Apply the new animation duration
+                skillsTrack.style.animationDuration = `${currentSpeed}s`;
+                
+                // Visual feedback for speed change
+                const speedIcon = speedBtn.querySelector('.material-icons');
+                const originalTransform = speedIcon.style.transform;
+                speedIcon.style.transform = 'rotate(180deg)';
+                
+                setTimeout(() => {
+                    speedIcon.style.transform = originalTransform;
+                }, 300);
+            });
+        });
+        
+        // Image Slider Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all image sliders
+            const sliders = document.querySelectorAll('.image-slider');
+            
+            sliders.forEach(slider => {
+                const track = slider.querySelector('.image-track');
+                const slides = slider.querySelectorAll('.slide');
+                const prevBtn = slider.querySelector('.prev-btn');
+                const nextBtn = slider.querySelector('.next-btn');
+                const indicators = slider.querySelectorAll('.indicator');
+                
+                let currentSlide = 0;
+                const totalSlides = slides.length;
+                
+                // Set initial position
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                
+                // Function to update slider position
+                function updateSlider() {
+                    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                    
+                    // Update indicators
+                    indicators.forEach((indicator, index) => {
+                        if (index === currentSlide) {
+                            indicator.classList.add('active');
+                        } else {
+                            indicator.classList.remove('active');
+                        }
+                    });
+                }
+                
+                // Next slide function
+                function nextSlide() {
+                    currentSlide = (currentSlide + 1) % totalSlides;
+                    updateSlider();
+                }
+                
+                // Previous slide function
+                function prevSlide() {
+                    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                    updateSlider();
+                }
+                
+                // Event listeners for buttons
+                nextBtn.addEventListener('click', nextSlide);
+                prevBtn.addEventListener('click', prevSlide);
+                
+                // Event listeners for indicators
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => {
+                        currentSlide = index;
+                        updateSlider();
+                    });
+                });
+                
+                // Auto-play functionality
+                let autoplayInterval = setInterval(nextSlide, 2000); // Changed to 2 seconds
+                
+                // Pause auto-play on hover
+                slider.addEventListener('mouseenter', () => {
+                    clearInterval(autoplayInterval);
+                });
+                
+                // Resume auto-play on mouse leave
+                slider.addEventListener('mouseleave', () => {
+                    autoplayInterval = setInterval(nextSlide, 2000); // Changed to 2 seconds
+                });
+                
+                // Touch/swipe functionality for mobile
+                let touchStartX = 0;
+                let touchEndX = 0;
+                
+                slider.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                });
+                
+                slider.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe();
+                });
+                
+                function handleSwipe() {
+                    if (touchEndX < touchStartX - 50) {
+                        // Swiped left
+                        nextSlide();
+                    }
+                    if (touchEndX > touchStartX + 50) {
+                        // Swiped right
+                        prevSlide();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

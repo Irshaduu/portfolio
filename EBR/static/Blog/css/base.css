@@ -1,0 +1,208 @@
+/* CSS Variables for Consistency */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6c5ce7 0%, #a363d9 100%);
+    --secondary-gradient: linear-gradient(135deg, #a363d9 0%, #6c5ce7 100%);
+    --text-dark: #2d3436;
+    --text-light: #f8f9fa;
+    --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Body Styling */
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Authentication Navigation */
+.nav-auth {
+    position: fixed;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 1050;
+    display: flex;
+    gap: 0.75rem; /* Tighter spacing */
+    background: rgba(255,255,255,0.8); /* Subtle background */
+    backdrop-filter: blur(10px);
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Softer shadow */
+}
+
+.auth-link {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 600;
+    padding: 0.4rem 0.8rem; /* Smaller padding */
+    border-radius: 8px;
+    transition: var(--transition-base);
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem; /* Smaller text */
+}
+
+.auth-link:hover {
+    background: rgba(108,92,231,0.1);
+    transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero-section {
+    padding: 8rem 1rem 4rem;
+    text-align: center;
+    position: relative;
+    background: url('{% static "images/hero-bg.svg" %}') no-repeat center/cover;
+}
+
+.main-heading {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    background: var(--primary-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.highlight {
+    position: relative;
+    display: inline-block;
+    padding: 0 0.5rem;
+    background: linear-gradient(120deg, rgba(108,92,231,0.1) 0%, transparent 100%);
+    border-radius: 4px;
+}
+
+.interactive-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: #718096;
+    margin: 0.5rem 0 1.5rem;
+    opacity: 0.8;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+}
+
+::selection {
+    background: #6c5ce7;
+    color: #ffffff;
+}
+
+.sub-heading {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 2rem;
+}
+
+/* Call-to-Action Buttons */
+.btn-cta {
+    padding: 1.2rem 2.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: var(--transition-base);
+    position: relative;
+    overflow: hidden;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+}
+
+.btn-primary-cta {
+    background: var(--primary-gradient);
+    color: var(--text-light);
+}
+
+.btn-secondary-cta {
+    background: var(--secondary-gradient);
+    color: var(--text-light);
+}
+
+.btn-cta:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(108,92,231,0.2);
+}
+
+/* Skip Link */
+.skip-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-dark);
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 2rem;
+    opacity: 0;
+    animation: fadeIn 1s forwards 0.5s;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* Footer */
+.footer {
+    background: var(--text-dark);
+    position: relative;
+    z-index: 100;
+}
+
+.footer-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-auth {
+        top: 1rem;
+        left: 1rem;
+        padding: 0.4rem 0.8rem;
+        gap: 0.5rem;
+    }
+    
+    .auth-link {
+        padding: 0.3rem 0.6rem; /* Even smaller for mobile */
+        font-size: 0.8rem; /* Readable but compact */
+    }
+    
+    .hero-section {
+        padding: 6rem 1rem 3rem;
+    }
+    
+    .btn-cta {
+        width: 100%;
+        max-width: 280px;
+        padding: 1rem 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}

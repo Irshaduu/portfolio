@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Skills Showcase - Mohammed Irshad C</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #3182ce;
+            --accent-light: #63b3ed;
+            --light: #ebf8ff;
+            --dark: #1a202c;
+            --darker: #0f1419;
+            --gray: #4a5568;
+            --light-gray: #edf2f7;
+            --white: #ffffff;
+            --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 8px 15px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --accent-color: var(--accent);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--white);
+            background-color: var(--darker);
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        .nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .nav-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(49, 130, 206, 0.1);
+            border: 1px solid rgba(49, 130, 206, 0.3);
+            border-radius: 30px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(49, 130, 206, 0.2);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .nav-btn .material-icons {
+            font-size: 1.2rem;
+        }
+        
+        /* Section Styles */
+        .section {
+            margin-bottom: 5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary));
+            border-radius: 2px;
+        }
+        
+        /* Radar Chart Section */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .rotating-chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: rotate 30s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .chart-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .chart-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(49, 130, 206, 0.2);
+            border: 1px solid rgba(49, 130, 206, 0.3);
+            border-radius: 20px;
+            color: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+        
+        .chart-btn:hover {
+            background: rgba(49, 130, 206, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Skills Ice Cubes Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        
+        .category-group {
+            background: rgba(26, 54, 93, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(49, 130, 206, 0.2);
+            height: 100%;
+        }
+        
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .category-title .material-icons {
+            font-size: 1.8rem;
+        }
+        
+        .ice-cubes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 0.8rem;
+        }
+        
+        .ice-cube {
+            background: rgba(49, 130, 206, 0.15);
+            border-radius: 12px;
+            padding: 0.7rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(49, 130, 206, 0.2);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            animation: melting 4s infinite alternate;
+        }
+        
+        @keyframes melting {
+            0% { 
+                border-radius: 12px; 
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 4px 8px rgba(49, 130, 206, 0.2);
+            }
+            50% { 
+                border-radius: 8px 15px 20px 10px; 
+                transform: scale(0.98) rotate(1deg);
+                box-shadow: 0 2px 10px rgba(49, 130, 206, 0.3);
+            }
+            100% { 
+                border-radius: 15px 8px 10px 20px; 
+                transform: scale(0.96) rotate(-1deg);
+                box-shadow: 0 1px 12px rgba(49, 130, 206, 0.4);
+            }
+        }
+        
+        .ice-cube::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(to bottom, transparent, rgba(99, 179, 237, 0.4));
+            border-radius: 0 0 50% 50%;
+            animation: drip 3s infinite alternate;
+        }
+        
+        @keyframes drip {
+            0% { height: 6px; opacity: 0.3; }
+            100% { height: 12px; opacity: 0.7; }
+        }
+        
+        .ice-cube:hover {
+            animation-play-state: paused;
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(49, 130, 206, 0.25);
+            box-shadow: var(--shadow-md);
+            border-radius: 12px;
+        }
+        
+        .ice-cube:hover::before {
+            animation-play-state: paused;
+            height: 6px;
+            opacity: 0.3;
+        }
+        
+        .ice-cube-icon {
+            font-size: 1.4rem;
+            color: var(--accent-light);
+            margin-bottom: 0.4rem;
+        }
+        
+        .ice-cube-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .ice-cube-level {
+            font-size: 0.65rem;
+            color: var(--gray);
+            margin-top: 0.2rem;
+        }
+        
+        /* Back to Portfolio Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 1.8rem;
+            background: var(--accent);
+            color: var(--white);
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 2rem auto;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .back-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Ferris Wheel Effect for Skill Labels */
+        .skill-labels-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .skill-label {
+            position: absolute;
+            color: var(--white);
+            font-weight: 600;
+            font-size: 14px;
+            padding: 6px 12px;
+            background: rgba(49, 130, 206, 0.7);
+            border-radius: 20px;
+            white-space: nowrap;
+            box-shadow: var(--shadow-md);
+            transform-origin: center;
+            animation: counter-rotate 30s linear infinite;
+        }
+        
+        @keyframes counter-rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(-360deg); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .skills-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .chart-container {
+                height: 300px;
+                margin-bottom: 5rem; /* Added extra space for controls */
+            }
+            
+            .ice-cubes-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 0.6rem;
+            }
+            
+            .chart-controls {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                margin-top: 1rem;
+                margin-bottom: 2rem; /* Added bottom margin */
+                width: 100%;
+                padding: 0 1rem; /* Added padding */
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            /* Mobile Optimizations - Keep animations but adjust for performance */
+            .rotating-chart-wrapper {
+                animation: rotate 30s linear infinite;
+            }
+            
+            .ice-cube {
+                animation: melting 4s infinite alternate;
+            }
+            
+            .skill-label {
+                animation: counter-rotate 30s linear infinite;
+            }
+            
+            .chart-btn {
+                padding: 0.8rem 1.2rem;
+                font-size: 1rem;
+            }
+            
+            .ice-cube-name {
+                font-size: 0.9rem;
+            }
+            
+            .ice-cube-level {
+                font-size: 0.75rem;
+            }
+            
+            .ice-cube:active {
+                transform: translateY(-5px) scale(1.02);
+                background: rgba(49, 130, 206, 0.25);
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Radar Chart Section -->
+    <div class="section" id="radar">
+        <h2 class="section-title">Skills</h2>
+        <div class="chart-container">
+            <div class="rotating-chart-wrapper">
+                <canvas id="skillsRadarChart"></canvas>
+                <div class="skill-labels-container" id="skillLabelsContainer"></div>
+            </div>
+        </div>
+        <div class="chart-controls">
+            <button class="chart-btn" onclick="updateRadarChart('all')">All Skills</button>
+            <button class="chart-btn" onclick="updateRadarChart('backend')">Backend</button>
+            <button class="chart-btn" onclick="updateRadarChart('frontend')">Frontend</button>
+            <button class="chart-btn" onclick="updateRadarChart('tools')">Tools</button>
+        </div>
+    </div>
+    
+    <!-- Skills Categories Section -->
+    <div class="section" id="categories">
+        <h2 class="section-title">Skill Categories</h2>
+        <div class="skills-container">
+            <!-- Core Languages Category -->
+            <div class="category-group">
+                <h3 class="category-title">
+                    <span class="material-icons">code</span>
+                    Core Languages
+                </h3>
+                <div class="ice-cubes-grid">
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="ice-cube-name">Python</div>
+                        <div class="ice-cube-level">Advanced</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="ice-cube-name">SQL</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="ice-cube-name">C</div>
+                        <div class="ice-cube-level">Basic</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div class="ice-cube-name">JavaScript</div>
+                        <div class="ice-cube-level">Basic</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Backend & APIs Category -->
+            <div class="category-group">
+                <h3 class="category-title">
+                    <span class="material-icons">api</span>
+                    Backend & APIs
+                </h3>
+                <div class="ice-cubes-grid">
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="ice-cube-name">Django</div>
+                        <div class="ice-cube-level">Advanced</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="ice-cube-name">Django REST</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="ice-cube-name">RESTful APIs</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="ice-cube-name">Authentication</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-vial"></i>
+                        </div>
+                        <div class="ice-cube-name">API Testing</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Frontend & UI Category -->
+            <div class="category-group">
+                <h3 class="category-title">
+                    <span class="material-icons">brush</span>
+                    Frontend & UI
+                </h3>
+                <div class="ice-cubes-grid">
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <div class="ice-cube-name">HTML & CSS</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-bootstrap"></i>
+                        </div>
+                        <div class="ice-cube-name">Bootstrap</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="ice-cube-name">Responsive Design</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-universal-access"></i>
+                        </div>
+                        <div class="ice-cube-name">Accessibility</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="ice-cube-name">Performance</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Databases Category -->
+            <div class="category-group">
+                <h3 class="category-title">
+                    <span class="material-icons">storage</span>
+                    Databases
+                </h3>
+                <div class="ice-cubes-grid">
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="ice-cube-name">MySQL</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="ice-cube-name">PostgreSQL</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="ice-cube-name">SQLite</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DevOps & Deployment Category -->
+            <div class="category-group">
+                <h3 class="category-title">
+                    <span class="material-icons">cloud</span>
+                    Deployment
+                </h3>
+                <div class="ice-cubes-grid">
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <div class="ice-cube-name">Docker</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="ice-cube-name">PythonAnywhere</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="ice-cube-name">GitHub</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tools & Collaboration Category -->
+            <div class="category-group">
+                <h3 class="category-title">
+                    <span class="material-icons">build</span>
+                    Tools
+                </h3>
+                <div class="ice-cubes-grid">
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fab fa-git-alt"></i>
+                        </div>
+                        <div class="ice-cube-name">Git & GitHub</div>
+                    </div>
+                    <div class="ice-cube">
+                        <div class="ice-cube-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="ice-cube-name">AI Tools</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+        // Initialize Radar Chart
+        const ctx = document.getElementById('skillsRadarChart').getContext('2d');
+        let skillsRadarChart;
+        
+        // Data for different radar chart views
+        const radarData = {
+            all: {
+                labels: [
+                    'Python', 'Django', 'Django REST', 'HTML/CSS', 
+                    'JavaScript', 'SQL', 'Databases', 'Git/GitHub',
+                    'Testing', 'DevOps', 'Frontend Design', 'APIs'
+                ],
+                data: [90, 95, 85, 80, 45, 75, 75, 85, 75, 65, 75, 85]
+            },
+            backend: {
+                labels: [
+                    'Python', 'Django', 'Django REST', 'APIs', 
+                    'Authentication', 'SQL', 'Databases', 'Testing'
+                ],
+                data: [90, 95, 85, 85, 80, 75, 75, 75]
+            },
+            frontend: {
+                labels: [
+                    'HTML/CSS', 'JavaScript', 'Bootstrap', 
+                    'Responsive Design', 'Accessibility', 'Performance'
+                ],
+                data: [80, 45, 75, 80, 70, 65]
+            },
+            tools: {
+                labels: [
+                    'Git/GitHub', 'Docker', 'PythonAnywhere', 
+                    'GitHub Actions', 'AI Tools', 'Postman'
+                ],
+                data: [85, 65, 75, 50, 75, 75]
+            }
+        };
+        
+        // Create skill labels as separate HTML elements
+        function createSkillLabels(labels) {
+            const container = document.getElementById('skillLabelsContainer');
+            container.innerHTML = '';
+            
+            const centerX = container.offsetWidth / 2;
+            const centerY = container.offsetHeight / 2;
+            // Increased radius to position labels on the outermost edge (90% of half container size)
+            const radius = Math.min(centerX, centerY) * 0.9;
+            
+            labels.forEach((label, index) => {
+                const angle = (index * 2 * Math.PI / labels.length) - Math.PI / 2; // Start from top
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                
+                const labelElement = document.createElement('div');
+                labelElement.className = 'skill-label';
+                labelElement.textContent = label;
+                labelElement.style.left = `${x}px`;
+                labelElement.style.top = `${y}px`;
+                
+                container.appendChild(labelElement);
+            });
+        }
+        
+        // Create initial radar chart
+        function createRadarChart(dataKey = 'all') {
+            const data = radarData[dataKey];
+            
+            if (skillsRadarChart) {
+                skillsRadarChart.destroy();
+            }
+            
+            skillsRadarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Skill Proficiency',
+                        data: data.data,
+                        backgroundColor: 'rgba(49, 130, 206, 0)',
+                        borderColor: 'rgba(49, 130, 206, 0)',
+                        borderWidth: 0,
+                        pointBackgroundColor: 'rgba(49, 130, 206, 0)',
+                        pointBorderColor: 'rgba(49, 130, 206, 0)',
+                        pointHoverBackgroundColor: 'rgba(49, 130, 206, 0)',
+                        pointHoverBorderColor: 'rgba(49, 130, 206, 0)',
+                        pointRadius: 0,
+                        pointHoverRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                color: 'rgba(255, 255, 255, 0.2)'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.2)'
+                            },
+                            pointLabels: {
+                                display: false // Hide default point labels
+                            },
+                            ticks: {
+                                display: false,
+                                backdropColor: 'transparent',
+                                showLabelBackdrop: false
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    }
+                }
+            });
+            
+            // Create custom skill labels
+            createSkillLabels(data.labels);
+        }
+        
+        // Update radar chart based on selection
+        function updateRadarChart(dataKey) {
+            createRadarChart(dataKey);
+            
+            // Update active button
+            document.querySelectorAll('.chart-btn').forEach(btn => {
+                btn.style.background = 'rgba(49, 130, 206, 0.2)';
+            });
+            event.target.style.background = 'rgba(49, 130, 206, 0.4)';
+        }
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('.nav-btn').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav button
+                document.querySelectorAll('.nav-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Smooth scroll to section
+                const targetId = this.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Initialize radar chart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            createRadarChart('all');
+        });
+    </script>
+</body>
+</html>

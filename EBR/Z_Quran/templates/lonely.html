@@ -1,0 +1,245 @@
+<!--lonely.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lonely Jar - Seven Jars</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .jar-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+            filter: drop-shadow(0 0 30px rgba(70, 130, 180, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .jar-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #4682b4;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(70, 130, 180, 0.3);
+        }
+
+        .jar-subtitle {
+            font-size: 1rem;
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .verse-container {
+            background: rgba(70, 130, 180, 0.1);
+            border: 2px solid rgba(70, 130, 180, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            width: 100%;
+        }
+
+        .verse-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                rgba(70, 130, 180, 0.3) 0%, 
+                rgba(70, 130, 180, 0.1) 50%, 
+                rgba(70, 130, 180, 0.3) 100%);
+            border-radius: 20px;
+            z-index: -1;
+            animation: borderGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes borderGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        .verse-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
+        }
+
+        .verse-reference {
+            font-size: 1rem;
+            color: #4682b4;
+            font-weight: 600;
+            text-align: center;
+            opacity: 0.9;
+        }
+
+        .inspiration-text {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #888;
+            font-style: italic;
+            line-height: 1.6;
+            max-width: 90%;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .container {
+                padding: 0.5rem;
+                min-height: calc(100vh - 1rem);
+            }
+            
+            .jar-icon {
+                font-size: 3.5rem;
+            }
+            
+            .jar-title {
+                font-size: 1.8rem;
+            }
+            
+            .jar-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .verse-container {
+                padding: 1.5rem;
+                margin: 1rem 0;
+            }
+            
+            .verse-text {
+                font-size: 1.1rem;
+                line-height: 1.7;
+            }
+            
+            .verse-reference {
+                font-size: 0.9rem;
+            }
+            
+            .inspiration-text {
+                font-size: 0.8rem;
+                margin-top: 1.5rem;
+            }
+        }
+
+        /* Extra small screens */
+        @media (max-width: 480px) {
+            .jar-icon {
+                font-size: 3rem;
+            }
+            
+            .jar-title {
+                font-size: 1.6rem;
+            }
+            
+            .verse-container {
+                padding: 1.2rem;
+                border-radius: 15px;
+            }
+            
+            .verse-text {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+            
+            .inspiration-text {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .container {
+                justify-content: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .header {
+                margin-bottom: 1rem;
+            }
+            
+            .jar-icon {
+                font-size: 2.5rem;
+            }
+            
+            .jar-title {
+                font-size: 1.5rem;
+            }
+            
+            .verse-container {
+                margin: 0.5rem 0;
+            }
+            
+            .inspiration-text {
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="jar-icon">💙</span>
+            <h1 class="jar-title">Lonely ?</h1>
+        </div>
+
+        <div class="verse-container">
+            <div class="verse-text">
+                {{ verse|slice:"6:" }}
+            </div>
+            <div class="verse-reference">
+                {{ verse|slice:":5" }}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

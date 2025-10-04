@@ -1,0 +1,217 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Main Form Container -->
+    <div class="post-form-container glassmorphism-effect">
+        <h2 class="form-title">Craft Your Masterpiece ✍️</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="creation-form">
+            {% csrf_token %}
+            
+            <!-- Blog Content Section -->
+            <div class="form-section">
+                {% for field in form %}
+                    <div class="form-group">
+                        <label class="form-label-custom">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.help_text %}
+                            <small class="form-help">{{ field.help_text }}</small>
+                        {% endif %}
+                        {% for error in field.errors %}
+                            <div class="error-message">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Image Upload Section -->
+            <div class="form-section">
+                <h3 class="upload-title">Add your photos (maximum 9) 🖼️</h3>
+                {{ formset.management_form }}
+                <div class="image-upload-grid">
+                    {% for image_form in formset %}
+                        <div class="upload-card">
+                            <label class="upload-container">
+                                {{ image_form.image }}
+                                <div class="upload-overlay">
+                                    <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                                    <p class="upload-instructions">Drag & drop or click to upload</p>
+                                    <small class="upload-limits">(Max 5MB per image)</small>
+                                </div>
+                            </label>
+                            {% for error in image_form.image.errors %}
+                                <div class="error-message">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn-publish">
+                    🚀 Launch Your Post
+                </button>
+                <a href="{% url 'Blog:home' %}" class="btn-cancel">
+                    ↩︎ Return to Home
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .post-form-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 2.5rem;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-title {
+        font-family: 'Playfair Display', serif;
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #2d3748;
+        font-size: 2.5rem;
+        background: var(--secondary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .form-section {
+        margin-bottom: 2.5rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 15px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label-custom {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #475569;
+    }
+
+    input[type="text"], 
+    textarea {
+        width: 100%;
+        padding: 0.8rem 1.2rem;
+        border: 2px solid #e2e8f0;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    textarea:focus {
+        border-color: #94a3b8;
+        box-shadow: 0 0 0 3px rgba(148, 163, 184, 0.2);
+    }
+
+    .image-upload-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+    }
+
+    .upload-card {
+        position: relative;
+        height: 200px;
+        background: #f8fafc;
+        border-radius: 12px;
+        border: 2px dashed #cbd5e1;
+        transition: all 0.3s ease;
+    }
+
+    .upload-container {
+        display: block;
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .upload-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        text-align: center;
+    }
+
+    .upload-instructions {
+        margin: 0.5rem 0;
+        color: #64748b;
+    }
+
+    .upload-limits {
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+
+    .btn-publish {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 0.8rem 2.5rem;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-publish:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-cancel {
+        color: #64748b;
+        padding: 0.8rem 1.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+        color: #475569;
+        transform: translateX(-3px);
+    }
+
+    .error-message {
+        color: #ef4444;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+
+    @media (max-width: 768px) {
+        .post-form-container {
+            padding: 1.5rem;
+            margin: 1rem;
+        }
+        
+        .form-title {
+            font-size: 2rem;
+        }
+        
+        .image-upload-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+</script>
+{% endblock %}

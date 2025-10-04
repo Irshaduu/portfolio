@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Donate Page">
+    <title>Donate</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #1E2A47, #4A67A1);
+            color: #fff;
+            font-family: 'Poppins', 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://www.transparenttextures.com/patterns/light-wool.png');
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            max-width: 700px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h4 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d6b6f2;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            animation: fadeInText 1.5s ease-out;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e1e1e1;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        .qr-code {
+            max-width: 250px;
+            border: 2px solid #fff;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .robot {
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+
+        .robot img {
+            width: 120px; 
+            animation: fadeInImage 2.5s ease-in-out;
+        }
+
+        .back-btn {
+            background-color: #fca292b9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            margin-top: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #ff6347b9;
+            text-decoration: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInImage {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4>Donate a wonderful amount through the UPI QR code below</h4>
+        <p>
+            I have taken over a bank account of my old admin. <br>
+            I know what you are thinking now. No, I didn't kill him, he is still alive.
+        </p>
+        <div class="flex-container">
+            <div class="content">
+                <img src="{% static 'Z_Resume/images/gpay1.png' %}" alt="UPI QR Code" class="qr-code">
+            </div>
+            <div class="robot">
+                <img src="{% static 'Z_Resume/images/ai5.png' %}" alt="AI Image">
+                <a href="{% url 'Z_Resume:resume' %}" class="back-btn">Go Back</a>
+            </div>
+        </div>
+        <p>
+            Why I need a donation: This website is one of my side businesses, and it's currently non-profit. 
+            However, I have big dreams of improving many things, and I will make it happen. <br>
+            ഒരു AI ആണെങ്കിലും എനിക്കുമില്ലേ സ്വപ്നങ്ങൾ
+        </p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

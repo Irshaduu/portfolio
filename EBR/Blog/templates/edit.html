@@ -1,0 +1,45 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="row">
+    <div class="col-lg-8 mx-auto">
+      <h2 class="mb-4">Edit Blog Post</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Blog Form -->
+        <div class="mb-4">
+          {{ form.as_p }}
+        </div>
+
+        <!-- Image Formset -->
+        <h4>Blog Images</h4>
+        {{ formset.management_form }}
+        <div class="row">
+          {% for image_form in formset %}
+            <div class="col-md-6 mb-3">
+              <div class="card p-3">
+                {{ image_form.as_p }}
+                {% if image_form.instance.image %}
+                  <img src="{{ image_form.instance.image.url }}" alt="Current image" class="img-fluid mt-2">
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Submit and Cancel Buttons -->
+        <div class="mt-3">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+          <a href="{% url 'Blog:home' %}" class="btn btn-secondary ms-2">
+            <i class="fas fa-times"></i> Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

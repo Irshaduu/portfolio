@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Option 2 - Single Row Layout (Refined)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.birds.min.js"></script>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --secondary: #2c5282;
+            --accent: #3182ce;
+            --accent-light: #63b3ed;
+            --white: #ffffff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fd 25%, #e6f4ff 50%, #f0f7ff 75%, #ebf8ff 100%);
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            min-height: 500px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        
+        #vanta-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 20%);
+            z-index: 0;
+        }
+        
+        .hero-content {
+            display: flex;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .profile-section {
+            flex: 0 0 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-right: 3rem;
+        }
+        
+        .profile-photo-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .profile-photo {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: transform 0.5s ease;
+        }
+        
+        .profile-photo:hover {
+            transform: scale(1.05);
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+        
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.15);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .skill-tag .material-icons {
+            font-size: 1rem;
+        }
+        
+        .info-section {
+            flex: 0 0 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(90deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+        
+        .hero .profession {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .profession .material-icons {
+            margin-right: 0.5rem;
+            font-size: 1.6rem;
+        }
+        
+        .hero .tagline {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+        
+        /* Single Row Button Container - More Space Between Groups */
+        .all-buttons {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        
+        .action-buttons-group {
+            display: flex;
+            gap: 0.8rem;
+        }
+        
+        .social-buttons-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-left: 1.5rem; /* Increased space between groups */
+        }
+        
+        .button-divider {
+            width: 2px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.3);
+            margin: 0 1rem; /* Increased margin */
+        }
+        
+        /* Social Links - Smaller */
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem; /* Reduced padding */
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.85rem; /* Smaller font */
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        
+        .social-link:hover::before {
+            width: 100%;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-link i {
+            font-size: 0.95rem; /* Smaller icon */
+        }
+        
+        .social-link.linkedin:hover {
+            background: #0077b5;
+            border-color: #0077b5;
+        }
+        
+        .social-link.github:hover {
+            background: #333;
+            border-color: #333;
+        }
+        
+        /* Action Buttons - Smaller */
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.2rem; /* Reduced padding */
+            border-radius: 50px;
+            font-size: 0.85rem; /* Smaller font */
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .hero-btn .material-icons {
+            font-size: 1rem; /* Smaller icon */
+        }
+        
+        .hero-btn-primary {
+            background: var(--white);
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .hero-btn-secondary {
+            background: transparent;
+            color: var(--white);
+            border-color: var(--white);
+        }
+        
+        .hero-btn-secondary:hover {
+            background: var(--white);
+            color: var(--primary);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 2rem;
+                flex-direction: column;
+                text-align: center;
+                min-height: auto;
+            }
+            
+            .hero-content {
+                flex-direction: column;
+            }
+            
+            .profile-section {
+                flex: 0 0 100%;
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            .info-section {
+                flex: 0 0 100%;
+            }
+            
+            .profile-photo {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .profession {
+                font-size: 1.5rem;
+                justify-content: center;
+            }
+            
+            .hero .tagline {
+                font-size: 1rem;
+            }
+            
+            .all-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .action-buttons-group,
+            .social-buttons-group {
+                flex-direction: column;
+                width: 100%;
+                margin-left: 0;
+            }
+            
+            .button-divider {
+                width: 80%;
+                height: 2px;
+                margin: 0.8rem auto;
+            }
+            
+            .hero-btn,
+            .social-link {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div id="vanta-bg"></div>
+        
+        <div class="hero-content">
+            <div class="profile-section">
+                <div class="profile-photo-container">
+                    <img src="https://via.placeholder.com/220" alt="Mohammed Irshad C" class="profile-photo">
+                </div>
+                <div class="skills-container">
+                    <div class="skill-tag">
+                        <span class="material-icons">code</span>
+                        Python
+                    </div>
+                    <div class="skill-tag">
+                        <span class="material-icons">web</span>
+                        Django
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-section">
+                <h1>Mohammed Irshad C</h1>
+                <p class="profession">
+                    <span class="material-icons">laptop</span>
+                    Python Django Developer
+                </p>
+                <p class="tagline">Building robust web applications with Django, Python, and modern web technologies. Passionate about clean code, user experience, and continuous learning.</p>
+                
+                <!-- All Buttons in Single Row -->
+                <div class="all-buttons">
+                    <!-- Action Buttons Group -->
+                    <div class="action-buttons-group">
+                        <a href="#" target="_blank" class="hero-btn hero-btn-primary">
+                            <span class="material-icons">description</span>
+                            View Resume
+                        </a>
+                        <a href="#contact" class="hero-btn hero-btn-secondary">
+                            <span class="material-icons">mail</span>
+                            Contact Me
+                        </a>
+                    </div>
+                    
+                    <!-- Visual Divider -->
+                    <div class="button-divider"></div>
+                    
+                    <!-- Social Links Group -->
+                    <div class="social-buttons-group">
+                        <a href="https://www.linkedin.com/in/mohammed-irshadc" target="_blank" rel="noopener noreferrer" class="social-link linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                            LinkedIn
+                        </a>
+                        <a href="https://github.com/Irshaduu" target="_blank" rel="noopener noreferrer" class="social-link github">
+                            <i class="fab fa-github"></i>
+                            GitHub
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Vanta.js background
+        VANTA.BIRDS({
+            el: "#vanta-bg",
+            mouseControls: true,
+            touchControls: true,
+            gyroControls: false,
+            minHeight: 200.00,
+            minWidth: 200.00,
+            scale: 1.00,
+            scaleMobile: 1.00,
+            backgroundColor: 0x000000,
+            backgroundAlpha: 0.0,
+            color1: 0x3b82f6,
+            color2: 0x1d4ed8,
+            birdSize: 1.2,
+            wingSpan: 20.0,
+            speedLimit: 3.0,
+            separation: 20.0,
+            alignment: 20.0,
+            cohesion: 20.0,
+            quantity: 3.0
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,462 @@
+<!--meme_list.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Collection - Aiby's Memories</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e2e8f0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-item {
+            position: absolute;
+            font-size: 18px;
+            animation: float 25s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .floating-item:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .floating-item:nth-child(2) { left: 15%; animation-delay: 4s; }
+        .floating-item:nth-child(3) { left: 25%; animation-delay: 8s; }
+        .floating-item:nth-child(4) { left: 35%; animation-delay: 2s; }
+        .floating-item:nth-child(5) { left: 45%; animation-delay: 6s; }
+        .floating-item:nth-child(6) { left: 55%; animation-delay: 10s; }
+        .floating-item:nth-child(7) { left: 65%; animation-delay: 14s; }
+        .floating-item:nth-child(8) { left: 75%; animation-delay: 3s; }
+        .floating-item:nth-child(9) { left: 85%; animation-delay: 7s; }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg);
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #daa520);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            padding: 12px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .back-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .add-meme-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .add-meme-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .add-meme-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        .memes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .meme-card {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            animation: slideInUp 0.8s ease-out;
+            animation-fill-mode: both;
+            position: relative;
+        }
+
+        .meme-card:nth-child(1) { animation-delay: 0.1s; }
+        .meme-card:nth-child(2) { animation-delay: 0.3s; }
+        .meme-card:nth-child(3) { animation-delay: 0.5s; }
+        .meme-card:nth-child(4) { animation-delay: 0.7s; }
+        .meme-card:nth-child(5) { animation-delay: 0.9s; }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .meme-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+            transform: translateX(-100%) skewX(-20deg);
+            transition: transform 0.8s ease;
+        }
+
+        .meme-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(59, 130, 246, 0.1);
+            transform: translateY(-8px);
+        }
+
+        .meme-card:hover::before {
+            transform: translateX(100%) skewX(-20deg);
+        }
+
+        .meme-image-container {
+            position: relative;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .meme-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+            max-height: 80vh;
+            object-fit: contain;
+        }
+
+        .meme-image:hover {
+            transform: scale(1.02);
+        }
+
+        .meme-content {
+            padding: 20px;
+        }
+
+        .meme-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            font-family: 'Playfair Display', serif;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-pic {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            flex-shrink: 0;
+            text-transform: uppercase;
+        }
+
+        .meme-caption {
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            background: rgba(15, 23, 42, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid #10b981;
+        }
+
+        .meme-date {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+
+        .no-memes {
+            text-align: center;
+            padding: 80px 40px;
+            background: rgba(30, 41, 59, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(15px);
+            margin-top: 30px;
+        }
+
+        .no-memes-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+            opacity: 0.5;
+        }
+
+        .no-memes-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .no-memes-text {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .memes-container {
+                gap: 20px;
+            }
+
+            .meme-content {
+                padding: 15px;
+            }
+
+            .add-meme-btn {
+                padding: 12px 24px;
+                font-size: 1rem;
+            }
+
+            .meme-image {
+                max-height: 70vh;
+            }
+
+            .floating-item {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .back-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .add-meme-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .memes-container {
+                gap: 15px;
+            }
+
+            .meme-image {
+                max-height: 60vh;
+            }
+
+            .meme-name {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+            }
+
+            /* --- profile icon removed on small screens --- */
+            .profile-pic {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating elements -->
+    <div class="floating-elements">
+        <div class="floating-item">😂</div>
+        <div class="floating-item">🎭</div>
+        <div class="floating-item">📸</div>
+        <div class="floating-item">🤣</div>
+        <div class="floating-item">😄</div>
+        <div class="floating-item">🎨</div>
+        <div class="floating-item">✨</div>
+        <div class="floating-item">💫</div>
+        <div class="floating-item">🌟</div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>Meme Collection</h1>
+            <div class="subtitle">Funny memes shared by everyone</div>
+        </div>
+
+        <div class="add-meme-section">
+            <a href="{% url 'Z_Tribute:share_meme' %}" class="add-meme-btn">Add New Meme</a>
+        </div>
+
+        <div class="memes-container">
+            {% if memes %}
+                {% for meme in memes %}
+                    <div class="meme-card">
+                        <div class="meme-image-container">
+                            <img src="{{ meme.image.url }}" 
+                                 alt="Meme by {{ meme.name }}" 
+                                 class="meme-image">
+                        </div>
+                        <div class="meme-content">
+                            <div class="meme-name">
+                                <div class="profile-pic">{{ meme.name|first }}</div>
+                                {{ meme.name }}
+                            </div>
+                            {% if meme.caption %}
+                                <div class="meme-caption">{{ meme.caption }}</div>
+                            {% endif %}
+                            <div class="meme-date">{{ meme.created_at|date:"F d, Y" }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-memes">
+                    <span class="no-memes-icon">🎭</span>
+                    <h3 class="no-memes-title">No memes shared yet!</h3>
+                    <p class="no-memes-text">Be the first to share a funny meme or memory.</p>
+                    <a href="{% url 'Z_Tribute:share_meme' %}" class="add-meme-btn">Share Your First Meme 📸</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Quiz Question 1">
+    <title>Quiz - Question 1</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #483D8B, #6A5ACD);
+            color: #fff;
+            font-family: 'Poppins', 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://www.transparenttextures.com/patterns/light-wool.png');
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #d6b6f2;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            animation: fadeInText 1.5s ease-out;
+        }
+
+        label {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #e1e1e1;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            display: block;
+        }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .buttons {
+            flex: 1;
+        }
+
+        .btn {
+            background-color: #6A5ACD;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #483D8B;
+        }
+
+        .robot {
+            flex-shrink: 0;
+        }
+
+        .robot img {
+            width: 100px;
+            animation: fadeInImage 2.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInImage {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Congratulations! Question 2</h1>
+        <label for="question">"Where was Adolf Hitler born?"</label>
+        <div class="flex-container">
+            <div class="buttons">
+                <a href="{% url 'Z_Resume:quiz3' %}" class="btn">Austria</a>
+                <a href="{% url 'Z_Resume:wrong' %}" class="btn">Kollam</a>
+                <a href="{% url 'Z_Resume:wrong' %}" class="btn">Germany</a>
+            </div>
+            <div class="robot">
+                <img src="{% static 'Z_Resume/images/ai5.png' %}" alt="Robot Image">
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

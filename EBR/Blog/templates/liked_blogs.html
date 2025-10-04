@@ -1,0 +1,95 @@
+
+{% extends 'home.html' %}
+{% load static %}
+
+
+{% block content %}
+    <!-- Page Header -->
+    <div class="container py-1">
+      <h3 class="mb-5 text-center">Liked Blogs</h3>
+
+    <!-- Blogs Container -->
+    <div class="row">
+      {% if blogs %}
+        {% for blog in blogs %}
+        <div class="col-lg-8 mx-auto mb-5">
+          <div class="blog-card">
+            {% if blog.images.all %}
+            <div id="carousel-{{ blog.id }}" class="carousel slide" data-bs-ride="carousel">
+              <div class="carousel-indicators">
+                {% for image in blog.images.all %}
+                  <button type="button" data-bs-target="#carousel-{{ blog.id }}" 
+                          data-bs-slide-to="{{ forloop.counter0 }}" 
+                          class="{% if forloop.first %}active{% endif %}" 
+                          aria-label="Slide {{ forloop.counter }}"></button>
+                {% endfor %}
+              </div>
+              <div class="carousel-inner">
+                {% for image in blog.images.all %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                  <img src="{{ image.image.url }}" class="d-block w-100" alt="{{ blog.name }}">
+                </div>
+                {% endfor %}
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ blog.id }}" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ blog.id }}" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            {% else %}
+            <div class="no-image-placeholder">
+              <i class="fas fa-image fa-3x mb-3"></i>
+              <p>No image available</p>
+            </div>
+            {% endif %}
+
+            <div class="card-content">
+              <h2 class="card-title">{{ blog.name }}</h2>
+              <div class="divider"></div>
+              <div class="blog-meta">
+                <div><i class="fas fa-user-circle me-1"></i>{{ blog.author.username }}</div>
+                <div><i class="far fa-calendar-alt me-1"></i>{{ blog.created_at|date:"M d, Y" }}</div>
+              </div>
+
+              <!-- Read More/Less -->
+              <div class="text-container">
+                <input id="read-more-{{ blog.id }}" type="checkbox" class="read-more-checker">
+                <div class="blog-text">
+                  <div class="blog-text-content">{{ blog.description }}</div>
+                </div>
+                {% if blog.description|wordcount > 75 %}
+                <label for="read-more-{{ blog.id }}" class="read-more-button"></label>
+                {% endif %}
+              </div>
+
+              <div class="blog-actions-panel">
+                <a href="{% url 'Blog:like_blog' blog.id %}" class="btn btn-unlike">
+                  <i class="fas fa-heart heart-icon"></i> Unlike
+                </a>
+                <a href="{% url 'Blog:home' %}" class="btn btn-outline-secondary">
+                  <i class="fas fa-arrow-left me-1"></i> Back to Home
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-lg-8 mx-auto">
+          <div class="empty-state">
+            <i class="fas fa-heart-broken empty-state-icon"></i>
+            <h3>No Liked Posts Yet</h3>
+            <p class="text-muted">You haven't liked any travel stories yet. Explore our collection and find your favorites!</p>
+            <a href="{% url 'Blog:home' %}" class="btn btn-back-home">
+              <i class="fas fa-compass me-2"></i>Explore Travel Stories
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

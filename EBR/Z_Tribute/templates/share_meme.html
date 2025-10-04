@@ -1,0 +1,559 @@
+<!--share_meme.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share a Meme - Fun Memories with Aiby</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e2e8f0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating fun elements */
+        .floating-fun {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .fun-item {
+            position: absolute;
+            font-size: 24px;
+            animation: floatFun 18s infinite ease-in-out;
+            opacity: 0;
+        }
+
+        .fun-item:nth-child(1) { left: 8%; animation-delay: 0s; }
+        .fun-item:nth-child(2) { left: 18%; animation-delay: 3s; }
+        .fun-item:nth-child(3) { left: 28%; animation-delay: 6s; }
+        .fun-item:nth-child(4) { left: 38%; animation-delay: 1s; }
+        .fun-item:nth-child(5) { left: 48%; animation-delay: 4s; }
+        .fun-item:nth-child(6) { left: 58%; animation-delay: 7s; }
+        .fun-item:nth-child(7) { left: 68%; animation-delay: 2s; }
+        .fun-item:nth-child(8) { left: 78%; animation-delay: 5s; }
+        .fun-item:nth-child(9) { left: 88%; animation-delay: 8s; }
+
+        @keyframes floatFun {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(50vh) rotate(180deg);
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.2);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: #60a5fa;
+            padding: 12px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+        }
+
+        .back-btn:hover {
+            background: rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px;
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-40px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #f59e0b, #d97706, #b45309);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .form-container {
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            animation: slideInUp 0.8s ease-out 0.3s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Updated file input styles */
+        .file-input-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .file-input-display {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.6);
+            border: 2px dashed rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            color: #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 1;
+        }
+
+        .file-input-display:hover {
+            border-color: rgba(245, 158, 11, 0.5);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .file-input-display.has-file {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(5, 46, 22, 0.3);
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            color: #f59e0b;
+        }
+
+        .form-input::placeholder {
+            color: #64748b;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .fun-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.05));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #8b5cf6;
+        }
+
+        .fun-text {
+            color: #ddd6fe;
+            font-style: italic;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .meme-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+            display: block;
+            filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.4));
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-top: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-weight: 500;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+
+            .header {
+                padding: 30px 20px;
+                margin-bottom: 30px;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .form-container {
+                padding: 30px 20px;
+            }
+
+            .fun-item {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating fun elements -->
+    <div class="floating-fun">
+        <div class="fun-item">😂</div>
+        <div class="fun-item">🤣</div>
+        <div class="fun-item">😁</div>
+        <div class="fun-item">😆</div>
+        <div class="fun-item">🎉</div>
+        <div class="fun-item">🎊</div>
+        <div class="fun-item">📸</div>
+        <div class="fun-item">🖼️</div>
+        <div class="fun-item">✨</div>
+    </div>
+
+    <div class="container">
+
+        <div class="header">
+            <div class="meme-icon">😍</div>
+            <h1>Share a Fun Meme</h1>
+            <p class="subtitle">
+                Upload a funny picture, meme, or memorable moment from our Django journey with Aiby! 
+                Let's add some humor and joy to our tribute.
+            </p>
+        </div>
+
+        <div class="fun-box">
+            <p class="fun-text">
+                "Laughter is the best medicine, and great teachers know how to make learning fun! 
+                Share a meme, funny picture, or just something that makes you smile when you think of Aiby! 😄"
+            </p>
+        </div>
+
+        <div class="form-container">
+            <form method="post" enctype="multipart/form-data" id="memeForm">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="id_name" class="form-label">Your Name</label>
+                    <input 
+                        type="text" 
+                        id="id_name" 
+                        name="name" 
+                        class="form-input" 
+                        placeholder="Enter your name, champ!"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="id_image" class="form-label">Upload Your Image/Meme</label>
+                    <div class="file-input-wrapper">
+                        <input 
+                            type="file" 
+                            id="id_image" 
+                            name="image" 
+                            class="file-input"
+                            accept="image/*"
+                            required
+                        >
+                        <div class="file-input-display" id="fileDisplay">
+                            <span class="file-icon">📷</span>
+                            <span id="file-display-text">Click to choose an image file</span>
+                        </div>
+                    </div>
+                    <p class="upload-hint" id="uploadHint">
+                        Supported formats: JPG, PNG, GIF. Max size: 10MB
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_caption" class="form-label">Caption (Optional)</label>
+                    <textarea 
+                        id="id_caption" 
+                        name="caption" 
+                        class="form-input form-textarea" 
+                        placeholder="Add a funny caption, context, or story about this image... What makes it special or funny?"
+                    ></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Share My Meme 🎉
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Make the file input display clickable
+        document.getElementById('fileDisplay').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('id_image').click();
+        });
+
+        // Handle file selection
+        document.getElementById('id_image').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            const displayText = document.getElementById('file-display-text');
+            const uploadHint = document.getElementById('uploadHint');
+            const fileDisplay = document.getElementById('fileDisplay');
+            
+            if (file) {
+                // Update display text
+                displayText.textContent = `Selected: ${file.name}`;
+                displayText.style.color = '#10b981';
+                
+                // Update upload hint with file info
+                const fileSizeKB = (file.size / 1024).toFixed(2);
+                const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                
+                if (file.size < 1024 * 1024) {
+                    uploadHint.innerHTML = `<span class="success-message">✓ ${file.name} (${fileSizeKB} KB) selected successfully!</span>`;
+                } else {
+                    uploadHint.innerHTML = `<span class="success-message">✓ ${file.name} (${fileSizeMB} MB) selected successfully!</span>`;
+                }
+                
+                // Add success styling
+                fileDisplay.classList.add('has-file');
+                
+                // Optional: Preview image
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        console.log('Image loaded successfully');
+                    };
+                    reader.readAsDataURL(file);
+                }
+                
+            } else {
+                // Reset to default state
+                displayText.textContent = 'Click to choose an image file';
+                displayText.style.color = '#e2e8f0';
+                uploadHint.innerHTML = 'Supported formats: JPG, PNG, GIF. Max size: 10MB';
+                uploadHint.className = 'upload-hint';
+                fileDisplay.classList.remove('has-file');
+            }
+        });
+
+        // Form submission handling
+        document.getElementById('memeForm').addEventListener('submit', function(e) {
+            const fileInput = document.getElementById('id_image');
+            const nameInput = document.getElementById('id_name');
+            
+            if (!fileInput.files[0]) {
+                e.preventDefault();
+                alert('Please select an image file!');
+                return false;
+            }
+            
+            if (!nameInput.value.trim()) {
+                e.preventDefault();
+                alert('Please enter your name!');
+                nameInput.focus();
+                return false;
+            }
+            
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            submitBtn.textContent = 'Uploading... 📤';
+            submitBtn.disabled = true;
+        });
+
+        // Drag and drop functionality
+        const fileDisplay = document.getElementById('fileDisplay');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileDisplay.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileDisplay.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileDisplay.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            fileDisplay.style.borderColor = 'rgba(245, 158, 11, 0.8)';
+            fileDisplay.style.background = 'rgba(245, 158, 11, 0.1)';
+        }
+
+        function unhighlight(e) {
+            fileDisplay.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+            fileDisplay.style.background = 'rgba(30, 41, 59, 0.6)';
+        }
+
+        fileDisplay.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                document.getElementById('id_image').files = files;
+                // Trigger change event
+                const event = new Event('change', { bubbles: true });
+                document.getElementById('id_image').dispatchEvent(event);
+            }
+        }
+    </script>
+</body>
+</html>

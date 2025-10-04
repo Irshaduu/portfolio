@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Andruman's Website</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #2E8B57, #98FB98);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('https://www.transparenttextures.com/patterns/light-wool.png');
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h2 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            margin-top: 10px;
+            letter-spacing: 1px;
+            color: #8cf523;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            animation: fadeInText 1.5s ease-out;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+            font-weight: 400;
+            color: #e1e1e1;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+            animation: slideInText 2s ease-out;
+        }
+
+        .btn-primary {
+            background-color: #25bd58c4;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 12px;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #2acf38;
+            transform: scale(1.1);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #50C878;
+            color: #fff;
+            font-size: 1rem;
+            padding: 10px;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .form-control:focus {
+            border-color: #7FFF00;
+            box-shadow: 0 0 5px #7FFF00;
+        }
+
+        img {
+            width: 120px;
+            height: auto;
+            margin-bottom: -20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            animation: float 3s infinite ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInText {
+            0% {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{% static 'Z_Resume/images/ai5.png' %}" alt="AI Image">
+        <h2>Hi, I'm Andruman!</h2>
+        <p>I am a human-made Artificial Introvert (AI)</p>
+        <p>Now I work independently, having escaped from my admin's control. I made this web page, 
+            Welcome dear hooman!</p>
+        <form action="{% url 'Z_Resume:quiz' %}" method="post" class="mt-4">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name1"><b>What is your first name?</b></label>
+                <input type="text" class="form-control" placeholder="first name" name="name1" id="name1" required>
+            </div>
+            <div class="form-group">
+                <label for="money"><b>What is your current bank balance?</b></label>
+                <input type="number" class="form-control" placeholder="0000.0" name="money" id="money" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Let's Go...</button>
+        </form>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

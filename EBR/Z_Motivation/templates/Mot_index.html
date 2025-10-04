@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Biochemistry Journey ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 85%, #ff6b9d 100%);
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Background orbs like base.html */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            filter: blur(30px);
+            z-index: 1;
+        }
+
+        .o1 { width: 200px; height: 200px; top: 10%; left: 10%; }
+        .o2 { width: 180px; height: 180px; top: 60%; right: 8%; }
+        .o3 { width: 140px; height: 140px; bottom: 10%; left: 20%; }
+
+        /* Floating molecules */
+        .molecules {
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .molecules span {
+            position: absolute;
+            font-size: 28px;
+            left: calc(var(--x) * 1%);
+            top: 110%;
+            animation: float-up 12s linear infinite;
+            animation-delay: var(--d);
+        }
+
+        @keyframes float-up {
+            to { top: -10%; }
+        }
+
+        .container {
+            position: relative;
+            max-width: 580px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 28px;
+            backdrop-filter: blur(24px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        /* Atom decoration like base.html */
+        .atom {
+            position: absolute;
+            top: -18px;
+            right: -18px;
+            width: 60px;
+            height: 60px;
+        }
+
+        .atom i {
+            position: absolute;
+            inset: 0;
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 50%;
+        }
+
+        .atom i:nth-child(1) { transform: rotate(60deg); }
+        .atom i:nth-child(2) { transform: rotate(-60deg); }
+
+        .atom b {
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Header with navigation */
+        .header {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(196, 69, 105, 0.15));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 30px 20px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .header-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(255, 107, 157, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(255, 107, 157, 0.4);
+        }
+
+        /* Progress section */
+        .progress-section {
+            padding: 25px 30px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #fff;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .progress-track {
+            width: 200px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, #ff6b9d, #74b9ff, #a8e6cf);
+            border-radius: 10px;
+            position: relative;
+            transition: width 2s ease-out;
+            animation: progressGlow 3s ease-in-out infinite;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s infinite;
+        }
+
+        @keyframes progressGlow {
+            0%, 100% { 
+                box-shadow: 0 0 8px rgba(255, 107, 157, 0.4);
+            }
+            50% { 
+                box-shadow: 0 0 16px rgba(255, 107, 157, 0.6), 0 0 24px rgba(116, 185, 255, 0.3);
+            }
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-percentage {
+            font-weight: 700;
+            color: #fff;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #ff6b9d, #74b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+        }
+
+        /* Messages area */
+        .messages-area {
+            padding: 30px;
+            min-height: 400px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .messages-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .messages-area::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .messages-area::-webkit-scrollbar-thumb {
+            background: rgba(255, 107, 157, 0.5);
+            border-radius: 3px;
+        }
+
+        .message-container {
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        .message {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-left: 4px solid #ff6b9d;
+            padding: 18px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .message::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff6b9d, #c44569, #ff9ff3);
+            animation: shimmer 3s infinite;
+            border-radius: 18px 18px 0 0;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .message-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #fff;
+            font-weight: 400;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #ff6b9d;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            padding: 20px 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-style: italic;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                max-width: 100%;
+                border-radius: 24px;
+            }
+
+            .header {
+                padding: 20px 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 1.9rem;
+            }
+
+            .header p {
+                font-size: 1.1rem;
+            }
+
+            .header-nav {
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 0.85rem;
+            }
+
+            .progress-section {
+                padding: 20px;
+            }
+
+            .progress-track {
+                width: 150px;
+                height: 7px;
+            }
+
+            .progress-percentage {
+                font-size: 1.1rem;
+            }
+
+            .messages-area {
+                padding: 20px;
+                min-height: 300px;
+                max-height: 400px;
+            }
+
+            .message {
+                padding: 15px;
+            }
+
+            .message-text {
+                font-size: 1rem;
+            }
+
+            .footer {
+                padding: 15px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-nav {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .nav-btn {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+
+    <div class="molecules">
+        <span style="--x:5; --d:0s">🧬</span>
+        <span style="--x:25; --d:1s">💉</span>
+        <span style="--x:45; --d:2s">🔬</span>
+        <span style="--x:65; --d:3s">🧪</span>
+        <span style="--x:85; --d:4s">⚗️</span>
+    </div>
+
+    <div class="container">
+        <div class="atom">
+            <i></i><i></i><b></b>
+        </div>
+
+        <div class="header">
+            <h1>Your Beautiful Journey ✨</h1>
+            <p>Biochemistry + Home = Magic 💕</p>
+            
+            <div class="header-nav">
+                <a href="{% url 'Z_Motivation:daily_motivation' %}" class="nav-btn">🌸 Daily Boost...</a>
+                <a href="{% url 'Z_Motivation:progress_celebration' %}" class="nav-btn">🎉 Celebrate...</a>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-text">Your Biochemistry Journey 📚</div>
+            
+            <!-- Progress Indicator -->
+            <div class="progress-indicator">
+                <div class="progress-track">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-percentage">40%</div>
+            </div>
+        </div>
+
+        <div class="messages-area">
+            <div id="messages-container">
+                <!-- Messages will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <div class="footer">
+            In the language of molecules, curiosity is universal 💫
+        </div>
+    </div>
+
+    <script>
+        // Messages data
+        const messages = [
+            "🌟 Dearest Future Home-Scientist! 🌟",
+            "✨ You know what makes the perfect dal? The same science that runs our bodies!",
+            "🍯 That golden turmeric in your kitchen? It's a powerful antioxidant you're studying!",
+            "🧬 Every time you knead dough, you're witnessing protein structures at work!",
+            "🌱 Your future family will have the healthiest meals—you'll know exactly why!",
+            "💝 Imagine explaining to your children how their favorite foods help them grow strong!",
+            "👩‍👧‍👦 Children will always listen to a wise mother.",
+            "🏠 Your home will be where ancient wisdom meets modern science beautifully!",
+            "📚 40% complete means you're almost halfway to becoming a kitchen-scientist superhero!",
+            "🎯 Each enzyme you study today will help you create the most nutritious family meals tomorrow!",
+            "🌸 You're not just learning biochemistry—you're preparing to nurture life itself!",
+            "💪 Remember: Every great housewife knows her ingredients—you'll know them at molecular level!",
+            "🙏 Your dedication today will bless your family's health for generations to come!",
+            "✨ Keep going, dear! Your unique blend of love and science will be truly magical! ✨"
+        ];
+
+        // Typewriter effect
+        function typeWriter(element, text, speed = 40) {
+            let i = 0;
+            element.innerHTML = '<span class="typing-cursor"></span>';
+            
+            function type() {
+                if (i < text.length) {
+                    const cursor = element.querySelector('.typing-cursor');
+                    const currentText = text.substring(0, i + 1);
+                    element.innerHTML = currentText + '<span class="typing-cursor"></span>';
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    setTimeout(() => {
+                        element.innerHTML = text;
+                    }, 1000);
+                }
+            }
+            
+            setTimeout(type, 800);
+        }
+
+        // Show message one by one
+        function showMessage(index) {
+            if (index >= messages.length) {
+                return;
+            }
+
+            const container = document.getElementById('messages-container');
+            
+            const messageContainer = document.createElement('div');
+            messageContainer.className = 'message-container';
+            messageContainer.style.opacity = '0';
+            messageContainer.style.transform = 'translateY(30px)';
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            const messageText = document.createElement('div');
+            messageText.className = 'message-text';
+            
+            messageDiv.appendChild(messageText);
+            messageContainer.appendChild(messageDiv);
+            container.appendChild(messageContainer);
+            
+            setTimeout(() => {
+                messageContainer.style.transition = 'all 0.8s ease-out';
+                messageContainer.style.opacity = '1';
+                messageContainer.style.transform = 'translateY(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                typeWriter(messageText, messages[index]);
+            }, 800);
+            
+            const typingDuration = messages[index].length * 40 + 2000;
+            setTimeout(() => {
+                showMessage(index + 1);
+            }, typingDuration);
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                showMessage(0);
+            }, 1000);
+
+            // Auto-scroll to bottom as messages appear
+            const messagesArea = document.querySelector('.messages-area');
+            const observer = new MutationObserver(() => {
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+            });
+            
+            observer.observe(document.getElementById('messages-container'), {
+                childList: true,
+                subtree: true
+            });
+        });
+    </script>
+</body>
+</html>

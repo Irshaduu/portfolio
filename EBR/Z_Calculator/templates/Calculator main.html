@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Rainbow Calculator</title>
+    <meta name="description" content="A colorful rainbow-themed calculator">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet"> <!-- Link to Google Font -->
+    <link rel="stylesheet" href="{% static 'Z_Calculator/Style.css' %}">                         <!-- Link to external CSS file -->
+</head>
+<body>
+
+    <div class="calculator">
+        <div class="brand-name">Rainbow Calculator</div>
+        <textarea id="display" class="display" readonly></textarea>
+        <div class="buttons">
+            <input type="button" value="7" class="red" onclick="appendNumber('7')">
+            <input type="button" value="8" class="orange" onclick="appendNumber('8')">
+            <input type="button" value="9" class="yellow" onclick="appendNumber('9')">
+            <input type="button" value="/" class="green" onclick="appendOperator('/')">
+            <input type="button" value="4" class="blue" onclick="appendNumber('4')">
+            <input type="button" value="5" class="indigo" onclick="appendNumber('5')">
+            <input type="button" value="6" class="violet" onclick="appendNumber('6')">
+            <input type="button" value="*" class="red" onclick="appendOperator('*')">
+            <input type="button" value="1" class="orange" onclick="appendNumber('1')">
+            <input type="button" value="2" class="yellow" onclick="appendNumber('2')">
+            <input type="button" value="3" class="green" onclick="appendNumber('3')">
+            <input type="button" value="-" class="blue" onclick="appendOperator('-')">
+            <input type="button" value="0" class="indigo" onclick="appendNumber('0')">
+            <input type="button" value="C" class="violet" onclick="clearDisplay()">
+            <input type="button" value="=" class="red" onclick="calculateResult()">
+            <input type="button" value="+" class="orange" onclick="appendOperator('+')">
+            <button class="laugh-button" onclick="tellJoke()">Laugh</button>
+        </div>
+    </div>
+
+    <script src="{% static 'Z_Calculator/Script.js' %}"></script>                                                            <!-- Link to external Java Script file -->
+
+</body>
+</html>

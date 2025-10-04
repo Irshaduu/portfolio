@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Famous Figures</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #1a1a1a, #333);
+            color: #fff;
+            font-family: 'Poppins', 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* changed: stack container and donate button vertically */
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* small gap between container and donate button */
+            background-image: url('https://www.transparenttextures.com/patterns/light-wool.png');
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 800px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 2s ease-in-out;
+            text-align: center;
+            margin-bottom: 0; /* keep spacing controlled by body gap */
+        }
+
+        h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f8f8f89a;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0);
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            width: calc(33% - 20px);
+            color: #fff;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0);
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0);
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .card h5 {
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #ffffff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .btn {
+            background-color: #6A5ACD;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            background-color: #483D8B;
+        }
+
+        /* donate button: no longer fixed; centered below container and responsive */
+        .donate-btn {
+            display: inline-block;
+            background-color: #ff6347b9;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            z-index: 1000;
+            margin: 0 auto; /* center horizontally */
+        }
+
+        .donate-btn:hover {
+            background-color: #e5533f;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            text-decoration: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                width: calc(50% - 20px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .card {
+                width: 100%;
+            }
+
+            /* mobile-friendly donate button: full-width feel and comfortable padding */
+            .donate-btn {
+                display: block;
+                width: calc(100% - 40px);
+                max-width: 480px;
+                padding: 12px 18px;
+                font-size: 1rem;
+                border-radius: 12px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Million Dollar Resume</h2>
+        <div class="row">
+            
+            <div class="card">
+                <img src="{% static 'Z_Resume/images/gandhi.jpg' %}" alt="Mahatma Gandhi">
+                <h5>Mahatma Gandhi</h5>
+                <a href="{% url 'Z_Resume:gandhi' %}" class="btn">Read Resume</a>
+            </div>
+            
+            <div class="card">
+                <img src="{% static 'Z_Resume/images/mandela.jpg' %}" alt="Nelson Mandela">
+                <h5>Nelson Mandela</h5>
+                <a href="{% url 'Z_Resume:mandela' %}" class="btn">Read Resume</a>
+            </div>
+            
+            <div class="card">
+                <img src="{% static 'Z_Resume/images/truman.jpg' %}" alt="Harry S. Truman">
+                <h5>Harry S. Truman</h5>
+                <a href="{% url 'Z_Resume:truman' %}" class="btn">Read Resume</a>
+            </div>
+            
+            <div class="card">
+                <img src="{% static 'Z_Resume/images/hitler.jpg' %}" alt="Adolf Hitler">
+                <h5>Adolf Hitler</h5>
+                <a href="{% url 'Z_Resume:hitler' %}" class="btn">Read Resume</a>
+            </div>
+            
+            <div class="card">
+                <img src="{% static 'Z_Resume/images/stalin.jpg' %}" alt="Joseph Stalin">
+                <h5>Joseph Stalin</h5>
+                <a href="{% url 'Z_Resume:stalin' %}" class="btn">Read Resume</a>
+            </div>
+            
+            <div class="card">
+                <img src="{% static 'Z_Resume/images/elizabeth.jpg' %}" alt="Elizabeth II">
+                <h5>Elizabeth II</h5>
+                <a href="{% url 'Z_Resume:elizabeth' %}" class="btn">Read Resume</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- donate button remains same link and class -->
+    <a href="{% url 'Z_Resume:donate' %}" class="donate-btn">Donate</a>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

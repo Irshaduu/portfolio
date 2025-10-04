@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आपकी प्रगति का जश्न मनाएँ 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* -------------------------------------------------
+           1.  IDENTICAL CSS  (only font-family keeps Poppins)
+           ------------------------------------------------- */
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{
+            font-family:'Poppins',sans-serif;
+            background:linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 85%, #a8edea 100%);
+            min-height:100vh;padding:20px;overflow-x:hidden;
+            display:flex;align-items:center;justify-content:center;
+        }
+        .orb{
+            position:fixed;border-radius:50%;
+            background:rgba(255,255,255,.08);filter:blur(30px);z-index:1;
+        }
+        .o1{width:220px;height:220px;top:15%;left:15%}
+        .o2{width:180px;height:180px;top:55%;right:12%}
+        .o3{width:160px;height:160px;bottom:15%;left:25%}
+        .o4{width:140px;height:140px;top:30%;right:30%}
+        .celebration-particles{
+            position:fixed;inset:0;z-index:2;pointer-events:none;
+        }
+        .celebration-particles span{
+            position:absolute;font-size:32px;left:calc(var(--x)*1%);
+            top:110%;animation:float-celebration 15s linear infinite;
+            animation-delay:var(--d);
+        }
+        @keyframes float-celebration{
+            0%{top:110%;transform:rotate(0deg) scale(.8);opacity:0}
+            10%{opacity:1;transform:rotate(45deg) scale(1)}
+            90%{opacity:1;transform:rotate(315deg) scale(1)}
+            100%{top:-15%;transform:rotate(360deg) scale(.8);opacity:0}
+        }
+        .container{
+            position:relative;max-width:620px;width:100%;
+            background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+            border-radius:32px;backdrop-filter:blur(24px);
+            box-shadow:0 25px 50px rgba(0,0,0,.25);z-index:3;overflow:hidden;
+        }
+        .celebration-atom{
+            position:absolute;top:-20px;right:-20px;width:70px;height:70px;
+        }
+        .celebration-atom i{
+            position:absolute;inset:0;border:2px solid rgba(168,237,234,.4);
+            border-radius:50%;
+        }
+        .celebration-atom i:nth-child(1){transform:rotate(45deg)}
+        .celebration-atom i:nth-child(2){transform:rotate(-45deg)}
+        .celebration-atom i:nth-child(3){transform:rotate(90deg)}
+        .celebration-atom b{
+            display:block;position:absolute;top:50%;left:50%;width:10px;height:10px;
+            background:linear-gradient(45deg,#a8edea,#fed6e3);border-radius:50%;
+            transform:translate(-50%,-50%);box-shadow:0 0 10px rgba(168,237,234,.6);
+        }
+        .header{
+            background:linear-gradient(135deg,rgba(168,237,234,.15),rgba(102,126,234,.15));
+            border-bottom:1px solid rgba(255,255,255,.1);padding:30px 35px 25px;
+            text-align:center;color:#fff;position:relative;
+        }
+        .header h1{
+            font-size:2.4rem;font-weight:700;margin-bottom:10px;
+            text-shadow:2px 2px 8px rgba(0,0,0,.3);
+            background:linear-gradient(135deg,#a8edea,#fed6e3,#d299c2);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .header p{font-size:1.3rem;font-weight:600;opacity:.9;margin-bottom:15px}
+        .celebration-banner{
+            background:linear-gradient(135deg,rgba(168,237,234,.15),rgba(240,147,251,.15));
+            border:2px solid rgba(168,237,234,.3);padding:35px 25px;margin:25px;
+            border-radius:25px;text-align:center;position:relative;overflow:hidden;
+            box-shadow:0 15px 35px rgba(168,237,234,.2);backdrop-filter:blur(10px);
+        }
+        .celebration-banner::before{
+            content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(168,237,234,.3),transparent);
+            animation:celebrationShine 3s infinite;
+        }
+        @keyframes celebrationShine{0%{left:-100%}100%{left:100%}}
+        .celebration-text{position:relative;z-index:2}
+        .big-number{
+            font-size:4.2rem;font-weight:700;
+            background:linear-gradient(135deg,#a8edea,#fed6e3);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+            margin-bottom:10px;text-shadow:2px 2px 8px rgba(0,0,0,.2);
+            filter:drop-shadow(2px 2px 4px rgba(0,0,0,.2));
+        }
+        .achievement-text{font-size:1.5rem;color:#fff;font-weight:600;margin-bottom:15px;text-shadow:1px 1px 4px rgba(0,0,0,.3)}
+        .motivational-text{font-size:1.1rem;color:rgba(255,255,255,.9);font-style:italic;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+        .progress-visualization{margin:25px;padding:25px;background:rgba(255,255,255,.08);border-radius:20px;border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px)}
+        .progress-visualization h3{color:#fff;margin-bottom:20px;font-size:1.3rem;text-align:center;text-shadow:1px 1px 4px rgba(0,0,0,.3)}
+        .progress-bar-container{background:rgba(255,255,255,.15);height:20px;border-radius:15px;overflow:hidden;margin:20px 0;box-shadow:inset 0 2px 4px rgba(0,0,0,.2)}
+        .progress-bar-fill{
+            height:100%;background:linear-gradient(90deg,#a8edea,#fed6e3,#d299c2);
+            border-radius:15px;width:0%;animation:fillProgress 3s ease-out forwards;
+            position:relative;box-shadow:0 0 15px rgba(168,237,234,.5);
+        }
+        .progress-bar-fill::after{
+            content:'';position:absolute;top:0;left:0;right:0;bottom:0;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+            animation:shimmerProgress 2s infinite;
+        }
+        @keyframes fillProgress{0%{width:0%}100%{width:40%}}
+        @keyframes shimmerProgress{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+        .progress-text{text-align:center;color:#fff;font-weight:600;font-size:1.1rem;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+        .milestones{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;margin:25px}
+        .milestone{background:rgba(255,255,255,.1);padding:18px 12px;border-radius:15px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,.15);border:1px solid rgba(255,255,255,.15);backdrop-filter:blur(8px);transition:all .3s ease}
+        .milestone:hover{transform:translateY(-3px);box-shadow:0 12px 25px rgba(0,0,0,.2)}
+        .milestone.completed{background:linear-gradient(135deg,rgba(168,237,234,.25),rgba(240,147,251,.25));border-color:rgba(168,237,234,.4);box-shadow:0 8px 20px rgba(168,237,234,.2)}
+        .milestone-icon{font-size:2.2rem;margin-bottom:12px}
+        .milestone-text{font-size:.95rem;font-weight:600;color:#fff;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+        .messages-area{padding:25px;max-height:500px;overflow-y:auto}
+        .messages-area::-webkit-scrollbar{width:6px}
+        .messages-area::-webkit-scrollbar-track{background:rgba(255,255,255,.1);border-radius:3px}
+        .messages-area::-webkit-scrollbar-thumb{background:rgba(168,237,234,.5);border-radius:3px}
+        .message-container{margin-bottom:20px;opacity:0;transform:translateY(20px);animation:slideIn .8s ease-out forwards}
+        .message{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-left:4px solid #a8edea;padding:20px;border-radius:18px;box-shadow:0 10px 25px rgba(0,0,0,.15);position:relative;backdrop-filter:blur(10px)}
+        .message::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:2px;
+            background:linear-gradient(90deg,#a8edea,#fed6e3,#d299c2);animation:shimmer 3s infinite;border-radius:18px 18px 0 0;
+        }
+        @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+        .message-text{font-size:1.1rem;line-height:1.6;color:#fff;font-weight:400;text-shadow:1px 1px 3px rgba(0,0,0,.3)}
+        .typing-cursor{display:inline-block;width:2px;height:1.2em;background:#a8edea;animation:blink 1s infinite;margin-left:2px}
+        @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+        @keyframes slideIn{to{opacity:1;transform:translateY(0)}}
+        .navigation{display:flex;justify-content:space-around;margin:25px;gap:15px}
+        .nav-btn{
+            background:linear-gradient(135deg,#a8edea,#fed6e3);color:#2d3436;border:none;
+            padding:14px 22px;border-radius:25px;text-decoration:none;font-weight:600;font-size:.95rem;
+            transition:all .3s ease;box-shadow:0 6px 18px rgba(168,237,234,.3);flex:1;text-align:center;
+            display:flex;align-items:center;justify-content:center;gap:8px;
+        }
+        .nav-btn:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(168,237,234,.4);background:linear-gradient(135deg,#fed6e3,#a8edea)}
+        .floating-celebrations{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+        .floating-celebration{position:absolute;color:rgba(168,237,234,.8);font-size:28px;animation:floatCelebration 6s infinite ease-in-out}
+        @keyframes floatCelebration{
+            0%{transform:translateY(100vh) rotate(0deg) scale(.7);opacity:0}
+            15%{opacity:1;transform:scale(1.2)}
+            85%{opacity:1}
+            100%{transform:translateY(-100px) rotate(360deg) scale(.7);opacity:0}
+        }
+        @media(max-width:768px){
+            body{padding:15px}
+            .container{max-width:100%;border-radius:28px}
+            .header{padding:25px 25px 20px}
+            .header h1{font-size:2rem}
+            .header p{font-size:1.1rem}
+            .celebration-banner{margin:20px;padding:30px 20px}
+            .big-number{font-size:3.2rem}
+            .achievement-text{font-size:1.3rem}
+            .motivational-text{font-size:1rem}
+            .progress-visualization,.milestones,.messages-area,.navigation{margin:20px}
+            .navigation{flex-direction:column;gap:12px}
+            .nav-btn{padding:12px 20px}
+        }
+        @media(max-width:480px){
+            .milestones{grid-template-columns:repeat(2,1fr);gap:12px}
+            .milestone{padding:15px 10px}
+            .milestone-icon{font-size:1.8rem;margin-bottom:8px}
+            .milestone-text{font-size:.85rem}
+        }
+    </style>
+</head>
+<body>
+    <!-- ---------- 2.  IDENTICAL BACKGROUND ORBS  ---------- -->
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+
+    <!-- ---------- 3.  IDENTICAL PARTICLE LAYERS  ---------- -->
+    <div class="celebration-particles">
+        <span style="--x:8; --d:0s">🎉</span><span style="--x:22; --d:1.5s">🎊</span><span style="--x:38; --d:3s">🏆</span>
+        <span style="--x:54; --d:4.5s">🎈</span><span style="--x:70; --d:6s">✨</span><span style="--x:86; --d:7.5s">🌟</span>
+        <span style="--x:15; --d:2s">💎</span><span style="--x:45; --d:5s">🎁</span><span style="--x:75; --d:8s">🦋</span>
+    </div>
+    <div class="floating-celebrations">
+        <div class="floating-celebration" style="left:12%;animation-delay:0s">🎉</div>
+        <div class="floating-celebration" style="left:24%;animation-delay:1.2s">🎊</div>
+        <div class="floating-celebration" style="left:36%;animation-delay:2.4s">🏆</div>
+        <div class="floating-celebration" style="left:48%;animation-delay:3.6s">🎈</div>
+        <div class="floating-celebration" style="left:60%;animation-delay:4.8s">✨</div>
+        <div class="floating-celebration" style="left:72%;animation-delay:1.8s">🌟</div>
+        <div class="floating-celebration" style="left:84%;animation-delay:3s">💎</div>
+        <div class="floating-celebration" style="left:18%;animation-delay:4.2s">🦋</div>
+    </div>
+
+    <!-- ---------- 4.  IDENTICAL MARKUP STRUCTURE  ---------- -->
+    <div class="container">
+        <div class="celebration-atom"><i></i><i></i><i></i><b></b></div>
+
+        <div class="header">
+            <h1>क्या बात है! शानदार प्रगति! 🎉</h1>
+            <p>अपनी समर्पित यात्रा का जश्न मनाइए! 🌟</p>
+        </div>
+
+        <div class="celebration-banner">
+            <div class="celebration-text">
+                <div class="big-number">40%</div>
+                <div class="achievement-text">बायोकेमिस्ट्री पर विजय! 🧪</div>
+                <div class="motivational-text">"आप सिर्फ़ पढ़ नहीं रहीं, आप कुछ अद्भुत बन रही हैं!" ✨</div>
+            </div>
+        </div>
+
+        <div class="progress-visualization">
+            <h3>आपकी यात्रा अब तक 🚀</h3>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-text">40% पूरा – 60% और जादू बाकी है!</div>
+        </div>
+
+        <div class="milestones">
+            <div class="milestone completed"><div class="milestone-icon">✅</div><div class="milestone-text">मज़बूत शुरुआत</div></div>
+            <div class="milestone completed"><div class="milestone-icon">📚</div><div class="milestone-text">बुनियादी अवधारणाएँ</div></div>
+            <div class="milestone completed"><div class="milestone-icon">🧪</div><div class="milestone-text">प्रयोगशाला कौशल</div></div>
+            <div class="milestone completed"><div class="milestone-icon">🎯</div><div class="milestone-text">40% माइलस्टोन</div></div>
+            <div class="milestone"><div class="milestone-icon">🏆</div><div class="milestone-text">जल्द आ रहा</div></div>
+            <div class="milestone"><div class="milestone-icon">🎓</div><div class="milestone-text">स्नातक</div></div>
+        </div>
+
+        <div class="messages-area">
+            <div id="messages-container"></div>
+        </div>
+
+        <div class="navigation" style="display:none" id="navigation">
+            <a href="{% url 'Z_Motivation:hbooster' %}" class="nav-btn">🏠 होम</a>
+            <a href="{% url 'Z_Motivation:hdaily_motivation' %}" class="nav-btn">🌸 डेली बूस्ट</a>
+        </div>
+    </div>
+
+    <!-- ---------- 5.  IDENTICAL JAVASCRIPT (only messages Hindi)  ---------- -->
+    <script>
+        const messages = [
+            "🎉 बधाई हो! आपने अब तक बहुत प्रगति कर ली है! 🎉",
+            "🌊 0 से 40%—यह आपकी शुद्ध दृढ़ता और बुद्धिमत्ता का प्रमाण है!",
+            "💎 आपका भविष्य का परिवार इतना भाग्यशाली है कि उसके पास इतनी समर्पित और देखभाल करने वाली व्यक्ति है!",
+            "🏆 आप सिर्फ़ पढ़ाई नहीं कर रहीं—आप एक जीवन भर के स्वस्थ, खुशहाल पलों में निवेश कर रही हैं!",
+            "✨ आज का हर संघर्ष कल की सुंदर यात्रा के लिए ताकत बना रहा है!",
+            "🦋 आपका बायोकेमिस्ट्री ज्ञान + आपका प्रेमपूर्ण हृदय = सबसे अद्भुत रूपांतरण!",
+            "🌸 याद रखें: सबसे सुंदर फूल सबसे धैर्यपूर्ण देखभाल के बाद खिलते हैं!",
+            "💪 आप यह कर सकती हैं! 60% और बाकी है, फिर इसे जीवन में उतारने का एक जीवन भर!",
+            "🙏 खुद पर विश्वास रखें—आप वास्तव में कुछ विशेष और सार्थक बना रही हैं!"
+        ];
+
+        function typeWriter(el,text,speed=45){
+            let i=0;el.innerHTML='<span class="typing-cursor"></span>';
+            function type(){
+                if(i<text.length){
+                    el.innerHTML=text.substring(0,i+1)+'<span class="typing-cursor"></span>';
+                    i++;setTimeout(type,speed);
+                }else{setTimeout(()=>el.innerHTML=text,1000);}
+            }
+            setTimeout(type,800);
+        }
+        function showMessage(idx){
+            if(idx>=messages.length){
+                setTimeout(()=>{
+                    document.getElementById('navigation').style.display='flex';
+                    document.getElementById('navigation').style.animation='slideIn .8s ease-out forwards';
+                },2000);
+                return;
+            }
+            const container=document.getElementById('messages-container');
+            const msgBox=document.createElement('div');msgBox.className='message-container';
+            msgBox.style.opacity='0';msgBox.style.transform='translateY(30px)';
+            const msg=document.createElement('div');msg.className='message';
+            const txt=document.createElement('div');txt.className='message-text';
+            msg.appendChild(txt);msgBox.appendChild(msg);container.appendChild(msgBox);
+            setTimeout(()=>{msgBox.style.transition='all .8s ease-out';msgBox.style.opacity='1';msgBox.style.transform='translateY(0)';},100);
+            setTimeout(()=>typeWriter(txt,messages[idx]),800);
+            setTimeout(()=>showMessage(idx+1),messages[idx].length*45+2000);
+        }
+        function createConfetti(){
+            const colors=['#a8edea','#fed6e3','#d299c2','#667eea','#764ba2'];
+            for(let i=0;i<60;i++){
+                const d=document.createElement('div');
+                d.style.position='fixed';d.style.left=Math.random()*100+'%';d.style.top='-15px';
+                d.style.width=Math.random()*8+6+'px';d.style.height=Math.random()*8+6+'px';
+                d.style.backgroundColor=colors[Math.floor(Math.random()*colors.length)];
+                d.style.pointerEvents='none';d.style.zIndex='1000';d.style.borderRadius='50%';
+                d.style.boxShadow='0 0 6px rgba(168,237,234,.4)';
+                document.body.appendChild(d);
+                const dur=Math.random()*3500+2500,move=(Math.random()-.5)*250;
+                d.animate([{transform:'translateY(0) translateX(0) rotate(0deg) scale(1)',opacity:1},{transform:`translateY(${window.innerHeight+120}px) translateX(${move}px) rotate(720deg) scale(.3)`,opacity:0}],{duration:dur,easing:'cubic-bezier(.25,.46,.45,.94)'});
+                setTimeout(()=>d.remove(),dur);
+            }
+        }
+        document.addEventListener('DOMContentLoaded',()=>{
+            const obs=new MutationObserver(()=>document.querySelector('.messages-area').scrollTop=1e6);
+            obs.observe(document.getElementById('messages-container'),{childList:true,subtree:true});
+            setTimeout(createConfetti,1000);
+            setInterval(createConfetti,8000);
+            setTimeout(()=>showMessage(0),3000);
+            setInterval(()=>{
+                const f=document.createElement('div');f.className='floating-celebration';
+                f.innerHTML=['🎉','🎊','🏆','🎈','✨','🌟','💎','🦋','🌸','💫'][Math.floor(Math.random()*10)];
+                f.style.left=Math.random()*95+'%';f.style.animationDelay=Math.random()*3+'s';
+                f.style.animationDuration=(Math.random()*2+5)+'s';
+                document.querySelector('.floating-celebrations').appendChild(f);
+                setTimeout(()=>f.remove(),6000);
+            },1800);
+        });
+    </script>
+</body>
+</html>

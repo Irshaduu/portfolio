@@ -1,0 +1,81 @@
+<!--index.html-->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Category</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'Ecom/css/category.css' %}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-microchip me-2"></i>NexPree
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index">
+                            <i class="fas fa-home me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="product">
+                            <i class="fas fa-box-open me-1"></i>Products
+                        </a>
+                    </li>
+                </ul>
+                <div class="d-flex gap-3">
+                    <a class="btn btn-action" href="base">
+                        <i class="fas fa-sign-out-alt"></i>Exit
+                    </a>
+                    <a class="btn btn-action" href="addC">
+                        <i class="fas fa-plus-circle"></i>Add Category
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+    <main class="container mt-5 pt-4">
+        <h1 class="hero-heading">Premium Tech Categories</h1>
+        
+        <div class="row row-cols-1 row-cols-lg-3 g-4">
+            {% for i in cat %}
+            <div class="col">
+                <div class="category-card h-100">
+                    {% if i.image %}
+                    <img src="{{ i.image.url }}" class="card-img-top" alt="{{ i.name }}">
+                    {% endif %}
+                    <div class="card-body p-4">
+                        <h5 class="card-title text-center mb-3">{{ i.name }}</h5>
+                        <p class="card-text text-muted text-center">{{ i.discription }}</p>
+                        
+                        <div class="category-actions">
+                            <a href="{% url 'Ecom:editC' i.id %}" class="btn btn-edit">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="{% url 'Ecom:deleteC' i.id %}" class="btn btn-delete" 
+                               onclick="return confirm('This will permanently delete the {{ i.name }} category. Continue?')">
+                                <i class="fas fa-trash-alt"></i> Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+    {% endblock %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
