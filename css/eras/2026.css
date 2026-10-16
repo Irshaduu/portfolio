@@ -350,9 +350,21 @@
       & .project--feature { grid-template-columns: 1fr; }
       & .project--feature .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       & .stat { padding: .8rem; }
-      & .timemachine { grid-template-columns: 1fr; gap: .2rem; width: calc(100% - 16px); bottom: max(8px, env(safe-area-inset-bottom)); padding: .65rem .85rem .35rem; border-radius: 20px; }
-      & .tm__year { font-size: 1.45rem; }
+      /* On a phone the bar docks to the bottom edge, solid, with a thumb big enough for a thumb. */
+      & .timemachine {
+        --thumb: 24px;
+        grid-template-columns: 1fr; gap: .25rem; left: 0; right: 0; bottom: 0; width: auto; transform: none;
+        padding: .75rem 14px calc(.45rem + env(safe-area-inset-bottom));
+        border-radius: 20px 20px 0 0; border-width: 1px 0 0; background: rgb(7 9 17 / .95);
+      }
+      & .tm__year { font-size: 1.6rem; }
       & .tm__note { display: none; }
+      & .tm__step { width: 38px; height: 38px; }
+      & .tm__range { height: 30px; }
+      & .tm__range::-webkit-slider-runnable-track { height: 3px; }
+      & .tm__range::-moz-range-track { height: 3px; }
+      & .tm__range::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
+      & .tm__range::-moz-range-thumb { width: 20px; height: 20px; }
     }
 
     /* Panels rise out of depth as they scroll in, where the browser can tie it to scroll. */

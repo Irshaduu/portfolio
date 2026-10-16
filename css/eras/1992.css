@@ -50,6 +50,17 @@
     & .tm__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     & .tm__hint { display: none; }
 
+    /* A phone has no room for the note, and no keyboard to type link numbers with. */
+    @media (max-width: 560px) {
+      & .tm__note { display: none; }
+      & .tm__tick-long { display: none; }
+      & .tm__tick-short { display: inline; }
+      & .tm__ticks { gap: 3px; }
+    }
+    @media (pointer: coarse) {
+      & .tm__lmb { display: none; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       & .tm__lmb-cursor { animation: none; }
     }

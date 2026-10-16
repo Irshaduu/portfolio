@@ -4,8 +4,10 @@
 //   2030/sky.js            a sky that follows the visitor's clock
 // and runs the time machine's plan itself. In 2030 even time travel has a token limit.
 //
-// The plan counts seconds you actually spend in 2030 (not in a hidden tab). Each limit
-// pops up once per visit; Escape, the backdrop, or either button closes it.
+// The plan counts seconds you actually spend in 2030 (not in a hidden tab). Each limit shows
+// once per visit. Limit notices have only got shorter: from a paragraph to one line and a
+// reset time. By 2030 it's a quiet line that rises out of the time machine, never a popup
+// over the page, and it never takes focus. ×, Escape or either button puts it away.
 
 import { startScene, stopScene, boost } from './2030/scene.js';
 import { startConstellation, stopConstellation } from './2030/constellation.js';
@@ -19,28 +21,13 @@ const PLANS = {
   max20: { label: 'Max 20x', seconds: 6000 },
 };
 
+// The future resets when the future does.
+const RESETS = `Resets ${new Intl.DateTimeFormat(undefined, { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(2031, 0, 1))}`;
+
 const LIMITS = {
-  pro: {
-    title: 'Token limit reached',
-    body: 'Your Pro plan ran out of future in 30 seconds. Upgrade to Max to explore 2030 for 5 whole minutes.',
-    upgrade: 'Upgrade to Max · ₹0',
-    fine: 'Billed in 2030 rupees. Cancel anytime, or in 2031.',
-    next: 'max',
-  },
-  max: {
-    title: 'Max limit reached',
-    body: 'That was 5 whole minutes of the future. Upgrade to Max 20x for 100 minutes of 2030.',
-    upgrade: 'Upgrade to Max 20x · ₹0',
-    fine: 'Still ₹0. The future is generous.',
-    next: 'max20',
-  },
-  max20: {
-    title: 'You have used up 2030',
-    body: 'All 100 minutes of it. Please come back in 2030.',
-    upgrade: 'Fair enough',
-    fine: 'Or hire me, and I will build you a 2031.',
-    next: null,
-  },
+  pro: { title: 'Pro limit reached', reset: RESETS, upgrade: 'Get Max · ₹0', next: 'max' },
+  max: { title: 'Max limit reached', reset: RESETS, upgrade: 'Get Max 20x · ₹0', next: 'max20' },
+  max20: { title: 'That was all of 2030', reset: 'See you in 2031', upgrade: 'OK', next: null },
 };
 
 // ---- state, kept for the visit ---------------------------------------------------------------
@@ -96,38 +83,43 @@ function flashBadge() {
   badge.setAttribute('data-flash', '');
 }
 
-// ---- the popup --------------------------------------------------------------------------------
+// ---- the notice -------------------------------------------------------------------------------
 
-const dialog = document.getElementById('limit');
+const notice = document.getElementById('limit');
 const ui = {
-  plan: dialog.querySelector('.limit__plan'),
-  title: dialog.querySelector('.limit__title'),
-  body: dialog.querySelector('.limit__body'),
-  upgrade: dialog.querySelector('[data-limit="upgrade"]'),
-  fine: dialog.querySelector('.limit__fine'),
+  title: notice.querySelector('.limit__title'),
+  reset: notice.querySelector('.limit__reset'),
+  upgrade: notice.querySelector('[data-limit="upgrade"]'),
+  back: notice.querySelector('[data-limit="back"]'),
 };
+const announce = document.querySelector('.tm__live');
+const isOpen = () => !notice.hidden;
 
 function openLimit() {
   const limit = LIMITS[state.plan];
   state.shown.push(state.plan);
   save();
-  ui.plan.textContent = `${PLANS[state.plan].label} plan`;
   ui.title.textContent = limit.title;
-  ui.body.textContent = limit.body;
+  ui.reset.textContent = limit.reset;
   ui.upgrade.textContent = limit.upgrade;
-  ui.fine.textContent = limit.fine;
-  dialog.showModal();
+  ui.back.hidden = !limit.next;
+  notice.hidden = false;
+  announce.textContent = `${limit.title}. ${limit.reset}.`; // said once, politely; focus stays put
 }
 
 function closeLimit() {
-  if (dialog.open) dialog.close();
+  notice.hidden = true;
 }
+
+const onKey = (event) => {
+  if (event.key === 'Escape' && isOpen()) closeLimit();
+};
 
 let ctxRef = null;
 
-dialog.addEventListener('click', (event) => {
-  if (event.target === dialog) return closeLimit(); // the backdrop
+notice.addEventListener('click', (event) => {
   const action = event.target.closest('[data-limit]')?.dataset.limit;
+  if (action === 'close') return closeLimit();
   if (action === 'upgrade') {
     const next = LIMITS[state.plan].next;
     state.plan = next ?? 'done';
@@ -154,7 +146,7 @@ function tick() {
   const now = performance.now();
   const dt = (now - lastTick) / 1000;
   lastTick = now;
-  if (state.plan === 'done' || document.hidden || dialog.open) return;
+  if (state.plan === 'done' || document.hidden || isOpen()) return;
   if (state.left > 0) {
     const before = Math.ceil(state.left);
     state.left = Math.max(0, state.left - dt);
@@ -175,6 +167,7 @@ export function enter(ctx) {
   paintBadge();
   lastTick = performance.now();
   timer = setInterval(tick, 250);
+  addEventListener('keydown', onKey);
   startScene(ctx);
   startSky();
   startConstellation();
@@ -182,6 +175,7 @@ export function enter(ctx) {
 
 export function leave() {
   clearInterval(timer);
+  removeEventListener('keydown', onKey);
   closeLimit();
   stopConstellation();
   stopSky();

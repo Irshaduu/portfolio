@@ -428,12 +428,12 @@
     <div class="tm__control">
       <button type="button" class="tm__step" data-step="-1" aria-label="Previous era"><span aria-hidden="true">&#8249;</span></button>
       <div class="tm__track">
-        <input class="tm__range" id="tm-range" type="range" min="1992" max="2030" step="1" value="2026" aria-label="Travel to year">
+        <input class="tm__range" id="tm-range" type="range" min="0" max="420" step="1" value="360" aria-label="Travel to year">
         <ol class="tm__ticks"></ol>
       </div>
       <button type="button" class="tm__step" data-step="1" aria-label="Next era"><span aria-hidden="true">&#8250;</span></button>
     </div>
-    <p class="tm__hint" aria-hidden="true">Drag back to 1992, or ahead to 2030</p>
+    <p class="tm__hint" aria-hidden="true">Drag to time travel</p>
     <p class="orn tm__lmb" data-orn="1992" aria-hidden="true">Type a link number and press Return: <span class="tm__lmb-input"></span><span class="tm__lmb-cursor">_</span></p>
     <p class="sr-only tm__live" aria-live="polite"></p>
   </aside>
@@ -451,19 +451,14 @@
     <button type="button" class="intro__skip" data-intro-close autofocus>Skip intro &gt;&gt;</button>
   </dialog>
 
-  <!-- 2030 only: the time machine's plan runs out. js/eras/2030.js fills and opens it. -->
-  <dialog class="limit" id="limit" aria-labelledby="limit-title" aria-describedby="limit-body">
-    <div class="limit__card">
-      <p class="limit__eyebrow">Time machine · <span class="limit__plan">Pro plan</span></p>
-      <h2 class="limit__title" id="limit-title">Token limit reached</h2>
-      <p class="limit__body" id="limit-body"></p>
-      <div class="limit__meter" aria-hidden="true"><span></span></div>
-      <div class="limit__actions">
-        <button type="button" class="limit__upgrade" data-limit="upgrade" autofocus>Upgrade</button>
-        <button type="button" class="limit__back" data-limit="back">Back to 2026</button>
-      </div>
-      <p class="limit__fine"></p>
-    </div>
-  </dialog>
+  <!-- 2030 only: the time machine's plan runs out. A quiet notice that rises from the
+       time machine, not a popup over the page. js/eras/2030.js fills and shows it. -->
+  <aside class="limit" id="limit" aria-labelledby="limit-title" hidden>
+    <span class="limit__meter" aria-hidden="true"></span>
+    <p class="limit__text"><strong class="limit__title" id="limit-title">Pro limit reached</strong> <span class="limit__reset"></span></p>
+    <button type="button" class="limit__upgrade" data-limit="upgrade">Get Max · ₹0</button>
+    <button type="button" class="limit__back" data-limit="back">Back to 2026</button>
+    <button type="button" class="limit__close" data-limit="close" aria-label="Dismiss"><span aria-hidden="true">&times;</span></button>
+  </aside>
 </body>
 </html>

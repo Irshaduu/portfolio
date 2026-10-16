@@ -77,6 +77,17 @@ HTML as `.orn` elements with `data-orn="1997"`. The base layer hides every ornam
 era shows only its own. Decorative ones are `aria-hidden`; working ones (the MIDI button,
 the intent buttons, the webring) are real buttons and links.
 
+### The time machine
+
+- **Every era gets the same width on the slider**, however many years it spans, so the eight
+  milestones sit evenly and 2023, 2026 and 2030 never crowd together at the end. The years
+  inside an era share that era's width. The range counts track positions; `js/timemachine.js`
+  turns them into years, and the arrow keys still move one year at a time.
+- **On a phone it docks to the bottom edge** in every era, solid, with a thumb big enough to
+  grab. 1992 keeps it to one line of text and one row of year buttons there, and drops the
+  "type a link number" prompt on touch screens, which have no keyboard to type it with.
+- Until you first travel, it says **Drag to time travel**.
+
 ### The transition
 
 `js/transition.js` decides how one era becomes the next:
@@ -156,9 +167,12 @@ morning, daylight blue at noon with fewer stars, a sunset on the right in the ev
 space at night. **Play a day**, at the top of the page, runs all 24 hours in nine seconds.
 
 **The token limit.** In 2030 even time travel has a plan. A readout in the time machine counts
-down the 30 seconds that come with Pro. When they run out, a popup offers Max (₹0) for 5 whole
-minutes, then Max 20x. The count runs only while the tab is visible, and each popup shows once
-per visit. Escape, the backdrop, or either button closes it.
+down the 30 seconds that come with Pro. When they run out, a notice rises out of the time
+machine: *Pro limit reached · Resets 1 Jan 2031*, with **Get Max · ₹0** for 5 more minutes,
+then Max 20x. Usage-limit messages have kept getting shorter, from a paragraph to one line
+and a reset time, so the 2030 one is a single quiet line: no popup over the page, no dimmed
+backdrop, and it never takes focus. The count runs only while the tab is visible, each limit
+shows once per visit, and ×, Escape or either button puts it away.
 
 ### The first paint
 
@@ -198,7 +212,8 @@ assets/               resume PDF
 
 ## Keyboard
 
-- Arrow keys on the slider move one year; Home and End jump to 1992 and 2030.
+- Arrow keys on the slider move one year, Page Up and Page Down one era; Home and End jump to
+  1992 and 2030.
 - `[` and `]` step one era from anywhere.
 - In 1992, type a link's number and press Return.
 
@@ -208,8 +223,9 @@ assets/               resume PDF
   drawn by code.
 - Unminified, uncompressed: 29 KB of HTML, 142 KB of CSS for all eight eras, 82 KB of JavaScript,
   of which 48 KB is 2030. Only the current era's JavaScript module runs.
-- The slider's year labels shorten (2026, then '26, then 26) only when they would touch at
-  the current width in the current era's type.
+- The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
+  current width in the current era's type. With even spacing, a 375 px phone fits them in full in
+  every era except 1992, whose plain buttons use '92.
 - The slider is a native `<input type="range">` with `aria-valuetext` ("1997, The homepage
   years"); era changes are announced through a polite live region.
 - `prefers-reduced-motion` turns off view transitions, the static burst, the marquee, blinking,
