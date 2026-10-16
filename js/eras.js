@@ -7,8 +7,8 @@ const svg = (body) =>
 const gf = (query) => `https://fonts.googleapis.com/css2?${query}&display=swap`;
 
 export const MIN_YEAR = 1992;
-export const MAX_YEAR = 2028;
-export const DEFAULT_YEAR = 2028;
+export const MAX_YEAR = 2030;
+export const DEFAULT_YEAR = 2026; // the present: the page opens here
 
 export const ERAS = [
   {
@@ -77,11 +77,11 @@ export const ERAS = [
     favicon: svg(`<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs><rect x="2" y="2" width="28" height="28" rx="9" fill="url(#g)"/>`),
   },
   {
-    id: '2028',
-    from: 2028,
-    name: 'The next interface',
-    note: 'Two years from now. Depth, light and intent: tell the page why you came, and it leans toward it.',
-    title: 'Irshad · 2028',
+    id: '2026',
+    from: 2026,
+    name: 'Depth and intent',
+    note: 'Now. Light that follows you, panels with depth, and intent: tell the page why you came, and it leans toward it.',
+    title: 'Irshad · 2026',
     fonts: [
       gf('family=Unbounded:wght@300;400;500'),
       gf('family=Geist:wght@300..600&family=Geist+Mono:wght@400;500'),
@@ -89,6 +89,20 @@ export const ERAS = [
     fontProbe: '300 1em Unbounded',
     module: true,
     favicon: svg(`<circle cx="16" cy="16" r="11" fill="none" stroke="#7df3ff" stroke-width="3"/><circle cx="16" cy="16" r="4" fill="#b8a4ff"/>`),
+  },
+  {
+    id: '2030',
+    from: 2030,
+    name: 'The page becomes a place',
+    note: 'Four years from now. The page is a space you fly through, drawn live from real data. Scroll to fly.',
+    title: 'Irshad · 2030',
+    fonts: [
+      gf('family=Sora:wght@200;300;400'),
+      gf('family=Geist:wght@300..600&family=Geist+Mono:wght@400;500'),
+    ],
+    fontProbe: '200 1em Sora',
+    module: true,
+    favicon: svg(`<circle cx="16" cy="16" r="15" fill="#03040a"/><ellipse cx="16" cy="16" rx="13" ry="5" fill="none" stroke="#ffd28a" stroke-width="2" transform="rotate(-24 16 16)"/><circle cx="16" cy="16" r="5" fill="#9fe8ff"/>`),
   },
 ];
 

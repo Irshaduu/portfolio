@@ -1,23 +1,25 @@
 <!doctype html>
-<html lang="en" data-era="2028" data-year="2028">
+<html lang="en" data-era="2026" data-year="2026">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Irshad · 2028</title>
-  <meta name="description" content="Mohammed Irshad C, Python developer in Kerala: Django, backend and full-stack systems. One page, seven eras of the web. Drag the time machine from 2028 back to 1992.">
+  <title>Irshad · 2026</title>
+  <meta name="description" content="Mohammed Irshad C, Python developer in Kerala: Django, backend and full-stack systems. One page, eight eras of the web. Drag the time machine back to 1992, or ahead to 2030.">
   <meta name="theme-color" content="#04050a">
   <meta property="og:title" content="Mohammed Irshad C · Python Developer">
-  <meta property="og:description" content="My portfolio, from 2028 back to 1992. Drag the time machine.">
+  <meta property="og:description" content="My portfolio, from 1992 to 2030. Drag the time machine.">
   <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%237df3ff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b8a4ff'/%3E%3C/svg%3E">
 
   <script>
-    // Runs before first paint, so a shared link like ?y=1997 never flashes 2028 first.
+    // Runs before first paint, so a shared link like ?y=1997 never flashes 2026 first.
     // The milestone years are duplicated from js/eras.js; keep the two in step.
     (function () {
-      var d = document.documentElement, m = [1992, 1997, 2001, 2007, 2013, 2023, 2028];
+      var d = document.documentElement, m = [1992, 1997, 2001, 2007, 2013, 2023, 2026, 2030];
       d.classList.add('js');
+      // 2030 draws the name in WebGL; hide the text early so it can fly in instead of flashing.
+      if (window.WebGL2RenderingContext && !matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('gl2');
       var y = parseInt(new URLSearchParams(location.search).get('y'), 10);
-      if (!(y >= 1992 && y <= 2028)) return;
+      if (!(y >= 1992 && y <= 2030)) return;
       var e = m[0];
       for (var i = 0; i < m.length; i++) if (y >= m[i]) e = m[i];
       d.setAttribute('data-year', y);
@@ -28,8 +30,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- The default era's fonts load up front; every other era's load on first visit (js/eras.js). -->
-  <link rel="stylesheet" data-font="2028-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
-  <link rel="stylesheet" data-font="2028-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" data-font="2026-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
+  <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/eras/1992.css">
@@ -38,7 +40,8 @@
   <link rel="stylesheet" href="css/eras/2007.css">
   <link rel="stylesheet" href="css/eras/2013.css">
   <link rel="stylesheet" href="css/eras/2023.css">
-  <link rel="stylesheet" href="css/eras/2028.css">
+  <link rel="stylesheet" href="css/eras/2026.css">
+  <link rel="stylesheet" href="css/eras/2030.css">
   <link rel="stylesheet" href="css/print.css" media="print">
   <script type="module" src="js/main.js"></script>
 </head>
@@ -54,7 +57,7 @@
       <span>*** Welcome to my Home Page!!! *** You are visiting in 1997 *** Sign my guestbook before you go *** This page is Y2K compliant ***</span>
     </div>
     <div class="orn construction" data-orn="1997" aria-hidden="true"><span>!! UNDER CONSTRUCTION !!</span></div>
-    <p class="orn hud" data-orn="2028" aria-hidden="true">
+    <p class="orn hud" data-orn="2026" aria-hidden="true">
       <span>11.05°N 76.07°E</span><span>Malappuram node</span><span class="hud__live">Link stable</span>
     </p>
     <p class="orn pill" data-orn="2023" aria-hidden="true">✦ Now with 100% more gradients</p>
@@ -80,7 +83,7 @@
         in everything I ship.
       </p>
 
-      <div class="orn intent" data-orn="2028">
+      <div class="orn intent" data-orn="2026">
         <p class="intent__q" id="intent-q">What brings you here?</p>
         <div class="intent__options" role="group" aria-labelledby="intent-q">
           <button type="button" class="intent__btn" data-intent-pick="hire" aria-pressed="false">I'm hiring</button>
@@ -108,6 +111,7 @@
         </ul>
       </nav>
       <span class="orn scroll-cue" data-orn="2013" aria-hidden="true"></span>
+      <span class="orn fly-cue" data-orn="2030" aria-hidden="true">Scroll to fly</span>
     </div>
   </header>
 
@@ -156,6 +160,7 @@
               <p class="status">Frozen in October 2026 as the reference specification for its rebuild. The client's code is private.</p>
             </div>
           </div>
+          <div class="orn orb" data-orn="2030" data-orb="machine" aria-hidden="true"></div>
         </article>
 
         <article class="project" id="word-hunt" data-anchor data-for="hire explore">
@@ -195,6 +200,7 @@
               <p class="status">Free hosting sleeps, so the first load can take a minute.</p>
             </div>
           </div>
+          <div class="orn orb" data-orn="2030" data-orb="letters" aria-hidden="true"></div>
         </article>
 
         <article class="project" id="therapist" data-anchor data-for="explore hire">
@@ -234,6 +240,7 @@
               </p>
             </div>
           </div>
+          <div class="orn orb" data-orn="2030" data-orb="breath" aria-hidden="true"></div>
         </article>
 
         <article class="project" id="catering" data-anchor data-for="build">
@@ -269,6 +276,7 @@
               <p class="status">Build pending the client's budget.</p>
             </div>
           </div>
+          <div class="orn orb" data-orn="2030" data-orb="party" aria-hidden="true"></div>
         </article>
       </div>
     </section>
@@ -385,29 +393,30 @@
       <a href="?y=1992" data-jump="-1">&lt;&lt; Prev</a> | Time Travel Webring | <a href="?y=2001" data-jump="1">Next &gt;&gt;</a>
     </p>
     <p class="orn badges" data-orn="2007" aria-hidden="true"><span>Python powered</span><span>Made with Django</span><span>Web 2.0</span></p>
-    <p class="footer__copy">© <span data-year-text>2028</span> Mohammed Irshad C</p>
-    <p class="footer__built">One HTML document. Seven eras. Each era is only a stylesheet.</p>
+    <p class="footer__copy">© <span data-year-text>2026</span> Mohammed Irshad C</p>
+    <p class="footer__built">One HTML document. Eight eras. Each era is a stylesheet.</p>
     <p class="orn bestviewed" data-orn="1997" aria-hidden="true">Best viewed with Netscape Navigator 3.0 at 800 x 600</p>
     <p class="orn flashnote" data-orn="2001" aria-hidden="true">Best viewed at 800 x 600 with your speakers on</p>
   </footer>
 
   <aside class="timemachine" id="timemachine" aria-label="Time machine">
     <div class="tm__readout">
-      <output class="tm__year" for="tm-range" aria-hidden="true">2028</output>
+      <output class="tm__year" for="tm-range" aria-hidden="true">2026</output>
       <div class="tm__era">
-        <p class="tm__era-name">The next interface</p>
+        <p class="tm__era-name">Depth and intent</p>
         <p class="tm__note"></p>
       </div>
+      <p class="orn tm__plan" data-orn="2030" aria-hidden="true"><span class="tm__plan-tier">Pro</span> <span class="tm__plan-left">0:30 left</span></p>
     </div>
     <div class="tm__control">
       <button type="button" class="tm__step" data-step="-1" aria-label="Previous era"><span aria-hidden="true">&#8249;</span></button>
       <div class="tm__track">
-        <input class="tm__range" id="tm-range" type="range" min="1992" max="2028" step="1" value="2028" aria-label="Travel to year">
+        <input class="tm__range" id="tm-range" type="range" min="1992" max="2030" step="1" value="2026" aria-label="Travel to year">
         <ol class="tm__ticks"></ol>
       </div>
       <button type="button" class="tm__step" data-step="1" aria-label="Next era"><span aria-hidden="true">&#8250;</span></button>
     </div>
-    <p class="tm__hint" aria-hidden="true">Drag to travel back in time</p>
+    <p class="tm__hint" aria-hidden="true">Drag back to 1992, or ahead to 2030</p>
     <p class="orn tm__lmb" data-orn="1992" aria-hidden="true">Type a link number and press Return: <span class="tm__lmb-input"></span><span class="tm__lmb-cursor">_</span></p>
     <p class="sr-only tm__live" aria-live="polite"></p>
   </aside>
@@ -423,6 +432,21 @@
       <button type="button" class="intro__enter" data-intro-close>Enter site &gt;&gt;</button>
     </div>
     <button type="button" class="intro__skip" data-intro-close autofocus>Skip intro &gt;&gt;</button>
+  </dialog>
+
+  <!-- 2030 only: the time machine's plan runs out. js/eras/2030.js fills and opens it. -->
+  <dialog class="limit" id="limit" aria-labelledby="limit-title" aria-describedby="limit-body">
+    <div class="limit__card">
+      <p class="limit__eyebrow">Time machine · <span class="limit__plan">Pro plan</span></p>
+      <h2 class="limit__title" id="limit-title">Token limit reached</h2>
+      <p class="limit__body" id="limit-body"></p>
+      <div class="limit__meter" aria-hidden="true"><span></span></div>
+      <div class="limit__actions">
+        <button type="button" class="limit__upgrade" data-limit="upgrade" autofocus>Upgrade</button>
+        <button type="button" class="limit__back" data-limit="back">Back to 2026</button>
+      </div>
+      <p class="limit__fine"></p>
+    </div>
   </dialog>
 </body>
 </html>

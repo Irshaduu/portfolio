@@ -36,6 +36,8 @@
   .masthead, main, .footer { position: relative; z-index: 1; }
 
   .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  /* 2030's WebGL canvas lives in the backdrop; only 2030 shows it. */
+  .stage { display: none; }
 
   /* The static burst while scrubbing between eras. */
   .warp {
@@ -63,12 +65,11 @@
   .tm__ticks { position: relative; height: 1.4rem; margin-inline: calc(var(--thumb, 16px) / 2); }
   .tm__ticks li { position: absolute; top: 0; left: var(--pos); transform: translateX(-50%); }
   .tm__ticks button { background: none; border: 0; padding: 2px 4px; line-height: 1.2; }
-  /* Close milestones (1997, 2001) need short labels on a phone-width track. */
+  /* Close milestones need shorter labels on a narrow track; js/timemachine.js measures. */
   .tm__tick-short { display: none; }
-  @media (max-width: 560px) {
-    .tm__tick-long { display: none; }
-    .tm__tick-short { display: inline; }
-  }
+  .tm__ticks:is([data-size="short"], [data-size="tiny"]) .tm__tick-long { display: none; }
+  .tm__ticks:is([data-size="short"], [data-size="tiny"]) .tm__tick-short { display: inline; }
+  .tm__ticks[data-size="tiny"] .tm__tick-apos { display: none; }
   [data-traveled] .tm__hint { display: none; }
 
   /* ---- time-aware content ---- */

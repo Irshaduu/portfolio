@@ -1,4 +1,4 @@
-// 2028: light that follows the pointer, panels that tilt toward it, and intent: tell the
+// 2026: light that follows the pointer, panels that tilt toward it, and intent: tell the
 // page why you came and it leans toward what matters to you.
 
 const HINTS = {
@@ -79,7 +79,7 @@ function intent(root) {
   };
   for (const b of buttons) b.addEventListener('click', onClick);
 
-  // Intent is a 2028 idea; other eras never see it.
+  // Intent is a 2026 idea; other eras never see it.
   onLeave(() => {
     for (const b of buttons) b.removeEventListener('click', onClick);
     set(null);

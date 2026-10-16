@@ -1,8 +1,9 @@
 # Irshad · Time Travel portfolio
 
-One portfolio, seven eras of the web. A time machine fixed to the bottom of the page scrubs
-from **2028** back to **1992**, and the whole site changes its look, type, layout and
-behaviour to match each era. The content never changes. Only the clothes do.
+One portfolio, eight eras of the web. A time machine fixed to the bottom of the page opens on
+**2026**, today. Drag it back to **1992** or ahead to **2030**, and the whole site changes its
+look, type, layout and behaviour to match each era. The content never changes. Only the
+clothes do.
 
 ```bash
 node tools/serve.mjs
@@ -19,7 +20,8 @@ Share an era with a link: `?y=1997`.
 
 | Era | Name | What it looks like | What it does |
 |---|---|---|---|
-| **2028** | The next interface | Glass panels floating over a dot floor, light that follows the pointer | Panels tilt toward you; **intent**: tell it why you came and it dims what you didn't come for |
+| **2030** | The page becomes a place | Deep space, drawn live in WebGL: the name in thousands of points of light, a starfield, and an object beside each project built from that project's own numbers | Scroll to fly; the name parts around your pointer or finger and flows back; the time machine has a **token limit** |
+| **2026** | Depth and intent | Glass panels floating over a dot floor, light that follows the pointer | Panels tilt toward you; **intent**: tell it why you came and it dims what you didn't come for |
 | **2023** | The template era | Dark mode, purple blobs, grid lines, bento cards, gradient text | Nothing. That's the joke: it looks like everyone's portfolio |
 | **2013** | Flat | Turquoise band, thin uppercase Lato, a 40-step long shadow, flat circles | Ghost buttons, coloured tiles |
 | **2007** | Web 2.0 | Glossy blue header, reflected lowercase wordmark, `beta`, a starburst, tag cloud | Glossy tabs, 80×15 badges |
@@ -63,7 +65,7 @@ every other era is dressed over.
 - `reset`: a small modern reset.
 - `base`: shared mechanics only: the time machine's skeleton, the hidden ornaments, the
   view transitions, reduced motion.
-- `era`: the seven eras. A later layer always wins, whatever the selectors, so an era never
+- `era`: the eight eras. A later layer always wins, whatever the selectors, so an era never
   needs `!important` to beat the base.
 
 `print.css` is unlayered, so it beats everything: printing sends you back to 1992.
@@ -95,10 +97,10 @@ the intent buttons, the webring) are real buttons and links.
 
 ### Era behaviour
 
-`js/eras/1992.js`, `1997.js`, `2001.js` and `2028.js` each export `enter()` and `leave()`. Only the
-current era's module is loaded (dynamic `import()`) and running; leaving an era removes its
-listeners, its sparkles, its music, its intro and its pointer tracking. 2007, 2013 and 2023 need no
-JavaScript at all.
+`js/eras/1992.js`, `1997.js`, `2001.js`, `2026.js` and `2030.js` each export `enter()` and `leave()`.
+Only the current era's module is loaded (dynamic `import()`) and running; leaving an era removes its
+listeners, its sparkles, its music, its intro, its pointer tracking and its render loop. 2007, 2013
+and 2023 need no JavaScript at all.
 
 ### The 2001 intro
 
@@ -115,11 +117,42 @@ The Skip Intro screen is a native `<dialog>` opened with `showModal()`, so focus
 - With reduced motion it never plays on its own; Replay shows it still, waiting for Enter.
 - Sound is **off** until you switch it on. Then every rollover blips, as every Flash site did.
 
+### The 2030 scene
+
+2030 is the one era that paints with WebGL2 (`js/eras/2030/scene.js`, no libraries). One canvas
+sits behind the page, and the text stays real HTML on top of it.
+
+- **The name** is drawn into an offscreen canvas exactly where the page lays it out, then
+  sampled into up to 11,000 points. They fly in from deep space on arrival, and springs pull
+  each one home. A pointer or a finger pushes them aside and drags them along; they flow back.
+  The heading's text is still there, invisible, for reading, search and screen readers.
+- **The starfield** moves with the scroll position, so scrolling is flying. Fast scrolling
+  stretches the stars into streaks.
+- **Each project has an object**, built from its own numbers (`js/eras/2030/shapes.js`):
+  - WorkshopOS: 21 rings for its 21 rule modules, 72 beads for its 72 transaction blocks, and 49 core points for its 49 models.
+  - Word Hunt: 71 letters on a sphere, one secret one glowing, and 10 players circling it.
+  - Therapist: a shape that breathes, with a shell for each of its 2 languages, counting its 10-second hold.
+  - Catering: 10 orbits for its 10 roles, and 24 beads for its 24 modules.
+
+  The CSS decides where each object goes, through an empty `.orb` element in each project. The
+  scene draws the object wherever that element is, so layout stays in CSS.
+- **Cost:** the module loads only when you travel to 2030. It stops when the tab is hidden or you
+  leave 2030. Phones and low-core devices get fewer points, and a device that falls under
+  25 fps gets fewer pixels. The canvas and its GPU buffers are made once and reused.
+- **Without WebGL2**, the page shows the name in gradient type and a soft glow where each
+  object would be. With reduced motion there is no arrival and no physics, and the scene is
+  redrawn only when you scroll.
+
+**The token limit.** In 2030 even time travel has a plan. A readout in the time machine counts
+down the 30 seconds that come with Pro. When they run out, a popup offers Max (₹0) for 5 whole
+minutes, then Max 20x. The count runs only while the tab is visible, and each popup shows once
+per visit. Escape, the backdrop, or either button closes it.
+
 ### The first paint
 
 A small inline script in `<head>` reads `?y=` and sets `data-era` before the page paints,
-so a shared 1997 link never flashes 2028 first. Without JavaScript the page is fully readable
-in 2028 and the time machine is hidden.
+so a shared 1997 link never flashes 2026 first. Without JavaScript the page is fully readable
+in 2026 and the time machine is hidden.
 
 ---
 
@@ -135,7 +168,9 @@ js/eras.js            the eras: years, names, notes, fonts, favicons, titles
 js/time.js            year-dependent content: tools that exist yet, "N years from now"
 js/transition.js      view transitions, scrub static, keeping the reading position
 js/timemachine.js     the slider and its buttons
-js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound, 2028 light/tilt/intent
+js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
+                      2026 light/tilt/intent, 2030 scene and token limit
+js/eras/2030/         the WebGL scene (scene.js) and the shapes built from project numbers (shapes.js)
 tools/serve.mjs       zero-dependency local server
 assets/               resume PDF
 ```
@@ -150,15 +185,19 @@ assets/               resume PDF
 
 ## Keyboard
 
-- Arrow keys on the slider move one year; Home and End jump to 1992 and 2028.
+- Arrow keys on the slider move one year; Home and End jump to 1992 and 2030.
 - `[` and `]` step one era from anywhere.
 - In 1992, type a link's number and press Return.
 
 ## Performance and accessibility
 
-- No images, no framework, no build. Era scenery is CSS gradients.
-- Unminified, uncompressed: 24 KB of HTML, 107 KB of CSS for all seven eras, 32 KB of JavaScript. Only the current era's JavaScript module runs.
+- No images, no framework, no build. Era scenery is CSS gradients, except 2030's, which is
+  drawn by code.
+- Unminified, uncompressed: 27 KB of HTML, 135 KB of CSS for all eight eras, 72 KB of JavaScript,
+  of which 38 KB is the 2030 scene. Only the current era's JavaScript module runs.
+- The slider's year labels shorten (2026, then '26, then 26) only when they would touch at
+  the current width in the current era's type.
 - The slider is a native `<input type="range">` with `aria-valuetext` ("1997, The homepage
   years"); era changes are announced through a polite live region.
 - `prefers-reduced-motion` turns off view transitions, the static burst, the marquee, blinking,
-  sparkles, tilt, drifting blobs and scroll-driven motion.
+  sparkles, tilt, drifting blobs, scroll-driven motion and the 2030 arrival and physics.

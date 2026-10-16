@@ -16,9 +16,27 @@ export function mountTimeMachine(el, { eras, min, max, onYear, onStep }) {
     .map(
       (e) =>
         `<li style="--pos:${pct(e.from)}%"><button type="button" data-year="${e.from}" aria-label="Travel to ${e.from}, ${e.name}">` +
-        `<span class="tm__tick-long">${e.from}</span><span class="tm__tick-short">'${String(e.from).slice(2)}</span></button></li>`,
+        `<span class="tm__tick-long">${e.from}</span>` +
+        `<span class="tm__tick-short"><span class="tm__tick-apos">'</span>${String(e.from).slice(2)}</span></button></li>`,
     )
     .join('');
+
+  // Milestones three years apart collide on a narrow track. Use the longest labels that
+  // fit this era's type at this width: 2026, then '26, then 26.
+  const fitTicks = () => {
+    for (const size of ['long', 'short', 'tiny']) {
+      ticks.dataset.size = size;
+      const label = size === 'long' ? '.tm__tick-long' : '.tm__tick-short';
+      const boxes = [...ticks.querySelectorAll(label)].map((el) => el.getBoundingClientRect());
+      const clear = boxes.every((b, i) => {
+        const prev = boxes[i - 1];
+        return !prev || b.top >= prev.bottom || b.left >= prev.right + 4; // a wrapped row is fine
+      });
+      if (clear) return;
+    }
+  };
+  new ResizeObserver(fitTicks).observe(ticks);
+  document.fonts?.addEventListener('loadingdone', fitTicks);
 
   // A pointer on the thumb means scrubbing: many eras per second, no transitions.
   let scrubbing = false;
@@ -71,6 +89,7 @@ export function mountTimeMachine(el, { eras, min, max, onYear, onStep }) {
         }
         if (lastEra) live.textContent = `${era.from}: ${era.name}`;
         lastEra = era;
+        fitTicks(); // every era sets its own type
       }
     },
   };

@@ -1,7 +1,7 @@
-/* 2028 — The next interface. Depth, light and intent. The default era. */
+/* 2026 — Depth and intent. Light, depth and a page that leans toward why you came. The default era. */
 
 @layer era {
-  :root[data-era="2028"] {
+  :root[data-era="2026"] {
     --bg: #04050a;
     --ink: #e9edf6;
     --ink-2: #a3acc0;
@@ -19,7 +19,7 @@
     color-scheme: dark;
     scroll-behavior: smooth;
 
-    & :where(.orn[data-orn~="2028"]) { display: revert; }
+    & :where(.orn[data-orn~="2026"]) { display: revert; }
 
     & body {
       background: var(--bg);
@@ -68,7 +68,7 @@
     & .hud__live::before {
       content: ""; display: inline-block; width: 6px; height: 6px; margin-right: .6em; vertical-align: .1em;
       border-radius: 50%; background: var(--c1); box-shadow: 0 0 10px var(--c1);
-      animation: tt28-pulse 2.4s ease-in-out infinite;
+      animation: tt26-pulse 2.4s ease-in-out infinite;
     }
     & .masthead__inner { margin-block: auto; padding-top: clamp(2.5rem, 10vh, 7rem); display: grid; gap: 1.6rem; }
     & .kicker {
@@ -331,7 +331,7 @@
     & .tm__hint {
       grid-column: 1 / -1; text-align: center; margin-top: -.15rem;
       font: 500 .6rem/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--c3);
-      animation: tt28-pulse 2.4s ease-in-out infinite;
+      animation: tt26-pulse 2.4s ease-in-out infinite;
     }
 
     /* ---- small screens ---- */
@@ -359,7 +359,7 @@
     @supports (animation-timeline: view()) {
       @media (prefers-reduced-motion: no-preference) {
         & :is(.project, .stack__group, .moment) {
-          animation: tt28-rise linear both;
+          animation: tt26-rise linear both;
           animation-timeline: view();
           animation-range: entry 0% entry 45%;
         }
@@ -371,7 +371,7 @@
     }
   }
 
-  @keyframes tt28-pulse { 50% { opacity: .35; } }
+  @keyframes tt26-pulse { 50% { opacity: .35; } }
   /* No opacity here: intent owns opacity, and a filled animation would override it. */
-  @keyframes tt28-rise { from { translate: 0 56px; scale: .955; } to { translate: 0 0; scale: 1; } }
+  @keyframes tt26-rise { from { translate: 0 56px; scale: .955; } to { translate: 0 0; scale: 1; } }
 }
