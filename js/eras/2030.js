@@ -1,11 +1,15 @@
-// 2030: the page becomes a place. The WebGL scene behind the page lives in 2030/scene.js;
-// this file runs it, and runs the time machine's plan. In 2030 even time travel has a
-// token limit.
+// 2030: the page becomes a place. This file starts and stops its parts:
+//   2030/scene.js          the WebGL scene behind the page
+//   2030/constellation.js  the Stack as a night sky
+//   2030/sky.js            a sky that follows the visitor's clock
+// and runs the time machine's plan itself. In 2030 even time travel has a token limit.
 //
 // The plan counts seconds you actually spend in 2030 (not in a hidden tab). Each limit
 // pops up once per visit; Escape, the backdrop, or either button closes it.
 
 import { startScene, stopScene, boost } from './2030/scene.js';
+import { startConstellation, stopConstellation } from './2030/constellation.js';
+import { startSky, stopSky } from './2030/sky.js';
 
 const KEY = 'tt-plan-2030';
 
@@ -172,11 +176,15 @@ export function enter(ctx) {
   lastTick = performance.now();
   timer = setInterval(tick, 250);
   startScene(ctx);
+  startSky();
+  startConstellation();
 }
 
 export function leave() {
   clearInterval(timer);
   closeLimit();
+  stopConstellation();
+  stopSky();
   stopScene();
   ctxRef = null;
 }

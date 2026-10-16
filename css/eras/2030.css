@@ -38,9 +38,18 @@
     & a:hover { text-decoration-color: currentColor; }
     & :focus-visible { outline: 2px solid var(--ice); outline-offset: 3px; border-radius: 8px; }
 
-    /* ---- deep space; the canvas paints its light on top ---- */
+    /* ---- deep space; the canvas paints its light on top ----
+       The sky follows the visitor's clock (js/eras/2030/sky.js sets these): a horizon glow at
+       sunrise and sunset, daylight blue at noon. Before the script runs, it is night. */
+    --sky-dawn: 0;
+    --sky-day: 0;
+    --sky-x: 20%;
     & .backdrop {
       background:
+        radial-gradient(75% 45% at var(--sky-x) 112%, rgb(255 132 88 / calc(var(--sky-dawn) * .5)), transparent 70%),
+        radial-gradient(45% 26% at var(--sky-x) 104%, rgb(255 206 140 / calc(var(--sky-dawn) * .32)), transparent 70%),
+        linear-gradient(180deg, rgb(38 92 168 / calc(var(--sky-day) * .36)), rgb(20 54 100 / calc(var(--sky-day) * .14)) 60%, transparent),
+        radial-gradient(32% 28% at 84% 6%, rgb(255 244 214 / calc(var(--sky-day) * .16)), transparent 70%),
         radial-gradient(55% 45% at 80% 10%, rgb(96 70 190 / .2), transparent 70%),
         radial-gradient(45% 40% at 10% 80%, rgb(20 130 150 / .14), transparent 70%),
         radial-gradient(90% 60% at 50% 118%, rgb(255 170 100 / .07), transparent 70%),
@@ -58,6 +67,23 @@
       display: flex; flex-direction: column;
     }
     & .masthead__inner { margin-block: auto; display: grid; gap: 1.7rem; justify-items: start; }
+
+    /* Your sky: the local time, the part of the day, and a button that plays a whole day. */
+    & .sky-clock {
+      align-self: flex-start; display: inline-flex; flex-wrap: wrap; align-items: center; gap: .45rem .9rem;
+      padding: .5rem .85rem; border-radius: 999px; border: 1px solid var(--line-2);
+      background: rgb(255 255 255 / .02); color: var(--ink-2);
+      font: 500 .64rem/1 var(--mono); letter-spacing: .16em; text-transform: uppercase;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      transition: border-color .25s, box-shadow .25s;
+    }
+    & .sky-clock:hover { border-color: var(--gold); box-shadow: 0 0 24px -6px rgb(255 210 138 / .6); }
+    & .sky-clock__label { color: var(--ink-3); }
+    & .sky-clock__time { color: var(--ink); font-variant-numeric: tabular-nums; }
+    & .sky-clock__phase { color: var(--gold); }
+    & .sky-clock__play { color: var(--ice); }
+    & .sky-clock__play::before { content: "\25B6\00a0"; font-size: .85em; }
+    & .sky-clock[data-playing] .sky-clock__play { opacity: .4; }
     & .kicker {
       display: flex; align-items: center; gap: .9em;
       font: 500 .72rem/1 var(--mono); letter-spacing: .3em; text-transform: uppercase; color: var(--ink-2);
@@ -113,9 +139,10 @@
     }
 
     /* The page comes up after the name has started to form. */
-    &[data-arriving] :is(.kicker, .role, .lede, .facts, .nav, .fly-cue) {
+    &[data-arriving] :is(.sky-clock, .kicker, .role, .lede, .facts, .nav, .fly-cue) {
       animation: tt30-arrive 1.1s cubic-bezier(.2, .8, .2, 1) both;
     }
+    &[data-arriving] .sky-clock { animation-delay: .35s; }
     &[data-arriving] .kicker { animation-delay: .5s; }
     &[data-arriving] .role { animation-delay: .95s; }
     &[data-arriving] .lede { animation-delay: 1.1s; }
@@ -236,20 +263,99 @@
       background: var(--gold); box-shadow: 0 0 8px var(--gold);
     }
 
-    /* ---- stack ---- */
-    & .stack__clock { margin-bottom: .75rem; font: 500 .78rem/1.55 var(--mono); letter-spacing: .04em; color: var(--mint); }
-    & .stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 1rem; }
-    & .stack__group {
-      display: grid; align-content: start; gap: 1rem; padding: 1.4rem;
-      border-radius: 24px; border: 1px solid var(--line); background: var(--glass);
-      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    /* ---- stack: a night sky. Tools are stars; each project is a constellation, drawn by
+       js/eras/2030/constellation.js as SVG lines between the stars' dots. ---- */
+    & .stack__clock { margin-bottom: .25rem; font: 500 .78rem/1.55 var(--mono); letter-spacing: .04em; color: var(--mint); }
+    & .sky { display: grid; gap: .8rem; margin-bottom: 1.5rem; }
+    & .sky__hint { font-size: .95rem; color: var(--ink-2); }
+    & .sky__legend { display: flex; flex-wrap: wrap; gap: .5rem; }
+    & .sky__legend button {
+      display: inline-flex; align-items: center; gap: .55em; padding: .5rem .9rem; border-radius: 999px;
+      border: 1px solid var(--line-2); background: transparent; color: var(--ink-2);
+      font: 500 .7rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+      transition: color .25s, border-color .25s, box-shadow .25s;
     }
-    & .stack__group h3 { font: 500 .66rem/1 var(--mono); letter-spacing: .24em; text-transform: uppercase; color: var(--ink-3); }
-    & .chips { display: flex; flex-wrap: wrap; gap: .45rem; }
-    & .chip { padding: .45rem .85rem; border-radius: 999px; border: 1px solid var(--line); background: rgb(255 255 255 / .025); font-size: .9rem; }
-    & .chip[data-w="3"] { border-color: rgb(255 210 138 / .5); box-shadow: 0 0 18px -6px var(--gold); }
-    & .chip[data-w="2"] { border-color: rgb(159 232 255 / .3); }
-    & .chip:not([data-since]) { border-style: dashed; color: var(--ink-2); }
+    & .sky__legend button::before { content: ""; width: 14px; height: 1px; background: var(--c, var(--ice)); box-shadow: 0 0 6px var(--c, var(--ice)); }
+    & .sky__legend button:hover { color: var(--ink); border-color: var(--c); }
+    & .sky__legend button[aria-pressed="true"] { color: var(--ink); border-color: var(--c); box-shadow: 0 0 22px -4px var(--c); }
+    & .sky__caption { min-height: 1.6em; font-size: .95rem; color: var(--ink); }
+    & .sky__caption a { white-space: nowrap; }
+
+    & [data-sky-project="workshopos"], & .sky-line[data-project="workshopos"] { --c: var(--gold); }
+    & [data-sky-project="word-hunt"], & .sky-line[data-project="word-hunt"] { --c: var(--ice); }
+    & [data-sky-project="therapist"], & .sky-line[data-project="therapist"] { --c: var(--mint); }
+    & [data-sky-project="catering"], & .sky-line[data-project="catering"] { --c: var(--rose); }
+
+    & .stack {
+      position: relative; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+      gap: 2.2rem 1.5rem; padding-block: 1rem;
+    }
+    & .sky-lines { display: block; position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    & .sky-line {
+      fill: none; stroke: var(--c); stroke-width: 1.1; stroke-linecap: round; opacity: .6;
+      stroke-dasharray: 1; stroke-dashoffset: 1;
+      transition: stroke-dashoffset 2.6s cubic-bezier(.4, 0, .2, 1), opacity .35s, stroke-width .35s;
+    }
+    & .sky-line[data-project="word-hunt"] { transition-delay: .25s, 0s, 0s; }
+    & .sky-line[data-project="therapist"] { transition-delay: .5s, 0s, 0s; }
+    & .sky-line[data-project="catering"] { transition-delay: .75s, 0s, 0s; }
+    & .sky-lines.is-drawn .sky-line { stroke-dashoffset: 0; }
+
+    & .stack__group { position: relative; z-index: 1; display: grid; align-content: start; gap: 1rem; }
+    & .stack__group h3 {
+      display: flex; align-items: center; gap: .7em;
+      font: 500 .62rem/1 var(--mono); letter-spacing: .26em; text-transform: uppercase; color: var(--ink-3);
+    }
+    & .stack__group h3::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, var(--line-2), transparent); }
+    & .chips { display: flex; flex-wrap: wrap; gap: .9rem 1.1rem; }
+    /* A chip is a star and its name. Brighter stars for the tools I use most. */
+    & .chip {
+      --star: 5px;
+      display: inline-flex; align-items: center; gap: .55em; padding: .2rem .1rem;
+      font-size: .86rem; color: var(--ink-2); cursor: pointer;
+      transition: opacity .3s, color .3s;
+    }
+    & .chip[data-w="2"] { --star: 7px; font-size: .95rem; color: var(--ink); }
+    & .chip[data-w="3"] { --star: 10px; font-size: 1.08rem; color: var(--ink); }
+    & .chip::before {
+      content: ""; flex: none; width: var(--star); height: var(--star); border-radius: 50%;
+      background: #fff; box-shadow: 0 0 calc(var(--star) * 1.4) rgb(159 232 255 / .9), 0 0 calc(var(--star) * 3) rgb(159 232 255 / .35);
+      animation: tt30-twinkle 3.4s ease-in-out infinite;
+    }
+    & .chip[data-w="3"]::before { box-shadow: 0 0 14px rgb(255 210 138 / .95), 0 0 34px rgb(255 210 138 / .4); }
+    /* Practices are not tools, so they are hollow stars. */
+    & .chip:not([data-since]) { font-style: italic; color: var(--ink-2); }
+    & .chip:not([data-since])::before { background: transparent; border: 1px solid var(--ice); }
+    /* Scattered, not listed. */
+    & .chip:nth-child(3n + 1) { translate: 0 -6px; }
+    & .chip:nth-child(3n + 2) { translate: 0 5px; }
+    & .chip:nth-child(4n) { margin-left: .6rem; }
+    & .chip:nth-child(2n)::before { animation-delay: -1.2s; }
+    & .chip:nth-child(3n)::before { animation-delay: -2.3s; }
+    & .chip:nth-child(5n)::before { animation-delay: -.6s; animation-duration: 4.4s; }
+    & .chip:hover, & .chip[data-pinned] { color: #fff; }
+
+    /* Lit: the chosen projects' stars and lines shine, everything else fades back. */
+    & .stack[data-lit] .chip { opacity: .3; }
+    & .stack[data-lit] .sky-line { opacity: .1; }
+    & .stack[data-lit~="workshopos"] .chip[data-in~="workshopos"],
+    & .stack[data-lit~="word-hunt"] .chip[data-in~="word-hunt"],
+    & .stack[data-lit~="therapist"] .chip[data-in~="therapist"],
+    & .stack[data-lit~="catering"] .chip[data-in~="catering"] { opacity: 1; }
+    & .stack[data-lit~="workshopos"] .sky-line[data-project="workshopos"],
+    & .stack[data-lit~="word-hunt"] .sky-line[data-project="word-hunt"],
+    & .stack[data-lit~="therapist"] .sky-line[data-project="therapist"],
+    & .stack[data-lit~="catering"] .sky-line[data-project="catering"] {
+      opacity: 1; stroke-width: 1.6; filter: drop-shadow(0 0 4px var(--c));
+    }
+    /* …and so do their cards up in Work, for whoever follows the link. */
+    &[data-lit~="workshopos"] #workshopos::before,
+    &[data-lit~="word-hunt"] #word-hunt::before,
+    &[data-lit~="therapist"] #therapist::before,
+    &[data-lit~="catering"] #catering::before {
+      border-color: rgb(255 210 138 / .55);
+      box-shadow: 0 0 0 1px rgb(255 210 138 / .2), 0 0 80px -20px rgb(255 210 138 / .5), inset 0 1px 0 rgb(255 255 255 / .07);
+    }
 
     /* ---- story: the flight log ---- */
     & .timeline { display: grid; border-top: 1px solid var(--line); }
@@ -423,7 +529,7 @@
     /* Panels come out of the dark as they scroll in, where the browser can tie it to scroll. */
     @supports (animation-timeline: view()) {
       @media (prefers-reduced-motion: no-preference) {
-        & :is(.stack__group, .moment) {
+        & .moment { /* not the Stack: its stars must hold still for the lines */
           animation: tt30-emerge linear both;
           animation-timeline: view();
           animation-range: entry 0% entry 55%;
@@ -433,7 +539,8 @@
     @media (prefers-reduced-motion: reduce) {
       & .fly-cue::before, & .tm__plan[data-low]::before, & .tm__plan[data-flash] { animation: none; }
       & .limit[open], & .limit__meter span { animation: none; }
-      & .moment::before { transition: none; }
+      & .moment::before, & .sky-line { transition: none; }
+      & .chip::before { animation: none; }
     }
   }
 
@@ -453,5 +560,6 @@
   }
   @keyframes tt30-sheet { from { opacity: 0; translate: 0 48px; scale: .95; } to { opacity: 1; translate: 0 0; scale: 1; } }
   @keyframes tt30-meter { from { width: 0; } }
+  @keyframes tt30-twinkle { 50% { opacity: .45; scale: .8; } }
   @keyframes tt30-emerge { from { opacity: 0; scale: .94; filter: blur(8px); } to { opacity: 1; scale: 1; filter: none; } }
 }

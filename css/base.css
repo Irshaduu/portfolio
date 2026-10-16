@@ -36,8 +36,9 @@
   .masthead, main, .footer { position: relative; z-index: 1; }
 
   .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-  /* 2030's WebGL canvas lives in the backdrop; only 2030 shows it. */
-  .stage { display: none; }
+  /* 2030's WebGL canvas lives in the backdrop, and its constellation lines in the Stack.
+     Only 2030 shows them, so they never flash in another era while 2030 cleans up. */
+  .stage, .sky-lines { display: none; }
 
   /* The static burst while scrubbing between eras. */
   .warp {

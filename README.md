@@ -20,7 +20,7 @@ Share an era with a link: `?y=1997`.
 
 | Era | Name | What it looks like | What it does |
 |---|---|---|---|
-| **2030** | The page becomes a place | Deep space, drawn live in WebGL: the name in thousands of points of light, a starfield, and an object beside each project built from that project's own numbers | Scroll to fly; the name parts around your pointer or finger and flows back; the time machine has a **token limit** |
+| **2030** | The page becomes a place | Deep space, drawn live in WebGL: the name in thousands of points of light, a starfield, an object beside each project built from that project's own numbers, and the Stack as a night sky | Scroll to fly; the name parts around your pointer or finger and flows back; each project is a constellation you can light; the sky follows your clock; the time machine has a **token limit** |
 | **2026** | Depth and intent | Glass panels floating over a dot floor, light that follows the pointer | Panels tilt toward you; **intent**: tell it why you came and it dims what you didn't come for |
 | **2023** | The template era | Dark mode, purple blobs, grid lines, bento cards, gradient text | Nothing. That's the joke: it looks like everyone's portfolio |
 | **2013** | Flat | Turquoise band, thin uppercase Lato, a 40-step long shadow, flat circles | Ghost buttons, coloured tiles |
@@ -143,6 +143,18 @@ sits behind the page, and the text stays real HTML on top of it.
   object would be. With reduced motion there is no arrival and no physics, and the scene is
   redrawn only when you scroll.
 
+**The Stack is a night sky** (`js/eras/2030/constellation.js`). Every tool is a star, brighter
+for the tools I use most, and every project is a constellation. Each chip's `data-in` lists the
+projects it was used in, and the script joins each project's stars with the shortest set of
+lines that connects them all (a minimum spanning tree, drawn as SVG). Python is in all four, so
+they all meet there. Hover or touch a star to light every project that uses it, and tap to
+keep it lit. The legend buttons light one project and work from the keyboard. The lit
+projects' cards glow up in Work, for whoever follows the link in the caption.
+
+**The sky follows your clock** (`js/eras/2030/sky.js`): a sunrise low on the left in the
+morning, daylight blue at noon with fewer stars, a sunset on the right in the evening, and deep
+space at night. **Play a day**, at the top of the page, runs all 24 hours in nine seconds.
+
 **The token limit.** In 2030 even time travel has a plan. A readout in the time machine counts
 down the 30 seconds that come with Pro. When they run out, a popup offers Max (₹0) for 5 whole
 minutes, then Max 20x. The count runs only while the tab is visible, and each popup shows once
@@ -170,7 +182,8 @@ js/transition.js      view transitions, scrub static, keeping the reading positi
 js/timemachine.js     the slider and its buttons
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
                       2026 light/tilt/intent, 2030 scene and token limit
-js/eras/2030/         the WebGL scene (scene.js) and the shapes built from project numbers (shapes.js)
+js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
+                      the Stack constellation (constellation.js), the sky clock (sky.js)
 tools/serve.mjs       zero-dependency local server
 assets/               resume PDF
 ```
@@ -193,8 +206,8 @@ assets/               resume PDF
 
 - No images, no framework, no build. Era scenery is CSS gradients, except 2030's, which is
   drawn by code.
-- Unminified, uncompressed: 27 KB of HTML, 135 KB of CSS for all eight eras, 72 KB of JavaScript,
-  of which 38 KB is the 2030 scene. Only the current era's JavaScript module runs.
+- Unminified, uncompressed: 29 KB of HTML, 142 KB of CSS for all eight eras, 82 KB of JavaScript,
+  of which 48 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only when they would touch at
   the current width in the current era's type.
 - The slider is a native `<input type="range">` with `aria-valuetext` ("1997, The homepage

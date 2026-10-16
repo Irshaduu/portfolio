@@ -51,7 +51,7 @@ const STAR_VS = `#version 300 es
 precision highp float;
 layout(location = 0) in vec4 aStar;
 layout(location = 1) in float aEnd;
-uniform float uDpr, uCam, uStreak, uTime, uLine;
+uniform float uDpr, uCam, uStreak, uTime, uLine, uLight;
 out vec4 vColor;
 void main() {
   float z = fract(aStar.z - uCam);
@@ -62,7 +62,7 @@ void main() {
   float fade = smoothstep(1.0, 0.55, z) * smoothstep(0.0, 0.06, z);
   float twinkle = 0.7 + 0.3 * sin(uTime * (1.0 + aStar.w * 2.0) + aStar.w * 60.0);
   vec3 tint = aStar.w > 0.92 ? vec3(1.0, 0.85, 0.62) : aStar.w > 0.84 ? vec3(0.7, 1.0, 0.9) : vec3(0.78, 0.86, 1.0);
-  float a = fade * twinkle * mix(1.0, 0.4, z);
+  float a = fade * twinkle * mix(1.0, 0.4, z) * uLight;
   if (uLine > 0.5) a *= clamp(uStreak * 10.0, 0.0, 0.9);
   vColor = vec4(tint, a);
 }`;
@@ -484,6 +484,7 @@ const onTouchEnd = () => {
 
 const view = { w: 0, h: 0, dpr: 1 };
 const cam = { scroll: 0, drift: 0, value: 0, streak: 0, boost: 0 };
+let starlight = 1; // daylight dims the stars (sky.js)
 let orbs = [];
 let live = false;
 let reduced = false;
@@ -533,6 +534,7 @@ function render(now, dt) {
   gl.uniform1f(P.stars.u.uCam, cam.value % 1000);
   gl.uniform1f(P.stars.u.uStreak, cam.streak);
   gl.uniform1f(P.stars.u.uTime, time);
+  gl.uniform1f(P.stars.u.uLight, starlight);
   gl.bindVertexArray(starMesh.va);
   gl.uniform1f(P.stars.u.uLine, 0);
   gl.drawArrays(gl.POINTS, 0, starMesh.count);
@@ -709,4 +711,10 @@ export function boost() {
     name.vel[j + 2] += 10 + Math.random() * 30;
   }
   name.awake = true;
+}
+
+// How bright the stars are: 1 at night, lower by day. Set by the sky clock (sky.js).
+export function setStarlight(value) {
+  starlight = value;
+  if (live && reduced) requestRender();
 }
