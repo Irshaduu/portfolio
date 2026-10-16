@@ -158,8 +158,8 @@
     & .tm__era { display: grid; min-width: 0; padding: 2px 8px; box-shadow: var(--bevel-in); }
     & .tm__era-name { font-weight: bold; }
     & .tm__note { max-width: 40ch; font-size: 11px; color: #222; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    & .tm__step { flex: none; width: 24px; height: 22px; margin-bottom: 1.4rem; padding: 0; border: 0; font: bold 14px var(--win); background: var(--silver); box-shadow: var(--bevel-out); }
-    & .tm__step:active { box-shadow: var(--bevel-in); }
+    & :is(.tm__step, .sound-switch) { flex: none; width: 24px; height: 22px; margin-bottom: 1.4rem; padding: 0; border: 0; font: bold 14px var(--win); background: var(--silver); box-shadow: var(--bevel-out); }
+    & :is(.tm__step, .sound-switch):active { box-shadow: var(--bevel-in); }
     & .tm__range { -webkit-appearance: none; appearance: none; height: 24px; background: transparent; cursor: default; }
     & .tm__range::-webkit-slider-runnable-track { height: 4px; background: #fff; box-shadow: inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px #0a0a0a; }
     & .tm__range::-moz-range-track { height: 4px; background: #fff; box-shadow: inset 1px 1px #808080, inset 2px 2px #0a0a0a; }
@@ -169,6 +169,10 @@
     & .tm__ticks button[aria-current] { font-weight: bold; text-decoration: underline; }
     & .tm__hint { grid-column: 1 / -1; text-align: center; font: 11px var(--win); color: #000080; }
 
+    /* Leave the top right corner to the sound switch. */
+    @media (max-width: 900px) {
+      & .marquee { margin-right: 40px; }
+    }
     @media (max-width: 640px) {
       & .facts { grid-template-columns: 1fr; }
       & .moment { grid-template-columns: 1fr; }

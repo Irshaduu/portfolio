@@ -429,11 +429,12 @@
     & .tm__plan[data-low]::before { background: var(--rose); box-shadow: 0 0 10px var(--rose); animation: tt30-blink .8s steps(2) infinite; }
     & .tm__plan[data-flash] { animation: tt30-flash 1.3s ease-out; }
 
-    & .tm__step {
+    & :is(.tm__step, .sound-switch) {
       flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 1.4rem;
       border-radius: 50%; border: 1px solid var(--line-2); background: transparent; color: var(--ink-2); font-size: 1.15rem;
     }
-    & .tm__step:hover { border-color: var(--ice); color: var(--ink); }
+    & :is(.tm__step, .sound-switch):hover { border-color: var(--ice); color: var(--ink); }
+    & .sound-switch { background: rgb(5 6 15 / .8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } /* it floats over text */
     & .tm__range { -webkit-appearance: none; appearance: none; height: 26px; background: transparent; cursor: grab; }
     & .tm__range:active { cursor: grabbing; }
     & .tm__range::-webkit-slider-runnable-track {
@@ -513,6 +514,7 @@
     }
     @media (max-width: 760px) {
       & .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      & .sky-clock__label { display: none; } /* shorter, clear of the sound switch */
       & .project--feature .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       /* On a phone the bar docks to the bottom edge, solid, with a thumb big enough for a thumb.
          The plan moves down beside the hint, so the year and era keep one clean line. */

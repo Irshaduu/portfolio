@@ -2,6 +2,7 @@ import { ERAS, MIN_YEAR, MAX_YEAR, DEFAULT_YEAR, eraForYear, eraIndex } from './
 import { applyYear } from './time.js';
 import { travel, warp } from './transition.js';
 import { mountTimeMachine } from './timemachine.js';
+import { travel as travelSound, land, tick } from './sound.js';
 
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
@@ -95,14 +96,39 @@ function setYear(year, { scrub = false } = {}) {
 
   if (prevEra === era) return render();
 
+  const direction = year < prevYear ? 'back' : 'forward';
   loadFonts(era);
-  if (scrub) warp();
+  if (scrub) {
+    warp();
+    tick(); // a detent click per era dragged through; the landing waits for the release
+    scrubbedFrom ??= prevEra;
+  } else {
+    travelSound(direction);
+    landSoon(era);
+  }
   travel(render, {
     animate: !scrub && !reducedMotion.matches,
-    direction: year < prevYear ? 'back' : 'forward',
+    direction,
     fontProbe: era.fontProbe,
   }).then(syncModule);
 }
+
+// The new era's sound plays as it arrives, after the sound of leaving.
+let landTimer;
+function landSoon(era) {
+  clearTimeout(landTimer);
+  landTimer = setTimeout(() => land(era.id), 380);
+}
+
+// Let go of the slider in a new era: now it lands.
+let scrubbedFrom = null;
+document.addEventListener('timemachine:release', () => {
+  if (scrubbedFrom && scrubbedFrom !== state.era) {
+    travelSound(eraIndex(state.era) < eraIndex(scrubbedFrom) ? 'back' : 'forward');
+    landSoon(state.era);
+  }
+  scrubbedFrom = null;
+});
 
 function stepEra(dir) {
   const i = eraIndex(state.era) + dir;

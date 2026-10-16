@@ -1,7 +1,7 @@
 /* Printing sends you back to 1992: plain HTML, no scenery, no time machine.
    Unlayered, so it wins over every era. */
 
-.timemachine, .backdrop, .warp, .orn, .skip-link { display: none !important; }
+.timemachine, .sound-switch, .backdrop, .warp, .orn, .skip-link { display: none !important; }
 
 body { all: revert; font: 11pt/1.4 Georgia, "Times New Roman", serif; color: #000; background: #fff; }
 .masthead, main, .footer,

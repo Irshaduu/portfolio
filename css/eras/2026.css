@@ -298,11 +298,12 @@
       max-width: 36ch; font-size: .76rem; line-height: 1.35; color: var(--ink-3);
       display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
     }
-    & .tm__step {
+    & :is(.tm__step, .sound-switch) {
       flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 1.4rem;
       border-radius: 50%; border: 1px solid var(--line-2); background: transparent; color: var(--ink-2); font-size: 1.15rem;
     }
-    & .tm__step:hover { border-color: var(--c1); color: var(--ink); }
+    & :is(.tm__step, .sound-switch):hover { border-color: var(--c1); color: var(--ink); }
+    & .sound-switch { background: rgb(7 9 17 / .8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } /* it floats over text */
     & .tm__range { -webkit-appearance: none; appearance: none; height: 26px; background: transparent; cursor: grab; }
     & .tm__range:active { cursor: grabbing; }
     & .tm__range::-webkit-slider-runnable-track {

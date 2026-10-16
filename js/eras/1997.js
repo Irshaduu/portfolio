@@ -1,5 +1,9 @@
 // 1997: a sparkle trail behind the cursor, a visitor counter, and MIDI-style music made
-// live with the Web Audio API (the same trick Word Hunt uses for its sounds).
+// live with the Web Audio API (the same trick Word Hunt uses for its sounds). The music
+// plays through the site's one sound switch (js/sound.js): Play turns sound on, and
+// turning sound off stops the music.
+
+import { channel } from '../sound.js';
 
 let cleanups = [];
 const onLeave = (fn) => cleanups.push(fn);
@@ -92,10 +96,8 @@ function note(ctx, out, type, freq, at, length, gain) {
 }
 
 function startMusic(button) {
-  const ctx = new AudioContext();
-  const out = ctx.createGain();
+  const { ctx, out } = channel();
   out.gain.value = 0.5;
-  out.connect(ctx.destination);
   let step = 0;
   let next = ctx.currentTime + 0.05;
 
@@ -110,7 +112,7 @@ function startMusic(button) {
     }
   }, 50);
 
-  audio = { ctx, timer, button };
+  audio = { out, timer, button };
   button.setAttribute('aria-pressed', 'true');
   button.textContent = '♫ Stop the MIDI ♫';
 }
@@ -118,7 +120,7 @@ function startMusic(button) {
 function stopMusic() {
   if (!audio) return;
   clearInterval(audio.timer);
-  audio.ctx.close();
+  audio.out.disconnect(); // notes already scheduled go nowhere
   audio.button.setAttribute('aria-pressed', 'false');
   audio.button.textContent = '♫ Play MIDI music ♫';
   audio = null;
@@ -131,9 +133,12 @@ export function enter({ reducedMotion }) {
 
   const button = document.querySelector('.midi');
   const onClick = () => (audio ? stopMusic() : startMusic(button));
+  const onSound = (event) => event.detail || stopMusic();
   button.addEventListener('click', onClick);
+  document.addEventListener('sound:change', onSound);
   onLeave(() => {
     button.removeEventListener('click', onClick);
+    document.removeEventListener('sound:change', onSound);
     stopMusic();
   });
 

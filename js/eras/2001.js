@@ -1,4 +1,7 @@
-// 2001: the Skip Intro screen, a sound toggle, and rollover blips.
+// 2001: the Skip Intro screen and rollover blips. The title bar's Sound button is the same
+// switch as the time machine's speaker (js/sound.js).
+
+import { blip } from '../sound.js';
 //
 // The intro plays once per visit, the first time you arrive in 2001 and stay: by clicking
 // a year, stepping, a shared ?y= link, or letting go of the slider here. Dragging straight
@@ -97,47 +100,13 @@ function seen() {
   }
 }
 
-// ---- sound: off until asked, as it should always have been ---------------------------
-
-let audio = null;
-let lastBlip = 0;
-
-function blip(freq, length) {
-  if (!audio) return;
-  const now = audio.currentTime;
-  const osc = audio.createOscillator();
-  const env = audio.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(freq, now);
-  osc.frequency.exponentialRampToValueAtTime(freq * 1.6, now + length);
-  env.gain.setValueAtTime(0.0001, now);
-  env.gain.exponentialRampToValueAtTime(0.06, now + 0.005);
-  env.gain.exponentialRampToValueAtTime(0.0001, now + length);
-  osc.connect(env).connect(audio.destination);
-  osc.start(now);
-  osc.stop(now + length + 0.02);
-}
-
-function setSound(on, button) {
-  if (on && !audio) audio = new AudioContext();
-  if (!on && audio) {
-    audio.close();
-    audio = null;
-  }
-  button.setAttribute('aria-pressed', String(on));
-  button.textContent = on ? 'Sound: on' : 'Sound: off';
-  if (on) blip(880, 0.12);
-}
-
 // ---- lifecycle -----------------------------------------------------------------------
 
-export function enter(ctx) {
-  const soundBtn = document.querySelector('[data-sound]');
-  const replayBtn = document.querySelector('[data-replay-intro]');
+let lastBlip = 0;
 
-  const onSound = () => setSound(!audio, soundBtn);
+export function enter(ctx) {
+  const replayBtn = document.querySelector('[data-replay-intro]');
   const onReplay = () => playIntro(ctx);
-  soundBtn.addEventListener('click', onSound);
   replayBtn.addEventListener('click', onReplay);
 
   // Every rollover beeps, the way every Flash site did. Only with sound on.
@@ -162,12 +131,10 @@ export function enter(ctx) {
   else maybePlay();
 
   onLeave(() => {
-    soundBtn.removeEventListener('click', onSound);
     replayBtn.removeEventListener('click', onReplay);
     document.removeEventListener('pointerover', onOver);
     document.removeEventListener('pointerdown', onDown);
     document.removeEventListener('timemachine:release', maybePlay);
-    if (audio) setSound(false, soundBtn);
     closeIntro();
   });
 }

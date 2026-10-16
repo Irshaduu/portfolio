@@ -73,6 +73,12 @@
   .tm__ticks[data-size="tiny"] .tm__tick-apos { display: none; }
   [data-traveled] .tm__hint { display: none; }
 
+  /* The sound switch: a speaker, struck through while off. Each era dresses it like its own
+     arrow buttons; where it sits and how big it is are set below, outside the layers. */
+  .sound-switch__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .sound-switch[aria-pressed="true"] .sound-switch__off,
+  .sound-switch:not([aria-pressed="true"]) .sound-switch__on { display: none; }
+
   /* ---- time-aware content ---- */
   [data-future] { transition: opacity .2s; }
 
@@ -116,3 +122,14 @@
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
   .warp { display: none; }
 }
+
+/* The sound switch sits small in the top right corner, in the same place and size in every
+   era. Unlayered, so no era's button styles can move or resize it; eras only dress it. */
+.sound-switch {
+  position: fixed; z-index: 99; top: max(10px, env(safe-area-inset-top)); right: max(10px, env(safe-area-inset-right));
+  display: grid; place-items: center; width: 30px; height: 30px; margin: 0; padding: 0;
+}
+.sound-switch svg { width: 15px; height: 15px; }
+/* 1992's is a plain text button ("Sound: off"), sized by its words. */
+:root[data-era="1992"] .sound-switch { display: block; width: auto; height: auto; padding: 1px 6px; }
+html:not(.js) .sound-switch { display: none; }

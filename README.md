@@ -25,7 +25,7 @@ Share an era with a link: `?y=1997`.
 | **2023** | The template era | Dark mode, purple blobs, grid lines, bento cards, gradient text | Nothing. That's the joke: it looks like everyone's portfolio |
 | **2013** | Flat | Turquoise band, thin uppercase Lato, a 40-step long shadow, flat circles | Ghost buttons, coloured tiles |
 | **2007** | Web 2.0 | Glossy blue header, reflected lowercase wordmark, `beta`, a starburst, tag cloud | Glossy tabs, 80×15 badges |
-| **2001** | The Flash years | A fixed-width "movie" on gunmetal: chrome Orbitron, pixel labels, LED readouts, corner brackets, the Story as a Flash timeline with keyframes and a red playhead | The **Skip Intro** screen (a loading bar that stalls like a 56k modem, letters flying in, a white flash, Enter site), a sound toggle, rollover blips |
+| **2001** | The Flash years | A fixed-width "movie" on gunmetal: chrome Orbitron, pixel labels, LED readouts, corner brackets, the Story as a Flash timeline with keyframes and a red playhead | The **Skip Intro** screen (a loading bar that stalls like a 56k modem, letters flying in, a white flash, Enter site), rollover blips with sound on |
 | **1997** | The homepage years | Starfield tiles, rainbow Impact, Comic Sans, bevelled tables, a Win95 taskbar | Marquee, blinking NEW!, a sparkle cursor trail, a visitor counter, a webring that travels in time, MIDI music made with Web Audio |
 | **1992** | Hypertext | The browser's own stylesheet. Nothing else | Links are numbered like the 1991 Line Mode Browser: type a number and press Return |
 
@@ -88,6 +88,30 @@ the intent buttons, the webring) are real buttons and links.
   "type a link number" prompt on touch screens, which have no keyboard to type it with.
 - Until you first travel, it says **Drag to time travel**.
 
+### Sound
+
+One small speaker button, fixed in the top right corner: the same place and size in every era
+(set outside the cascade layers, so no era can move it), dressed like that era's own buttons.
+In 1992 it's a plain button that says *Sound: off*. Eras with something in that corner (the
+1997 marquee, 2001's title bar, 2007's starburst, 2030's sky clock) make room for it on
+phones. Sound starts **off**: a page that suddenly makes noise on a
+phone in an office gets closed, and browsers don't allow it before a tap anyway. One press
+turns it on for the whole site, and the choice is remembered (`localStorage`). After that,
+travelling makes its own sounds, with no more pressing:
+
+- **Leaving:** into the past, a tape rewinds; into the future, the air rushes past.
+- **Landing**, one short sound per era: a terminal bell (1992), a one-second dial-up modem
+  (1997), a Flash swoosh and click (2001), a glossy bubble pop (2007), a clean tick (2013), a
+  notification ding (2023), an airy chord (2026), and a shimmer in deep space (2030), where a
+  very quiet hum then stays in the background.
+- **Dragging** through eras, a soft detent click for each one; the landing waits for you to
+  let go.
+
+It's all made live in `js/sound.js` with the Web Audio API, like Word Hunt's sounds: no audio
+files. 1997's **Play MIDI music** plays through the same switch
+(pressing Play turns sound on, and turning sound off stops the music). A hidden tab stays
+silent. If sound was on last visit, it wakes on the first tap or key press, as browsers require.
+
 ### The transition
 
 `js/transition.js` decides how one era becomes the next:
@@ -126,7 +150,7 @@ The Skip Intro screen is a native `<dialog>` opened with `showModal()`, so focus
   the tagline types itself, a white flash, and **Enter site** enters for you if you don't.
 - **Replay intro** in the title bar plays it again. Leaving 2001 closes it.
 - With reduced motion it never plays on its own; Replay shows it still, waiting for Enter.
-- Sound is **off** until you switch it on. Then every rollover blips, as every Flash site did.
+- With sound on (the site's one switch, see Sound), every rollover blips, as every Flash site did.
 
 ### The 2030 scene
 
@@ -194,6 +218,7 @@ js/eras.js            the eras: years, names, notes, fonts, favicons, titles
 js/time.js            year-dependent content: tools that exist yet, "N years from now"
 js/transition.js      view transitions, scrub static, keeping the reading position
 js/timemachine.js     the slider and its buttons
+js/sound.js           the one sound switch and every sound, made with Web Audio
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
                       2026 light/tilt/intent, 2030 scene and token limit
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
@@ -221,7 +246,7 @@ assets/               resume PDF
 
 - No images, no framework, no build. Era scenery is CSS gradients, except 2030's, which is
   drawn by code.
-- Unminified, uncompressed: 29 KB of HTML, 142 KB of CSS for all eight eras, 82 KB of JavaScript,
+- Unminified, uncompressed: 29 KB of HTML, 148 KB of CSS for all eight eras, 93 KB of JavaScript,
   of which 48 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
   current width in the current era's type. With even spacing, a 375 px phone fits them in full in

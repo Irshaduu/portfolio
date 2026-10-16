@@ -65,7 +65,6 @@
     <div class="orn flashbar" data-orn="2001">
       <span class="flashbar__file" aria-hidden="true">irshad.swf &middot; v2.001</span>
       <span class="flashbar__tools">
-        <button type="button" class="flashbar__btn" data-sound aria-pressed="false">Sound: off</button>
         <button type="button" class="flashbar__btn" data-replay-intro>Replay intro</button>
       </span>
     </div>
@@ -415,6 +414,16 @@
     <p class="orn bestviewed" data-orn="1997" aria-hidden="true">Best viewed with Netscape Navigator 3.0 at 800 x 600</p>
     <p class="orn flashnote" data-orn="2001" aria-hidden="true">Best viewed at 800 x 600 with your speakers on</p>
   </footer>
+
+  <!-- One switch for sound in every era (js/sound.js), small, in the top right corner.
+       Off until pressed, then remembered. -->
+  <button type="button" class="sound-switch" data-sound-toggle aria-pressed="false">
+    <svg class="sound-switch__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
+      <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>
+      <path class="sound-switch__on" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      <path class="sound-switch__off" d="M15.5 9.5l5 5M20.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <span class="sound-switch__label">Sound</span></button>
 
   <aside class="timemachine" id="timemachine" aria-label="Time machine">
     <div class="tm__readout">

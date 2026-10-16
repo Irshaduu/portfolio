@@ -12,6 +12,7 @@
 import { startScene, stopScene, boost } from './2030/scene.js';
 import { startConstellation, stopConstellation } from './2030/constellation.js';
 import { startSky, stopSky } from './2030/sky.js';
+import { setHum } from '../sound.js';
 
 const KEY = 'tt-plan-2030';
 
@@ -171,6 +172,7 @@ export function enter(ctx) {
   startScene(ctx);
   startSky();
   startConstellation();
+  setHum(true); // only heard with sound on
 }
 
 export function leave() {
@@ -178,6 +180,7 @@ export function leave() {
   removeEventListener('keydown', onKey);
   closeLimit();
   stopConstellation();
+  setHum(false);
   stopSky();
   stopScene();
   ctxRef = null;
