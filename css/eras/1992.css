@@ -1,0 +1,59 @@
+/* 1992 — Hypertext. No CSS existed, so this era mostly un-styles the page: `all: revert`
+   hands every element back to the browser's built-in stylesheet. What remains is the real
+   HTML that every other era is dressed over. Links get Line Mode Browser numbers. */
+
+@layer era {
+  :root[data-era="1992"] {
+    color-scheme: light;
+
+    /* :where() keeps this at low specificity, so the few rules below can add back to it. */
+    & :where(.masthead, main, .footer),
+    & :where(.masthead, main, .footer) :where(:not(.orn)),
+    & :where(.timemachine, .timemachine :not(.orn)) { all: revert; }
+
+    & :where(.orn[data-orn~="1992"]) { display: revert; }
+    & .backdrop { display: none; }
+
+    & body {
+      margin: 0; padding: 8px 8px calc(var(--tm-h, 8rem) + 1rem);
+      background: #fff; color: #000; font: 16px/normal "Times New Roman", Times, serif;
+      counter-reset: lmb;
+    }
+    & :where(.masthead, main, .footer) { display: block; max-width: 46em; }
+
+    /* The 1991 Line Mode Browser printed a number after each link: type it to follow. */
+    & :where(.masthead, main, .footer) a[href]::after {
+      counter-increment: lmb; content: "[" counter(lmb) "]";
+    }
+
+    & [data-future] { color: #808080; }
+    & :is(.tags li, .chip)[data-future]::after { content: " (arrives " attr(data-since) ")"; }
+
+    /* The time machine is a plain form at the bottom of the window. */
+    & .timemachine {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 100; display: block;
+      padding: 4px 8px 6px; background: #fff; border-top: 1px solid #000;
+      font: 15px/1.35 "Times New Roman", Times, serif; view-transition-name: timemachine;
+    }
+    & .tm__readout, & .tm__era { display: inline; }
+    & .tm__year { font-weight: bold; }
+    & .tm__year::after { content: ": "; font-weight: normal; }
+    & .tm__era-name, & .tm__note { display: inline; }
+    & .tm__era-name::after { content: ". "; }
+    & .tm__control { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+    & .tm__track { flex: 1; min-width: 0; }
+    & .tm__range { width: 100%; }
+    & .tm__ticks { display: flex; flex-wrap: wrap; gap: 4px; list-style: none; margin: 2px 0 0; padding: 0; }
+    & .tm__tick-short { display: none; } /* plain buttons in a row never collide */
+    & .tm__lmb { margin: 2px 0 0; font-family: "Courier New", Courier, monospace; font-size: 14px; }
+    & .tm__lmb-cursor { animation: tt92-cursor 1s steps(1) infinite; }
+    & .tm__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    & .tm__hint { display: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+      & .tm__lmb-cursor { animation: none; }
+    }
+  }
+
+  @keyframes tt92-cursor { 50% { visibility: hidden; } }
+}

@@ -1,0 +1,14 @@
+# Private working notes: client details, open questions, contact data. Never public.
+CONTENT.md
+PLAN.md
+
+# Local tooling
+.claude/
+node_modules/
+
+# OS and editor clutter
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/

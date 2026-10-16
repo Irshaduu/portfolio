@@ -1,0 +1,11 @@
+/* Printing sends you back to 1992: plain HTML, no scenery, no time machine.
+   Unlayered, so it wins over every era. */
+
+.timemachine, .backdrop, .warp, .orn, .skip-link { display: none !important; }
+
+body { all: revert; font: 11pt/1.4 Georgia, "Times New Roman", serif; color: #000; background: #fff; }
+.masthead, main, .footer,
+.masthead :not(.orn), main :not(.orn), .footer :not(.orn) { all: revert; }
+
+a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 9pt; }
+.project, .moment { break-inside: avoid; }

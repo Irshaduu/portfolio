@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en" data-era="2028" data-year="2028">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Irshad · 2028</title>
+  <meta name="description" content="Mohammed Irshad C, Python developer in Kerala: Django, backend and full-stack systems. One page, seven eras of the web. Drag the time machine from 2028 back to 1992.">
+  <meta name="theme-color" content="#04050a">
+  <meta property="og:title" content="Mohammed Irshad C · Python Developer">
+  <meta property="og:description" content="My portfolio, from 2028 back to 1992. Drag the time machine.">
+  <link rel="icon" id="favicon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%237df3ff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b8a4ff'/%3E%3C/svg%3E">
+
+  <script>
+    // Runs before first paint, so a shared link like ?y=1997 never flashes 2028 first.
+    // The milestone years are duplicated from js/eras.js; keep the two in step.
+    (function () {
+      var d = document.documentElement, m = [1992, 1997, 2001, 2007, 2013, 2023, 2028];
+      d.classList.add('js');
+      var y = parseInt(new URLSearchParams(location.search).get('y'), 10);
+      if (!(y >= 1992 && y <= 2028)) return;
+      var e = m[0];
+      for (var i = 0; i < m.length; i++) if (y >= m[i]) e = m[i];
+      d.setAttribute('data-year', y);
+      d.setAttribute('data-era', e);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- The default era's fonts load up front; every other era's load on first visit (js/eras.js). -->
+  <link rel="stylesheet" data-font="2028-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
+  <link rel="stylesheet" data-font="2028-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/eras/1992.css">
+  <link rel="stylesheet" href="css/eras/1997.css">
+  <link rel="stylesheet" href="css/eras/2001.css">
+  <link rel="stylesheet" href="css/eras/2007.css">
+  <link rel="stylesheet" href="css/eras/2013.css">
+  <link rel="stylesheet" href="css/eras/2023.css">
+  <link rel="stylesheet" href="css/eras/2028.css">
+  <link rel="stylesheet" href="css/print.css" media="print">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Scenery each era paints for itself: stars, gradients, light. Never content. -->
+  <div class="backdrop" aria-hidden="true"></div>
+  <div class="warp" aria-hidden="true"></div>
+
+  <header class="masthead" id="top">
+    <div class="orn marquee" data-orn="1997" aria-hidden="true">
+      <span>*** Welcome to my Home Page!!! *** You are visiting in 1997 *** Sign my guestbook before you go *** This page is Y2K compliant ***</span>
+    </div>
+    <div class="orn construction" data-orn="1997" aria-hidden="true"><span>!! UNDER CONSTRUCTION !!</span></div>
+    <p class="orn hud" data-orn="2028" aria-hidden="true">
+      <span>11.05°N 76.07°E</span><span>Malappuram node</span><span class="hud__live">Link stable</span>
+    </p>
+    <p class="orn pill" data-orn="2023" aria-hidden="true">✦ Now with 100% more gradients</p>
+    <div class="orn starburst" data-orn="2007" aria-hidden="true"><span>Now with AJAX!</span></div>
+    <div class="orn flashbar" data-orn="2001">
+      <span class="flashbar__file" aria-hidden="true">irshad.swf &middot; v2.001</span>
+      <span class="flashbar__tools">
+        <button type="button" class="flashbar__btn" data-sound aria-pressed="false">Sound: off</button>
+        <button type="button" class="flashbar__btn" data-replay-intro>Replay intro</button>
+      </span>
+    </div>
+
+    <div class="masthead__inner">
+      <p class="kicker">Portfolio</p>
+      <h1 class="name">
+        <span class="name__first">Mohammed</span>
+        <span class="name__last">Irshad C<sup class="orn beta" data-orn="2007" aria-hidden="true">beta</sup></span>
+      </h1>
+      <p class="role">Python Developer · Django, backend &amp; full-stack systems</p>
+      <p class="lede">
+        I build the software a business actually runs on. I ran an events company for four years
+        before I wrote code, so <strong>cost, profit and cash are three separate numbers</strong>
+        in everything I ship.
+      </p>
+
+      <div class="orn intent" data-orn="2028">
+        <p class="intent__q" id="intent-q">What brings you here?</p>
+        <div class="intent__options" role="group" aria-labelledby="intent-q">
+          <button type="button" class="intent__btn" data-intent-pick="hire" aria-pressed="false">I'm hiring</button>
+          <button type="button" class="intent__btn" data-intent-pick="build" aria-pressed="false">I have a project</button>
+          <button type="button" class="intent__btn" data-intent-pick="explore" aria-pressed="false">Just exploring</button>
+        </div>
+        <p class="intent__hint" aria-live="polite"></p>
+      </div>
+
+      <ul class="facts" aria-label="In numbers">
+        <li class="fact"><span class="fact__n">3,400+</span> <span class="fact__l">automated tests across my projects</span></li>
+        <li class="fact"><span class="fact__n">169,231</span> <span class="fact__l">lines in one system I built alone</span></li>
+        <li class="fact"><span class="fact__n">$0</span> <span class="fact__l">a month to run a live multiplayer game</span></li>
+        <li class="fact"><span class="fact__n">4 years</span> <span class="fact__l">running a business before code</span></li>
+      </ul>
+
+      <button type="button" class="orn midi" data-orn="1997" aria-pressed="false">&#9835; Play MIDI music &#9835;</button>
+
+      <nav class="nav" aria-label="Sections">
+        <ul>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#stack">Stack</a></li>
+          <li><a href="#story">Story</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <span class="orn scroll-cue" data-orn="2013" aria-hidden="true"></span>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section section--work" id="work" data-anchor aria-labelledby="work-h">
+      <h2 class="section__title" id="work-h">Selected work</h2>
+      <p class="section__intro">Systems that replace paper, WhatsApp threads and spreadsheets, plus two products I built for people I know.</p>
+
+      <div class="projects">
+        <article class="project project--feature" id="workshopos" data-anchor data-for="hire build">
+          <div class="project__main">
+            <header class="project__head">
+              <p class="project__meta"><span class="project__kind">Freelance · sole engineer</span> <span class="when" data-when="2026" data-label="Jan – Oct 2026"></span></p>
+              <h3 class="project__title">WorkshopOS <span class="orn blink" data-orn="1997 2001 2007" aria-hidden="true">NEW!</span></h3>
+              <p class="project__tagline">One system for a premium car workshop that ran on paper job cards, WhatsApp and spreadsheets.</p>
+            </header>
+            <p class="project__summary">
+              Built for Formula D in Pullara, Kerala. I mapped how the workshop works on the floor, then built one
+              Django and PostgreSQL system to replace all three: job cards, inventory, supplier ledgers, payments,
+              payroll, estimates, warranty claims and three-tier role-based access.
+            </p>
+            <ul class="points">
+              <li>Stock is costed by weighted average, replayed in date order. A back-dated supplier bill re-prices only the draws after it, and negative stock still works.</li>
+              <li>21 rule modules, each answering one question, such as <q>How much do we hand the rent collector today?</q> No figure can be worked out two different ways.</li>
+              <li>72 all-or-nothing transaction blocks guard every money movement, with a Change History audit trail.</li>
+              <li>Per-account and per-IP lockout, device-aware sessions with remote revoke, Web Push, and photo uploads signed with AWS SigV4 using only the standard library.</li>
+            </ul>
+          </div>
+          <div class="project__data">
+            <dl class="stats">
+              <div class="stat"><dt>Models</dt><dd>49</dd></div>
+              <div class="stat"><dt>Routes</dt><dd>324</dd></div>
+              <div class="stat"><dt>Screens</dt><dd>140</dd></div>
+              <div class="stat"><dt>Django tests</dt><dd>3,185</dd></div>
+              <div class="stat"><dt>Test to code</dt><dd>1.34 : 1</dd></div>
+              <div class="stat"><dt>Commits</dt><dd>294</dd></div>
+            </dl>
+            <ul class="tags" aria-label="Built with">
+              <li data-since="2005">Django</li>
+              <li data-since="1996">PostgreSQL</li>
+              <li data-since="2015">PWA</li>
+              <li data-since="2017">Web Push</li>
+              <li data-since="2011">Bootstrap</li>
+            </ul>
+            <div class="project__foot">
+              <p class="status">Frozen in October 2026 as the reference specification for its rebuild. The client's code is private.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" id="word-hunt" data-anchor data-for="hire explore">
+          <div class="project__main">
+            <header class="project__head">
+              <p class="project__meta"><span class="project__kind">Personal · live</span> <span class="when" data-when="2026" data-label="2026"></span></p>
+              <h3 class="project__title">Word Hunt <span class="orn blink" data-orn="1997 2001 2007" aria-hidden="true">NEW!</span></h3>
+              <p class="project__tagline">A real-time multiplayer word game for voice calls with friends.</p>
+            </header>
+            <p class="project__summary">
+              Up to ten players. One secretly picks a word from a chaotic board of 71, and everyone else hunts it
+              while a 100-second time bank drains. Room codes are three letters, so you can say them out loud.
+            </p>
+            <ul class="points">
+              <li>A six-state, server-authoritative state machine on Django Channels.</li>
+              <li>A dropped connection marks you disconnected, not removed, so a network blip never costs your time bank. Reconnects back off exponentially and resync the full state.</li>
+              <li>Every in-game sound is synthesised with the Web Audio API. No audio files, no Redis, no bill.</li>
+            </ul>
+          </div>
+          <div class="project__data">
+            <dl class="stats">
+              <div class="stat"><dt>Players</dt><dd>10</dd></div>
+              <div class="stat"><dt>Tests</dt><dd>78</dd></div>
+              <div class="stat"><dt>Running cost</dt><dd>$0</dd></div>
+            </dl>
+            <ul class="tags" aria-label="Built with">
+              <li data-since="2016">Django Channels</li>
+              <li data-since="2011">WebSockets</li>
+              <li data-since="2011">Web Audio</li>
+              <li data-since="2015">PWA</li>
+            </ul>
+            <div class="project__foot">
+              <p class="project__links">
+                <a href="https://word-hunt-game.onrender.com" rel="noopener">Play it</a>
+                <a href="https://github.com/Irshaduu/word-hunt-game" rel="noopener">Source</a>
+              </p>
+              <p class="status">Free hosting sleeps, so the first load can take a minute.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" id="therapist" data-anchor data-for="explore hire">
+          <div class="project__main">
+            <header class="project__head">
+              <p class="project__meta"><span class="project__kind">Personal · live</span> <span class="when" data-when="2026" data-label="2026"></span></p>
+              <h3 class="project__title">Therapist</h3>
+              <p class="project__tagline">A hands-free knee rehab coach I built for my own recovery.</p>
+            </header>
+            <p class="project__summary">
+              After knee surgery, counting 10-second holds and 20 reps through pain was a job of its own.
+              Therapist counts for you, out loud, in English or Malayalam. Press start and put the phone down.
+              I used it every day of my rehabilitation.
+            </p>
+            <ul class="points">
+              <li>Three-tier voice: the browser's speech engine, then 215 pre-generated English and Malayalam clips, then a server endpoint. A stall timeout clears the browser's known hung-speech bug.</li>
+              <li>Offline-first: sessions queue in localStorage and sync when the network returns.</li>
+              <li>Screen Wake Lock keeps the display on in the middle of an exercise.</li>
+            </ul>
+          </div>
+          <div class="project__data">
+            <dl class="stats">
+              <div class="stat"><dt>Voice clips</dt><dd>215</dd></div>
+              <div class="stat"><dt>Tests</dt><dd>80</dd></div>
+              <div class="stat"><dt>Languages</dt><dd>2</dd></div>
+            </dl>
+            <ul class="tags" aria-label="Built with">
+              <li data-since="2013">Web Speech</li>
+              <li data-since="2020">Wake Lock</li>
+              <li data-since="2009">localStorage</li>
+              <li data-since="2005">Django</li>
+            </ul>
+            <div class="project__foot">
+              <p class="project__links">
+                <a href="https://therapist.pythonanywhere.com" rel="noopener">Open it</a>
+                <a href="https://github.com/Irshaduu/physio-coach" rel="noopener">Source</a>
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="project" id="catering" data-anchor data-for="build">
+          <div class="project__main">
+            <header class="project__head">
+              <p class="project__meta"><span class="project__kind">Freelance · technical consultant</span> <span class="when" data-when="2026" data-label="2026"></span></p>
+              <h3 class="project__title">Catering staff system</h3>
+              <p class="project__tagline">The architecture for a 10-role staff app, written so other developers can build it.</p>
+            </header>
+            <p class="project__summary">
+              Badusha Event Management coordinated its catering staff on paper and WhatsApp. I wrote the product
+              and architecture specification for an installable app: 24 modules, ranked MVP, Optional or Deferred,
+              across six Django apps.
+            </p>
+            <ul class="points">
+              <li>A promotion ladder the system runs itself: a third completed work makes a C Boy, an eighth a B Boy. A Boy needs a Site Manager's nomination.</li>
+              <li>Flagged India's DPDP Act risk for Aadhaar photos, and designed the retention notice to show at upload, never hidden.</li>
+              <li>Stability, performance and security first. Anything that doesn't serve them is deferred, not built.</li>
+            </ul>
+          </div>
+          <div class="project__data">
+            <dl class="stats">
+              <div class="stat"><dt>Roles</dt><dd>10</dd></div>
+              <div class="stat"><dt>Modules</dt><dd>24</dd></div>
+              <div class="stat"><dt>Django apps</dt><dd>6</dd></div>
+            </dl>
+            <ul class="tags" aria-label="Designed with">
+              <li data-since="2005">Django</li>
+              <li data-since="2015">PWA</li>
+              <li data-since="2017">Web Push</li>
+            </ul>
+            <div class="project__foot">
+              <p class="status">Build pending the client's budget.</p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--stack" id="stack" data-anchor aria-labelledby="stack-h">
+      <h2 class="section__title" id="stack-h">Stack</h2>
+      <p class="section__intro">Every tool I use, and the year it arrived. Travel back and watch them disappear.</p>
+      <p class="stack__clock" data-stack-clock></p>
+
+      <div class="stack">
+        <div class="stack__group">
+          <h3>Languages</h3>
+          <ul class="chips">
+            <li class="chip" data-w="3" data-since="1991">Python</li>
+            <li class="chip" data-w="2" data-since="1995">JavaScript</li>
+            <li class="chip" data-w="2" data-since="1974">SQL</li>
+            <li class="chip" data-w="1" data-since="1991">HTML</li>
+            <li class="chip" data-w="1" data-since="1996">CSS</li>
+          </ul>
+        </div>
+        <div class="stack__group">
+          <h3>Back end</h3>
+          <ul class="chips">
+            <li class="chip" data-w="3" data-since="2005">Django</li>
+            <li class="chip" data-w="2" data-since="1996">PostgreSQL</li>
+            <li class="chip" data-w="2" data-since="2016">Django Channels</li>
+            <li class="chip" data-w="1" data-since="2011">WebSockets</li>
+            <li class="chip" data-w="1" data-since="2000">REST</li>
+            <li class="chip" data-w="1" data-since="2001">JSON</li>
+            <li class="chip" data-w="1" data-since="2000">SQLite</li>
+          </ul>
+        </div>
+        <div class="stack__group">
+          <h3>In the browser</h3>
+          <ul class="chips">
+            <li class="chip" data-w="2" data-since="2015">PWA &amp; Service Workers</li>
+            <li class="chip" data-w="1" data-since="2017">Web Push</li>
+            <li class="chip" data-w="2" data-since="2011">Web Audio API</li>
+            <li class="chip" data-w="2" data-since="2013">Web Speech API</li>
+            <li class="chip" data-w="1" data-since="2020">Screen Wake Lock</li>
+            <li class="chip" data-w="1" data-since="2009">localStorage</li>
+            <li class="chip" data-w="1" data-since="2011">Bootstrap</li>
+          </ul>
+        </div>
+        <div class="stack__group">
+          <h3>Shipping</h3>
+          <ul class="chips">
+            <li class="chip" data-w="2" data-since="2005">Git</li>
+            <li class="chip" data-w="1" data-since="2008">GitHub</li>
+            <li class="chip" data-w="1" data-since="2019">Render</li>
+            <li class="chip" data-w="1" data-since="2020">Railway</li>
+            <li class="chip" data-w="1" data-since="2022">Cloudflare R2</li>
+            <li class="chip" data-w="1" data-since="2012">AWS SigV4</li>
+          </ul>
+        </div>
+        <div class="stack__group">
+          <h3>How I build</h3>
+          <ul class="chips">
+            <li class="chip" data-w="2">Role-based access</li>
+            <li class="chip" data-w="2">Decimal money logic</li>
+            <li class="chip" data-w="1">Audit trails</li>
+            <li class="chip" data-w="2">Regression testing</li>
+            <li class="chip" data-w="1">One rule, one home</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--story" id="story" data-anchor aria-labelledby="story-h">
+      <h2 class="section__title" id="story-h">Story</h2>
+      <p class="section__intro">I came to code from business, which is why I build for how a business really runs.</p>
+
+      <ol class="timeline">
+        <li class="moment" data-anchor>
+          <p class="moment__when"><span class="when" data-when="2019" data-label="2019 – 2023"></span></p>
+          <h3 class="moment__title">Founder, event management company</h3>
+          <p>Built and scaled an events business, then handed it to family. Four years of P&amp;L, staffing and suppliers: the same problems I now write software for.</p>
+        </li>
+        <li class="moment" data-anchor>
+          <p class="moment__when"><span class="when" data-when="2023" data-label="2023 – 2024"></span></p>
+          <h3 class="moment__title">Algorithmic trading</h3>
+          <p>Deployed and managed automated trading systems, with hands-on risk management.</p>
+        </li>
+        <li class="moment" data-anchor>
+          <p class="moment__when"><span class="when" data-when="2025" data-label="2025"></span></p>
+          <h3 class="moment__title">Python and Django</h3>
+          <p>Full-stack development at Entri Elevate, Grade A+ (98%). Python certificates from Illinois Institute of Technology (Certified User) and Skill India NSDC (Grade A+).</p>
+        </li>
+        <li class="moment" data-anchor>
+          <p class="moment__when"><span class="when" data-when="2026" data-label="2026"></span></p>
+          <h3 class="moment__title">Freelance developer</h3>
+          <p>WorkshopOS for Formula D, the catering architecture for Badusha Event Management, and Word Hunt and Therapist on the side.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section section--contact" id="contact" data-anchor data-for="hire build" aria-labelledby="contact-h">
+      <h2 class="section__title" id="contact-h">Contact</h2>
+      <p class="contact__lead">Email is the fastest way to reach me.</p>
+      <ul class="links">
+        <li><a class="link link--primary" href="mailto:irshaduu01@gmail.com">irshaduu01@gmail.com</a></li>
+        <li><a class="link" href="https://github.com/Irshaduu" rel="noopener">GitHub</a></li>
+        <li><a class="link" href="https://linkedin.com/in/mohammed-irshad-c" rel="noopener">LinkedIn</a></li>
+        <li><a class="link" href="assets/Mohammed_Irshad_C_Resume.pdf">Resume (PDF)</a></li>
+      </ul>
+      <p class="contact__place">Malappuram, Kerala, India · IST (UTC+5:30)</p>
+      <p class="orn guestbook" data-orn="1997"><a href="mailto:irshaduu01@gmail.com?subject=I%20signed%20your%20guestbook">Sign my Guestbook!</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p class="orn hits" data-orn="1997" aria-hidden="true">Visits from this computer: <span class="hits__n">000001</span></p>
+    <p class="orn webring" data-orn="1997">
+      <a href="?y=1992" data-jump="-1">&lt;&lt; Prev</a> | Time Travel Webring | <a href="?y=2001" data-jump="1">Next &gt;&gt;</a>
+    </p>
+    <p class="orn badges" data-orn="2007" aria-hidden="true"><span>Python powered</span><span>Made with Django</span><span>Web 2.0</span></p>
+    <p class="footer__copy">© <span data-year-text>2028</span> Mohammed Irshad C</p>
+    <p class="footer__built">One HTML document. Seven eras. Each era is only a stylesheet.</p>
+    <p class="orn bestviewed" data-orn="1997" aria-hidden="true">Best viewed with Netscape Navigator 3.0 at 800 x 600</p>
+    <p class="orn flashnote" data-orn="2001" aria-hidden="true">Best viewed at 800 x 600 with your speakers on</p>
+  </footer>
+
+  <aside class="timemachine" id="timemachine" aria-label="Time machine">
+    <div class="tm__readout">
+      <output class="tm__year" for="tm-range" aria-hidden="true">2028</output>
+      <div class="tm__era">
+        <p class="tm__era-name">The next interface</p>
+        <p class="tm__note"></p>
+      </div>
+    </div>
+    <div class="tm__control">
+      <button type="button" class="tm__step" data-step="-1" aria-label="Previous era"><span aria-hidden="true">&#8249;</span></button>
+      <div class="tm__track">
+        <input class="tm__range" id="tm-range" type="range" min="1992" max="2028" step="1" value="2028" aria-label="Travel to year">
+        <ol class="tm__ticks"></ol>
+      </div>
+      <button type="button" class="tm__step" data-step="1" aria-label="Next era"><span aria-hidden="true">&#8250;</span></button>
+    </div>
+    <p class="tm__hint" aria-hidden="true">Drag to travel back in time</p>
+    <p class="orn tm__lmb" data-orn="1992" aria-hidden="true">Type a link number and press Return: <span class="tm__lmb-input"></span><span class="tm__lmb-cursor">_</span></p>
+    <p class="sr-only tm__live" aria-live="polite"></p>
+  </aside>
+
+  <!-- 2001 only: the Flash intro. js/eras/2001.js opens it; Escape or Skip closes it. -->
+  <dialog class="intro" id="intro" aria-labelledby="intro-title">
+    <div class="intro__stage">
+      <div class="intro__rings" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="intro__load" aria-hidden="true"><span>Loading</span> <span class="intro__pct">0%</span></p>
+      <div class="intro__bar" aria-hidden="true"><span></span></div>
+      <h2 class="intro__name" id="intro-title" data-text="Mohammed Irshad C">Mohammed Irshad C</h2>
+      <p class="intro__tag">Python // Django // Systems</p>
+      <button type="button" class="intro__enter" data-intro-close>Enter site &gt;&gt;</button>
+    </div>
+    <button type="button" class="intro__skip" data-intro-close autofocus>Skip intro &gt;&gt;</button>
+  </dialog>
+</body>
+</html>

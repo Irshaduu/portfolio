@@ -1,0 +1,116 @@
+/*
+  The cascade has three layers. Era stylesheets live in `era`, so they always win over the
+  reset and the shared mechanics below, whatever their selectors. Each era is scoped by
+  :root[data-era="…"], so switching eras is one attribute change and nothing else.
+*/
+@layer reset, base, era;
+
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; min-height: 100vh; }
+  h1, h2, h3, h4, p, figure, blockquote, dl, dd, ol, ul { margin: 0; }
+  ol, ul { padding: 0; list-style: none; }
+  img, svg { display: block; max-width: 100%; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  q { quotes: "\201C" "\201D"; }
+}
+
+@layer base {
+  .sr-only {
+    position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .skip-link {
+    position: absolute; left: -9999px; top: 8px; z-index: 1000;
+    padding: 8px 12px; background: #fff; color: #000; font: 16px/1.2 system-ui, sans-serif;
+  }
+  .skip-link:focus { left: 8px; }
+
+  /* Ornaments belong to one era each; every era shows only its own. */
+  .orn { display: none; }
+
+  /* Content sits above the scenery. */
+  .masthead, main, .footer { position: relative; z-index: 1; }
+
+  .backdrop { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+
+  /* The static burst while scrubbing between eras. */
+  .warp {
+    position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: 0;
+    transition: opacity .3s ease-out;
+    background:
+      repeating-linear-gradient(0deg, rgb(255 255 255 / .16) 0 1px, transparent 1px 3px),
+      repeating-linear-gradient(90deg, rgb(0 0 0 / .1) 0 2px, transparent 2px 5px);
+    mix-blend-mode: difference;
+  }
+  .is-warping .warp { opacity: 1; transition: none; }
+
+  /* ---- time machine: structure only, every era dresses it ---- */
+
+  html:not(.js) .timemachine { display: none; }
+  html.js body { padding-bottom: calc(var(--tm-h, 7rem) + 1.5rem); }
+
+  .timemachine {
+    position: fixed; z-index: 100; left: 0; right: 0; bottom: 0;
+    view-transition-name: timemachine;
+  }
+  .tm__control { display: flex; align-items: center; gap: .5rem; }
+  .tm__track { position: relative; flex: 1; min-width: 0; }
+  .tm__range { display: block; width: 100%; margin: 0; }
+  .tm__ticks { position: relative; height: 1.4rem; margin-inline: calc(var(--thumb, 16px) / 2); }
+  .tm__ticks li { position: absolute; top: 0; left: var(--pos); transform: translateX(-50%); }
+  .tm__ticks button { background: none; border: 0; padding: 2px 4px; line-height: 1.2; }
+  /* Close milestones (1997, 2001) need short labels on a phone-width track. */
+  .tm__tick-short { display: none; }
+  @media (max-width: 560px) {
+    .tm__tick-long { display: none; }
+    .tm__tick-short { display: inline; }
+  }
+  [data-traveled] .tm__hint { display: none; }
+
+  /* ---- time-aware content ---- */
+  [data-future] { transition: opacity .2s; }
+
+  /* ---- view transitions between eras ---- */
+  ::view-transition-group(root) { animation-duration: .5s; }
+  ::view-transition-group(timemachine) { animation-duration: .35s; }
+
+  /* Into the past: the present folds away like old film, the past wipes in line by line. */
+  html[data-travel="back"]::view-transition-old(root) {
+    animation: tt-past-out .42s cubic-bezier(.4, 0, .6, 1) both;
+  }
+  html[data-travel="back"]::view-transition-new(root) {
+    animation: tt-past-in .5s cubic-bezier(.2, .7, .2, 1) .06s both;
+  }
+  /* Into the future: the old page dissolves into light, the new one comes into focus. */
+  html[data-travel="forward"]::view-transition-old(root) {
+    animation: tt-future-out .4s ease-in both;
+  }
+  html[data-travel="forward"]::view-transition-new(root) {
+    animation: tt-future-in .5s cubic-bezier(.2, .8, .2, 1) .04s both;
+  }
+}
+
+@keyframes tt-past-out {
+  to { opacity: 0; transform: scale(.97); filter: sepia(1) contrast(1.2) blur(2px); }
+}
+@keyframes tt-past-in {
+  from { clip-path: inset(0 0 100% 0); filter: brightness(1.6) saturate(0); }
+  70% { filter: brightness(1.1) saturate(.6); }
+  to { clip-path: inset(0 0 0 0); filter: none; }
+}
+@keyframes tt-future-out {
+  to { opacity: 0; transform: scale(1.03); filter: blur(8px) brightness(1.8); }
+}
+@keyframes tt-future-in {
+  from { opacity: 0; transform: scale(.985); filter: blur(10px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  .warp { display: none; }
+}
