@@ -161,6 +161,7 @@
     & .project__kind { padding: .2rem .65rem; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); background: rgb(255 255 255 / .03); }
     & .project__title { font-size: 1.6rem; font-weight: 600; letter-spacing: -.035em; line-height: 1.15; }
     & .project--feature .project__title { font-size: clamp(2.1rem, 4.2vw, 3rem); letter-spacing: -.05em; }
+    & .mark { --mk-ink: #c4b5fd; }
     & .project__tagline { color: var(--ink); font-size: 1.04rem; }
     & .project__summary { color: var(--ink-2); }
     & .points { display: grid; gap: .7rem; color: var(--ink-2); font-size: .95rem; }

@@ -77,6 +77,34 @@ HTML as `.orn` elements with `data-orn="1997"`. The base layer hides every ornam
 era shows only its own. Decorative ones are `aria-hidden`; working ones (the MIDI button,
 the intent buttons, the webring) are real buttons and links.
 
+### Project symbols
+
+Every project title starts with its own symbol: a wrench for WorkshopOS, a magnifier for Word
+Hunt, a hold timer (a ring nine tenths closed, with a hand) for PhysioCoach, a serving dome for
+the catering system. Each is a small line drawing inside its title (`.mark`), hidden from screen
+readers, so the title still reads as just its name. One drawing serves every era; the era dresses
+it through `--mk-*` properties (fills, the ring's colour and width, the dot):
+
+| Era | The symbol |
+|---|---|
+| 1992 | None |
+| 1997 | A Windows 95 icon: bright fills, a black outline, jagged edges, on a raised grey button |
+| 2001 | An orange drawing with a glow on a gunmetal key, in the era's corner brackets |
+| 2007 | A glossy app icon in the project's colour, the drawing in white under the shine |
+| 2013 | A white drawing in a darker circle, casting the era's long shadow |
+| 2023, 2026, 2030 | The drawing alone in the era's colour: no box, no glow |
+
+The symbol sits centred on the title's first line, so a title that wraps keeps it beside its
+first word. **In 2030 the symbols move.** Each one draws itself line by line as you scroll toward
+its station (tied to scroll in CSS, where the browser can do that), the timer's hand sweeping
+round in nine ticks. When the station arrives (`js/eras/2030/marks.js`), each makes one move of
+its own: the wrench tightens, the magnifier scans, the hand settles, the dome lifts. Hovering a
+card plays it again. With reduced motion nothing draws or moves.
+
+**Cards side by side line up.** Where 2026 puts three cards in a row, they share their rows
+(CSS subgrid): labels and titles, pictures, summaries, lists, numbers, tags and links each start
+at the same height, however much one card wraps.
+
 ### Project pictures
 
 Each project carries one picture, a `.shot` that links to its full size: the WorkshopOS system
@@ -357,8 +385,8 @@ js/clips.js           the live apps' phone clips: play on screen, pause off it
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
                       2026 light/intent, 2030 scene
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
-                      the Stack constellation (constellation.js), the sky clock (sky.js), and the
-                      2030 score (audio.js)
+                      the Stack constellation (constellation.js), the sky clock (sky.js), the
+                      2030 score (audio.js), and the moment each project symbol moves (marks.js)
 tools/serve.mjs       zero-dependency local server
 tools/pdf.mjs         prints the document pages to their PDFs (the resume, the write-ups)
 tools/facts.mjs       checks the portfolio, resume and write-ups agree on the facts they share

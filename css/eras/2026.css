@@ -167,6 +167,12 @@
     }
     & .project__main, & .project__data { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1.25rem; }
     & .project__data { flex: 1; }
+    /* Cards side by side share their rows, so the headers, pictures, lists and numbers line up
+       across a row whatever wraps in one of them (a long title, a two-line label). */
+    & .project:not(.project--feature) { display: grid; grid-row: span 7; grid-template-rows: subgrid; row-gap: 1.25rem; }
+    & .project:not(.project--feature) :is(.project__main, .project__data) { display: contents; }
+    & .project:not(.project--feature) :is(.project__main, .project__data) > * { position: relative; z-index: 1; align-self: start; }
+    & .project:not(.project--feature) .project__foot { margin-top: 0; }
     & .project__head { display: grid; gap: .65rem; }
     & .shot a {
       overflow: hidden; border-radius: 18px; border: 1px solid var(--line); background: #070912;
@@ -186,6 +192,7 @@
     & .when { color: var(--c1); }
     & .project__title { font: 400 clamp(1.4rem, 2.2vw, 1.8rem)/1.1 var(--display); letter-spacing: -.025em; }
     & .project--feature .project__title { font-size: clamp(2.1rem, 4.6vw, 3.6rem); font-weight: 300; letter-spacing: -.04em; }
+    & .mark { --mk-ink: var(--c1); }
     & .project__tagline { font-size: 1.05rem; color: var(--ink); }
     & .project__summary { color: var(--ink-2); }
     & .points { display: grid; gap: .75rem; font-size: .97rem; color: var(--ink-2); }

@@ -33,6 +33,23 @@
   /* Ornaments belong to one era each; every era shows only its own. */
   .orn { display: none; }
 
+  /* ---- the projects' symbols, beside each title ----
+     Today's look unless an era dresses its own: the line drawing alone, in the era's colour
+     (--mk-ink), no box and no glow. It sits centred on the title's first line, so a title that
+     wraps keeps its symbol beside its first word. The old eras put it on a key, an icon or a
+     badge; 1992 has none. */
+  .project__title { display: flex; align-items: flex-start; gap: .36em; }
+  .mark {
+    --mk-ink: currentColor; --mk-size: min(1.2em, 44px);
+    flex: none; display: grid; place-items: center; width: var(--mk-size); aspect-ratio: 1;
+    margin-top: calc((1lh - var(--mk-size)) / 2);
+    color: var(--mk-ink);
+  }
+  .mark svg {
+    width: 86%; height: 86%; overflow: visible;
+    fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round;
+  }
+
   /* Content sits above the scenery. */
   .masthead, main, .footer { position: relative; z-index: 1; }
 

@@ -96,6 +96,17 @@
     & .project__meta { display: flex; flex-wrap: wrap; gap: 0 10px; font-size: 11px; color: #888; }
     & .project__meta .when::before { content: "Posted "; }
     & .project__title { font: bold 20px/1.2 "Trebuchet MS", var(--sans); color: var(--blue-dark); }
+    /* The projects' symbols as glossy app icons, one colour each, a white drawing under the shine. */
+    & .mark {
+      --mk-c: var(--blue); --mk-fill-2: rgb(255 255 255 / .28); --mk-dot: #fff;
+      --mk-size: 1.6em; border-radius: 24%; color: #fff; border: 1px solid rgb(0 0 0 / .28);
+      background: var(--gloss), linear-gradient(color-mix(in srgb, var(--mk-c), #fff 32%), var(--mk-c));
+      box-shadow: inset 0 1px rgb(255 255 255 / .6), 0 2px 4px rgb(0 0 0 / .25);
+    }
+    & .mark svg { width: 64%; height: 64%; stroke-width: 2.2; filter: drop-shadow(0 -1px 0 rgb(0 0 0 / .25)); }
+    & #word-hunt .mark { --mk-c: #e0218a; }
+    & #physiocoach .mark { --mk-c: var(--lime-dark); }
+    & #catering .mark { --mk-c: var(--orange); }
     & .blink {
       display: inline-block; margin-left: 6px; padding: 2px 6px; border-radius: 4px; vertical-align: middle;
       font: bold 10px/1.2 Arial, sans-serif; color: #fff; background: linear-gradient(#ff5a5a, #d40000);

@@ -75,6 +75,16 @@
     & .project__meta { display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgb(255 255 255 / .82); }
     & .project__title { font-size: clamp(1.6rem, 2.6vw, 2.1rem); font-weight: 700; line-height: 1.15; }
     & .project--feature .project__title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; text-transform: uppercase; letter-spacing: .06em; }
+    /* The projects' symbols as flat badges: a white drawing in a darker circle, casting the era's
+       long shadow down to the right. */
+    & .mark {
+      --mk-ls: color-mix(in srgb, var(--tile-dark), #000 22%); --mk-dot: #fff;
+      --mk-size: min(1.3em, 56px); border-radius: 50%; overflow: hidden; color: #fff; background: var(--tile-dark); box-shadow: none;
+    }
+    & .mark svg {
+      width: 54%; height: 54%; stroke-width: 2.2;
+      filter: drop-shadow(1px 1px 0 var(--mk-ls)) drop-shadow(2px 2px 0 var(--mk-ls)) drop-shadow(4px 4px 0 var(--mk-ls)) drop-shadow(8px 8px 0 var(--mk-ls)) drop-shadow(16px 16px 0 var(--mk-ls));
+    }
     & .project__tagline { font-size: 1.08rem; font-weight: 300; }
     & .points { display: grid; gap: .65rem; font-size: .98rem; }
     & .points li { position: relative; padding-left: 1.75rem; }

@@ -260,6 +260,32 @@
     & .when { color: var(--gold); }
     & .project__title { font: 300 clamp(1.7rem, 3vw, 2.5rem)/1.05 var(--display); letter-spacing: -.035em; }
     & .project--feature .project__title { font-size: clamp(2.3rem, 4.8vw, 4rem); font-weight: 200; }
+    & .mark { --mk-ink: var(--ice); }
+    & .mark svg { stroke-width: 1.5; }
+    /* The symbols build themselves as their station comes into view, tied to scroll where the
+       browser can do that: every line draws on, the timer's hand sweeps round in nine ticks. Then
+       each makes one move of its own when the station arrives (2030/marks.js) and again on hover:
+       the wrench tightens, the magnifier scans, the hand settles, the dome lifts. */
+    & .mark :is(.mk-move, .mk-hand) { transform-box: view-box; }
+    & .mark .mk-turn { transform-origin: 15.1px 8.9px; }
+    & .mark .mk-lid { transform-origin: 3.5px 16.2px; }
+    & .mark .mk-hand { transform-origin: 12px 12px; }
+    & .mark .mk-dot { transform-box: fill-box; transform-origin: center; }
+    @media (prefers-reduced-motion: no-preference) {
+      @supports (animation-timeline: view()) {
+        & .mark :is(.mk-line, .mk-hand, .mk-dot) { animation-timeline: view(); animation-range: cover 14% cover 46%; animation-fill-mode: both; }
+        & .mark .mk-line { stroke-dasharray: 1 1; animation-name: tt30-mk-draw; animation-timing-function: linear; }
+        & .mark .mk-hand { animation-name: tt30-mk-sweep; animation-timing-function: steps(9, end); }
+        & .mark .mk-dot { animation-name: tt30-mk-pop; animation-timing-function: linear; }
+      }
+      & :is(.mark.is-arriving, .project:hover .mark) .mk-turn { animation: tt30-mk-turn 1s cubic-bezier(.3, .7, .3, 1) both; }
+      & :is(.mark.is-arriving, .project:hover .mark) .mk-scan { animation: tt30-mk-scan 1.1s ease-in-out both; }
+      & :is(.mark.is-arriving, .project:hover .mark) .mk-lid { animation: tt30-mk-lift .9s cubic-bezier(.3, .7, .3, 1) both; }
+      & .mark.is-arriving .mk-hand { animation: tt30-mk-tick .6s cubic-bezier(.3, .7, .3, 1) both; }
+      & .mark.is-arriving .mk-dot { animation: tt30-mk-glint .6s ease-out both; }
+      & .project:hover .mark .mk-arc { stroke-dasharray: 1 1; animation: tt30-mk-draw 1.1s cubic-bezier(.4, 0, .2, 1) both; }
+      & .project:hover .mark .mk-hand { animation: tt30-mk-sweep 1.1s steps(9, end) both; }
+    }
     & .project__tagline { font-size: 1.08rem; color: var(--ink); }
     & .project__summary { color: var(--ink-2); }
     & .points { display: grid; gap: .8rem; font-size: .97rem; color: var(--ink-2); }
@@ -574,4 +600,16 @@
   }
   @keyframes tt30-twinkle { 50% { opacity: .45; scale: .8; } }
   @keyframes tt30-emerge { from { opacity: 0; scale: .94; filter: blur(8px); } to { opacity: 1; scale: 1; filter: none; } }
+  /* The project symbols: drawing on, the hand's sweep, the centre dot, and each one's own move. */
+  @keyframes tt30-mk-draw { 0% { stroke-dashoffset: 1; opacity: 0; } 6% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
+  @keyframes tt30-mk-sweep { from { transform: rotate(-324deg); } to { transform: rotate(0deg); } }
+  @keyframes tt30-mk-pop { 0%, 80% { opacity: 0; transform: scale(.2); } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes tt30-mk-turn { 0% { transform: rotate(0deg); } 45% { transform: rotate(26deg); } 72% { transform: rotate(-4deg); } 100% { transform: rotate(0deg); } }
+  @keyframes tt30-mk-scan {
+    0%, 100% { transform: translate(0, 0); } 25% { transform: translate(2px, -1.8px); }
+    50% { transform: translate(2.4px, 1.6px); } 75% { transform: translate(-1.6px, 2px); }
+  }
+  @keyframes tt30-mk-lift { 0% { transform: translate(0, 0) rotate(0deg); } 40% { transform: translate(0, -2.6px) rotate(-9deg); } 100% { transform: translate(0, 0) rotate(0deg); } }
+  @keyframes tt30-mk-tick { 0% { transform: rotate(-14deg); } 55% { transform: rotate(4deg); } 100% { transform: rotate(0deg); } }
+  @keyframes tt30-mk-glint { 0% { transform: scale(1); } 40% { transform: scale(1.9); } 100% { transform: scale(1); } }
 }

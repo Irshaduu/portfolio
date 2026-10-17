@@ -144,6 +144,16 @@
     & .project__meta { font: 13px Arial, sans-serif; color: var(--silver); }
     & .project__meta .when { color: #0f0; }
     & .project__title { font: bold 27px var(--comic); color: #ff0; text-decoration: underline; }
+    /* The projects' symbols as Windows 95 icons: bright fills, a black outline and jagged edges,
+       on a raised grey button. */
+    & .mark {
+      --mk-fill: #808080; --mk-fill-2: #fff; --mk-arc: #00b000; --mk-arc-w: 3; --mk-dot: #000;
+      --mk-size: 34px; border-radius: 0; color: #000; background: var(--silver); box-shadow: var(--bevel-out);
+    }
+    & .mark svg { width: 24px; height: 24px; stroke-width: 1.6; shape-rendering: crispEdges; }
+    & #word-hunt .mark { --mk-fill: #a05000; --mk-fill-2: #0ff; }
+    & #physiocoach .mark { --mk-fill-2: #ffffc0; }
+    & #catering .mark { --mk-fill: #e0e0e0; --mk-fill-2: #ff0; }
     & .blink { display: inline-block; padding: 0 4px; font: bold 13px Arial, sans-serif; color: #ff0; background: #f00; vertical-align: middle; text-decoration: none; animation: tt97-blink 1.1s steps(1) infinite; }
     & .project__tagline { font-style: italic; color: #0ff; }
     & .points li { padding-left: 1.2em; text-indent: -1.2em; }
