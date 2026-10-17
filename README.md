@@ -224,7 +224,8 @@ js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter,
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js)
 tools/serve.mjs       zero-dependency local server
-assets/               resume PDF
+tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
+assets/               resume PDF, link preview picture
 ```
 
 ## Adding an era
