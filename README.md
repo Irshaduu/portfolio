@@ -14,6 +14,9 @@ load from `file://`. No install, no dependencies, no build step.
 
 Share an era with a link: `?y=1997`.
 
+**Before every commit that changes CSS or JS, run `node tools/stamp.mjs`** (see "When something
+fails" below). `node tools/stamp.mjs --check` says whether the stamps are up to date.
+
 ---
 
 ## The eras
@@ -322,6 +325,32 @@ A small inline script in `<head>` reads `?y=` and sets `data-era` before the pag
 so a shared 1997 link never flashes 2026 first. Without JavaScript the page is fully readable
 in 2026 and the time machine is hidden.
 
+### When something fails
+
+Every era should arrive whole, whatever the network or the device does. What happens when:
+
+- **A file changed in the last deploy.** GitHub Pages lets browsers keep each file for 10
+  minutes, which could pair a new page with an old stylesheet. `tools/stamp.mjs` gives every
+  stylesheet and script a `?v=` fingerprint of its contents, and index.html an import map that
+  does the same for the scripts that load other scripts. A changed file always arrives fresh,
+  an unchanged one stays cached.
+- **The network drops a script.** Era code loads through `js/load.js`, which asks again twice,
+  a little later each time, with a fresh URL (a browser may remember a failed load).
+- **One part of 2030 fails.** Its scene, sky, star map and symbols each load and start on their
+  own (`js/eras/2030.js`), so one failing never stops the others. The sky hands the scene its
+  starlight through 2030.js instead of importing it, and the score (`audio.js`) is optional
+  everywhere: until it arrives, or if it never does, the parts are simply silent.
+- **No WebGL2, a broken shader, a lost graphics context, or the drawing throws.** The scene
+  stops and the name comes back as text, in the 2030 colours. If the scene never even starts,
+  CSS brings the text back after 3 seconds on its own.
+- **Fonts are blocked.** Every era waits for its fonts a moment at most, then uses its fallbacks.
+- **No JavaScript at all.** The page is styled in the era from the link, readable and complete;
+  only the moving parts and the time machine's slider are missing.
+- **A stylesheet is late.** The project symbols carry their own small size, so they never
+  appear huge.
+
+These were all tested in a headless browser by blocking the files and faking the failures.
+
 ---
 
 ## The resume and the write-ups
@@ -382,12 +411,14 @@ js/transition.js      view transitions, scrub static, keeping the reading positi
 js/timemachine.js     the slider and its buttons
 js/sound.js           the one sound switch and every sound, made with Web Audio
 js/clips.js           the live apps' phone clips: play on screen, pause off it
+js/load.js            loads a script and asks again if the network drops it
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
                       2026 light/intent, 2030 scene
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js), the
                       2030 score (audio.js), and the moment each project symbol moves (marks.js)
 tools/serve.mjs       zero-dependency local server
+tools/stamp.mjs       fingerprints every stylesheet and script, so a deploy never mixes versions
 tools/pdf.mjs         prints the document pages to their PDFs (the resume, the write-ups)
 tools/facts.mjs       checks the portfolio, resume and write-ups agree on the facts they share
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside

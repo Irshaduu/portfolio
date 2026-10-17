@@ -5,7 +5,12 @@
 // Hover or touch a star to light every project that uses it; tap to keep it lit. The legend
 // buttons light one project, and work from the keyboard. The lit projects' cards glow too.
 
-import * as audio from './audio.js';
+import { load } from '../../load.js';
+
+// The score is optional: every sound is silent until it arrives, and stays silent if it never
+// does, so a dropped sound file can never stop this part from drawing.
+let audio = new Proxy({}, { get: () => () => {} });
+load(new URL('./audio.js', import.meta.url)).then((m) => { audio = m; }, () => {});
 
 const LABELS = { workshopos: 'WorkshopOS', 'word-hunt': 'Word Hunt', physiocoach: 'PhysioCoach', catering: 'Catering' };
 const IN_A_SENTENCE = { ...LABELS, catering: 'the catering spec' };

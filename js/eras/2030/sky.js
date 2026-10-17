@@ -4,8 +4,16 @@
 //
 // It only writes custom properties (2030.css paints them) and the scene's starlight.
 
-import { setStarlight } from './scene.js';
-import { day } from './audio.js';
+import { load } from '../../load.js';
+
+// The score is optional: every sound is silent until it arrives, and stays silent if it never
+// does, so a dropped sound file can never stop this part from drawing.
+let audio = new Proxy({}, { get: () => () => {} });
+load(new URL('./audio.js', import.meta.url)).then((m) => { audio = m; }, () => {});
+
+// How bright the stars should be, handed to the scene by 2030.js, so the sky never needs the
+// scene to load first (or at all).
+let setStarlight = () => {};
 
 const root = document.documentElement;
 const DAY_MS = 9000;
@@ -62,7 +70,7 @@ function play() {
   button.dataset.playing = '';
   const from = nowHours();
   const start = performance.now();
-  day(from, DAY_MS / 1000);
+  audio.day(from, DAY_MS / 1000);
   const step = (now) => {
     const t = (now - start) / DAY_MS;
     if (t >= 1) {
@@ -77,7 +85,8 @@ function play() {
   frame = requestAnimationFrame(step);
 }
 
-export function startSky() {
+export function startSky(onStarlight) {
+  setStarlight = onStarlight || (() => {});
   paint(nowHours());
   timer = setInterval(() => playing || paint(nowHours()), 30000);
   button.addEventListener('click', play);

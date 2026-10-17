@@ -3,6 +3,7 @@ import { applyYear } from './time.js';
 import { travel, warp } from './transition.js';
 import { mountTimeMachine } from './timemachine.js';
 import { travel as travelSound, land, tick } from './sound.js';
+import { load } from './load.js';
 import './clips.js';
 
 const root = document.documentElement;
@@ -51,7 +52,7 @@ async function syncModule() {
   active = null;
   if (!era.module) return;
   try {
-    const mod = await import(`./eras/${era.id}.js`);
+    const mod = await load(new URL(`./eras/${era.id}.js`, import.meta.url));
     if (ticket !== moduleTicket) return;
     active = { id: era.id, mod };
     mod.enter?.(ctx);

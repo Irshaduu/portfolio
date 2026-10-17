@@ -8,7 +8,12 @@
 // its CSS fallback and nothing here runs.
 
 import { SHAPES, stars } from './shapes.js';
-import * as audio from './audio.js';
+import { load } from '../../load.js';
+
+// The score is optional: every sound is silent until it arrives, and stays silent if it never
+// does, so a dropped sound file can never stop this part from drawing.
+let audio = new Proxy({}, { get: () => () => {} });
+load(new URL('./audio.js', import.meta.url)).then((m) => { audio = m; }, () => {});
 
 const root = document.documentElement;
 const KIND = { machine: 0, letters: 1, breath: 2, party: 3 };
@@ -600,11 +605,25 @@ function render(now, dt) {
   gl.bindVertexArray(null);
 }
 
+// If drawing ever throws, the scene stops for this visit and the name comes back as text, rather
+// than an empty sky over a name that is hidden for the scene to draw.
+function crashed(err) {
+  console.error('2030 scene: stopped', err);
+  broken = true;
+  stopScene();
+  root.dataset.gl = 'off';
+}
+
 function frame(now) {
   raf = requestAnimationFrame(frame);
   const dt = Math.min(now - last, 64);
   last = now;
-  render(now, dt);
+  try {
+    render(now, dt);
+  } catch (err) {
+    crashed(err);
+    return;
+  }
   // A device that can't keep up (under 25 fps for a while) gets fewer pixels.
   slow = slow * 0.97 + (dt > 40 ? 0.03 : 0);
   if (slow > 0.5 && quality > 0.5) {
@@ -617,7 +636,12 @@ function frame(now) {
 const requestRender = () => {
   pending ||= requestAnimationFrame((now) => {
     pending = 0;
-    if (live) render(now, 16.667);
+    if (!live) return;
+    try {
+      render(now, 16.667);
+    } catch (err) {
+      crashed(err);
+    }
   });
 };
 
