@@ -118,6 +118,9 @@
     & .project__main, & .project__data { position: relative; display: flex; flex-direction: column; gap: 1.2rem; }
     & .project__data { flex: 1; }
     & .project__head { display: grid; gap: .6rem; }
+    & .shot a { overflow: hidden; border-radius: 16px; border: 1px solid var(--line); background: rgb(255 255 255 / .02); transition: border-color .25s; }
+    & .shot a:hover { border-color: var(--line-2); }
+    & .shot figcaption { margin-top: .6rem; font-size: .8rem; color: var(--ink-3); }
     & .project__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .78rem; color: var(--ink-3); }
     & .project__kind { padding: .2rem .65rem; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); background: rgb(255 255 255 / .03); }
     & .project__title { font-size: 1.6rem; font-weight: 600; letter-spacing: -.035em; line-height: 1.15; }

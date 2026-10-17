@@ -168,6 +168,12 @@
     & .project__main, & .project__data { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 1.25rem; }
     & .project__data { flex: 1; }
     & .project__head { display: grid; gap: .65rem; }
+    & .shot a {
+      overflow: hidden; border-radius: 18px; border: 1px solid var(--line); background: #070912;
+      box-shadow: 0 30px 60px -36px rgb(0 0 0 / .95), inset 0 1px 0 rgb(255 255 255 / .05); transition: border-color .3s, box-shadow .3s;
+    }
+    & .shot a:hover { border-color: var(--c1); box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 30px 60px -36px rgb(0 0 0 / .95); }
+    & .shot figcaption { margin-top: .65rem; font: 500 .64rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
     & .project__meta {
       display: flex; flex-wrap: wrap; gap: .35rem 1rem;
       font: 500 .68rem/1.35 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);

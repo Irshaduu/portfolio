@@ -210,6 +210,12 @@
     & .project:nth-child(even) .orb { grid-column: 2; }
 
     & .project__head { display: grid; gap: .7rem; }
+    & .shot a {
+      overflow: hidden; border-radius: 20px; border: 1px solid var(--line-2); background: #04050c;
+      box-shadow: 0 0 44px -22px rgb(159 232 255 / .5); transition: border-color .3s, box-shadow .3s;
+    }
+    & .shot a:hover { border-color: var(--ice); box-shadow: 0 0 50px -16px rgb(159 232 255 / .6); }
+    & .shot figcaption { margin-top: .65rem; font: 500 .62rem/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
     & .project__meta {
       display: flex; flex-wrap: wrap; gap: .35rem 1.1rem;
       font: 500 .66rem/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);
@@ -286,7 +292,7 @@
 
     & [data-sky-project="workshopos"], & .sky-line[data-project="workshopos"] { --c: var(--gold); }
     & [data-sky-project="word-hunt"], & .sky-line[data-project="word-hunt"] { --c: var(--ice); }
-    & [data-sky-project="therapist"], & .sky-line[data-project="therapist"] { --c: var(--mint); }
+    & [data-sky-project="physiocoach"], & .sky-line[data-project="physiocoach"] { --c: var(--mint); }
     & [data-sky-project="catering"], & .sky-line[data-project="catering"] { --c: var(--rose); }
 
     & .stack {
@@ -300,7 +306,7 @@
       transition: stroke-dashoffset 2.6s cubic-bezier(.4, 0, .2, 1), opacity .35s, stroke-width .35s;
     }
     & .sky-line[data-project="word-hunt"] { transition-delay: .25s, 0s, 0s; }
-    & .sky-line[data-project="therapist"] { transition-delay: .5s, 0s, 0s; }
+    & .sky-line[data-project="physiocoach"] { transition-delay: .5s, 0s, 0s; }
     & .sky-line[data-project="catering"] { transition-delay: .75s, 0s, 0s; }
     & .sky-lines.is-drawn .sky-line { stroke-dashoffset: 0; }
 
@@ -343,18 +349,18 @@
     & .stack[data-lit] .sky-line { opacity: .1; }
     & .stack[data-lit~="workshopos"] .chip[data-in~="workshopos"],
     & .stack[data-lit~="word-hunt"] .chip[data-in~="word-hunt"],
-    & .stack[data-lit~="therapist"] .chip[data-in~="therapist"],
+    & .stack[data-lit~="physiocoach"] .chip[data-in~="physiocoach"],
     & .stack[data-lit~="catering"] .chip[data-in~="catering"] { opacity: 1; }
     & .stack[data-lit~="workshopos"] .sky-line[data-project="workshopos"],
     & .stack[data-lit~="word-hunt"] .sky-line[data-project="word-hunt"],
-    & .stack[data-lit~="therapist"] .sky-line[data-project="therapist"],
+    & .stack[data-lit~="physiocoach"] .sky-line[data-project="physiocoach"],
     & .stack[data-lit~="catering"] .sky-line[data-project="catering"] {
       opacity: 1; stroke-width: 1.6; filter: drop-shadow(0 0 4px var(--c));
     }
     /* …and so do their cards up in Work, for whoever follows the link. */
     &[data-lit~="workshopos"] #workshopos::before,
     &[data-lit~="word-hunt"] #word-hunt::before,
-    &[data-lit~="therapist"] #therapist::before,
+    &[data-lit~="physiocoach"] #physiocoach::before,
     &[data-lit~="catering"] #catering::before {
       border-color: rgb(255 210 138 / .55);
       box-shadow: 0 0 0 1px rgb(255 210 138 / .2), 0 0 80px -20px rgb(255 210 138 / .5), inset 0 1px 0 rgb(255 255 255 / .07);

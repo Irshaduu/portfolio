@@ -144,7 +144,7 @@ void main() {
     }
     p = rotY(t * 0.16) * rotX(0.3) * p;
   } else if (uKind == 2) {
-    // Therapist: breathe in while it counts the hold, then let go.
+    // PhysioCoach: breathe in while it counts the hold, then let go.
     float phase = mod(t, 12.0);
     float hold = phase < 10.0 ? phase / 10.0 : 1.0 - (phase - 10.0) / 2.0;
     hold = smoothstep(0.0, 1.0, hold);

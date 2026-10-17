@@ -26,6 +26,10 @@
       counter-increment: lmb; content: "[" counter(lmb) "]";
     }
 
+    /* No inline images yet: a picture is a numbered link, the way a text browser shows one. */
+    & .shot img { display: none; }
+    & .shot a::before { content: "[IMAGE]"; }
+
     & [data-future] { color: #808080; }
     & :is(.tags li, .chip)[data-future]::after { content: " (arrives " attr(data-since) ")"; }
     & .link[data-future]::after { content: "[" counter(lmb) "] (arrives " attr(data-since) ")"; } /* keeps its link number */

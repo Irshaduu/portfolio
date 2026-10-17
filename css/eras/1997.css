@@ -83,6 +83,8 @@
     & .project__main, & .project__data { display: grid; gap: 10px; }
     & .project__data { margin-top: 10px; }
     & .project__head { display: grid; gap: 4px; }
+    & .shot img { max-width: 420px; border: 3px ridge var(--silver); }
+    & .shot figcaption { font: italic 13px var(--times); color: #ff0; }
     & .project__meta { font: 13px Arial, sans-serif; color: var(--silver); }
     & .project__meta .when { color: #0f0; }
     & .project__title { font: bold 27px var(--comic); color: #ff0; text-decoration: underline; }

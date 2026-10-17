@@ -77,6 +77,15 @@ HTML as `.orn` elements with `data-orn="1997"`. The base layer hides every ornam
 era shows only its own. Decorative ones are `aria-hidden`; working ones (the MIDI button,
 the intent buttons, the webring) are real buttons and links.
 
+### Project pictures
+
+Each project carries one picture, a `.shot` that links to its full size: the WorkshopOS system
+map, the live Word Hunt board, PhysioCoach mid-exercise, and the first pages of the catering
+documents. The base layer crops phone screens to one 4:3 window; each era only frames them
+(a ridged border in 1997, a white photo frame in 2007, nothing at all in 2013). 1992 had no
+inline images, so there the picture is a numbered `[IMAGE]` link, as a text browser shows it.
+Print keeps the system map and drops the phone screens.
+
 ### The time machine
 
 - **Every era gets the same width on the slider**, however many years it spans, so the eight
@@ -166,7 +175,7 @@ sits behind the page, and the text stays real HTML on top of it.
 - **Each project has an object**, built from its own numbers (`js/eras/2030/shapes.js`):
   - WorkshopOS: 21 rings for its 21 rule modules, 72 beads for its 72 transaction blocks, and 49 core points for its 49 models.
   - Word Hunt: 71 letters on a sphere, one secret one glowing, and 10 players circling it.
-  - Therapist: a shape that breathes, with a shell for each of its 2 languages, counting its 10-second hold.
+  - PhysioCoach: a shape that breathes, with a shell for each of its 2 languages, counting its 10-second hold.
   - Catering: 10 orbits for its 10 roles, and 24 beads for its 24 modules.
 
   The CSS decides where each object goes, through an empty `.orb` element in each project. The
@@ -225,7 +234,7 @@ js/eras/2030/         the WebGL scene (scene.js), the shapes built from project 
                       the Stack constellation (constellation.js), the sky clock (sky.js)
 tools/serve.mjs       zero-dependency local server
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
-assets/               resume PDF, link preview picture
+assets/               resume PDF, link preview picture, project pictures (shots/)
 ```
 
 ## Adding an era
@@ -245,9 +254,10 @@ assets/               resume PDF, link preview picture
 
 ## Performance and accessibility
 
-- No images, no framework, no build. Era scenery is CSS gradients, except 2030's, which is
+- No framework, no build. The only images are the four project pictures (WebP, lazy-loaded,
+  24 to 75 KB each). Era scenery is CSS gradients, except 2030's, which is
   drawn by code.
-- Unminified, uncompressed: 29 KB of HTML, 148 KB of CSS for all eight eras, 93 KB of JavaScript,
+- Unminified, uncompressed: 32 KB of HTML, 149 KB of CSS for all eight eras, 93 KB of JavaScript,
   of which 48 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
   current width in the current era's type. With even spacing, a 375 px phone fits them in full in

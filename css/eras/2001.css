@@ -130,6 +130,9 @@
     & .points q { color: var(--white); }
     & .project__data { flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 12px 14px 14px; }
     & .project--feature .project__data { border-left: 1px solid #000; background: rgb(0 0 0 / .18); }
+    & .shot a { border: 1px solid #000; outline: 1px solid var(--line); outline-offset: 1px; background: #0b0d10; }
+    & .shot a:hover { outline-color: var(--orange); }
+    & .shot figcaption { font: 9px/1.6 var(--pixel); letter-spacing: .06em; text-transform: uppercase; color: var(--steel); }
     & .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 4px; }
     & .stat { display: flex; flex-direction: column-reverse; padding: 6px 8px; background: #0b0e11; border: 1px solid var(--line); }
     & .stat dt { font: 8px/1.4 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--steel); }

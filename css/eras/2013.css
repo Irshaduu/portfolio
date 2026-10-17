@@ -80,6 +80,8 @@
     & .points li { position: relative; padding-left: 1.75rem; }
     & .points li::before { content: "\2713"; position: absolute; left: 0; font-weight: 900; color: var(--tile); }
     & .project__data { flex: 1; display: flex; flex-direction: column; gap: 1.25rem; padding: 0 1.75rem 1.75rem; }
+    & .shot a { background: var(--clouds); } /* flat: no frame, no shadow */
+    & .shot figcaption { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--concrete); }
     & .stats { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 1.25rem; border-top: 2px solid var(--clouds); }
     & .stat { display: flex; flex-direction: column-reverse; }
     & .stat dt { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--concrete); }

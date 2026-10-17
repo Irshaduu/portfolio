@@ -99,7 +99,7 @@ function letters() {
   return new Float32Array(out);
 }
 
-// Therapist: a shape that breathes, with a shell for each of its two languages, and the ten
+// PhysioCoach: a shape that breathes, with a shell for each of its two languages, and the ten
 // dots of the 10-second hold it counts out loud.
 // shells: a0 = (direction, 0), a1 = (shell, 0, seed, size)
 // count dots: a0 = (dot, 0, 0, 1), a1 = (offset x, offset y, seed, size)

@@ -5,7 +5,7 @@
 // Hover or touch a star to light every project that uses it; tap to keep it lit. The legend
 // buttons light one project, and work from the keyboard. The lit projects' cards glow too.
 
-const LABELS = { workshopos: 'WorkshopOS', 'word-hunt': 'Word Hunt', therapist: 'Therapist', catering: 'Catering' };
+const LABELS = { workshopos: 'WorkshopOS', 'word-hunt': 'Word Hunt', physiocoach: 'PhysioCoach', catering: 'Catering' };
 const IN_A_SENTENCE = { ...LABELS, catering: 'the catering spec' };
 const PROJECTS = Object.keys(LABELS);
 const SVG = 'http://www.w3.org/2000/svg';
