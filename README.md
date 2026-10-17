@@ -21,7 +21,7 @@ Share an era with a link: `?y=1997`.
 | Era | Name | What it looks like | What it does |
 |---|---|---|---|
 | **2030** | The page becomes a place | Deep space, drawn live in WebGL: the name in thousands of points of light, a starfield, an object beside each project built from that project's own numbers, and the Stack as a night sky | Scroll to fly; the name parts around your pointer or finger and flows back; each project is a constellation you can light; the sky follows your clock; the time machine has a **token limit** |
-| **2026** | Depth and intent | Glass panels floating over a dot floor, light that follows the pointer | Panels tilt toward you; **intent**: tell it why you came and it dims what you didn't come for |
+| **2026** | Depth and intent | Glass panels floating over a dot floor, light that follows the pointer | **Intent**: tell it why you came and it dims what you didn't come for |
 | **2023** | The template era | Dark mode, purple blobs, grid lines, bento cards, gradient text | Nothing. That's the joke: it looks like everyone's portfolio |
 | **2013** | Flat | Turquoise band, thin uppercase Lato, a 40-step long shadow, flat circles | Ghost buttons, coloured tiles |
 | **2007** | Web 2.0 | Glossy blue header, reflected lowercase wordmark, `beta`, a starburst, tag cloud | Glossy tabs, 80×15 badges |
@@ -220,7 +220,7 @@ js/transition.js      view transitions, scrub static, keeping the reading positi
 js/timemachine.js     the slider and its buttons
 js/sound.js           the one sound switch and every sound, made with Web Audio
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
-                      2026 light/tilt/intent, 2030 scene and token limit
+                      2026 light/intent, 2030 scene and token limit
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js)
 tools/serve.mjs       zero-dependency local server
@@ -255,4 +255,4 @@ assets/               resume PDF, link preview picture
 - The slider is a native `<input type="range">` with `aria-valuetext` ("1997, The homepage
   years"); era changes are announced through a polite live region.
 - `prefers-reduced-motion` turns off view transitions, the static burst, the marquee, blinking,
-  sparkles, tilt, drifting blobs, scroll-driven motion and the 2030 arrival and physics.
+  sparkles, drifting blobs, scroll-driven motion and the 2030 arrival and physics.

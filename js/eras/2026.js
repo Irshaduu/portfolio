@@ -1,4 +1,4 @@
-// 2026: light that follows the pointer, panels that tilt toward it, and intent: tell the
+// 2026: light that follows the pointer across the glass panels, and intent: tell the
 // page why you came and it leans toward what matters to you.
 
 const HINTS = {
@@ -10,12 +10,11 @@ const HINTS = {
 let cleanups = [];
 const onLeave = (fn) => cleanups.push(fn);
 
-function pointerLight(root, tilt) {
+function pointerLight(root) {
   const lit = [...document.querySelectorAll('.project, .fact')];
   let x = -1000;
   let y = -1000;
   let frame = 0;
-  let hovered = null;
 
   const paint = () => {
     frame = 0;
@@ -27,24 +26,11 @@ function pointerLight(root, tilt) {
       el.style.setProperty('--lx', `${x - r.left}px`);
       el.style.setProperty('--ly', `${y - r.top}px`);
     }
-    if (tilt && hovered) {
-      const r = hovered.getBoundingClientRect();
-      const px = (x - r.left) / r.width - 0.5;
-      const py = (y - r.top) / r.height - 0.5;
-      hovered.style.setProperty('--ry', `${(px * 5).toFixed(2)}deg`);
-      hovered.style.setProperty('--rx', `${(-py * 4).toFixed(2)}deg`);
-    }
   };
 
   const onMove = (event) => {
     x = event.clientX;
     y = event.clientY;
-    const card = tilt ? event.target.closest?.('.project') : null;
-    if (card !== hovered) {
-      hovered?.style.removeProperty('--rx');
-      hovered?.style.removeProperty('--ry');
-      hovered = card;
-    }
     if (!frame) frame = requestAnimationFrame(paint);
   };
   const onScroll = () => {
@@ -58,7 +44,7 @@ function pointerLight(root, tilt) {
     removeEventListener('scroll', onScroll);
     cancelAnimationFrame(frame);
     for (const prop of ['--mx', '--my']) root.style.removeProperty(prop);
-    for (const el of lit) for (const prop of ['--lx', '--ly', '--rx', '--ry']) el.style.removeProperty(prop);
+    for (const el of lit) for (const prop of ['--lx', '--ly']) el.style.removeProperty(prop);
   });
 }
 
@@ -86,9 +72,9 @@ function intent(root) {
   });
 }
 
-export function enter({ root, reducedMotion }) {
+export function enter({ root }) {
   const finePointer = matchMedia('(pointer: fine)').matches;
-  if (finePointer) pointerLight(root, !reducedMotion);
+  if (finePointer) pointerLight(root);
   intent(root);
 }
 
