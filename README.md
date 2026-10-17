@@ -20,7 +20,7 @@ Share an era with a link: `?y=1997`.
 
 | Era | Name | What it looks like | What it does |
 |---|---|---|---|
-| **2030** | The page becomes a place | Deep space, drawn live in WebGL: the name in thousands of points of light, a starfield, an object beside each project built from that project's own numbers, and the Stack as a night sky | Scroll to fly; the name parts around your pointer or finger and flows back; each project is a constellation you can light; the sky follows your clock; the time machine has a **token limit** |
+| **2030** | The page becomes a place | Deep space, drawn live in WebGL: the name in thousands of points of light, a starfield, an object beside each project built from that project's own numbers, and the Stack as a night sky | Scroll to fly; the name parts around your pointer or finger and flows back; each project is a constellation you can light; the sky follows your clock |
 | **2026** | Depth and intent | Glass panels floating over a dot floor, light that follows the pointer | **Intent**: tell it why you came and it dims what you didn't come for |
 | **2023** | The template era | Dark mode, purple blobs, grid lines, bento cards, gradient text | Nothing. That's the joke: it looks like everyone's portfolio |
 | **2013** | Flat | Turquoise band, thin uppercase Lato, a 40-step long shadow, flat circles | Ghost buttons, coloured tiles |
@@ -177,8 +177,6 @@ sound, at the moment it moves.
 | The constellations draw themselves in | Each project's line sings its note and climbs an octave |
 | You touch a star | It sings the chord of the projects it's in: Python, in all four, is the whole chord |
 | Play a day | A chord that opens up as the sun climbs and closes at night, a chime at sunrise and a falling one at sunset |
-| A new plan (hyperspace) | The floor drops, everything rushes up, and you arrive |
-| The plan runs out | Two soft notes, and a tone that drains away with the bar |
 
 Three rules keep it from sounding like a set of beeps:
 
@@ -191,7 +189,7 @@ Three rules keep it from sounding like a set of beeps:
   don't play with reduced motion; leaving 2030 fades everything still ringing.
 
 Every sound was rendered offline (silently) and measured: the big moments (the arrival,
-hyperspace, WorkshopOS) peak around -20 dB, touches and stars around -35 to -45 dB, nothing
+WorkshopOS) peak around -20 dB, touches and stars around -35 to -45 dB, nothing
 clips, and each renders 3 to 11 times faster than real time.
 
 ### The transition
@@ -272,14 +270,6 @@ projects' cards glow up in Work, for whoever follows the link in the caption.
 morning, daylight blue at noon with fewer stars, a sunset on the right in the evening, and deep
 space at night. **Play a day**, at the top of the page, runs all 24 hours in nine seconds.
 
-**The token limit.** In 2030 even time travel has a plan. A readout in the time machine counts
-down the 30 seconds that come with Pro. When they run out, a notice rises out of the time
-machine: *Pro limit reached · Resets 1 Jan 2031*, with **Get Max · ₹0** for 5 more minutes,
-then Max 20x. Usage-limit messages have kept getting shorter, from a paragraph to one line
-and a reset time, so the 2030 one is a single quiet line: no popup over the page, no dimmed
-backdrop, and it never takes focus. The count runs only while the tab is visible, each limit
-shows once per visit, and ×, Escape or either button puts it away.
-
 ### The first paint
 
 A small inline script in `<head>` reads `?y=` and sets `data-era` before the page paints,
@@ -303,7 +293,7 @@ js/timemachine.js     the slider and its buttons
 js/sound.js           the one sound switch and every sound, made with Web Audio
 js/clips.js           the live apps' phone clips: play on screen, pause off it
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
-                      2026 light/intent, 2030 scene and token limit
+                      2026 light/intent, 2030 scene
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js), and the
                       2030 score (audio.js)

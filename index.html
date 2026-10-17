@@ -475,7 +475,6 @@
         <p class="tm__era-name">Depth and intent</p>
         <p class="tm__note"></p>
       </div>
-      <p class="orn tm__plan" data-orn="2030" aria-hidden="true"><span class="tm__plan-tier">Pro</span> <span class="tm__plan-left">0:30 left</span></p>
     </div>
     <div class="tm__control">
       <button type="button" class="tm__step" data-step="-1" aria-label="Previous era"><span aria-hidden="true">&#8249;</span></button>
@@ -502,15 +501,5 @@
     </div>
     <button type="button" class="intro__skip" data-intro-close autofocus>Skip intro &gt;&gt;</button>
   </dialog>
-
-  <!-- 2030 only: the time machine's plan runs out. A quiet notice that rises from the
-       time machine, not a popup over the page. js/eras/2030.js fills and shows it. -->
-  <aside class="limit" id="limit" aria-labelledby="limit-title" hidden>
-    <span class="limit__meter" aria-hidden="true"></span>
-    <p class="limit__text"><strong class="limit__title" id="limit-title">Pro limit reached</strong> <span class="limit__reset"></span></p>
-    <button type="button" class="limit__upgrade" data-limit="upgrade">Get Max · ₹0</button>
-    <button type="button" class="limit__back" data-limit="back">Back to 2026</button>
-    <button type="button" class="limit__close" data-limit="close" aria-label="Dismiss"><span aria-hidden="true">&times;</span></button>
-  </aside>
 </body>
 </html>

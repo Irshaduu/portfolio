@@ -484,7 +484,7 @@ const onTouchEnd = () => {
 // ---- the frame ------------------------------------------------------------------------------------
 
 const view = { w: 0, h: 0, dpr: 1 };
-const cam = { scroll: 0, drift: 0, value: 0, streak: 0, boost: 0 };
+const cam = { scroll: 0, drift: 0, value: 0, streak: 0 };
 let starlight = 1; // daylight dims the stars (sky.js)
 let orbs = [];
 let live = false;
@@ -522,10 +522,6 @@ function render(now, dt) {
     const before = cam.value;
     cam.scroll += (scrollY / 2600 - cam.scroll) * (1 - 0.86 ** s);
     cam.drift += dt * 0.000012;
-    if (cam.boost > 0) {
-      cam.drift += cam.boost * cam.boost * 0.035 * s;
-      cam.boost = Math.max(0, cam.boost - dt / 1700);
-    }
     cam.value = cam.scroll + cam.drift;
     const speed = Math.abs(cam.value - before) / Math.max(s, 0.01);
     cam.streak += (Math.min(0.35, speed * 7) - cam.streak) * (1 - 0.8 ** s);
@@ -706,20 +702,6 @@ export function stopScene() {
   if (root.dataset.gl === 'on') delete root.dataset.gl;
   // Clear the canvas, or the next visit's first frame shows this one's last.
   if (gl && !gl.isContextLost()) gl.clear(gl.COLOR_BUFFER_BIT);
-}
-
-// A jump to hyperspace: stars streak, the name bursts and comes back together.
-export function boost() {
-  if (!live || reduced) return;
-  audio.hyperspace();
-  cam.boost = 1;
-  for (let i = 0; i < name.count; i++) {
-    const j = i * 3;
-    name.vel[j] += (Math.random() - 0.5) * 16;
-    name.vel[j + 1] += (Math.random() - 0.5) * 16;
-    name.vel[j + 2] += 10 + Math.random() * 30;
-  }
-  name.awake = true;
 }
 
 // How bright the stars are: 1 at night, lower by day. Set by the sky clock (sky.js).

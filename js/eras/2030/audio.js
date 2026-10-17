@@ -1,5 +1,5 @@
 // 2030's sound. It follows the scene: the name gathering out of stardust, the flight, each
-// project's object assembling, the night sky, the plan running out. Three things keep it from
+// project's object assembling, the night sky, a day played through. Three things keep it from
 // sounding like a set of beeps:
 //   - One key. Every note is in A Lydian, the key of the 2030 hum, so whatever plays at once
 //     is in tune: one score, not a stack of effects.
@@ -270,18 +270,6 @@ export function flight(streak) {
   wind.hum.gain.setTargetAtTime(Math.min(0.05, streak * 0.14), t, 0.2);
 }
 
-// A jump to hyperspace (a new plan): the floor drops, everything rushes up, and you arrive.
-export function hyperspace() {
-  const s = rig();
-  if (!s) return;
-  const t = s.ctx.currentTime + 0.02;
-  const mid = at(s, { wet: 0.5 });
-  glide(s, mid, t, 110, 30, { len: 1.3, gain: 0.14, attack: 0.02 });
-  glide(s, mid, t + 0.1, note(0, 2), note(0, 6), { len: 1.25, gain: 0.03, type: 'sawtooth', attack: 1 });
-  air(s, mid, t, { from: 200, to: 9000, len: 1.5, gain: 0.09, q: 1.2, attack: 1.15 });
-  for (const [i, step] of [0, 4, 8, 13].entries()) glass(s, at(s, { x: 0.5 + (i - 1.5) * 0.2, wet: 0.6 }), t + 1.3 + i * 0.05, note(step, 5), { len: 2.4, gain: 0.03, bright: 1.6 });
-}
-
 // ---- each project's object, assembling out of dust the first time it's seen -------------------
 
 const OBJECTS = {
@@ -385,20 +373,6 @@ export function day(from, seconds) {
     if (before < 0 && after >= 0) [0, 4, 7].forEach((step, k) => glass(s, at(s, { x: 0.2, y: 0.15, wet: 0.6 }), when + k * 0.09, note(step, 5), { len: 1.6, gain: 0.025, bright: 1.2 }));
     if (before >= 0 && after < 0) [7, 4, 0].forEach((step, k) => glass(s, at(s, { x: 0.8, y: 0.15, wet: 0.6 }), when + k * 0.09, note(step, 5), { len: 1.6, gain: 0.025, bright: 1.2 }));
   }
-}
-
-// ---- the plan ---------------------------------------------------------------------------------------
-
-// The limit notice rises out of the time machine: two soft notes, then a tone that drains away
-// with the bar.
-export function limit() {
-  const s = rig();
-  if (!s) return;
-  const t = s.ctx.currentTime + 0.02;
-  const here = at(s, { y: 0.95, wet: 0.45 });
-  glass(s, here, t, note(6, 5), { len: 0.9, gain: 0.03, bright: 1 });
-  glass(s, here, t + 0.14, note(4, 5), { len: 1.2, gain: 0.03, bright: 1 });
-  glide(s, here, t + 0.15, note(4, 4), note(4, 3), { len: 1.25, gain: 0.03, type: 'triangle', attack: 0.1 });
 }
 
 // ---- leaving 2030 -------------------------------------------------------------------------------------
