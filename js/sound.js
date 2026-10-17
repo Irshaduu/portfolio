@@ -1,10 +1,10 @@
-// Sound for the whole site. Off until the visitor turns it on (the speaker on the time
-// machine, or 2001's Sound button), and remembered after that. Once it's on, travelling
-// makes its own sounds: no more buttons to press.
+// Sound for the whole site. On unless the visitor has turned it off (the speaker in the top
+// right corner), and their choice is remembered. While it's on, travelling makes its own
+// sounds: no buttons to press.
 //
-// Browsers let a page make sound only after a tap, click or key press. So if sound was on
-// last visit, it wakes on the visitor's first one. Every sound is made here with the Web
-// Audio API (as in Word Hunt): no audio files.
+// Browsers let a page make sound only after a tap, click or key press, so the page always
+// opens silent, and sound wakes on the visitor's first one. Every sound is made here with the
+// Web Audio API (as in Word Hunt): no audio files.
 
 const KEY = 'tt-sound';
 
@@ -13,18 +13,19 @@ let ctx = null;
 let master = null;
 let noiseBuffer = null;
 
+// On, unless they chose off.
 const read = () => {
   try {
-    return localStorage.getItem(KEY) === '1';
+    return localStorage.getItem(KEY) !== '0';
   } catch {
-    return false;
+    return true;
   }
 };
 const write = (value) => {
   try {
     localStorage.setItem(KEY, value ? '1' : '0');
   } catch {
-    // Storage blocked: sound is just off again next visit.
+    // Storage blocked: sound is just on again next visit.
   }
 };
 
@@ -141,6 +142,7 @@ const LANDINGS = {
 
 export function land(eraId) {
   if (ready()) LANDINGS[eraId]?.();
+  else call(); // a sound they didn't hear
 }
 
 // Dragging the slider through eras: a soft detent click for each one passed.
@@ -232,16 +234,43 @@ export const isOn = () => on;
 function paintSwitches() {
   for (const el of document.querySelectorAll('[data-sound-toggle]')) {
     el.setAttribute('aria-pressed', String(on));
+    el.title = on ? 'Turn sound off' : 'Turn sound on';
     const text = on ? el.dataset.onText : el.dataset.offText;
     if (text) el.textContent = text;
   }
 }
+
+// While sound is off, the switch calls (base.css). Once the page has settled it slides open to
+// say "Turn on sound" for a few seconds, with rings spreading out from it; then just the rings,
+// each time an era lands with a sound the visitor didn't hear. Four calls a visit at most.
+let calls = 0;
+let hintTimer = 0;
+const switches = () => document.querySelectorAll('[data-sound-toggle]');
+function call({ hint = false } = {}) {
+  if (on || calls >= 4) return;
+  calls++;
+  for (const el of switches()) {
+    el.removeAttribute('data-calling');
+    void el.offsetWidth; // restart the rings
+    el.setAttribute('data-calling', '');
+    if (hint) el.setAttribute('data-hint', '');
+  }
+  if (hint) hintTimer = setTimeout(quiet, 4200);
+}
+function quiet() {
+  clearTimeout(hintTimer);
+  for (const el of switches()) el.removeAttribute('data-hint');
+}
+document.addEventListener('animationend', (event) => {
+  if (event.animationName === 'tt-call') event.target.removeAttribute('data-calling');
+});
 
 export function setOn(value) {
   on = value;
   write(on);
   if (on) wake();
   else ctx?.suspend();
+  quiet();
   paintSwitches();
   syncHum();
   document.dispatchEvent(new CustomEvent('sound:change', { detail: on }));
@@ -249,12 +278,14 @@ export function setOn(value) {
 
 on = read();
 paintSwitches();
+setTimeout(() => call({ hint: true }), 1800);
 
 document.addEventListener('click', (event) => {
   if (event.target.closest('[data-sound-toggle]')) setOn(!on);
 });
 
-// On from a past visit: wake on the first tap, click or key that lets a page make sound.
+// On (the default, or chosen last visit): wake on the first tap, click or key, which is when a
+// page may make sound. The capture phase runs first, so that first click's own sound plays.
 if (on) {
   const gestures = ['click', 'keydown', 'touchend'];
   const first = () => {

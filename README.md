@@ -135,12 +135,14 @@ motion (`js/clips.js`):
 
 One small speaker button, fixed in the top right corner: the same place and size in every era
 (set outside the cascade layers, so no era can move it), dressed like that era's own buttons.
-In 1992 it's a plain button that says *Sound: off*. Eras with something in that corner (the
+In 1992 it's a plain button that says *Sound: on*. Eras with something in that corner (the
 1997 marquee, 2001's title bar, 2007's starburst, 2030's sky clock) make room for it on
-phones. Sound starts **off**: a page that suddenly makes noise on a
-phone in an office gets closed, and browsers don't allow it before a tap anyway. One press
-turns it on for the whole site, and the choice is remembered (`localStorage`). After that,
-travelling makes its own sounds, with no more pressing:
+phones. Sound is **on** from the start, but the page always opens silent: browsers let a page
+make sound only after a click, tap or key press, so sound wakes on your first one, and that
+click's own sound plays (the capture phase wakes it before the click is handled). Nothing
+ever plays before you do something. One press on the switch mutes the whole site, and the
+choice is remembered (`localStorage`). An iPhone on silent stays silent. While it's on,
+travelling makes its own sounds, with no buttons to press:
 
 - **Leaving**, into the past or the future: the air rushes past.
 - **Landing**, one short sound per era: a terminal bell (1992), a one-second dial-up modem
@@ -150,10 +152,18 @@ travelling makes its own sounds, with no more pressing:
 - **Dragging** through eras, a soft detent click for each one; the landing waits for you to
   let go.
 
+If you've turned it off, the switch **calls** you back, gently. Once the page has settled it
+slides open for four seconds to say *Turn on sound*, dressed as that era's button (a Windows 95
+bevel in 1997, chrome in 2001, gloss in 2007, flat in 2013, glass from 2023), with two rings
+spreading out from it in the era's colour. After that, only the rings, each time an era lands
+with a sound you didn't hear: four calls a visit at most, and none in 1992, whose button
+already says *Sound: off* in words. No rings with reduced motion. Hover it and it says *Turn
+sound on*.
+
 It's all made live in `js/sound.js` with the Web Audio API, like Word Hunt's sounds: no audio
 files. 1997's **Play MIDI music** plays through the same switch
 (pressing Play turns sound on, and turning sound off stops the music). A hidden tab stays
-silent. If sound was on last visit, it wakes on the first tap or key press, as browsers require.
+silent.
 
 **2030 has a score of its own** (`js/eras/2030/audio.js`): every animation there makes its
 sound, at the moment it moves.

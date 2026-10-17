@@ -459,13 +459,13 @@
 
   <!-- One switch for sound in every era (js/sound.js), small, in the top right corner.
        Off until pressed, then remembered. -->
-  <button type="button" class="sound-switch" data-sound-toggle aria-pressed="false">
+  <button type="button" class="sound-switch" data-sound-toggle aria-pressed="true">
     <svg class="sound-switch__icon" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
       <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/>
       <path class="sound-switch__on" d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
       <path class="sound-switch__off" d="M15.5 9.5l5 5M20.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
-    <span class="sound-switch__label">Sound</span></button>
+    <span class="sound-switch__label">Sound</span><span class="sound-switch__hint" aria-hidden="true">Turn on sound</span></button>
 
   <aside class="timemachine" id="timemachine" aria-label="Time machine">
     <div class="tm__readout">

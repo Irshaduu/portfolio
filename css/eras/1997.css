@@ -207,6 +207,7 @@
     & .tm__note { max-width: 40ch; font-size: 11px; color: #222; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
     & :is(.tm__step, .sound-switch) { flex: none; width: 24px; height: 22px; margin-bottom: 1.4rem; padding: 0; border: 0; font: bold 14px var(--win); background: var(--silver); box-shadow: var(--bevel-out); }
     & :is(.tm__step, .sound-switch):active { box-shadow: var(--bevel-in); }
+    & .sound-switch { --call: #ff0; color: #000; }
     & .tm__range { -webkit-appearance: none; appearance: none; height: 24px; background: transparent; cursor: default; }
     & .tm__range::-webkit-slider-runnable-track { height: 4px; background: #fff; box-shadow: inset 1px 1px #808080, inset -1px -1px #fff, inset 2px 2px #0a0a0a; }
     & .tm__range::-moz-range-track { height: 4px; background: #fff; box-shadow: inset 1px 1px #808080, inset 2px 2px #0a0a0a; }

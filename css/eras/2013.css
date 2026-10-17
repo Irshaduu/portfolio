@@ -190,7 +190,7 @@
     & .tm__note { max-width: 32ch; font-size: .75rem; line-height: 1.35; color: var(--concrete); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     & :is(.tm__step, .sound-switch) { flex: none; width: 34px; height: 34px; margin-bottom: 1.4rem; border: 0; border-radius: 4px; background: var(--turquoise); color: #fff; font-size: 1.3rem; font-weight: 900; line-height: 1; }
     & :is(.tm__step, .sound-switch):hover { background: var(--green-sea); }
-    & .sound-switch { background: var(--midnight); } /* flat and dark, so it shows on turquoise and white */
+    & .sound-switch { --call: #f1c40f; background: var(--midnight); } /* flat and dark, so it shows on turquoise and white */
     & .sound-switch:hover { background: var(--asphalt); }
     & .tm__range { -webkit-appearance: none; appearance: none; height: 26px; background: transparent; cursor: pointer; }
     & .tm__range::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--turquoise) var(--p, 100%), var(--asphalt) var(--p, 100%)); }
