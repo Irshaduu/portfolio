@@ -10,5 +10,5 @@ body { all: revert; font: 11pt/1.4 Georgia, "Times New Roman", serif; color: #00
 a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 9pt; }
 a.link--wa::after { content: " <wa.me/919567937397>"; } /* without the typed-in greeting */
 .project, .moment { break-inside: avoid; }
-.shot--cover { display: none !important; } /* the screens are for the screen; the system map prints */
+.shot--cover, .shot--duo { display: none !important; } /* the screens are for the screen; the system map prints */
 .shot img { max-width: 100%; height: auto; }

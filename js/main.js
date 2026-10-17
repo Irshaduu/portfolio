@@ -3,6 +3,7 @@ import { applyYear } from './time.js';
 import { travel, warp } from './transition.js';
 import { mountTimeMachine } from './timemachine.js';
 import { travel as travelSound, land, tick } from './sound.js';
+import './clips.js';
 
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');

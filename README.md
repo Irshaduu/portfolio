@@ -80,11 +80,20 @@ the intent buttons, the webring) are real buttons and links.
 ### Project pictures
 
 Each project carries one picture, a `.shot` that links to its full size: the WorkshopOS system
-map, the live Word Hunt board, PhysioCoach mid-exercise, and the first pages of the catering
-documents. The base layer crops phone screens to one 4:3 window; each era only frames them
+map, the two live apps, and the first pages of the catering documents. Each era only frames them
 (a ridged border in 1997, a white photo frame in 2007, nothing at all in 2013). 1992 had no
 inline images, so there the picture is a numbered `[IMAGE]` link, as a text browser shows it.
-Print keeps the system map and drops the phone screens.
+Print keeps the system map and drops the screens.
+
+**The live apps are a laptop and a phone in one picture** (`tools/duo.html`, photographed at 2x
+on a transparent background, so every era's frame shows through). The phone's screen is the
+first frame of a short silent clip of the real app, recorded on a phone-size screen: Robo picks a
+word and you find it in Word Hunt; a 10-second hold counts up in PhysioCoach. The clip plays
+exactly over that screen, so starting it changes nothing but the motion (`js/clips.js`):
+
+- it plays only while its card is on screen, and loads only then;
+- never with reduced motion or Save-Data, when the still stands in;
+- not before 2010, when the web had no video: the clip is `data-since="2010"` and hidden.
 
 ### The time machine
 
@@ -228,13 +237,15 @@ js/time.js            year-dependent content: tools that exist yet, "N years fro
 js/transition.js      view transitions, scrub static, keeping the reading position
 js/timemachine.js     the slider and its buttons
 js/sound.js           the one sound switch and every sound, made with Web Audio
+js/clips.js           the live apps' phone clips: play on screen, pause off it
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
                       2026 light/intent, 2030 scene and token limit
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js)
 tools/serve.mjs       zero-dependency local server
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
-assets/               resume PDF, link preview picture, project pictures (shots/)
+tools/duo.html        the laptop-and-phone pictures of the live apps
+assets/               resume PDF, link preview picture, project pictures and clips (shots/)
 ```
 
 ## Adding an era
@@ -255,9 +266,9 @@ assets/               resume PDF, link preview picture, project pictures (shots/
 ## Performance and accessibility
 
 - No framework, no build. The only images are the four project pictures (WebP, lazy-loaded,
-  24 to 75 KB each). Era scenery is CSS gradients, except 2030's, which is
-  drawn by code.
-- Unminified, uncompressed: 32 KB of HTML, 149 KB of CSS for all eight eras, 93 KB of JavaScript,
+  64 to 77 KB each), and the only video is the two phone clips (75 and 138 KB, fetched when
+  their card comes on screen). Era scenery is CSS gradients, except 2030's, which is drawn by code.
+- Unminified, uncompressed: 34 KB of HTML, 153 KB of CSS for all eight eras, 94 KB of JavaScript,
   of which 48 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
   current width in the current era's type. With even spacing, a 375 px phone fits them in full in

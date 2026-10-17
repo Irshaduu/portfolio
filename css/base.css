@@ -55,11 +55,19 @@
   /* ---- project pictures: structure only, every era frames them ---- */
   .shot a { display: block; }
   .shot img { display: block; width: 100%; height: auto; }
-  /* Phone screens are cropped to one calm window on the card; the link opens the whole screen. */
   .shot--cover img { aspect-ratio: 4 / 3; object-fit: cover; }
-  #word-hunt .shot img { object-position: 50% 24%; }
-  #physiocoach .shot img { object-position: 50% 50%; }
   .shot--docs img { object-fit: contain; }
+  /* The live apps: a laptop and a phone in one picture (tools/duo.html). The phone's screen is the
+     clip's first frame, so the clip plays exactly over it: same box, same corners. Video arrived
+     on the web in 2010; before that the clip is hidden and the still stands in. */
+  .duo { position: relative; display: block; }
+  .duo video {
+    position: absolute; left: 2.375%; top: 5%; width: 31.125%; height: 89.833%;
+    border-radius: 12.05% / 5.566%; object-fit: cover; pointer-events: none;
+    opacity: 0; transition: opacity .4s;
+  }
+  .duo video.is-playing { opacity: 1; }
+  .duo video[data-future] { display: none; }
   .shot figcaption { margin-top: .5em; }
 
   /* ---- time machine: structure only, every era dresses it ---- */

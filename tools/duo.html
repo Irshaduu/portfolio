@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Desktop and phone</title>
+<!--
+  The live apps' card pictures: a desktop browser with a phone in front, 800 x 600 on a transparent
+  background, photographed at 2x. The phone's screen is the first frame of the app's clip, so the clip
+  can play over it on the page. Keep the screen box in step with .duo video in css/base.css:
+  left 19px, top 30px, 249 x 539px, corners 30px.
+
+  ?desk=  a 16:9 desktop screenshot   ?phone=  the clip's first frame (390 x 844 or a multiple)
+  ?host=  the address shown in the browser bar
+-->
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; background: transparent; }
+  body { position: relative; width: 800px; height: 600px; overflow: hidden; font: 500 10px/1 system-ui, "Segoe UI", sans-serif; }
+
+  .desk {
+    position: absolute; left: 241px; top: 130px; width: 549px;
+    border-radius: 12px; overflow: hidden; background: #0c0f16;
+    border: 1px solid rgb(255 255 255 / .14);
+    box-shadow: 0 28px 56px -22px rgb(0 0 0 / .75);
+  }
+  .bar { display: flex; align-items: center; justify-content: center; height: 28px; background: #161a23; border-bottom: 1px solid rgb(255 255 255 / .06); }
+  .bar span { padding: 4px 14px; border-radius: 7px; background: rgb(255 255 255 / .06); color: #9aa3b2; letter-spacing: .01em; }
+  .desk img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+
+  .phone {
+    position: absolute; left: 10px; top: 21px; width: 267px; height: 557px; padding: 8px;
+    border-radius: 39px; background: #05070b;
+    border: 1px solid rgb(255 255 255 / .2);
+    box-shadow: 0 0 0 1px #000, 0 34px 60px -18px rgb(0 0 0 / .85), 18px 0 40px -20px rgb(0 0 0 / .7);
+  }
+  .phone img { display: block; width: 249px; height: 539px; border-radius: 30px; object-fit: cover; }
+</style>
+</head>
+<body>
+  <div class="desk"><div class="bar"><span id="host"></span></div><img id="desk" alt=""></div>
+  <div class="phone"><img id="phone" alt=""></div>
+  <script>
+    const q = new URLSearchParams(location.search);
+    document.getElementById('desk').src = q.get('desk');
+    document.getElementById('phone').src = q.get('phone');
+    document.getElementById('host').textContent = q.get('host');
+  </script>
+</body>
+</html>
