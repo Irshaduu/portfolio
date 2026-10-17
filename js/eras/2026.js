@@ -2,7 +2,7 @@
 // page why you came and it leans toward what matters to you.
 
 const HINTS = {
-  hire: 'Start with <a href="#workshopos">WorkshopOS</a>, the biggest system I have built alone, then take the <a href="assets/Mohammed_Irshad_C_Resume.pdf">resume</a>.',
+  hire: 'Start with <a href="#workshopos">WorkshopOS</a>, the biggest system I have built alone, then take the <a href="assets/Mohammed_Irshad_C_Resume.pdf" download="Mohammed_Irshad_C_Resume.pdf">resume</a>.',
   build: 'See how I scope work in the <a href="#catering">catering spec</a>, then <a href="#workshopos">WorkshopOS</a>. <a href="#contact">Email</a> is fastest.',
   explore: 'Play <a href="#word-hunt">Word Hunt</a>, then drag the time machine back to 1997.',
 };

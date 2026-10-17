@@ -7,7 +7,8 @@
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  /* Phones paint a grey box over whatever you tap, square even on round buttons; buttons show their own press instead. */
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; -webkit-tap-highlight-color: transparent; }
   body { margin: 0; min-height: 100vh; }
   h1, h2, h3, h4, p, figure, blockquote, dl, dd, ol, ul { margin: 0; }
   ol, ul { padding: 0; list-style: none; }
@@ -65,13 +66,16 @@
   .tm__range { display: block; width: 100%; margin: 0; }
   .tm__ticks { position: relative; height: 1.4rem; margin-inline: calc(var(--thumb, 16px) / 2); }
   .tm__ticks li { position: absolute; top: 0; left: var(--pos); transform: translateX(-50%); }
-  .tm__ticks button { background: none; border: 0; padding: 2px 4px; line-height: 1.2; }
+  /* The labels are small, but each one is a 28px tall target for a thumb; the label itself stays put. */
+  .tm__ticks button { background: none; border: 0; margin-top: -4px; padding: 6px 4px 10px; line-height: 1.2; }
   /* Close milestones need shorter labels on a narrow track; js/timemachine.js measures. */
   .tm__tick-short { display: none; }
   .tm__ticks:is([data-size="short"], [data-size="tiny"]) .tm__tick-long { display: none; }
   .tm__ticks:is([data-size="short"], [data-size="tiny"]) .tm__tick-short { display: inline; }
   .tm__ticks[data-size="tiny"] .tm__tick-apos { display: none; }
   [data-traveled] .tm__hint { display: none; }
+  /* 1997 presses its buttons in with a bevel; 1992 has the browser's own. */
+  :root:not([data-era="1997"]) :is(.tm__step, .sound-switch):active { scale: .9; }
 
   /* The sound switch: a speaker, struck through while off. Each era dresses it like its own
      arrow buttons; where it sits and how big it is are set below, outside the layers. */

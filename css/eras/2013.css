@@ -123,7 +123,7 @@
     & .moment > p:last-child { font-size: .95rem; color: var(--asbestos); }
 
     /* ---- contact ---- */
-    & .contact__lead { font-size: 1.3rem; font-weight: 300; margin-top: -1.5rem; }
+    & .contact__lead { font-size: 1.3rem; font-weight: 300; margin-top: 1.5rem; }
     & .links { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem; margin-top: 2rem; }
     & .link {
       display: inline-block; padding: .85rem 1.6rem; border: 2px solid #fff; border-radius: 4px; color: #fff; text-decoration: none;
