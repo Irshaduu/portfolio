@@ -5,6 +5,7 @@
 // It only writes custom properties (2030.css paints them) and the scene's starlight.
 
 import { setStarlight } from './scene.js';
+import { day } from './audio.js';
 
 const root = document.documentElement;
 const DAY_MS = 9000;
@@ -61,6 +62,7 @@ function play() {
   button.dataset.playing = '';
   const from = nowHours();
   const start = performance.now();
+  day(from, DAY_MS / 1000);
   const step = (now) => {
     const t = (now - start) / DAY_MS;
     if (t >= 1) {

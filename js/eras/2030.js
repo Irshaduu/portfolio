@@ -13,6 +13,7 @@ import { startScene, stopScene, boost } from './2030/scene.js';
 import { startConstellation, stopConstellation } from './2030/constellation.js';
 import { startSky, stopSky } from './2030/sky.js';
 import { setHum } from '../sound.js';
+import { limit } from './2030/audio.js';
 
 const KEY = 'tt-plan-2030';
 
@@ -105,6 +106,7 @@ function openLimit() {
   ui.upgrade.textContent = limit.upgrade;
   ui.back.hidden = !limit.next;
   notice.hidden = false;
+  limit();
   announce.textContent = `${limit.title}. ${limit.reset}.`; // said once, politely; focus stays put
 }
 

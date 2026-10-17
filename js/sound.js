@@ -92,16 +92,11 @@ const bell = (freq, at, gain) => {
 
 // ---- the sounds of travel ---------------------------------------------------------------
 
-// Leaving for another era. Into the past a tape rewinds; into the future the air rushes.
-export function travel(direction) {
+// Leaving for another era, back or forward: the air rushes past.
+export function travel() {
   if (!ready()) return;
-  if (direction === 'back') {
-    tone({ type: 'triangle', freq: 1500, to: 150, length: 0.42, gain: 0.07 });
-    noise({ from: 4500, to: 500, length: 0.45, gain: 0.1, q: 2 });
-  } else {
-    noise({ from: 300, to: 4500, length: 0.5, gain: 0.16, q: 1.2, attack: 0.25 });
-    tone({ freq: 220, to: 880, length: 0.5, gain: 0.04, attack: 0.2 });
-  }
+  noise({ from: 300, to: 4500, length: 0.5, gain: 0.16, q: 1.2, attack: 0.25 });
+  tone({ freq: 220, to: 880, length: 0.5, gain: 0.04, attack: 0.2 });
 }
 
 // Landing. Each era sounds like its own web.
@@ -137,10 +132,10 @@ const LANDINGS = {
   },
   // An airy chord.
   2026: () => [220, 277.2, 329.6, 493.9].forEach((f, i) => tone({ freq: f, at: i * 0.03, length: 1.3, gain: 0.05, attack: 0.18 })),
-  // Something shimmering in deep space.
+  // An airlock opening onto deep space. Everything after it is 2030's own (eras/2030/audio.js).
   2030: () => {
-    [1760, 2217, 2637, 3520].forEach((f, i) => tone({ freq: f, at: i * 0.06, length: 0.9, gain: 0.025, attack: 0.08 }));
-    noise({ from: 6000, to: 9000, length: 0.9, gain: 0.03, q: 4, attack: 0.3 });
+    noise({ from: 140, to: 1100, length: 1.5, gain: 0.08, q: 0.8, attack: 0.55 });
+    tone({ freq: 55, to: 41.2, length: 1.5, gain: 0.09, attack: 0.1 });
   },
 };
 
@@ -223,6 +218,12 @@ export function channel() {
   out.connect(master);
   return { ctx, out };
 }
+
+// ---- for eras with their own sound design (2030) ---------------------------------------------
+
+// The shared context and the way into the mix, only while sound is on and awake; otherwise
+// null. Unlike channel(), it never turns sound on.
+export const voice = () => (ready() ? { ctx, out: master } : null);
 
 // ---- the switch -------------------------------------------------------------------------------
 

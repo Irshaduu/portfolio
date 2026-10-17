@@ -105,7 +105,7 @@ function setYear(year, { scrub = false } = {}) {
     tick(); // a detent click per era dragged through; the landing waits for the release
     scrubbedFrom ??= prevEra;
   } else {
-    travelSound(direction);
+    travelSound();
     landSoon(era);
   }
   travel(render, {
@@ -126,7 +126,7 @@ function landSoon(era) {
 let scrubbedFrom = null;
 document.addEventListener('timemachine:release', () => {
   if (scrubbedFrom && scrubbedFrom !== state.era) {
-    travelSound(eraIndex(state.era) < eraIndex(scrubbedFrom) ? 'back' : 'forward');
+    travelSound();
     landSoon(state.era);
   }
   scrubbedFrom = null;

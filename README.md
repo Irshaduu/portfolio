@@ -142,11 +142,11 @@ phone in an office gets closed, and browsers don't allow it before a tap anyway.
 turns it on for the whole site, and the choice is remembered (`localStorage`). After that,
 travelling makes its own sounds, with no more pressing:
 
-- **Leaving:** into the past, a tape rewinds; into the future, the air rushes past.
+- **Leaving**, into the past or the future: the air rushes past.
 - **Landing**, one short sound per era: a terminal bell (1992), a one-second dial-up modem
   (1997), a Flash swoosh and click (2001), a glossy bubble pop (2007), a clean tick (2013), a
-  notification ding (2023), an airy chord (2026), and a shimmer in deep space (2030), where a
-  very quiet hum then stays in the background.
+  notification ding (2023), an airy chord (2026), and an airlock opening onto deep space (2030),
+  where a very quiet hum then stays in the background.
 - **Dragging** through eras, a soft detent click for each one; the landing waits for you to
   let go.
 
@@ -154,6 +154,35 @@ It's all made live in `js/sound.js` with the Web Audio API, like Word Hunt's sou
 files. 1997's **Play MIDI music** plays through the same switch
 (pressing Play turns sound on, and turning sound off stops the music). A hidden tab stays
 silent. If sound was on last visit, it wakes on the first tap or key press, as browsers require.
+
+**2030 has a score of its own** (`js/eras/2030/audio.js`): every animation there makes its
+sound, at the moment it moves.
+
+| When | What you hear |
+|---|---|
+| The name flies in from deep space | A low swell, grains of light that start wide and gather to the middle as the points land, then the chord the name stands on |
+| You push the name's points around | They sing: grains as fast as the points are moving, from under your pointer |
+| You scroll fast and the stars streak | The wind of it, and an engine note that climbs with your speed |
+| Each project's object assembles | A motif built from that project's numbers, like its shape: WorkshopOS locks 21 rings into place, faster and faster, and its core settles; Word Hunt rains 71 letters, circles 10 players round you and rings one secret note; PhysioCoach breathes in and its 2 shells swell; Catering sends 10 orbit notes round you and sounds its 6 apps together |
+| The constellations draw themselves in | Each project's line sings its note and climbs an octave |
+| You touch a star | It sings the chord of the projects it's in: Python, in all four, is the whole chord |
+| Play a day | A chord that opens up as the sun climbs and closes at night, a chime at sunrise and a falling one at sunset |
+| A new plan (hyperspace) | The floor drops, everything rushes up, and you arrive |
+| The plan runs out | Two soft notes, and a tone that drains away with the bar |
+
+Three rules keep it from sounding like a set of beeps:
+
+- **One key.** Every note is in A Lydian, the key of the 2030 hum. Each project has its note, and
+  the four together make A major 7, so whatever plays at once is in tune.
+- **One place.** Every sound comes from where it happens on the screen, in 3D (HRTF panning:
+  with headphones, an object on the right is heard on the right), and rings out in the same
+  space, a reverb generated in code.
+- **Restraint.** Nothing plays on its own except as something moves; sounds tied to motion
+  don't play with reduced motion; leaving 2030 fades everything still ringing.
+
+Every sound was rendered offline (silently) and measured: the big moments (the arrival,
+hyperspace, WorkshopOS) peak around -20 dB, touches and stars around -35 to -45 dB, nothing
+clips, and each renders 3 to 11 times faster than real time.
 
 ### The transition
 
@@ -266,7 +295,8 @@ js/clips.js           the live apps' phone clips: play on screen, pause off it
 js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter, 2001 intro/sound,
                       2026 light/intent, 2030 scene and token limit
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
-                      the Stack constellation (constellation.js), the sky clock (sky.js)
+                      the Stack constellation (constellation.js), the sky clock (sky.js), and the
+                      2030 score (audio.js)
 tools/serve.mjs       zero-dependency local server
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
 tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
@@ -296,8 +326,8 @@ assets/               resume PDF, link preview picture, project pictures and cli
   The only video is the two phone clips (75 and 138 KB, fetched when their card comes on
   screen). Era scenery and devices are CSS, except 2030's scenery, which is drawn by code, and
   the 1997 and 2001 devices, which are small SVG drawings (3 to 6 KB) loaded only in their era.
-- Unminified, uncompressed: 34 KB of HTML, 174 KB of CSS for all eight eras, 93 KB of JavaScript,
-  of which 48 KB is 2030. Only the current era's JavaScript module runs.
+- Unminified, uncompressed: 34 KB of HTML, 174 KB of CSS for all eight eras, 114 KB of JavaScript,
+  of which 68 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
   current width in the current era's type. With even spacing, a 375 px phone fits them in full in
   every era except 1992, whose plain buttons use '92.

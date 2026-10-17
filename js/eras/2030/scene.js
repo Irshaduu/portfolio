@@ -8,6 +8,7 @@
 // its CSS fallback and nothing here runs.
 
 import { SHAPES, stars } from './shapes.js';
+import * as audio from './audio.js';
 
 const root = document.documentElement;
 const KIND = { machine: 0, letters: 1, breath: 2, party: 3 };
@@ -528,6 +529,7 @@ function render(now, dt) {
     cam.value = cam.scroll + cam.drift;
     const speed = Math.abs(cam.value - before) / Math.max(s, 0.01);
     cam.streak += (Math.min(0.35, speed * 7) - cam.streak) * (1 - 0.8 ** s);
+    audio.flight(cam.streak);
   }
   gl.useProgram(P.stars.prog);
   gl.uniform1f(P.stars.u.uDpr, view.dpr);
@@ -555,7 +557,10 @@ function render(now, dt) {
     const cy = r.top + r.height / 2;
     const radius = r.width * 0.42;
     if (cy + radius * 1.8 < 0 || cy - radius * 1.8 > view.h) continue;
-    orb.seen ||= now;
+    if (!orb.seen) {
+      orb.seen = now;
+      if (!reduced) audio.object(orb.el.dataset.orb, cx / view.w, cy / view.h); // it assembles; it sounds
+    }
     const focus = 1 - Math.min(1, Math.abs(cy - view.h * 0.46) / (view.h * 0.7));
     orb.focus += (focus - orb.focus) * (reduced ? 1 : Math.min(1, 0.1 * s));
     const tx = pointer.mouse && !reduced ? Math.max(-0.5, Math.min(0.5, (pointer.x - cx) / view.w)) * 0.8 : 0;
@@ -585,7 +590,7 @@ function render(now, dt) {
       if (name.awake || near) {
         const energy = stepName(dt, box);
         name.awake = near || energy > 0.03 || now - name.start < 2600;
-        uploadName();
+        if (near && now - name.start > 2600) audio.dust(energy, pointer.x / view.w, pointer.y / view.h);        uploadName();
       }
     }
     gl.useProgram(P.name.prog);
@@ -674,6 +679,8 @@ export async function startScene(ctx) {
   }
   root.dataset.arriving = '';
   arriveTimer = setTimeout(() => delete root.dataset.arriving, 2600);
+  const box = nameEl.getBoundingClientRect();
+  audio.arrival((box.left + box.width / 2) / view.w, (box.top + box.height / 2) / view.h);
   on(window, 'pointermove', onPointerMove, { passive: true });
   on(document, 'pointerout', onPointerOut);
   on(window, 'touchstart', onTouchStart, { passive: true });
@@ -693,6 +700,7 @@ export function stopScene() {
   clearTimeout(arriveTimer);
   clearTimeout(resampleTimer);
   off.splice(0).forEach((fn) => fn());
+  audio.stop();
   pointer.want = pointer.active = 0;
   delete root.dataset.arriving;
   if (root.dataset.gl === 'on') delete root.dataset.gl;
@@ -703,6 +711,7 @@ export function stopScene() {
 // A jump to hyperspace: stars streak, the name bursts and comes back together.
 export function boost() {
   if (!live || reduced) return;
+  audio.hyperspace();
   cam.boost = 1;
   for (let i = 0; i < name.count; i++) {
     const j = i * 3;

@@ -5,6 +5,8 @@
 // Hover or touch a star to light every project that uses it; tap to keep it lit. The legend
 // buttons light one project, and work from the keyboard. The lit projects' cards glow too.
 
+import * as audio from './audio.js';
+
 const LABELS = { workshopos: 'WorkshopOS', 'word-hunt': 'Word Hunt', physiocoach: 'PhysioCoach', catering: 'Catering' };
 const IN_A_SENTENCE = { ...LABELS, catering: 'the catering spec' };
 const PROJECTS = Object.keys(LABELS);
@@ -14,6 +16,11 @@ const root = document.documentElement;
 const escape = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
 const and = (items) => (items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : items[0]);
 const projectsOf = (chip) => chip.dataset.in.split(' ');
+// Where an element is on the screen, 0 to 1 each way: where its sound comes from.
+const placeOf = (el) => {
+  const r = el.getBoundingClientRect();
+  return [(r.left + r.width / 2) / innerWidth, (r.top + r.height / 2) / innerHeight];
+};
 
 // The smallest set of lines that joins every point (Prim's algorithm), as one SVG path.
 // The first point is the root, so each constellation grows out of Python.
@@ -82,6 +89,7 @@ export function startConstellation() {
   const seen = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting) return;
     svg.classList.add('is-drawn');
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) audio.chart(...placeOf(stack)); // they draw in, they sing
     seen.disconnect();
   }, { threshold: 0.2 });
   seen.observe(stack);
@@ -122,7 +130,10 @@ export function startConstellation() {
 
   const onOver = (event) => {
     const chip = event.target.closest?.('.chip[data-in]');
-    if (chip && event.pointerType === 'mouse') showChip(chip);
+    if (chip && event.pointerType === 'mouse') {
+      showChip(chip);
+      audio.star(projectsOf(chip), ...placeOf(chip));
+    }
   };
   const onOut = (event) => {
     const chip = event.target.closest?.('.chip[data-in]');
@@ -135,6 +146,7 @@ export function startConstellation() {
     pinnedProject = null;
     paintPins();
     restore();
+    if (pinnedChip) audio.star(projectsOf(chip), ...placeOf(chip), { pinned: true });
   };
   const onLegend = (event) => {
     const p = event.currentTarget.dataset.skyProject;
@@ -142,6 +154,7 @@ export function startConstellation() {
     pinnedChip = null;
     paintPins();
     restore();
+    if (pinnedProject) audio.star([p], ...placeOf(event.currentTarget), { pinned: true });
   };
   const onKey = (event) => {
     if (event.key !== 'Escape' || !(pinnedChip || pinnedProject)) return;
