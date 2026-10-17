@@ -95,7 +95,7 @@ them drift slower, as if weightless, and 1992 has no pictures to move.
 
 **The live apps are a computer and a phone, and the devices change with the era.** The page
 holds only the two real screens of each app (`assets/shots/*-desk.webp` and `*-phone.webp`);
-the hardware around them is CSS, plus drawings for the 1997 and 2001 devices with real keys
+the hardware around them is CSS, plus drawings for the 1997, 2001 and 2013 devices
 (`assets/devices/`), so every era draws the devices of its own time:
 
 | Era | Computer | Phone |
@@ -103,7 +103,7 @@ the hardware around them is CSS, plus drawings for the 1997 and 2001 devices wit
 | 1997 | A beige CRT with control buttons and a power light, a Windows 95 window, Netscape in the title bar | A brick phone with an antenna and a real keypad: call, menu, end, and 1 to 9 with their letters |
 | 2001 | A silver flat panel on a stand, a Flash player's chrome title bar | A silver phone with a dark face plate, a blue light, soft keys, call and end, a nav pad and orange corner brackets |
 | 2007 | A glossy Safari window with three drops | The first iPhone: black glass, a steel rim, a home button. Both stand on a shiny floor |
-| 2013 | A flat monitor with a silver chin | A flat phone with a ring for a home button |
+| 2013 | An all-in-one in aluminium and black glass: a camera at the top, a plain chin, a stand. The window inside is flat | A space grey phone: a polished edge, earpiece and camera, a steel ring round the home button, buttons on the side |
 | 2023 | A dark window with traffic lights | A titanium phone with side buttons, in front of the obligatory purple glow |
 | 2026 | Today's dark browser window | Today's phone |
 | 2030 | Almost all screen: a thin graphite frame with tight corners and a polished edge that catches the light, and the faintest reflection on the glass | The same, with a third of 2026's bezel. No colour, no buttons |
@@ -117,6 +117,16 @@ The rules that keep the screens readable in every era (`.duo` in `css/base.css`)
   wider instead, so it scales down by 1 to 3%; it never covers more.
 - **One unit for everything.** Every size is in `--u`, a fraction of the picture's width
   (container query units), so the devices scale as one picture on any screen.
+
+**Before 2010 the screens change too.** Today's app on a 1997 brick phone looked wrong, so the
+three oldest eras show each app the way its own time would have: the same content, word for word
+and number for number (Robo's 90.9s, the hunt for "movement", rep 4 of 20, the ten days of
+scores), in the era's look. 1997 has a page in Netscape and a green-lit dot display, 2001 a Flash
+movie and one of the first colour phones, 2007 a Web 2.0 page in Safari and the first iPhone's own
+look. They are pictures (`assets/shots/eras/`, 34 to 105 KB), drawn in `tools/era-screens.html`
+and photographed by `node tools/screens.mjs`; each era loads only its own. The real screenshots
+stay underneath for screen readers, and a click still opens them. From 2013 on, the screens are
+the real app.
 
 The phone's screen is the first frame of a short silent clip of the real app, recorded on a
 phone-size screen: Robo picks a word and you find it in Word Hunt; a 10-second hold counts up in
@@ -354,8 +364,10 @@ tools/pdf.mjs         prints the document pages to their PDFs (the resume, the w
 tools/facts.mjs       checks the portfolio, resume and write-ups agree on the facts they share
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
 tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
+tools/era-screens.html the live apps' screens as 1997, 2001 and 2007 would have shown them
+tools/screens.mjs     photographs those screens into assets/shots/eras/
 assets/               resume PDF, the write-ups' PDFs (docs/), link preview picture, project pictures and clips (shots/),
-                      and the drawn 1997 and 2001 devices (devices/)
+                      the old eras' screens (shots/eras/), and the drawn 1997, 2001 and 2013 devices (devices/)
 ```
 
 ## Adding an era
@@ -379,7 +391,8 @@ assets/               resume PDF, the write-ups' PDFs (docs/), link preview pict
   system map and the documents (65 and 75 KB), and the live apps' screens (13 to 39 KB each).
   The only video is the two phone clips (75 and 138 KB, fetched when their card comes on
   screen). Era scenery and devices are CSS, except 2030's scenery, which is drawn by code, and
-  the 1997 and 2001 devices, which are small SVG drawings (3 to 6 KB) loaded only in their era.
+  the 1997, 2001 and 2013 devices, which are small SVG drawings (2 to 6 KB) loaded only in their
+  era. 1997, 2001 and 2007 also load their own four screen pictures.
 - Unminified, uncompressed: 34 KB of HTML, 174 KB of CSS for all eight eras, 114 KB of JavaScript,
   of which 68 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the

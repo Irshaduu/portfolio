@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 579 408" preserveAspectRatio="none">
+  <!-- 2013's all-in-one computer, around the live apps' window (css/eras/2013.css): black glass
+       edge to edge with a camera at the top, on an aluminium body with a plain chin. Units match the
+       page's: the window sits at 16, 16, 547 x 330, and the CSS stretches this to the computer's box. -->
+  <defs>
+    <linearGradient id="alu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef0f2"/>
+      <stop offset=".88" stop-color="#e2e5e8"/>
+      <stop offset="1" stop-color="#c3c7cc"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#141518"/>
+      <stop offset="1" stop-color="#0a0a0b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- The body, with its thin aluminium edge showing all round the glass. -->
+  <rect x=".4" y=".4" width="578.2" height="407.2" rx="9" fill="url(#alu)" stroke="#aeb3b8" stroke-width=".8"/>
+  <path d="M1.8 362V9.8A8 8 0 0 1 9.8 1.8H569.2A8 8 0 0 1 577.2 9.8V362Z" fill="url(#glass)"/>
+  <path d="M9.8 1.8H330L150 362H1.8V9.8A8 8 0 0 1 9.8 1.8Z" fill="#fff" opacity=".03"/>
+
+  <!-- The camera. -->
+  <circle cx="289.5" cy="8.6" r="2.4" fill="#141a23" stroke="#25282d" stroke-width=".6"/>
+  <circle cx="288.9" cy="8" r=".7" fill="#7a98c0" opacity=".7"/>
+
+  <!-- Where the glass meets the chin, and the chin's lower edge. -->
+  <rect x="1.8" y="362" width="575.4" height="1.2" fill="#000" opacity=".3"/>
+  <rect x="1.8" y="363.2" width="575.4" height=".8" fill="#fff" opacity=".7"/>
+  <rect x="1" y="404" width="577" height="3.4" rx="1.7" fill="#9ea3a9" opacity=".45"/>
+</svg>

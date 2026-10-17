@@ -133,6 +133,14 @@
         linear-gradient(90deg, #121417, #4f555c 38%, #2b2f34 70%, #141619);
     }
     & .duo__screen { border-radius: calc(3 * var(--u)); }
+    /* What the screens showed then (tools/era-screens.html): the page in Netscape, the app on a
+       green-lit dot display. The real screenshots stay underneath for screen readers and the link. */
+    & :is(.duo__win, .duo__screen)::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: 0 0 / 100% 100% no-repeat; }
+    & .duo__win::after { top: calc(var(--bar) * var(--u)); }
+    & #word-hunt .duo__win::after { background-image: url("../../assets/shots/eras/1997-word-hunt-desk.webp"); }
+    & #word-hunt .duo__screen::after { background-image: url("../../assets/shots/eras/1997-word-hunt-phone.webp"); }
+    & #physiocoach .duo__win::after { background-image: url("../../assets/shots/eras/1997-physiocoach-desk.webp"); }
+    & #physiocoach .duo__screen::after { background-image: url("../../assets/shots/eras/1997-physiocoach-phone.webp"); }
     & .project__meta { font: 13px Arial, sans-serif; color: var(--silver); }
     & .project__meta .when { color: #0f0; }
     & .project__title { font: bold 27px var(--comic); color: #ff0; text-decoration: underline; }

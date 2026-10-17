@@ -83,21 +83,27 @@
     & .shot a { background: var(--clouds); } /* flat: no frame, no shadow */
     & .shot .pages img { box-shadow: 0 0 0 1px rgb(0 0 0 / .1); } /* flat pages too */
 
-    /* The live apps as a flat illustration: solid shapes, no shadow, no shine. */
+    /* The live apps on the devices of the year: a space grey phone, and an all-in-one computer in
+       aluminium and black glass on a plain stand. Their bodies are drawings in assets/devices/, in
+       the same units as the screens. The window inside stays flat, like everything else in 2013. */
     & .duo {
-      --top: 26; --bottom: 40; --bar: 22; --edge: 6;
-      --pt: 52; --pr: 14; --pb: 64; --pl: 14;
-      --dt: 14; --dr: 14; --db: 44; --dl: 14;
+      --top: 36; --bottom: 74; --bar: 22; --edge: 6;
+      --pt: 62; --pr: 14; --pb: 78; --pl: 14;
+      --dt: 16; --dr: 16; --db: 62; --dl: 16;
     }
-    & .duo__desk { border-radius: calc(10 * var(--u)); background: linear-gradient(to top, var(--silver) calc(44 * var(--u)), var(--midnight) 0); }
-    & .duo__desk::before {
-      content: ""; position: absolute; left: 50%; bottom: calc(16 * var(--u)); translate: -50% 0;
-      width: calc(12 * var(--u)); aspect-ratio: 1; border-radius: 50%; background: var(--concrete);
+    & .duo__desk {
+      border-radius: calc(9 * var(--u));
+      background: #e2e5e8 url("../../assets/devices/2013-desktop.svg") 0 0 / 100% 100% no-repeat;
+      box-shadow: 0 calc(18 * var(--u)) calc(30 * var(--u)) calc(-16 * var(--u)) rgb(0 0 0 / .4);
     }
+    /* The stand: an aluminium column behind the chin, its foot catching the light, a shadow below. */
     & .duo__desk::after {
-      content: ""; position: absolute; z-index: -1; left: 50%; top: 100%; translate: -50% 0; width: calc(170 * var(--u)); height: calc(46 * var(--u));
-      background: linear-gradient(var(--asbestos), var(--asbestos)) 50% 100% / 100% calc(8 * var(--u)) no-repeat,
-        linear-gradient(var(--concrete), var(--concrete)) 50% 0 / 50% calc(38 * var(--u)) no-repeat;
+      content: ""; position: absolute; z-index: -1; left: 50%; top: 100%; translate: -50% 0; width: calc(176 * var(--u)); height: calc(76 * var(--u));
+      background:
+        linear-gradient(rgb(0 0 0 / .28), transparent) 0 0 / 100% calc(9 * var(--u)) no-repeat,
+        linear-gradient(#f6f7f9, #c2c6cb) 0 100% / 100% calc(8 * var(--u)) no-repeat,
+        linear-gradient(90deg, #a6abb1, #dde0e4 22%, #eceef1 50%, #dde0e4 78%, #a6abb1);
+      filter: drop-shadow(0 calc(5 * var(--u)) calc(5 * var(--u)) rgb(0 0 0 / .3));
     }
     & .duo__win { border-radius: 0; box-shadow: none; background: var(--midnight); }
     & .duo__bar {
@@ -112,14 +118,22 @@
         radial-gradient(circle closest-side, var(--emerald) 96%, transparent) 100% 0 / calc(8 * var(--u)) 100% no-repeat;
     }
     & .duo__host { padding: 0; border-radius: 0; background: none; }
-    & .duo__phone { border-radius: calc(38 * var(--u)); background: var(--midnight); box-shadow: none; }
+    & .duo__phone {
+      border-radius: calc(42 * var(--u));
+      background: #2f3236 url("../../assets/devices/2013-phone.svg") 0 0 / 100% 100% no-repeat;
+      box-shadow: 0 calc(20 * var(--u)) calc(34 * var(--u)) calc(-14 * var(--u)) rgb(0 0 0 / .5);
+    }
+    /* The switch and the two volume buttons on the left edge, the sleep button on top. */
     & .duo__phone::before {
-      content: ""; position: absolute; left: 50%; top: calc(23 * var(--u)); translate: -50% 0;
-      width: calc(42 * var(--u)); height: calc(6 * var(--u)); border-radius: calc(3 * var(--u)); background: var(--asphalt);
+      content: ""; position: absolute; z-index: -1; left: calc(-2.2 * var(--u)); top: calc(100 * var(--u)); width: calc(3 * var(--u)); height: calc(124 * var(--u));
+      background:
+        linear-gradient(90deg, #3a3d42, #8e9298) 0 0 / 100% calc(20 * var(--u)) no-repeat,
+        linear-gradient(90deg, #3a3d42, #8e9298) 0 calc(44 * var(--u)) / 100% calc(30 * var(--u)) no-repeat,
+        linear-gradient(90deg, #3a3d42, #8e9298) 0 100% / 100% calc(30 * var(--u)) no-repeat;
     }
     & .duo__phone::after {
-      content: ""; position: absolute; left: 50%; bottom: calc(14 * var(--u)); translate: -50% 0;
-      width: calc(36 * var(--u)); aspect-ratio: 1; border-radius: 50%; border: calc(3 * var(--u)) solid var(--asphalt);
+      content: ""; position: absolute; z-index: -1; right: calc(46 * var(--u)); top: calc(-2.2 * var(--u)); width: calc(38 * var(--u)); height: calc(3 * var(--u));
+      background: linear-gradient(#8e9298, #3a3d42);
     }
     & .duo__screen { border-radius: 0; }
     & .shot figcaption { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--concrete); }

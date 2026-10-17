@@ -169,7 +169,16 @@
     }
     & .duo__screen { border-radius: calc(3 * var(--u)); }
     /* The era's orange corner brackets, on the face plate just outside the screen. */
-    & .duo__screen::before { content: ""; position: absolute; inset: calc(-5 * var(--u)); pointer-events: none; background: var(--brackets); }
+    & .duo__screen::before { content: ""; position: absolute; z-index: 2; inset: calc(-5 * var(--u)); pointer-events: none; background: var(--brackets); }
+    /* What the screens showed then (tools/era-screens.html): the app as a Flash movie, and as a game
+       on one of the first colour phones. The real screenshots stay underneath for screen readers and
+       the link. */
+    & :is(.duo__win, .duo__screen)::after { content: ""; position: absolute; z-index: 1; inset: 0; border-radius: inherit; background: 0 0 / 100% 100% no-repeat; }
+    & .duo__win::after { top: calc(var(--bar) * var(--u)); }
+    & #word-hunt .duo__win::after { background-image: url("../../assets/shots/eras/2001-word-hunt-desk.webp"); }
+    & #word-hunt .duo__screen::after { background-image: url("../../assets/shots/eras/2001-word-hunt-phone.webp"); }
+    & #physiocoach .duo__win::after { background-image: url("../../assets/shots/eras/2001-physiocoach-desk.webp"); }
+    & #physiocoach .duo__screen::after { background-image: url("../../assets/shots/eras/2001-physiocoach-phone.webp"); }
     & .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: 4px; }
     & .stat { display: flex; flex-direction: column-reverse; padding: 6px 8px; background: #0b0e11; border: 1px solid var(--line); }
     & .stat dt { font: 8px/1.4 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--steel); }
