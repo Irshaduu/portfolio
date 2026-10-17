@@ -98,6 +98,24 @@ export function startConstellation() {
   let pinnedChip = null;
   let pinnedProject = null;
 
+  const chipText = (chip) => {
+    const links = projectsOf(chip).map((p) => `<a href="#${p}">${IN_A_SENTENCE[p]}</a>`);
+    return `<strong>${escape(chip.textContent.trim())}</strong> is in ${and(links)}.`;
+  };
+  const projectText = (p) => {
+    const n = chips.filter((c) => projectsOf(c).includes(p)).length;
+    const verb = p === 'catering' ? 'is designed with' : 'was built with';
+    return `<a href="#${p}">${LABELS[p]}</a> ${verb} ${n} of these.`;
+  };
+
+  // The caption, and beside it, hidden, the longest caption it can show, holding the room
+  // (2030.css): touching a star never moves the sky.
+  caption.innerHTML = '<span class="sky__now"></span><span class="sky__room" aria-hidden="true"></span>';
+  const now = caption.firstChild;
+  const plain = (html) => html.replace(/<[^>]+>/g, '');
+  caption.lastChild.innerHTML = [...chips.map(chipText), ...PROJECTS.map(projectText)]
+    .reduce((a, b) => (plain(b).length > plain(a).length ? b : a));
+
   const show = (projects, html = '') => {
     if (projects.length) {
       stack.dataset.lit = projects.join(' ');
@@ -106,18 +124,10 @@ export function startConstellation() {
       delete stack.dataset.lit;
       delete root.dataset.lit;
     }
-    caption.innerHTML = html;
+    now.innerHTML = html;
   };
-  const showChip = (chip) => {
-    const ps = projectsOf(chip);
-    const links = ps.map((p) => `<a href="#${p}">${IN_A_SENTENCE[p]}</a>`);
-    show(ps, `<strong>${escape(chip.textContent.trim())}</strong> is in ${and(links)}.`);
-  };
-  const showProject = (p) => {
-    const n = chips.filter((c) => projectsOf(c).includes(p)).length;
-    const verb = p === 'catering' ? 'is designed with' : 'was built with';
-    show([p], `<a href="#${p}">${LABELS[p]}</a> ${verb} ${n} of these.`);
-  };
+  const showChip = (chip) => show(projectsOf(chip), chipText(chip));
+  const showProject = (p) => show([p], projectText(p));
   const restore = () => {
     if (pinnedChip) showChip(pinnedChip);
     else if (pinnedProject) showProject(pinnedProject);
@@ -181,6 +191,7 @@ export function startConstellation() {
     pinnedChip = pinnedProject = null;
     paintPins();
     show([]);
+    caption.textContent = '';
     svg.remove();
   });
 }

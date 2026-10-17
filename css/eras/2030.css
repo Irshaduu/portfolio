@@ -323,7 +323,12 @@
     & .sky__legend button::before { content: ""; width: 14px; height: 1px; background: var(--c, var(--ice)); box-shadow: 0 0 6px var(--c, var(--ice)); }
     & .sky__legend button:hover { color: var(--ink); border-color: var(--c); }
     & .sky__legend button[aria-pressed="true"] { color: var(--ink); border-color: var(--c); box-shadow: 0 0 22px -4px var(--c); }
-    & .sky__caption { min-height: 1.6em; font-size: .95rem; color: var(--ink); }
+    /* The caption is always as tall as the longest one it can show, at this width (a hidden copy
+       of that one holds the room). If it grew as a star is touched, the whole sky would move
+       under the pointer, out from under it and back again, and shake. */
+    & .sky__caption { display: grid; min-height: 1.6em; font-size: .95rem; color: var(--ink); }
+    & .sky__caption > * { grid-area: 1 / 1; }
+    & .sky__room { visibility: hidden; }
     & .sky__caption a { white-space: nowrap; }
 
     & [data-sky-project="workshopos"], & .sky-line[data-project="workshopos"] { --c: var(--gold); }
