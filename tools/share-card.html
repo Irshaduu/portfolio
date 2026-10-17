@@ -35,7 +35,9 @@
   .role { margin-top: 20px; color: #a3acc0; }
 
   /* ---- the same name in eight eras, on the time machine ---- */
-  ol { margin-top: auto; display: grid; grid-template-columns: repeat(8, var(--w)); gap: var(--gap); list-style: none; }
+  .cap { position: relative; margin-top: auto; font-size: 22px; color: #a3acc0; }
+  .cap b { display: inline; font-weight: 400; color: #e9edf6; }
+  ol { margin-top: 18px; display: grid; grid-template-columns: repeat(8, var(--w)); gap: var(--gap); list-style: none; }
   ol::before, ol::after { content: ""; position: absolute; top: calc(var(--line) - 1px); height: 2px; border-radius: 2px; }
   ol::before { left: calc(var(--w) / 2); right: calc(var(--w) / 2); background: rgb(170 190 255 / .2); }
   ol::after { left: calc(var(--w) / 2); width: calc(6 * (var(--w) + var(--gap))); background: linear-gradient(90deg, #b8a4ff, #7df3ff); }
@@ -140,11 +142,12 @@
 </head>
 <body>
   <header>
-    <p class="top"><span>Portfolio · 1992 → 2030</span><span>irshaduu.github.io/portfolio</span></p>
+    <p class="top"><span>Portfolio</span><span>irshaduu.github.io/portfolio</span></p>
     <h1>Mohammed <span>Irshad C</span></h1>
     <p class="role">Python Developer · Django, backend &amp; full-stack systems</p>
   </header>
 
+  <p class="cap">This site, <b>styled like the web of each year</b>. Drag to time travel.</p>
   <ol>
     <li class="e1992"><div class="tile"><b>Irshad</b><small>Work</small></div><span class="year">1992</span></li>
     <li class="e1997"><div class="tile"><b>IRSHAD</b></div><span class="year">1997</span></li>
