@@ -217,41 +217,38 @@
     & .shot a:hover { border-color: var(--ice); box-shadow: 0 0 50px -16px rgb(159 232 255 / .6); }
     & .shot figcaption { margin-top: .65rem; font: 500 .62rem/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
 
-    /* The live apps without devices: each screen is a pane of light with a holographic edge,
-       cast by a small emitter below it. */
-    & .duo { --pt: 0; --pr: 0; --pb: 0; --pl: 0; --bottom: 30; }
-    & .duo__phone { border-radius: 0; background: none; box-shadow: none; }
-    & .duo__screen { border-radius: calc(34 * var(--u)); box-shadow: 0 0 calc(46 * var(--u)) calc(-8 * var(--u)) rgb(159 232 255 / .5); }
-    & .duo__win {
-      overflow: visible; border-radius: calc(16 * var(--u)); background: rgb(9 11 24 / .7);
-      box-shadow: 0 0 calc(56 * var(--u)) calc(-14 * var(--u)) rgb(159 232 255 / .45);
+    /* The live apps on 2030's devices: almost all screen, graphite and glass, no colour, no
+       buttons. A phone with a third of 2026's bezel and a computer to match, with tight corners
+       (--rp, --rd) where today's are round. A polished edge catches the light along the top, and
+       the glass holds the faintest reflection. */
+    & .duo { --pt: 3; --pr: 3; --pb: 3; --pl: 3; --dt: 4; --dr: 4; --db: 4; --dl: 4; --rp: 16; --rd: 6; }
+    & :is(.duo__phone, .duo__desk) {
+      background: linear-gradient(160deg, #20232c, #08090e 42%, #14161d);
+      box-shadow: 0 0 0 1px #000, 0 calc(34 * var(--u)) calc(60 * var(--u)) calc(-18 * var(--u)) rgb(0 0 0 / .85);
     }
-    & .duo__bar {
-      justify-content: flex-start; padding-left: var(--clear); border-radius: calc(16 * var(--u)) calc(16 * var(--u)) 0 0;
-      background: none; box-shadow: none; font: 500 calc(9 * var(--u)) / 1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);
-    }
-    & .duo__host { padding: 0; border-radius: 0; background: none; }
-    & .duo__host::before { content: "\25CF\00a0\00a0"; color: var(--ice); }
-    & .duo__win img { border-radius: 0 0 calc(16 * var(--u)) calc(16 * var(--u)); }
-    & :is(.duo__screen, .duo__win)::before {
-      content: ""; position: absolute; inset: calc(-2 * var(--u)); padding: calc(1.5 * var(--u)); border-radius: calc(36 * var(--u));
-      background: var(--holo); pointer-events: none; opacity: .85;
+    /* The polished edge: bright where the light falls, top left, and again faintly at the foot. */
+    & :is(.duo__phone, .duo__desk)::before {
+      content: ""; position: absolute; inset: 0; z-index: 1; padding: calc(1 * var(--u)); border-radius: inherit; pointer-events: none;
+      background: linear-gradient(165deg, rgb(255 255 255 / .45), rgb(255 255 255 / .1) 22%, rgb(255 255 255 / .04) 55%, rgb(255 255 255 / .18));
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       mask-composite: exclude;
     }
-    & .duo__win::before { border-radius: calc(18 * var(--u)); }
-    /* The beam, from the emitter up to the pane, and the emitter itself. */
-    & :is(.duo__phone, .duo__desk)::before {
-      content: ""; position: absolute; z-index: -1; left: 50%; translate: -50% 0; top: calc(100% - 40 * var(--u)); width: 86%; height: calc(66 * var(--u));
-      background: linear-gradient(rgb(159 232 255 / 0) 45%, rgb(159 232 255 / .38));
-      clip-path: polygon(0 0, 100% 0, 54% 100%, 46% 100%);
+    & :is(.duo__screen, .duo__win)::after {
+      content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none;
+      background: linear-gradient(120deg, rgb(255 255 255 / .05), transparent 38%);
     }
-    & :is(.duo__phone, .duo__desk)::after {
-      content: ""; position: absolute; left: 50%; translate: -50% -50%; top: calc(100% + 26 * var(--u)); width: calc(64 * var(--u)); height: calc(10 * var(--u));
-      border-radius: 50%; background: radial-gradient(closest-side, #fff, var(--ice) 30%, rgb(159 232 255 / .25) 60%, transparent);
+    & .duo__phone { border-radius: calc(var(--rp) * var(--u)); }
+    & .duo__screen { border-radius: calc(max(0, var(--rp) - var(--pt)) * var(--u)); }
+    & .duo__desk { border-radius: calc(var(--rd) * var(--u)); }
+    & .duo__win { border-radius: calc(max(0, var(--rd) - var(--dt)) * var(--u)); background: #06070d; box-shadow: none; }
+    & .duo__bar {
+      justify-content: flex-start; padding-left: var(--clear);
+      background: #090b14; box-shadow: inset 0 calc(-1 * var(--u)) rgb(255 255 255 / .05);
+      font: 500 calc(9 * var(--u)) / 1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);
     }
+    & .duo__host { padding: 0; border-radius: 0; background: none; }
     & .project__meta {
       display: flex; flex-wrap: wrap; gap: .35rem 1.1rem;
       font: 500 .66rem/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);

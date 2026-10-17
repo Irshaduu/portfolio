@@ -98,7 +98,7 @@ the hardware around them is CSS, plus drawings for the 1997 and 2001 devices wit
 | 2013 | A flat monitor with a silver chin | A flat phone with a ring for a home button |
 | 2023 | A dark window with traffic lights | A titanium phone with side buttons, in front of the obligatory purple glow |
 | 2026 | Today's dark browser window | Today's phone |
-| 2030 | No devices: each screen is a pane of light with a holographic edge, cast by an emitter below it | |
+| 2030 | Almost all screen: a thin graphite frame with tight corners and a polished edge that catches the light, and the faintest reflection on the glass | The same, with a third of 2026's bezel. No colour, no buttons |
 
 The rules that keep the screens readable in every era (`.duo` in `css/base.css`):
 
