@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 277 677" preserveAspectRatio="none">
+  <!-- 2001's phone, around the live apps' phone screen (css/eras/2001.css). Units match the page's:
+       the screen sits at 14, 50, 249 x 539, and the CSS stretches this drawing to the phone's box. -->
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f1f4f7"/>
+      <stop offset=".45" stop-color="#d3d9df"/>
+      <stop offset="1" stop-color="#aeb7c0"/>
+    </linearGradient>
+    <linearGradient id="sides" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3a4450" stop-opacity=".55"/>
+      <stop offset=".06" stop-color="#3a4450" stop-opacity="0"/>
+      <stop offset=".94" stop-color="#3a4450" stop-opacity="0"/>
+      <stop offset="1" stop-color="#3a4450" stop-opacity=".55"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".3" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="face" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3b434d"/>
+      <stop offset="1" stop-color="#1f242a"/>
+    </linearGradient>
+    <radialGradient id="pad" cx=".5" cy=".38" r=".62">
+      <stop offset="0" stop-color="#fbfcfd"/>
+      <stop offset=".7" stop-color="#c3cbd3"/>
+      <stop offset="1" stop-color="#8d97a2"/>
+    </radialGradient>
+    <radialGradient id="ok" cx=".5" cy=".35" r=".65">
+      <stop offset="0" stop-color="#ffe0a3"/>
+      <stop offset=".55" stop-color="#ff9900"/>
+      <stop offset="1" stop-color="#b86e00"/>
+    </radialGradient>
+    <linearGradient id="key" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4c555f"/>
+      <stop offset="1" stop-color="#22272d"/>
+    </linearGradient>
+    <radialGradient id="led">
+      <stop offset="0" stop-color="#e6f7ff"/>
+      <stop offset=".35" stop-color="#7fd0ff"/>
+      <stop offset=".6" stop-color="#7fd0ff" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#7fd0ff" stop-opacity="0"/>
+    </radialGradient>
+    <path id="handset" d="M2.2 3.6c0-1 .8-1.9 1.8-1.9h1.2l1.1 2.9-1.4 1c.7 1.6 2 2.9 3.6 3.6l1-1.4 2.9 1.1v1.2c0 1-.9 1.8-1.9 1.8C6.4 11.9 2.2 7.7 2.2 3.6z"/>
+  </defs>
+
+  <!-- The silver body: lit from the top left, rounded at the sides. -->
+  <path id="shell" d="M34 0H243A34 34 0 0 1 277 34V625A52 52 0 0 1 225 677H52A52 52 0 0 1 0 625V34A34 34 0 0 1 34 0Z" fill="url(#body)"/>
+  <path d="M34 0H243A34 34 0 0 1 277 34V625A52 52 0 0 1 225 677H52A52 52 0 0 1 0 625V34A34 34 0 0 1 34 0Z" fill="url(#sides)"/>
+  <path d="M34 0H243A34 34 0 0 1 277 34V625A52 52 0 0 1 225 677H52A52 52 0 0 1 0 625V34A34 34 0 0 1 34 0Z" fill="url(#sheen)"/>
+  <path d="M34 .6H243A33.4 33.4 0 0 1 276.4 34V625A51.4 51.4 0 0 1 225 676.4H52A51.4 51.4 0 0 1 .6 625V34A33.4 33.4 0 0 1 34 .6Z" fill="none" stroke="#2a3038" stroke-width="1.2"/>
+  <path d="M34 2.2H243A31.8 31.8 0 0 1 274.8 34V625A49.8 49.8 0 0 1 225 674.8H52A49.8 49.8 0 0 1 2.2 625V34A31.8 31.8 0 0 1 34 2.2Z" fill="none" stroke="#fff" stroke-opacity=".7"/>
+
+  <!-- Earpiece grille and the blue light. -->
+  <rect x="104" y="14" width="69" height="10" rx="5" fill="#59636e"/>
+  <g fill="#1d2228">
+    <rect x="110" y="16.5" width="3" height="5" rx="1.5"/><rect x="117" y="16.5" width="3" height="5" rx="1.5"/><rect x="124" y="16.5" width="3" height="5" rx="1.5"/>
+    <rect x="131" y="16.5" width="3" height="5" rx="1.5"/><rect x="138" y="16.5" width="3" height="5" rx="1.5"/><rect x="145" y="16.5" width="3" height="5" rx="1.5"/>
+    <rect x="152" y="16.5" width="3" height="5" rx="1.5"/><rect x="159" y="16.5" width="3" height="5" rx="1.5"/><rect x="166" y="16.5" width="3" height="5" rx="1.5"/>
+  </g>
+  <rect x="104" y="24.5" width="69" height="1" fill="#fff" opacity=".8"/>
+  <circle cx="209" cy="19" r="7" fill="url(#led)"/>
+
+  <!-- The dark face plate around the screen. -->
+  <rect x="6.5" y="36.5" width="264" height="566" rx="16" fill="url(#face)" stroke="#11151a"/>
+  <rect x="7.5" y="37.5" width="262" height="564" rx="15" fill="none" stroke="#fff" stroke-opacity=".1"/>
+
+  <!-- Soft keys, call and end, and the nav pad with its orange centre. -->
+  <path d="M24 613h58a9 9 0 0 1 0 18H32a14 14 0 0 1-14-14v0a4 4 0 0 1 6-4z" fill="url(#key)" stroke="#11151a"/>
+  <path d="M253 613h-58a9 9 0 0 0 0 18h50a14 14 0 0 0 14-14v0a4 4 0 0 0-6-4z" fill="url(#key)" stroke="#11151a"/>
+  <rect x="38" y="620.5" width="22" height="2.4" rx="1.2" fill="#c9d0d7"/>
+  <rect x="217" y="620.5" width="22" height="2.4" rx="1.2" fill="#c9d0d7"/>
+  <rect x="28" y="640" width="62" height="20" rx="10" fill="url(#key)" stroke="#11151a"/>
+  <rect x="187" y="640" width="62" height="20" rx="10" fill="url(#key)" stroke="#11151a"/>
+  <use href="#handset" x="52" y="643" fill="#5fd36e"/>
+  <use href="#handset" transform="translate(231 656) rotate(135)" fill="#ff5a4e"/>
+  <circle cx="138.5" cy="638" r="29" fill="#59636e"/>
+  <circle cx="138.5" cy="638" r="27.5" fill="url(#pad)"/>
+  <g fill="#59636e">
+    <path d="M138.5 614.5l4 5h-8z"/><path d="M138.5 661.5l4-5h-8z"/><path d="M115 638l5-4v8z"/><path d="M162 638l-5-4v8z"/>
+  </g>
+  <circle cx="138.5" cy="638" r="12" fill="#7a4a00"/>
+  <circle cx="138.5" cy="638" r="11" fill="url(#ok)"/>
+  <ellipse cx="138.5" cy="633" rx="6" ry="3" fill="#fff" opacity=".45"/>
+</svg>

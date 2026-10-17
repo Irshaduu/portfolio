@@ -87,12 +87,13 @@ Print keeps the system map and drops the screens.
 
 **The live apps are a computer and a phone, and the devices change with the era.** The page
 holds only the two real screens of each app (`assets/shots/*-desk.webp` and `*-phone.webp`);
-the hardware around them is CSS, so every era draws the devices of its own time:
+the hardware around them is CSS, plus drawings for the 1997 and 2001 devices with real keys
+(`assets/devices/`), so every era draws the devices of its own time:
 
 | Era | Computer | Phone |
 |---|---|---|
-| 1997 | A beige CRT with a power light, a Windows 95 window, Netscape in the title bar | A brick phone with an antenna and a keypad |
-| 2001 | A silver flat panel on a stand, a Flash player's chrome title bar | A silver phone with a blue light, a nav pad and orange corner brackets |
+| 1997 | A beige CRT with control buttons and a power light, a Windows 95 window, Netscape in the title bar | A brick phone with an antenna and a real keypad: call, menu, end, and 1 to 9 with their letters |
+| 2001 | A silver flat panel on a stand, a Flash player's chrome title bar | A silver phone with a dark face plate, a blue light, soft keys, call and end, a nav pad and orange corner brackets |
 | 2007 | A glossy Safari window with three drops | The first iPhone: black glass, a steel rim, a home button. Both stand on a shiny floor |
 | 2013 | A flat monitor with a silver chin | A flat phone with a ring for a home button |
 | 2023 | A dark window with traffic lights | A titanium phone with side buttons, in front of the obligatory purple glow |
@@ -269,7 +270,8 @@ js/eras/2030/         the WebGL scene (scene.js), the shapes built from project 
 tools/serve.mjs       zero-dependency local server
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
 tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
-assets/               resume PDF, link preview picture, project pictures and clips (shots/)
+assets/               resume PDF, link preview picture, project pictures and clips (shots/),
+                      and the drawn 1997 and 2001 devices (devices/)
 ```
 
 ## Adding an era
@@ -292,8 +294,9 @@ assets/               resume PDF, link preview picture, project pictures and cli
 - No framework, no build. The only images are the project pictures (WebP, lazy-loaded): the
   system map and the documents (65 and 75 KB), and the live apps' screens (13 to 39 KB each).
   The only video is the two phone clips (75 and 138 KB, fetched when their card comes on
-  screen). Era scenery and devices are CSS, except 2030's scenery, which is drawn by code.
-- Unminified, uncompressed: 34 KB of HTML, 178 KB of CSS for all eight eras, 93 KB of JavaScript,
+  screen). Era scenery and devices are CSS, except 2030's scenery, which is drawn by code, and
+  the 1997 and 2001 devices, which are small SVG drawings (3 to 6 KB) loaded only in their era.
+- Unminified, uncompressed: 34 KB of HTML, 174 KB of CSS for all eight eras, 93 KB of JavaScript,
   of which 48 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
   current width in the current era's type. With even spacing, a 375 px phone fits them in full in

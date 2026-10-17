@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 281 754" preserveAspectRatio="none">
+  <!-- 1997's phone, around the live apps' phone screen (css/eras/1997.css). Units match the page's:
+       the screen sits at 16, 64, 249 x 539, and the CSS stretches this drawing to the phone's box. -->
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5058"/>
+      <stop offset=".35" stop-color="#363b42"/>
+      <stop offset="1" stop-color="#25292e"/>
+    </linearGradient>
+    <linearGradient id="sides" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#000" stop-opacity=".5"/>
+      <stop offset=".07" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".93" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".5"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx=".28" cy=".02" r=".55" gradientTransform="scale(1 .45)">
+      <stop offset="0" stop-color="#fff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="lens" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c0d0f"/>
+      <stop offset="1" stop-color="#1a1d21"/>
+    </linearGradient>
+    <linearGradient id="key" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e6e9ec"/>
+      <stop offset=".55" stop-color="#bfc4ca"/>
+      <stop offset="1" stop-color="#99a0a8"/>
+    </linearGradient>
+    <linearGradient id="navi" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c9d6e2"/>
+      <stop offset=".55" stop-color="#9fb1c2"/>
+      <stop offset="1" stop-color="#7d90a3"/>
+    </linearGradient>
+    <path id="handset" d="M2.2 3.6c0-1 .8-1.9 1.8-1.9h1.2l1.1 2.9-1.4 1c.7 1.6 2 2.9 3.6 3.6l1-1.4 2.9 1.1v1.2c0 1-.9 1.8-1.9 1.8C6.4 11.9 2.2 7.7 2.2 3.6z"/>
+    <g id="k">
+      <rect width="74" height="20" rx="10" fill="url(#key)" stroke="#121417" stroke-width=".9"/>
+      <rect x="6" y="1.3" width="62" height="4" rx="2" fill="#fff" opacity=".35"/>
+    </g>
+  </defs>
+
+  <!-- The body: lit from above, rounded at the sides. -->
+  <path d="M46 0H235A46 46 0 0 1 281 46V696A58 58 0 0 1 223 754H58A58 58 0 0 1 0 696V46A46 46 0 0 1 46 0Z" fill="url(#body)"/>
+  <path d="M46 0H235A46 46 0 0 1 281 46V696A58 58 0 0 1 223 754H58A58 58 0 0 1 0 696V46A46 46 0 0 1 46 0Z" fill="url(#sides)"/>
+  <path d="M46 0H235A46 46 0 0 1 281 46V696A58 58 0 0 1 223 754H58A58 58 0 0 1 0 696V46A46 46 0 0 1 46 0Z" fill="url(#sheen)"/>
+  <path d="M46 .8H235A45.2 45.2 0 0 1 280.2 46V696A57.2 57.2 0 0 1 223 753.2H58A57.2 57.2 0 0 1 .8 696V46A45.2 45.2 0 0 1 46 .8Z" fill="none" stroke="#0b0c0e" stroke-width="1.6"/>
+  <path d="M46 2.6H235A43.4 43.4 0 0 1 278.4 46V696A55.4 55.4 0 0 1 223 751.4H58A55.4 55.4 0 0 1 2.6 696V46A43.4 43.4 0 0 1 46 2.6Z" fill="none" stroke="#fff" stroke-opacity=".1" stroke-width="1"/>
+
+  <!-- Earpiece. -->
+  <g fill="#0d0e10">
+    <rect x="118" y="22" width="45" height="3.4" rx="1.7"/>
+    <rect x="118" y="29" width="45" height="3.4" rx="1.7"/>
+    <rect x="118" y="36" width="45" height="3.4" rx="1.7"/>
+  </g>
+  <g fill="#fff" opacity=".09">
+    <rect x="118" y="25.6" width="45" height=".8"/>
+    <rect x="118" y="32.6" width="45" height=".8"/>
+    <rect x="118" y="39.6" width="45" height=".8"/>
+  </g>
+
+  <!-- The lens around the screen. -->
+  <rect x="8.5" y="53" width="264" height="561" rx="14" fill="url(#lens)" stroke="#08090a"/>
+  <rect x="9.5" y="54" width="262" height="559" rx="13" fill="none" stroke="#fff" stroke-opacity=".07"/>
+
+  <!-- Call, menu and end. -->
+  <rect x="18" y="621" width="66" height="20" rx="10" fill="url(#key)" stroke="#121417" stroke-width=".9"/>
+  <rect x="96" y="619" width="89" height="23" rx="11.5" fill="url(#navi)" stroke="#121417" stroke-width=".9"/>
+  <rect x="197" y="621" width="66" height="20" rx="10" fill="url(#key)" stroke="#121417" stroke-width=".9"/>
+  <g fill="#fff" opacity=".35"><rect x="24" y="622.3" width="54" height="4" rx="2"/><rect x="104" y="620.5" width="73" height="5" rx="2.5"/><rect x="203" y="622.3" width="54" height="4" rx="2"/></g>
+  <use href="#handset" x="44" y="624" fill="#22913f"/>
+  <use href="#handset" transform="translate(237 637) rotate(135)" fill="#c8372d"/>
+  <rect x="129" y="629.5" width="23" height="2.4" rx="1.2" fill="#3f4d5b"/>
+
+  <!-- 1 to 9, *, 0, #. -->
+  <g>
+    <use href="#k" x="18" y="648"/><use href="#k" x="103.5" y="648"/><use href="#k" x="189" y="648"/>
+    <use href="#k" x="18" y="672"/><use href="#k" x="103.5" y="672"/><use href="#k" x="189" y="672"/>
+    <use href="#k" x="18" y="696"/><use href="#k" x="103.5" y="696"/><use href="#k" x="189" y="696"/>
+    <use href="#k" x="18" y="720"/><use href="#k" x="103.5" y="720"/><use href="#k" x="189" y="720"/>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="12" fill="#1c1f23" text-anchor="middle">
+    <text x="55" y="662.5">1</text><text x="134.5" y="662.5">2</text><text x="220" y="662.5">3</text>
+    <text x="49" y="686.5">4</text><text x="134.5" y="686.5">5</text><text x="220" y="686.5">6</text>
+    <text x="49" y="710.5">7</text><text x="134.5" y="710.5">8</text><text x="220" y="710.5">9</text>
+    <text x="55" y="737">*</text><text x="140.5" y="734.5">0</text><text x="226" y="734.5">#</text>
+  </g>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="6.5" fill="#4b5158">
+    <text x="141.5" y="661.5">abc</text><text x="227" y="661.5">def</text>
+    <text x="56" y="685.5">ghi</text><text x="141.5" y="685.5">jkl</text><text x="227" y="685.5">mno</text>
+    <text x="56" y="709.5">pqrs</text><text x="141.5" y="709.5">tuv</text><text x="227" y="709.5">wxyz</text>
+  </g>
+
+  <!-- Microphone. -->
+  <circle cx="140.5" cy="746.5" r="1.6" fill="#0d0e10"/>
+</svg>

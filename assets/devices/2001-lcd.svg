@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 575 369.69" preserveAspectRatio="none">
+  <!-- 2001's flat panel, around the live apps' computer window (css/eras/2001.css). Units match the
+       page's: the window sits at 14, 14, 547 x 325.69, and the CSS stretches this to the monitor. -->
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3f5f7"/>
+      <stop offset=".5" stop-color="#d7dce1"/>
+      <stop offset="1" stop-color="#b9c1c9"/>
+    </linearGradient>
+    <linearGradient id="sides" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#46505b" stop-opacity=".35"/>
+      <stop offset=".03" stop-color="#46505b" stop-opacity="0"/>
+      <stop offset=".97" stop-color="#46505b" stop-opacity="0"/>
+      <stop offset="1" stop-color="#46505b" stop-opacity=".35"/>
+    </linearGradient>
+    <linearGradient id="btn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fbfcfd"/>
+      <stop offset="1" stop-color="#a9b2bb"/>
+    </linearGradient>
+    <radialGradient id="led">
+      <stop offset="0" stop-color="#fff1d6"/>
+      <stop offset=".4" stop-color="#ff9900"/>
+      <stop offset=".65" stop-color="#ff9900" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#ff9900" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- The case: silver plastic, a highlight along the top edge, darker at the sides. -->
+  <rect width="575" height="369.69" rx="8" fill="url(#body)"/>
+  <rect width="575" height="369.69" rx="8" fill="url(#sides)"/>
+  <rect x=".5" y=".5" width="574" height="368.69" rx="7.5" fill="none" stroke="#2a3038"/>
+  <rect x="1.5" y="1.5" width="572" height="366.69" rx="6.5" fill="none" stroke="#fff" stroke-opacity=".85"/>
+
+  <!-- The panel's black edge, set into the case. -->
+  <rect x="8" y="8" width="559" height="337.69" rx="3" fill="#9aa4ae"/>
+  <rect x="9" y="9" width="557" height="335.69" rx="2.5" fill="#15191e"/>
+
+  <!-- On the chin: four round buttons, and the power button with its orange light. -->
+  <g>
+    <circle cx="447" cy="357" r="4" fill="url(#btn)" stroke="#6d7883" stroke-width=".8"/>
+    <circle cx="461" cy="357" r="4" fill="url(#btn)" stroke="#6d7883" stroke-width=".8"/>
+    <circle cx="475" cy="357" r="4" fill="url(#btn)" stroke="#6d7883" stroke-width=".8"/>
+    <circle cx="489" cy="357" r="4" fill="url(#btn)" stroke="#6d7883" stroke-width=".8"/>
+  </g>
+  <circle cx="540" cy="357" r="11" fill="url(#led)"/>
+  <circle cx="540" cy="357" r="6.5" fill="url(#btn)" stroke="#6d7883" stroke-width=".8"/>
+  <path d="M537.6 355a3.2 3.2 0 1 0 4.8 0M540 353.2v3.4" fill="none" stroke="#59636e" stroke-width="1.1" stroke-linecap="round"/>
+</svg>

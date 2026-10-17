@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 591 401.69" preserveAspectRatio="none">
+  <!-- 1997's monitor, around the live apps' computer window (css/eras/1997.css). Units match the
+       page's: the window sits at 22, 22, 547 x 327.69, and the CSS stretches this to the monitor. -->
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2eddd"/>
+      <stop offset=".5" stop-color="#e3dbc5"/>
+      <stop offset="1" stop-color="#d0c7ad"/>
+    </linearGradient>
+    <linearGradient id="slope" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a99f85"/>
+      <stop offset=".12" stop-color="#cbc2a8"/>
+      <stop offset=".9" stop-color="#e2dbc6"/>
+      <stop offset="1" stop-color="#f1ebd9"/>
+    </linearGradient>
+    <linearGradient id="btn" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f6f2e5"/>
+      <stop offset="1" stop-color="#c7bea4"/>
+    </linearGradient>
+    <radialGradient id="led">
+      <stop offset="0" stop-color="#d9ffe2"/>
+      <stop offset=".35" stop-color="#46f070"/>
+      <stop offset=".6" stop-color="#46f070" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#46f070" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- The case, with a highlight along the top and left edges and a shade along the bottom. -->
+  <rect width="591" height="401.69" rx="16" fill="url(#body)"/>
+  <rect x="1" y="1" width="589" height="399.69" rx="15" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="2"/>
+  <rect x=".5" y=".5" width="590" height="400.69" rx="15.5" fill="none" stroke="#8e8670" stroke-opacity=".6"/>
+  <path d="M3 380v6a13 13 0 0 0 13 13h559a13 13 0 0 0 13-13v-6" fill="none" stroke="#9b927a" stroke-opacity=".55" stroke-width="3"/>
+
+  <!-- The recess the tube sits in, then the dark glass at its edge. -->
+  <rect x="9" y="9" width="573" height="352.69" rx="10" fill="url(#slope)"/>
+  <rect x="9.5" y="9.5" width="572" height="351.69" rx="9.5" fill="none" stroke="#8a8168" stroke-opacity=".7"/>
+  <rect x="15" y="15" width="561" height="341.69" rx="7" fill="#1e1d1a"/>
+  <rect x="15.5" y="15.5" width="560" height="340.69" rx="6.5" fill="none" stroke="#000" stroke-opacity=".6"/>
+
+  <!-- Controls on the chin: four small buttons, the power light and the power button. -->
+  <g>
+    <rect x="404" y="377" width="14" height="8" rx="2" fill="url(#btn)" stroke="#9a917a" stroke-width=".8"/>
+    <rect x="424" y="377" width="14" height="8" rx="2" fill="url(#btn)" stroke="#9a917a" stroke-width=".8"/>
+    <rect x="444" y="377" width="14" height="8" rx="2" fill="url(#btn)" stroke="#9a917a" stroke-width=".8"/>
+    <rect x="464" y="377" width="14" height="8" rx="2" fill="url(#btn)" stroke="#9a917a" stroke-width=".8"/>
+  </g>
+  <circle cx="504" cy="381" r="7" fill="url(#led)"/>
+  <rect x="520" y="372" width="40" height="18" rx="3" fill="#b8af95"/>
+  <rect x="521.5" y="373" width="37" height="15" rx="2.5" fill="url(#btn)" stroke="#9a917a" stroke-width=".8"/>
+</svg>
