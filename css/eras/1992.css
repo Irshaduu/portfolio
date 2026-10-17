@@ -28,6 +28,7 @@
 
     & [data-future] { color: #808080; }
     & :is(.tags li, .chip)[data-future]::after { content: " (arrives " attr(data-since) ")"; }
+    & .link[data-future]::after { content: "[" counter(lmb) "] (arrives " attr(data-since) ")"; } /* keeps its link number */
 
     /* The time machine is a plain form at the bottom of the window. */
     & .timemachine {

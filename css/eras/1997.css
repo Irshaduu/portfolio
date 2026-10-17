@@ -101,7 +101,7 @@
     & .tags li { display: inline; }
     & .tags li + li::before { content: ", "; color: var(--silver); }
     & [data-future] { color: #777 !important; }
-    & :is(.tags li, .chip)[data-future]::after { content: " (coming " attr(data-since) "!)"; color: #f80; font-size: .85em; }
+    & :is(.tags li, .chip, .link)[data-future]::after { content: " (coming " attr(data-since) "!)"; color: #f80; font-size: .85em; }
     & .project__links { display: flex; flex-wrap: wrap; gap: 6px 14px; font: bold 17px var(--comic); }
     & .project__links a::before { content: "[\00a0"; }
     & .project__links a::after { content: "\00a0]"; }

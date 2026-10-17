@@ -213,6 +213,7 @@
     & .project__links a:first-child, & .link--primary { background: var(--ink); color: #05060c; border-color: transparent; }
     & .project__links a::after, & .link::after { content: "\2197"; font-size: .85em; }
     & .link--primary::after { content: "\2192"; }
+    & .link--wa::before { content: ""; width: .5em; height: .5em; border-radius: 50%; background: #25d366; box-shadow: 0 0 10px #25d366; }
     & .project__links a:hover, & .link:hover {
       border-color: var(--c1); transform: translateY(-1px);
       box-shadow: 0 0 0 4px rgb(125 243 255 / .1), 0 0 32px rgb(125 243 255 / .28);

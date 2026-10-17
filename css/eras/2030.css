@@ -258,6 +258,7 @@
     }
     & .project__links a::after, & .link::after { content: "\2197"; font-size: .85em; }
     & .link--primary::after { content: "\2192"; }
+    & .link--wa::before { content: ""; width: .5em; height: .5em; border-radius: 50%; background: #25d366; box-shadow: 0 0 10px #25d366; }
     & .project__links a:hover, & .link:hover { transform: translateY(-1px); box-shadow: 0 0 30px rgb(159 232 255 / .28); }
     & .status { position: relative; padding-left: 1.1rem; font: 400 .76rem/1.55 var(--mono); color: var(--ink-3); }
     & .status::before {

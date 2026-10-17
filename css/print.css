@@ -8,4 +8,5 @@ body { all: revert; font: 11pt/1.4 Georgia, "Times New Roman", serif; color: #00
 .masthead :not(.orn), main :not(.orn), .footer :not(.orn) { all: revert; }
 
 a[href^="http"]::after { content: " <" attr(href) ">"; font-size: 9pt; }
+a.link--wa::after { content: " <wa.me/919567937397>"; } /* without the typed-in greeting */
 .project, .moment { break-inside: avoid; }

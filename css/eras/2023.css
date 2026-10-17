@@ -152,6 +152,7 @@
     & .project__links a:hover, & .link:hover { background: rgb(255 255 255 / .08); }
     & .project__links a:first-child, & .link--primary { background: var(--ink); color: var(--bg); border-color: transparent; }
     & .project__links a:first-child::after, & .link--primary::after { content: "\00a0\2192"; }
+    & .link--wa::before { content: ""; width: .45em; height: .45em; margin-right: .55em; border-radius: 50%; background: #25d366; }
     & .status { display: flex; gap: .55rem; align-items: baseline; font-size: .82rem; color: var(--ink-3); }
     & .status::before { content: ""; flex: none; width: 7px; height: 7px; border-radius: 50%; background: #fbbf24; box-shadow: 0 0 10px #fbbf24; translate: 0 -1px; }
 
