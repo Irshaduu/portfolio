@@ -215,6 +215,9 @@
       box-shadow: 0 0 44px -22px rgb(159 232 255 / .5); transition: border-color .3s, box-shadow .3s;
     }
     & .shot a:hover { border-color: var(--ice); box-shadow: 0 0 50px -16px rgb(159 232 255 / .6); }
+    /* The catering pages drift rather than shuffle: slower, as if weightless. */
+    & .shot .pages { --cycle: 13s; }
+    & .shot .pages img { animation-timing-function: cubic-bezier(.45, 0, .25, 1); }
     & .shot figcaption { margin-top: .65rem; font: 500 .62rem/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
 
     /* The live apps on 2030's devices: almost all screen, graphite and glass, no colour, no

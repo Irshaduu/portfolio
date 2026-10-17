@@ -27,7 +27,7 @@
     }
 
     /* No inline images yet: a picture is a numbered link, the way a text browser shows one. */
-    & .shot :is(img, .duo) { display: none; }
+    & .shot :is(img, .duo, .pages) { display: none; }
     & .shot a::before { content: "[IMAGE]"; }
 
     & [data-future] { color: #808080; }

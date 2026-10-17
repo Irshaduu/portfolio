@@ -24,3 +24,13 @@ if (clips.length && 'IntersectionObserver' in window && !navigator.connection?.s
   }
   still.addEventListener('change', () => clips.forEach(sync));
 }
+
+// The catering card's two pages (.shot .pages) shuffle on the same terms: only while the card is
+// on screen. Reduced motion stops them in CSS; in 1992 they have no box, so they never start.
+const stacks = [...document.querySelectorAll('.shot .pages')];
+if (stacks.length && 'IntersectionObserver' in window) {
+  const watch = new IntersectionObserver((entries) => {
+    for (const { target, isIntersecting } of entries) target.classList.toggle('is-on', isIntersecting);
+  }, { threshold: 0.4 });
+  for (const stack of stacks) watch.observe(stack);
+}

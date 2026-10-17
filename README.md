@@ -85,6 +85,14 @@ map, the two live apps, and the first pages of the catering documents. Each era 
 inline images, so there the picture is a numbered `[IMAGE]` link, as a text browser shows it.
 Print keeps the system map and drops the screens.
 
+**The catering documents take turns at the front.** The card holds the first page of each
+(`assets/shots/catering-report.webp` and `catering-plan.webp`, rendered from the PDFs). Every few
+seconds the back page lifts out from behind, comes over the top and settles in front while the
+other sinks back. It's one loop for both pages, half a cycle apart (`tt-shuffle` in
+`css/base.css`), and it runs only while the card is on screen (`js/clips.js`), never with reduced
+motion. 1997 jumps between the poses like an animated GIF, 2013 keeps the pages flat, 2030 lets
+them drift slower, as if weightless, and 1992 has no pictures to move.
+
 **The live apps are a computer and a phone, and the devices change with the era.** The page
 holds only the two real screens of each app (`assets/shots/*-desk.webp` and `*-phone.webp`);
 the hardware around them is CSS, plus drawings for the 1997 and 2001 devices with real keys

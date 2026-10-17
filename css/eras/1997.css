@@ -84,6 +84,9 @@
     & .project__data { margin-top: 10px; }
     & .project__head { display: grid; gap: 4px; }
     & .shot a > img { max-width: 420px; border: 3px ridge var(--silver); }
+    /* The catering pages swap like an animated GIF: no in-between frames, just the next picture. */
+    & .shot .pages { max-width: 420px; border: 3px ridge var(--silver); }
+    & .shot .pages img { animation-timing-function: steps(1, end); box-shadow: 2px 2px 0 #000; }
     & .shot figcaption { font: italic 13px var(--times); color: #ff0; }
 
     /* The live apps on a beige CRT and a brick phone with an antenna and a keypad. The monitor's

@@ -57,6 +57,25 @@
   .shot img { display: block; width: 100%; height: auto; }
   .shot--cover img { aspect-ratio: 4 / 3; object-fit: cover; }
   .shot--docs img { object-fit: contain; }
+  /* The catering documents: the two first pages take turns at the front. The back page lifts out
+     from behind, comes over the top and settles in front while the other sinks back; then they
+     swap again. One loop for both pages, half a cycle apart. It runs only while the card is on
+     screen (js/clips.js adds .is-on), never with reduced motion; eras set its feel. */
+  .shot .pages {
+    --cycle: 9s;
+    position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden;
+  }
+  .shot .pages img {
+    --front: translate(-72%, -48%) rotate(-3deg);
+    --back: translate(-26%, -54%) rotate(5deg) scale(.96);
+    --lift: translate(-34%, -63%) rotate(1deg) scale(.98);
+    position: absolute; left: 50%; top: 50%; width: 42%; height: auto; aspect-ratio: auto;
+    box-shadow: 0 14px 30px -12px rgb(0 0 0 / .5), 0 0 0 1px rgb(0 0 0 / .08);
+    transform: var(--front); z-index: 2;
+    animation: tt-shuffle var(--cycle) ease-in-out infinite paused;
+  }
+  .shot .pages img + img { transform: var(--back); z-index: 1; filter: brightness(.93); animation-delay: calc(var(--cycle) / -2); }
+  .shot .pages.is-on img { animation-play-state: running; }
   /* The live apps: two real screens, a computer's and a phone's, and around them the devices of
      the era you are in. Each era only draws the hardware around the screens, in the room the
      variables below give it. Whatever it draws, the phone hides the same 35 units of the computer
@@ -193,9 +212,23 @@
   to { opacity: 1; transform: none; filter: none; }
 }
 
+/* Front, then sinking back while the other lifts over, then waiting behind, then lifting over. */
+@keyframes tt-shuffle {
+  0% { transform: var(--front); z-index: 2; filter: none; }
+  42% { transform: var(--front); z-index: 2; filter: none; }
+  44.99% { z-index: 2; }
+  45% { z-index: 1; }
+  50% { transform: var(--back); z-index: 1; filter: brightness(.93); }
+  90% { transform: var(--back); z-index: 1; filter: brightness(.93); }
+  94.99% { z-index: 1; }
+  95% { transform: var(--lift); z-index: 2; filter: none; }
+  100% { transform: var(--front); z-index: 2; filter: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
   .warp { display: none; }
+  .shot .pages img { animation: none; }
 }
 
 /* The sound switch sits small in the top right corner, in the same place and size in every
