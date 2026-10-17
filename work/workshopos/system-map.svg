@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1414 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="Inter, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif" role="img" aria-labelledby="map-title">
+<title id="map-title">WorkshopOS system map: three roles, the job card and bill flows, stock, money, alerts and the platform under them</title>
+<style>@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400..900&amp;display=swap");</style><rect width="1414" height="1000" fill="#111a2b"/>
+<defs>
+<pattern id="cad-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+<path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2f4160" stroke-width="0.5" opacity="0.55"/>
+</pattern>
+<marker id="ar-work" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 1 L7 4 L0 7 z" fill="#54cbff"/></marker>
+<marker id="ar-in" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 1 L7 4 L0 7 z" fill="#4ce0a6"/></marker>
+<marker id="ar-out" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 1 L7 4 L0 7 z" fill="#ff8f8f"/></marker>
+<marker id="ar-stock" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 1 L7 4 L0 7 z" fill="#bda4ff"/></marker>
+<marker id="ar-data" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 1 L7 4 L0 7 z" fill="#adbdd2"/></marker>
+<marker id="ar-alert" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="5.5" markerHeight="5.5" orient="auto"><path d="M0 1 L7 4 L0 7 z" fill="#ffcb45"/></marker>
+<filter id="card-shadow" x="-2%" y="-2%" width="104%" height="108%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.8" flood-color="#000" flood-opacity="0.22"/></filter>
+<radialGradient id="vignette" cx="50%" cy="50%" r="78%" fx="50%" fy="50%"><stop offset="70%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity="0.10"/></radialGradient>
+</defs>
+<rect width="1414" height="1000" fill="url(#cad-grid)"/>
+<rect x="8" y="8" width="1398" height="984" fill="none" stroke="#65799b" stroke-width="0.5" opacity=".4"/>
+<g id="title-block">
+<rect x="16" y="14" width="220" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<rect x="16" y="14" width="4" height="34" fill="#54cbff"/>
+<text x="28" y="36" font-size="17" font-weight="900" fill="#ffffff" letter-spacing="-.3">SYSTEM <tspan fill="#54cbff">MAP</tspan></text>
+</g>
+<g id="legend-block">
+<rect x="1302.3" y="14" width="89.7" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="1310.3" y1="31" x2="1320.3" y2="31" stroke="#ffcb45" stroke-width="2.6" stroke-linecap="square"/>
+<text x="1324.3" y="34" font-size="8" font-weight="700" fill="#adbdd2">alert / audit</text>
+<rect x="1226.2" y="14" width="70.1" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="1234.2" y1="31" x2="1244.2" y2="31" stroke="#adbdd2" stroke-width="2.6" stroke-linecap="square"/>
+<text x="1248.2" y="34" font-size="8" font-weight="700" fill="#adbdd2">telemetry</text>
+<rect x="1145.2" y="14" width="75.0" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="1153.2" y1="31" x2="1163.2" y2="31" stroke="#bda4ff" stroke-width="2.6" stroke-linecap="square"/>
+<text x="1167.2" y="34" font-size="8" font-weight="700" fill="#adbdd2">stock flow</text>
+<rect x="1069.1" y="14" width="70.1" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="1077.1" y1="31" x2="1087.1" y2="31" stroke="#ff8f8f" stroke-width="2.6" stroke-linecap="square"/>
+<text x="1091.1" y="34" font-size="8" font-weight="700" fill="#adbdd2">money out</text>
+<rect x="997.9" y="14" width="65.2" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="1005.9" y1="31" x2="1015.9" y2="31" stroke="#4ce0a6" stroke-width="2.6" stroke-linecap="square"/>
+<text x="1019.9" y="34" font-size="8" font-weight="700" fill="#adbdd2">money in</text>
+<rect x="926.7" y="14" width="65.2" height="34" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="934.7" y1="31" x2="944.7" y2="31" stroke="#54cbff" stroke-width="2.6" stroke-linecap="square"/>
+<text x="948.7" y="34" font-size="8" font-weight="700" fill="#adbdd2">workflow</text>
+</g>
+<line x1="16" y1="56" x2="1398" y2="56" stroke="#4a5d7e" stroke-width="1"/>
+<line x1="16" y1="449" x2="1398" y2="449" stroke="#65799b" stroke-width="0.5" stroke-dasharray="8 4" opacity=".25"/>
+<line x1="16" y1="749" x2="1398" y2="749" stroke="#65799b" stroke-width="0.5" stroke-dasharray="8 4" opacity=".25"/>
+<g class="map-card" id="card-r_own">
+<rect x="26.0" y="98" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="99" x2="241.0" y2="99" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="102" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="114" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">OWNER</text>
+<text x="38.0" y="126" font-size="7.6" font-weight="500" fill="#adbdd2">everything unrestricted</text>
+</g>
+<g class="map-card" id="card-r_off">
+<rect x="26.0" y="141.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="142.0" x2="241.0" y2="142.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="145.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="157.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">OFFICE</text>
+<text x="38.0" y="169.0" font-size="7.6" font-weight="500" fill="#adbdd2">no cost side access</text>
+</g>
+<g class="map-card" id="card-r_flo">
+<rect x="26.0" y="184.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="185.0" x2="241.0" y2="185.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="188.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="200.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">FLOOR</text>
+<text x="38.0" y="212.0" font-size="7.6" font-weight="500" fill="#adbdd2">no prices visible</text>
+</g>
+<g class="map-card" id="card-signin">
+<rect x="26.0" y="227.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="228.0" x2="241.0" y2="228.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="231.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="243.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SIGN-IN</text>
+<text x="38.0" y="255.0" font-size="7.6" font-weight="500" fill="#adbdd2">username - owner email</text>
+</g>
+<g class="map-card" id="card-lock">
+<rect x="26.0" y="270.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="271.0" x2="241.0" y2="271.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="274.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="286.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">LOCKOUT</text>
+<text x="38.0" y="298.0" font-size="7.6" font-weight="500" fill="#adbdd2">5 wrong tries - 15 mins</text>
+</g>
+<g class="map-card" id="card-reset">
+<rect x="26.0" y="313.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="314.0" x2="241.0" y2="314.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="317.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="329.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">PASSWORD RESET</text>
+<text x="38.0" y="341.0" font-size="7.6" font-weight="500" fill="#adbdd2">6-digit code by email</text>
+</g>
+<g class="map-card" id="card-sess">
+<rect x="26.0" y="356.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="357.0" x2="241.0" y2="357.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="360.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="372.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SESSIONS</text>
+<text x="38.0" y="384.0" font-size="7.6" font-weight="500" fill="#adbdd2">device - ip - terminate</text>
+</g>
+<g class="map-card" id="card-hub">
+<rect x="26.0" y="399.0" width="216.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="400.0" x2="241.0" y2="400.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="403.0" width="3" height="27.0" fill="#ffcb45"/>
+<text x="38.0" y="415.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CONTROL HUB</text>
+<text x="38.0" y="427.0" font-size="7.6" font-weight="500" fill="#adbdd2">logins - staff - roster</text>
+</g>
+<g class="map-card" id="card-est">
+<rect x="282" y="98" width="246" height="54" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="283" y1="99" x2="527" y2="99" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="282" y="102" width="3" height="46" fill="#54cbff"/>
+<text x="294" y="114" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">ESTIMATE</text>
+<text x="519" y="114" font-size="11" text-anchor="end" fill="#54cbff" font-weight="700">⊘</text>
+<text x="294" y="126" font-size="7.6" font-weight="500" fill="#adbdd2">quote - print - history</text>
+</g>
+<rect x="548" y="96" width="42" height="18" fill="#18233c" stroke="#54cbff" stroke-width="0.8"/>
+<text x="569" y="108" font-size="7.2" font-weight="800" letter-spacing="1.1" text-anchor="middle" fill="#54cbff">CARD</text>
+<g class="state-pill">
+<rect x="596.0" y="96" width="107.5" height="18" fill="#18233c" stroke="#54cbff" stroke-width="1"/>
+<rect x="602.0" y="103" width="4" height="4" fill="#54cbff"/>
+<text x="653.8" y="108.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">ADMITTED</text>
+</g>
+<path d="M 705.5 105 L 713.5 105" stroke="#54cbff" stroke-width="1.3" marker-end="url(#ar-work)" opacity=".9"/>
+<g class="state-pill">
+<rect x="717.5" y="96" width="107.5" height="18" fill="#18233c" stroke="#54cbff" stroke-width="1"/>
+<rect x="723.5" y="103" width="4" height="4" fill="#54cbff"/>
+<text x="775.2" y="108.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">WORKING</text>
+</g>
+<path d="M 827.0 105 L 835.0 105" stroke="#54cbff" stroke-width="1.3" marker-end="url(#ar-work)" opacity=".9"/>
+<g class="state-pill">
+<rect x="839.0" y="96" width="107.5" height="18" fill="#18233c" stroke="#54cbff" stroke-width="1"/>
+<rect x="845.0" y="103" width="4" height="4" fill="#54cbff"/>
+<text x="896.8" y="108.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">COMPLETED</text>
+</g>
+<g class="state-pill">
+<rect x="960.5" y="96" width="107.5" height="18" fill="#18233c" stroke="#54cbff" stroke-width="1"/>
+<rect x="966.5" y="103" width="4" height="4" fill="#54cbff"/>
+<text x="1018.2" y="108.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">ON HOLD</text>
+</g>
+<rect x="548" y="126" width="42" height="18" fill="#18233c" stroke="#4ce0a6" stroke-width="0.8"/>
+<text x="569" y="138" font-size="7.2" font-weight="800" letter-spacing="1.1" text-anchor="middle" fill="#4ce0a6">BILL</text>
+<g class="state-pill">
+<rect x="596.0" y="126" width="107.5" height="18" fill="#18233c" stroke="#4ce0a6" stroke-width="1"/>
+<rect x="602.0" y="133" width="4" height="4" fill="#4ce0a6"/>
+<text x="653.8" y="138.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">PENDING</text>
+</g>
+<path d="M 705.5 135 L 713.5 135" stroke="#4ce0a6" stroke-width="1.3" marker-end="url(#ar-in)" opacity=".9"/>
+<g class="state-pill">
+<rect x="717.5" y="126" width="107.5" height="18" fill="#18233c" stroke="#4ce0a6" stroke-width="1"/>
+<rect x="723.5" y="133" width="4" height="4" fill="#4ce0a6"/>
+<text x="775.2" y="138.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">PAID</text>
+</g>
+<g class="state-pill">
+<rect x="839.0" y="126" width="107.5" height="18" fill="#18233c" stroke="#4ce0a6" stroke-width="1"/>
+<rect x="845.0" y="133" width="4" height="4" fill="#4ce0a6"/>
+<text x="896.8" y="138.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">PART PAID</text>
+</g>
+<path d="M 948.5 135 L 956.5 135" stroke="#4ce0a6" stroke-width="1.3" marker-end="url(#ar-in)" opacity=".9"/>
+<g class="state-pill">
+<rect x="960.5" y="126" width="107.5" height="18" fill="#18233c" stroke="#4ce0a6" stroke-width="1"/>
+<rect x="966.5" y="133" width="4" height="4" fill="#4ce0a6"/>
+<text x="1018.2" y="138.5" font-size="7.2" font-weight="700" text-anchor="middle" fill="#eef3fa">FLEET PAID</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_veh">
+<rect x="296.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="297.0" y1="187" x2="399.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="296.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="348.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">VEHICLE</text>
+<text x="348.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">reg - VIN - km</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_cus">
+<rect x="405.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="406.0" y1="187" x2="508.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="405.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="457.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">CUSTOMER</text>
+<text x="457.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">office only</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_con">
+<rect x="514.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="515.0" y1="187" x2="617.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="514.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="566.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">CONCERNS</text>
+<text x="566.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">pending to fixed</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_lab">
+<rect x="623.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="624.0" y1="187" x2="726.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="623.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="675.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">JOBS</text>
+<text x="675.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">one labour charge</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_spr">
+<rect x="732.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="733.0" y1="187" x2="835.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="732.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="784.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">SPARE PARTS</text>
+<text x="784.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">from a shop</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_inv">
+<rect x="841.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="842.0" y1="187" x2="944.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="841.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="893.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">INVENTORY</text>
+<text x="893.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">off the shelf</text>
+</g>
+<g class="hub-module map-card" id="bay-sec_pho">
+<rect x="950.0" y="186" width="104.0" height="110" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="951.0" y1="187" x2="1053.0" y2="187" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="950.0" y="186" width="104.0" height="3" fill="#54cbff" opacity=".85"/>
+<text x="1002.0" y="214" font-size="8.8" font-weight="700" text-anchor="middle" fill="#ffffff">PHOTOS</text>
+<text x="1002.0" y="230" font-size="7.4" font-weight="500" text-anchor="middle" fill="#adbdd2">car - part</text>
+</g>
+<line x1="296.0" y1="182" x2="1054.0" y2="182" stroke="#54cbff" stroke-width="1.2" opacity=".5"/>
+<line x1="348.0" y1="182" x2="348.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<line x1="457.0" y1="182" x2="457.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<line x1="566.0" y1="182" x2="566.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<line x1="675.0" y1="182" x2="675.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<line x1="784.0" y1="182" x2="784.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<line x1="893.0" y1="182" x2="893.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<line x1="1002.0" y1="182" x2="1002.0" y2="186" stroke="#54cbff" stroke-width="0.8" opacity=".45"/>
+<g class="map-card" id="card-done">
+<rect x="282" y="330" width="230" height="56" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="283" y1="331" x2="511" y2="331" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="282" y="334" width="3" height="48" fill="#54cbff"/>
+<text x="294" y="346" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">COMPLETED</text>
+<text x="294" y="358" font-size="7.6" font-weight="500" fill="#adbdd2">work done - ready to bill</text>
+<text x="294" y="367.6" font-size="7.6" font-weight="500" fill="#adbdd2">floor marks it</text>
+</g>
+<g class="map-card" id="card-bill">
+<rect x="520" y="330" width="230" height="56" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="521" y1="331" x2="749" y2="331" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="520" y="334" width="3" height="48" fill="#54cbff"/>
+<text x="532" y="346" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">INVOICE</text>
+<text x="532" y="358" font-size="7.6" font-weight="500" fill="#adbdd2">A4 - one parts list</text>
+</g>
+<g class="map-card" id="card-settle">
+<rect x="758" y="330" width="230" height="56" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="759" y1="331" x2="987" y2="331" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="758" y="334" width="3" height="48" fill="#ffcb45"/>
+<text x="770" y="346" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SETTLEMENT CHECK</text>
+<text x="770" y="358" font-size="7.6" font-weight="500" fill="#adbdd2">what is unfilled</text>
+</g>
+<g class="map-card" id="card-wr">
+<rect x="282" y="396" width="230" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="283" y1="397" x2="511" y2="397" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="282" y="400" width="3" height="36.6" fill="#54cbff"/>
+<text x="294" y="412" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">WARRANTY</text>
+<text x="294" y="424" font-size="7.6" font-weight="500" fill="#adbdd2">one claim - one part - free</text>
+<text x="294" y="433.6" font-size="7.6" font-weight="500" fill="#adbdd2">clock from the first bill</text>
+</g>
+<path d="M 397.0 386.0 L 397.0 388.5 Q 397.0 391.0 397.0 393.5 L 397.0 396.0" fill="none" stroke="#54cbff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 397.0 386.0 L 397.0 388.5 Q 397.0 391.0 397.0 393.5 L 397.0 396.0" fill="none" stroke="#54cbff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-work)"/>
+<g class="map-card" id="card-dash">
+<rect x="1108.0" y="98" width="280.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="99" x2="1387.0" y2="99" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="102" width="3" height="27.0" fill="#adbdd2"/>
+<text x="1120.0" y="114" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">DASHBOARD</text>
+<text x="1120.0" y="126" font-size="7.6" font-weight="500" fill="#adbdd2">cars on the floor - progress</text>
+</g>
+<g class="map-card" id="card-live">
+<rect x="1108.0" y="144.0" width="280.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="145.0" x2="1387.0" y2="145.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="148.0" width="3" height="27.0" fill="#adbdd2"/>
+<text x="1120.0" y="160.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">LIVE REPORT</text>
+<text x="1120.0" y="172.0" font-size="7.6" font-weight="500" fill="#adbdd2">billed but unfilled - crews</text>
+</g>
+<g class="map-card" id="card-cars">
+<rect x="1108.0" y="190.0" width="280.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="191.0" x2="1387.0" y2="191.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="194.0" width="3" height="27.0" fill="#adbdd2"/>
+<text x="1120.0" y="206.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CAR PROFILES</text>
+<text x="1120.0" y="218.0" font-size="7.6" font-weight="500" fill="#adbdd2">history - record - all bills</text>
+</g>
+<g class="map-card" id="card-jlist">
+<rect x="1108.0" y="236.0" width="280.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="237.0" x2="1387.0" y2="237.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="240.0" width="3" height="27.0" fill="#adbdd2"/>
+<text x="1120.0" y="252.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">JOB CARDS</text>
+<text x="1120.0" y="264.0" font-size="7.6" font-weight="500" fill="#adbdd2">every card - searchable</text>
+</g>
+<g class="map-card" id="card-ehist">
+<rect x="1108.0" y="282.0" width="280.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="283.0" x2="1387.0" y2="283.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="286.0" width="3" height="27.0" fill="#adbdd2"/>
+<text x="1120.0" y="298.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">ESTIMATE HISTORY</text>
+<text x="1120.0" y="310.0" font-size="7.6" font-weight="500" fill="#adbdd2">searchable</text>
+</g>
+<g class="map-card" id="card-wdraw">
+<rect x="1108.0" y="328.0" width="280.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="329.0" x2="1387.0" y2="329.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="332.0" width="3" height="36.6" fill="#ff8f8f"/>
+<text x="1120.0" y="344.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">OWNER WITHDRAWALS</text>
+<text x="1120.0" y="356.0" font-size="7.6" font-weight="500" fill="#adbdd2">what each owner took</text>
+<text x="1120.0" y="365.6" font-size="7.6" font-weight="500" fill="#adbdd2">not a cost - cash out only</text>
+</g>
+<g class="map-card" id="card-rent">
+<rect x="1108.0" y="383.6" width="280.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1109.0" y1="384.6" x2="1387.0" y2="384.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1108.0" y="387.6" width="3" height="36.6" fill="#ff8f8f"/>
+<text x="1120.0" y="399.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">DEPOSIT &amp; RENT</text>
+<text x="1120.0" y="411.6" font-size="7.6" font-weight="500" fill="#adbdd2">daily deposits - monthly rent</text>
+<text x="1120.0" y="421.20000000000005" font-size="7.6" font-weight="500" fill="#adbdd2">the deposit is not the cost</text>
+</g>
+<g class="map-card" id="card-sshop">
+<rect x="26.0" y="494" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="495" x2="191.0" y2="495" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="498" width="3" height="27.0" fill="#ff8f8f"/>
+<text x="38.0" y="510" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SPARE SHOPS</text>
+<text x="38.0" y="522" font-size="7.6" font-weight="500" fill="#adbdd2">ledger - discount = profit</text>
+</g>
+<g class="map-card" id="card-unass">
+<rect x="205.0" y="494" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="206.0" y1="495" x2="370.0" y2="495" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="205.0" y="498" width="3" height="27.0" fill="#ff8f8f"/>
+<text x="217.0" y="510" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">UNASSIGNED</text>
+<text x="217.0" y="522" font-size="7.6" font-weight="500" fill="#adbdd2">floor adds - office prices</text>
+</g>
+<g class="map-card" id="card-ware">
+<rect x="384.0" y="494" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="385.0" y1="495" x2="549.0" y2="495" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="384.0" y="498" width="3" height="27.0" fill="#bda4ff"/>
+<text x="396.0" y="510" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">WAREHOUSE</text>
+<text x="396.0" y="522" font-size="7.6" font-weight="500" fill="#adbdd2">the shelf - may go negative</text>
+</g>
+<g class="map-card" id="card-catal">
+<rect x="26.0" y="549.0" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="550.0" x2="191.0" y2="550.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="553.0" width="3" height="27.0" fill="#bda4ff"/>
+<text x="38.0" y="565.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SHOP CATALOG</text>
+<text x="38.0" y="577.0" font-size="7.6" font-weight="500" fill="#adbdd2">what each shop sells</text>
+</g>
+<g class="map-card" id="card-rest">
+<rect x="205.0" y="549.0" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="206.0" y1="550.0" x2="370.0" y2="550.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="205.0" y="553.0" width="3" height="27.0" fill="#ff8f8f"/>
+<text x="217.0" y="565.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">RESTOCK BILLS</text>
+<text x="217.0" y="577.0" font-size="7.6" font-weight="500" fill="#adbdd2">priced as billed</text>
+</g>
+<g class="map-card" id="card-low">
+<rect x="384.0" y="549.0" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="385.0" y1="550.0" x2="549.0" y2="550.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="384.0" y="553.0" width="3" height="27.0" fill="#bda4ff"/>
+<text x="396.0" y="565.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">LOW STOCK</text>
+<text x="396.0" y="577.0" font-size="7.6" font-weight="500" fill="#adbdd2">under 25% - negatives</text>
+</g>
+<g class="map-card" id="card-supp">
+<rect x="26.0" y="604.0" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="605.0" x2="191.0" y2="605.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="608.0" width="3" height="27.0" fill="#ff8f8f"/>
+<text x="38.0" y="620.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SUPPLIES SHOPS</text>
+<text x="38.0" y="632.0" font-size="7.6" font-weight="500" fill="#adbdd2">ledger - discount = profit</text>
+</g>
+<g class="map-card" id="card-cats">
+<rect x="205.0" y="604.0" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="206.0" y1="605.0" x2="370.0" y2="605.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="205.0" y="608.0" width="3" height="27.0" fill="#bda4ff"/>
+<text x="217.0" y="620.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CATEGORIES</text>
+<text x="217.0" y="632.0" font-size="7.6" font-weight="500" fill="#adbdd2">the generic part name</text>
+</g>
+<g class="map-card" id="card-cost">
+<rect x="384.0" y="604.0" width="166.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="385.0" y1="605.0" x2="549.0" y2="605.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="384.0" y="608.0" width="3" height="27.0" fill="#bda4ff"/>
+<text x="396.0" y="620.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">AVERAGE COST</text>
+<text x="396.0" y="632.0" font-size="7.6" font-weight="500" fill="#adbdd2">weighted - full replay</text>
+</g>
+<g class="map-card" id="card-shist">
+<rect x="26.0" y="659.0" width="166.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="660.0" x2="191.0" y2="660.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="663.0" width="3" height="36.6" fill="#bda4ff"/>
+<text x="38.0" y="675.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">STOCK HISTORY</text>
+<text x="38.0" y="687.0" font-size="7.6" font-weight="500" fill="#adbdd2">who drew what</text>
+</g>
+<g class="map-card" id="card-sig">
+<rect x="205.0" y="659.0" width="166.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="206.0" y1="660.0" x2="370.0" y2="660.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="205.0" y="663.0" width="3" height="36.6" fill="#bda4ff"/>
+<text x="217.0" y="675.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">STOCK SIGNALS</text>
+<text x="217.0" y="687.0" font-size="7.6" font-weight="500" fill="#adbdd2">13 handlers - automatic</text>
+</g>
+<g class="map-card" id="card-legacy">
+<rect x="384.0" y="659.0" width="166.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="385.0" y1="660.0" x2="549.0" y2="660.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="384.0" y="663.0" width="3" height="36.6" fill="#bda4ff"/>
+<text x="396.0" y="675.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">LEGACY DATA</text>
+<text x="396.0" y="687.0" font-size="7.6" font-weight="500" fill="#adbdd2">opening stock - balances</text>
+<text x="396.0" y="696.6" font-size="7.6" font-weight="500" fill="#adbdd2">old bills - then locked</text>
+</g>
+<g class="map-card" id="card-pend">
+<rect x="590.0" y="509" width="191.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="591.0" y1="510" x2="780.0" y2="510" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="590.0" y="513" width="3" height="27.0" fill="#4ce0a6"/>
+<text x="602.0" y="525" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">PENDING BILLS</text>
+<text x="602.0" y="537" font-size="7.6" font-weight="500" fill="#adbdd2">unpaid - part paid</text>
+</g>
+<g class="map-card" id="card-paid">
+<rect x="799.0" y="509" width="191.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="800.0" y1="510" x2="989.0" y2="510" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="799.0" y="513" width="3" height="27.0" fill="#4ce0a6"/>
+<text x="811.0" y="525" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">PAID BILLS</text>
+<text x="811.0" y="537" font-size="7.6" font-weight="500" fill="#adbdd2">settled - by date</text>
+</g>
+<g class="map-card" id="card-spay">
+<rect x="590.0" y="558.0" width="191.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="591.0" y1="559.0" x2="780.0" y2="559.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="590.0" y="562.0" width="3" height="36.6" fill="#ff8f8f"/>
+<text x="602.0" y="574.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SHOP PAYMENTS</text>
+<text x="602.0" y="586.0" font-size="7.6" font-weight="500" fill="#adbdd2">clears oldest bills first</text>
+<text x="602.0" y="595.6" font-size="7.6" font-weight="500" fill="#adbdd2">cash out - never a cost</text>
+</g>
+<g class="map-card" id="card-fleet">
+<rect x="799.0" y="558.0" width="191.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="800.0" y1="559.0" x2="989.0" y2="559.0" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="799.0" y="562.0" width="3" height="36.6" fill="#4ce0a6"/>
+<text x="811.0" y="574.0" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">FLEET ACCOUNTS</text>
+<text x="811.0" y="586.0" font-size="7.6" font-weight="500" fill="#adbdd2">cascade - advance credit</text>
+</g>
+<g class="map-card" id="card-disc">
+<rect x="590.0" y="616.6" width="191.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="591.0" y1="617.6" x2="780.0" y2="617.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="590.0" y="620.6" width="3" height="27.0" fill="#ffcb45"/>
+<text x="602.0" y="632.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">DISCOUNT AUDIT</text>
+<text x="602.0" y="644.6" font-size="7.6" font-weight="500" fill="#adbdd2">over ₹3,500</text>
+</g>
+<g class="map-card" id="card-cash">
+<rect x="799.0" y="616.6" width="191.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="800.0" y1="617.6" x2="989.0" y2="617.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="799.0" y="620.6" width="3" height="27.0" fill="#ff8f8f"/>
+<text x="811.0" y="632.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CASHBOOK</text>
+<text x="811.0" y="644.6" font-size="7.6" font-weight="500" fill="#adbdd2">rent - power - scrap</text>
+</g>
+<g class="map-card" id="card-staff">
+<rect x="590.0" y="665.6" width="191.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="591.0" y1="666.6" x2="780.0" y2="666.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="590.0" y="669.6" width="3" height="27.0" fill="#adbdd2"/>
+<text x="602.0" y="681.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">STAFF ROSTER</text>
+<text x="602.0" y="693.6" font-size="7.6" font-weight="500" fill="#adbdd2">mechanics - office - helpers</text>
+</g>
+<g class="map-card" id="card-sal">
+<rect x="799.0" y="665.6" width="191.0" height="35.0" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="800.0" y1="666.6" x2="989.0" y2="666.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="799.0" y="669.6" width="3" height="27.0" fill="#ff8f8f"/>
+<text x="811.0" y="681.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">SALARY &amp; ADVANCE</text>
+<text x="811.0" y="693.6" font-size="7.6" font-weight="500" fill="#adbdd2">advances - settlement</text>
+</g>
+<g class="map-card" id="card-profit">
+<rect x="1040.0" y="494" width="348.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1041.0" y1="495" x2="1387.0" y2="495" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1040.0" y="498" width="3" height="36.6" fill="#4ce0a6"/>
+<text x="1052.0" y="510" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">PROFIT</text>
+<text x="1052.0" y="522" font-size="7.6" font-weight="500" fill="#adbdd2">turnover − expenses</text>
+<text x="1052.0" y="531.6" font-size="7.6" font-weight="500" fill="#adbdd2">the distribution figure</text>
+</g>
+<g class="map-card" id="card-cashpos">
+<rect x="1040.0" y="549.6" width="348.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1041.0" y1="550.6" x2="1387.0" y2="550.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1040.0" y="553.6" width="3" height="36.6" fill="#4ce0a6"/>
+<text x="1052.0" y="565.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CASH TRACKING</text>
+<text x="1052.0" y="577.6" font-size="7.6" font-weight="500" fill="#adbdd2">by the day money moved</text>
+<text x="1052.0" y="587.2" font-size="7.6" font-weight="500" fill="#adbdd2">a change, never a balance</text>
+</g>
+<g class="map-card" id="card-deep">
+<rect x="1040.0" y="605.2" width="348.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1041.0" y1="606.2" x2="1387.0" y2="606.2" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1040.0" y="609.2" width="3" height="36.6" fill="#adbdd2"/>
+<text x="1052.0" y="621.2" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">DEEP ANALYSIS</text>
+<text x="1052.0" y="633.2" font-size="7.6" font-weight="500" fill="#adbdd2">mechanics - spares - vehicles</text>
+<text x="1052.0" y="642.8000000000001" font-size="7.6" font-weight="500" fill="#adbdd2">fleet - shops - operations</text>
+</g>
+<g class="map-card" id="card-del">
+<rect x="1040.0" y="660.8000000000001" width="348.0" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1041.0" y1="661.8000000000001" x2="1387.0" y2="661.8000000000001" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1040.0" y="664.8000000000001" width="3" height="36.6" fill="#ffcb45"/>
+<text x="1052.0" y="676.8000000000001" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CHANGE HISTORY</text>
+<text x="1052.0" y="688.8000000000001" font-size="7.6" font-weight="500" fill="#adbdd2">deletes - edits - back-dated</text>
+<text x="1052.0" y="698.4000000000001" font-size="7.6" font-weight="500" fill="#adbdd2">owner only - no restore</text>
+</g>
+<g class="map-card" id="card-mast">
+<rect x="26.0" y="792" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="793" x2="145.4" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="796" width="3" height="36.6" fill="#adbdd2"/>
+<text x="38.0" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">MASTER LISTS</text>
+<text x="38.0" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">brands - models - spares</text>
+<text x="38.0" y="829.6" font-size="7.6" font-weight="500" fill="#adbdd2">the list sets the spelling</text>
+</g>
+<g class="map-card" id="card-auto">
+<rect x="159.4" y="792" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="160.4" y1="793" x2="278.8" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="159.4" y="796" width="3" height="36.6" fill="#adbdd2"/>
+<text x="171.4" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">AUTOCOMPLETE</text>
+<text x="171.4" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">learns as you type</text>
+</g>
+<g class="map-card" id="card-clean">
+<rect x="292.8" y="792" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="293.8" y1="793" x2="412.20000000000005" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="292.8" y="796" width="3" height="36.6" fill="#adbdd2"/>
+<text x="304.8" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">DATA CLEANUP</text>
+<text x="304.8" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">spare &amp; concern names</text>
+<text x="304.8" y="829.6" font-size="7.6" font-weight="500" fill="#adbdd2">how often each is used</text>
+</g>
+<g class="map-card" id="card-rbac">
+<rect x="426.20000000000005" y="792" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="427.20000000000005" y1="793" x2="545.6" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="426.20000000000005" y="796" width="3" height="36.6" fill="#ffcb45"/>
+<text x="438.20000000000005" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">RBAC</text>
+<text x="438.20000000000005" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">3 tiers - server side</text>
+<text x="438.20000000000005" y="829.6" font-size="7.6" font-weight="500" fill="#adbdd2">no-store - noindex</text>
+</g>
+<g class="map-card" id="card-lockf">
+<rect x="559.6" y="792" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="560.6" y1="793" x2="679.0" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="559.6" y="796" width="3" height="36.6" fill="#ffcb45"/>
+<text x="571.6" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">FINANCIAL LOCK</text>
+<text x="571.6" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">settled = frozen</text>
+</g>
+<g class="map-card" id="card-money">
+<rect x="26.0" y="847.6" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="27.0" y1="848.6" x2="145.4" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="26.0" y="851.6" width="3" height="36.6" fill="#ffcb45"/>
+<text x="38.0" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">AMOUNT CHECKS</text>
+<text x="38.0" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">every typed figure checked</text>
+</g>
+<g class="map-card" id="card-dates">
+<rect x="159.4" y="847.6" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="160.4" y1="848.6" x2="278.8" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="159.4" y="851.6" width="3" height="36.6" fill="#ffcb45"/>
+<text x="171.4" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">DATE CHECKS</text>
+<text x="171.4" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">nothing dated in future</text>
+<text x="171.4" y="885.2" font-size="7.6" font-weight="500" fill="#adbdd2">arrival after the order</text>
+</g>
+<g class="map-card" id="card-arch">
+<rect x="292.8" y="847.6" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="293.8" y1="848.6" x2="412.20000000000005" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="292.8" y="851.6" width="3" height="36.6" fill="#ffcb45"/>
+<text x="304.8" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">ARCHIVE</text>
+<text x="304.8" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">shops and staff put away</text>
+<text x="304.8" y="885.2" font-size="7.6" font-weight="500" fill="#adbdd2">deletes are written down</text>
+</g>
+<g class="map-card" id="card-dwin">
+<rect x="426.20000000000005" y="847.6" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="427.20000000000005" y1="848.6" x2="545.6" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="426.20000000000005" y="851.6" width="3" height="36.6" fill="#ffcb45"/>
+<text x="438.20000000000005" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">CHANGE WINDOW</text>
+<text x="438.20000000000005" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">office 24 hours</text>
+<text x="438.20000000000005" y="885.2" font-size="7.6" font-weight="500" fill="#adbdd2">older is an owner</text>
+</g>
+<g class="map-card" id="card-mdate">
+<rect x="559.6" y="847.6" width="120.4" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="560.6" y1="848.6" x2="679.0" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="559.6" y="851.6" width="3" height="36.6" fill="#ffcb45"/>
+<text x="571.6" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">MONEY DATES</text>
+<text x="571.6" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">filed by the day it moved</text>
+<text x="571.6" y="885.2" font-size="7.6" font-weight="500" fill="#adbdd2">office 3 days back</text>
+</g>
+<g class="map-card" id="card-notif">
+<rect x="720.0" y="792" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="721.0" y1="793" x2="876.25" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="720.0" y="796" width="3" height="36.6" fill="#ffcb45"/>
+<text x="732.0" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">NOTIFICATIONS</text>
+<text x="732.0" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">20 events - 15 critical</text>
+<text x="732.0" y="829.6" font-size="7.6" font-weight="500" fill="#adbdd2">owners only</text>
+</g>
+<g class="map-card" id="card-push">
+<rect x="890.25" y="792" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="891.25" y1="793" x2="1046.5" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="890.25" y="796" width="3" height="36.6" fill="#ffcb45"/>
+<text x="902.25" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">WEB PUSH</text>
+<text x="902.25" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">critical goes to a phone</text>
+</g>
+<g class="map-card" id="card-mail">
+<rect x="1060.5" y="792" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1061.5" y1="793" x2="1216.75" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1060.5" y="796" width="3" height="36.6" fill="#ffcb45"/>
+<text x="1072.5" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">EMAIL</text>
+<text x="1072.5" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">reset codes only</text>
+</g>
+<g class="map-card" id="card-store">
+<rect x="1230.75" y="792" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1231.75" y1="793" x2="1387.0" y2="793" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1230.75" y="796" width="3" height="36.6" fill="#54cbff"/>
+<text x="1242.75" y="808" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">PHOTO STORAGE</text>
+<text x="1242.75" y="820" font-size="7.6" font-weight="500" fill="#adbdd2">S3 - presigned</text>
+<text x="1242.75" y="829.6" font-size="7.6" font-weight="500" fill="#adbdd2">browser uploads direct</text>
+</g>
+<g class="map-card" id="card-pwa">
+<rect x="720.0" y="847.6" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="721.0" y1="848.6" x2="876.25" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="720.0" y="851.6" width="3" height="36.6" fill="#54cbff"/>
+<text x="732.0" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">INSTALLABLE</text>
+<text x="732.0" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">home screen - offline page</text>
+</g>
+<g class="map-card" id="card-back">
+<rect x="890.25" y="847.6" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="891.25" y1="848.6" x2="1046.5" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="890.25" y="851.6" width="3" height="36.6" fill="#54cbff"/>
+<text x="902.25" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">BACKUPS</text>
+<text x="902.25" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">pg_dump - keeps 14</text>
+</g>
+<g class="map-card" id="card-db">
+<rect x="1060.5" y="847.6" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1061.5" y1="848.6" x2="1216.75" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1060.5" y="851.6" width="3" height="36.6" fill="#54cbff"/>
+<text x="1072.5" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">POSTGRES</text>
+<text x="1072.5" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">one database - migrations</text>
+</g>
+<g class="map-card" id="card-retain">
+<rect x="1230.75" y="847.6" width="157.25" height="44.6" fill="#1f2c47" stroke="#4a5d7e" stroke-width="1" filter="url(#card-shadow)"/>
+<line x1="1231.75" y1="848.6" x2="1387.0" y2="848.6" stroke="rgba(255,255,255,0.13)" stroke-width="0.8"/>
+<rect x="1230.75" y="851.6" width="3" height="36.6" fill="#54cbff"/>
+<text x="1242.75" y="863.6" font-size="9.6" font-weight="700" fill="#ffffff" letter-spacing=".2">PHOTO PURGE</text>
+<text x="1242.75" y="875.6" font-size="7.6" font-weight="500" fill="#adbdd2">one year - skips unpaid</text>
+<text x="1242.75" y="885.2" font-size="7.6" font-weight="500" fill="#adbdd2">orphan blob sweep</text>
+</g>
+<path d="M 242.0 158.5 L 256.0 158.5 Q 262.0 158.5 262.0 164.5 L 262.0 213.0 Q 262.0 219.0 268.0 219.0 L 296.0 219.0" fill="none" stroke="#ffcb45" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 242.0 158.5 L 256.0 158.5 Q 262.0 158.5 262.0 164.5 L 262.0 213.0 Q 262.0 219.0 268.0 219.0 L 296.0 219.0" fill="none" stroke="#ffcb45" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-alert)"/>
+<path d="M 242.0 201.5 L 256.0 201.5 Q 262.0 201.5 262.0 207.5 L 262.0 257.0 Q 262.0 263.0 268.0 263.0 L 296.0 263.0" fill="none" stroke="#ffcb45" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 242.0 201.5 L 256.0 201.5 Q 262.0 201.5 262.0 207.5 L 262.0 257.0 Q 262.0 263.0 268.0 263.0 L 296.0 263.0" fill="none" stroke="#ffcb45" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-alert)"/>
+<path d="M 371.8 296.0 L 371.8 312.0 Q 371.8 318.0 377.8 318.0 L 391.0 318.0 Q 397.0 318.0 397.0 324.0 L 397.0 330.0" fill="none" stroke="#54cbff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 371.8 296.0 L 371.8 312.0 Q 371.8 318.0 377.8 318.0 L 391.0 318.0 Q 397.0 318.0 397.0 324.0 L 397.0 330.0" fill="none" stroke="#54cbff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-work)"/>
+<path d="M 512.0 358.0 L 514.0 358.0 Q 516.0 358.0 518.0 358.0 L 520.0 358.0" fill="none" stroke="#54cbff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 512.0 358.0 L 514.0 358.0 Q 516.0 358.0 518.0 358.0 L 520.0 358.0" fill="none" stroke="#54cbff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-work)"/>
+<path d="M 750.0 358.0 L 752.0 358.0 Q 754.0 358.0 756.0 358.0 L 758.0 358.0" fill="none" stroke="#54cbff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 750.0 358.0 L 752.0 358.0 Q 754.0 358.0 756.0 358.0 L 758.0 358.0" fill="none" stroke="#54cbff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-work)"/>
+<path d="M 784.0 296.0 L 784.0 310.0 Q 784.0 316.0 778.0 316.0 L 264.0 316.0 Q 258.0 316.0 258.0 322.0 L 258.0 472.0 Q 258.0 478.0 252.0 478.0 L 66.0 478.0 Q 60.0 478.0 60.0 484.0 L 60.0 494.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 784.0 296.0 L 784.0 310.0 Q 784.0 316.0 778.0 316.0 L 264.0 316.0 Q 258.0 316.0 258.0 322.0 L 258.0 472.0 Q 258.0 478.0 252.0 478.0 L 66.0 478.0 Q 60.0 478.0 60.0 484.0 L 60.0 494.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 893.0 296.0 L 893.0 302.0 Q 893.0 308.0 887.0 308.0 L 760.0 308.0 Q 754.0 308.0 754.0 314.0 L 754.0 472.0 Q 754.0 478.0 748.0 478.0 L 473.0 478.0 Q 467.0 478.0 467.0 484.0 L 467.0 494.0" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 893.0 296.0 L 893.0 302.0 Q 893.0 308.0 887.0 308.0 L 760.0 308.0 Q 754.0 308.0 754.0 314.0 L 754.0 472.0 Q 754.0 478.0 748.0 478.0 L 473.0 478.0 Q 467.0 478.0 467.0 484.0 L 467.0 494.0" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 192.0 566.5 L 195.2 566.5 Q 198.5 566.5 201.8 566.5 L 205.0 566.5" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 192.0 566.5 L 195.2 566.5 Q 198.5 566.5 201.8 566.5 L 205.0 566.5" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 109.0 604.0 L 109.0 601.0 Q 109.0 598.0 115.0 598.0 L 282.0 598.0 Q 288.0 598.0 288.0 592.0 L 288.0 584.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 109.0 604.0 L 109.0 601.0 Q 109.0 598.0 115.0 598.0 L 282.0 598.0 Q 288.0 598.0 288.0 592.0 L 288.0 584.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 288.0 549.0 L 288.0 541.0 Q 288.0 535.0 294.0 535.0 L 494.2 535.0 Q 500.2 535.0 500.2 532.0 L 500.2 529.0" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 288.0 549.0 L 288.0 541.0 Q 288.0 535.0 294.0 535.0 L 494.2 535.0 Q 500.2 535.0 500.2 532.0 L 500.2 529.0" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 288.0 584.0 L 288.0 587.0 Q 288.0 590.0 294.0 590.0 L 461.0 590.0 Q 467.0 590.0 467.0 596.0 L 467.0 604.0" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 288.0 584.0 L 288.0 587.0 Q 288.0 590.0 294.0 590.0 L 461.0 590.0 Q 467.0 590.0 467.0 596.0 L 467.0 604.0" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 433.8 529.0 L 433.8 534.0 Q 433.8 539.0 433.8 544.0 L 433.8 549.0" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 433.8 529.0 L 433.8 534.0 Q 433.8 539.0 433.8 544.0 L 433.8 549.0" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 288.0 703.6 L 288.0 708.3 Q 288.0 713.0 294.0 713.0 L 549.0 713.0 Q 555.0 713.0 555.0 707.0 L 555.0 627.5 Q 555.0 621.5 552.5 621.5 L 550.0 621.5" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 288.0 703.6 L 288.0 708.3 Q 288.0 713.0 294.0 713.0 L 549.0 713.0 Q 555.0 713.0 555.0 707.0 L 555.0 627.5 Q 555.0 621.5 552.5 621.5 L 550.0 621.5" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 371.0 681.3 L 374.0 681.3 Q 377.0 681.3 377.0 675.3 L 377.0 517.0 Q 377.0 511.0 380.5 511.0 L 384.0 511.0" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 371.0 681.3 L 374.0 681.3 Q 377.0 681.3 377.0 675.3 L 377.0 517.0 Q 377.0 511.0 380.5 511.0 L 384.0 511.0" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 205.0 511.5 L 201.8 511.5 Q 198.5 511.5 195.2 511.5 L 192.0 511.5" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 205.0 511.5 L 201.8 511.5 Q 198.5 511.5 195.2 511.5 L 192.0 511.5" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 467.0 659.0 L 467.0 654.0 Q 467.0 649.0 467.0 644.0 L 467.0 639.0" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 467.0 659.0 L 467.0 654.0 Q 467.0 649.0 467.0 644.0 L 467.0 639.0" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 781.0 683.1 L 785.5 683.1 Q 790.0 683.1 794.5 683.1 L 799.0 683.1" fill="none" stroke="#adbdd2" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 781.0 683.1 L 785.5 683.1 Q 790.0 683.1 794.5 683.1 L 799.0 683.1" fill="none" stroke="#adbdd2" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-data)"/>
+<path d="M 590.0 580.3 L 572.0 580.3 Q 566.0 580.3 566.0 574.3 L 566.0 492.0 Q 566.0 486.0 560.0 486.0 L 156.0 486.0 Q 150.0 486.0 150.0 490.0 L 150.0 494.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 590.0 580.3 L 572.0 580.3 Q 566.0 580.3 566.0 574.3 L 566.0 492.0 Q 566.0 486.0 560.0 486.0 L 156.0 486.0 Q 150.0 486.0 150.0 490.0 L 150.0 494.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 590.0 580.3 L 584.0 580.3 Q 578.0 580.3 578.0 586.3 L 578.0 643.0 Q 578.0 649.0 572.0 649.0 L 115.0 649.0 Q 109.0 649.0 109.0 644.0 L 109.0 639.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 590.0 580.3 L 584.0 580.3 Q 578.0 580.3 578.0 586.3 L 578.0 643.0 Q 578.0 649.0 572.0 649.0 L 115.0 649.0 Q 109.0 649.0 109.0 644.0 L 109.0 639.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 635.0 386.0 L 635.0 437.0 Q 635.0 443.0 640.0 443.0 L 640.0 443.0 Q 645.0 443.0 645.0 449.0 L 645.0 509.0" fill="none" stroke="#4ce0a6" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 635.0 386.0 L 635.0 437.0 Q 635.0 443.0 640.0 443.0 L 640.0 443.0 Q 645.0 443.0 645.0 449.0 L 645.0 509.0" fill="none" stroke="#4ce0a6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-in)"/>
+<path d="M 781.0 526.5 L 785.5 526.5 Q 790.0 526.5 794.5 526.5 L 799.0 526.5" fill="none" stroke="#4ce0a6" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 781.0 526.5 L 785.5 526.5 Q 790.0 526.5 794.5 526.5 L 799.0 526.5" fill="none" stroke="#4ce0a6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-in)"/>
+<path d="M 856.3 558.0 L 856.3 554.5 Q 856.3 551.0 856.3 547.5 L 856.3 544.0" fill="none" stroke="#4ce0a6" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 856.3 558.0 L 856.3 554.5 Q 856.3 551.0 856.3 547.5 L 856.3 544.0" fill="none" stroke="#4ce0a6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-in)"/>
+<path d="M 109.0 449.0 L 1000.0 449.0 Q 1006.0 449.0 1006.0 455.0 L 1006.0 690.0" fill="none" stroke="#ff8f8f" stroke-width="6.5" stroke-linecap="square" opacity=".25"/>
+<path d="M 109.0 449.0 L 1000.0 449.0 Q 1006.0 449.0 1006.0 455.0 L 1006.0 690.0" fill="none" stroke="#ff8f8f" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter" opacity=".95"/>
+<circle cx="1006" cy="449" r="3.5" fill="#ff8f8f" opacity=".3"/>
+<circle cx="1006" cy="449" r="2" fill="#ff8f8f" opacity=".8"/>
+<circle cx="1006" cy="449" r="0.8" fill="#ffffff"/>
+<path d="M 109.0 494.0 L 109.0 449.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 109.0 494.0 L 109.0 449.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<rect x="106.0" y="446.0" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="107.0" y="447.0" width="4" height="4" fill="#ff8f8f"/>
+<rect x="108.2" y="448.2" width="1.6" height="1.6" fill="#ffffff"/>
+<path d="M 467.0 494.0 L 467.0 449.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 467.0 494.0 L 467.0 449.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<rect x="464.0" y="446.0" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="465.0" y="447.0" width="4" height="4" fill="#ff8f8f"/>
+<rect x="466.2" y="448.2" width="1.6" height="1.6" fill="#ffffff"/>
+<path d="M 990.0 634.1 L 1006.0 624.5" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 990.0 634.1 L 1006.0 624.5" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<rect x="1003.0" y="621.5" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="1004.0" y="622.5" width="4" height="4" fill="#ff8f8f"/>
+<rect x="1005.2" y="623.7" width="1.6" height="1.6" fill="#ffffff"/>
+<path d="M 990.0 683.1 L 1006.0 673.5" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 990.0 683.1 L 1006.0 673.5" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<rect x="1003.0" y="670.5" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="1004.0" y="671.5" width="4" height="4" fill="#ff8f8f"/>
+<rect x="1005.2" y="672.7" width="1.6" height="1.6" fill="#ffffff"/>
+<rect x="1003.0" y="517" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="1004.0" y="518" width="4" height="4" fill="#ff8f8f"/>
+<rect x="1005.2" y="519.2" width="1.6" height="1.6" fill="#ffffff"/>
+<path d="M 1006.0 520.0 L 1040.0 520.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1006.0 520.0 L 1040.0 520.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 990.0 526.5 L 1007.0 526.5 Q 1013.0 526.5 1013.0 521.4 L 1013.0 521.4 Q 1013.0 516.3 1019.0 516.3 L 1040.0 516.3" fill="none" stroke="#4ce0a6" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 990.0 526.5 L 1007.0 526.5 Q 1013.0 526.5 1013.0 521.4 L 1013.0 521.4 Q 1013.0 516.3 1019.0 516.3 L 1040.0 516.3" fill="none" stroke="#4ce0a6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-in)"/>
+<path d="M 990.0 571.4 L 1018.0 571.4 Q 1024.0 571.4 1024.0 565.4 L 1024.0 533.5 Q 1024.0 527.5 1030.0 527.5 L 1040.0 527.5" fill="none" stroke="#4ce0a6" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 990.0 571.4 L 1018.0 571.4 Q 1024.0 571.4 1024.0 565.4 L 1024.0 533.5 Q 1024.0 527.5 1030.0 527.5 L 1040.0 527.5" fill="none" stroke="#4ce0a6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-in)"/>
+<path d="M 990.0 589.2 L 1007.0 589.2 Q 1013.0 589.2 1013.0 583.2 L 1013.0 577.9 Q 1013.0 571.9 1019.0 571.9 L 1040.0 571.9" fill="none" stroke="#4ce0a6" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 990.0 589.2 L 1007.0 589.2 Q 1013.0 589.2 1013.0 583.2 L 1013.0 577.9 Q 1013.0 571.9 1019.0 571.9 L 1040.0 571.9" fill="none" stroke="#4ce0a6" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-in)"/>
+<path d="M 1404.0 350.3 L 1404.0 571.9" fill="none" stroke="#ff8f8f" stroke-width="6.5" stroke-linecap="square" opacity=".25"/>
+<path d="M 1404.0 350.3 L 1404.0 571.9" fill="none" stroke="#ff8f8f" stroke-width="2.6" stroke-linecap="square" stroke-linejoin="miter" opacity=".95"/>
+<path d="M 1388.0 350.3 L 1404.0 350.3" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1388.0 350.3 L 1404.0 350.3" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<rect x="1401.0" y="347.3" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="1402.0" y="348.3" width="4" height="4" fill="#ff8f8f"/>
+<rect x="1403.2" y="349.5" width="1.6" height="1.6" fill="#ffffff"/>
+<path d="M 1388.0 405.9 L 1404.0 405.9" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1388.0 405.9 L 1404.0 405.9" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<rect x="1401.0" y="402.9" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="1402.0" y="403.9" width="4" height="4" fill="#ff8f8f"/>
+<rect x="1403.2" y="405.1" width="1.6" height="1.6" fill="#ffffff"/>
+<rect x="1401.0" y="568.9" width="6" height="6" fill="#ff8f8f" opacity=".35"/>
+<rect x="1402.0" y="569.9" width="4" height="4" fill="#ff8f8f"/>
+<rect x="1403.2" y="571.1" width="1.6" height="1.6" fill="#ffffff"/>
+<path d="M 1404.0 571.9 L 1388.0 571.9" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1404.0 571.9 L 1388.0 571.9" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 1248.0 428.2 L 1248.0 455.1 Q 1248.0 461.1 1248.0 467.1 L 1248.0 494.0" fill="none" stroke="#ff8f8f" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1248.0 428.2 L 1248.0 455.1 Q 1248.0 461.1 1248.0 467.1 L 1248.0 494.0" fill="none" stroke="#ff8f8f" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-out)"/>
+<path d="M 146.4 814.3 L 149.7 814.3 Q 152.9 814.3 156.2 814.3 L 159.4 814.3" fill="none" stroke="#adbdd2" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 146.4 814.3 L 149.7 814.3 Q 152.9 814.3 156.2 814.3 L 159.4 814.3" fill="none" stroke="#adbdd2" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-data)"/>
+<path d="M 219.6 792.0 L 219.6 745.0 Q 219.6 739.0 225.6 739.0 L 556.0 739.0 Q 562.0 739.0 562.0 733.0 L 562.0 458.0 Q 562.0 452.0 556.0 452.0 L 522.0 452.0 Q 516.0 452.0 516.0 446.0 L 516.0 296.0" fill="none" stroke="#adbdd2" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 219.6 792.0 L 219.6 745.0 Q 219.6 739.0 225.6 739.0 L 556.0 739.0 Q 562.0 739.0 562.0 733.0 L 562.0 458.0 Q 562.0 452.0 556.0 452.0 L 522.0 452.0 Q 516.0 452.0 516.0 446.0 L 516.0 296.0" fill="none" stroke="#adbdd2" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-data)"/>
+<path d="M 947.1 186.0 L 947.1 166.0 Q 947.1 160.0 953.1 160.0 L 1082.0 160.0 Q 1088.0 160.0 1088.0 154.0 L 1088.0 121.5 Q 1088.0 115.5 1094.0 115.5 L 1108.0 115.5" fill="none" stroke="#adbdd2" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 947.1 186.0 L 947.1 166.0 Q 947.1 160.0 953.1 160.0 L 1082.0 160.0 Q 1088.0 160.0 1088.0 154.0 L 1088.0 121.5 Q 1088.0 115.5 1094.0 115.5 L 1108.0 115.5" fill="none" stroke="#adbdd2" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-data)"/>
+<path d="M 838.5 186.0 L 838.5 181.0 Q 838.5 176.0 844.5 176.0 L 1087.0 176.0 Q 1093.0 176.0 1093.0 182.0 L 1093.0 195.5 Q 1093.0 201.5 1099.0 201.5 L 1108.0 201.5" fill="none" stroke="#adbdd2" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 838.5 186.0 L 838.5 181.0 Q 838.5 176.0 844.5 176.0 L 1087.0 176.0 Q 1093.0 176.0 1093.0 182.0 L 1093.0 195.5 Q 1093.0 201.5 1099.0 201.5 L 1108.0 201.5" fill="none" stroke="#adbdd2" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-data)"/>
+<path d="M 311.2 296.0 L 311.2 300.0 Q 311.2 304.0 305.2 304.0 L 278.0 304.0 Q 272.0 304.0 272.0 310.0 L 272.0 464.0 Q 272.0 470.0 266.0 470.0 L 204.0 470.0 Q 198.0 470.0 198.0 476.0 L 198.0 724.0 Q 198.0 730.0 192.0 730.0 L 115.0 730.0 Q 109.0 730.0 109.0 724.0 L 109.0 703.6" fill="none" stroke="#bda4ff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 311.2 296.0 L 311.2 300.0 Q 311.2 304.0 305.2 304.0 L 278.0 304.0 Q 272.0 304.0 272.0 310.0 L 272.0 464.0 Q 272.0 470.0 266.0 470.0 L 204.0 470.0 Q 198.0 470.0 198.0 476.0 L 198.0 724.0 Q 198.0 730.0 192.0 730.0 L 115.0 730.0 Q 109.0 730.0 109.0 724.0 L 109.0 703.6" fill="none" stroke="#bda4ff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-stock)"/>
+<path d="M 988.0 358.0 L 1069.0 358.0 Q 1075.0 358.0 1075.0 352.0 L 1075.0 167.5 Q 1075.0 161.5 1081.0 161.5 L 1108.0 161.5" fill="none" stroke="#ffcb45" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 988.0 358.0 L 1069.0 358.0 Q 1075.0 358.0 1075.0 352.0 L 1075.0 167.5 Q 1075.0 161.5 1081.0 161.5 L 1108.0 161.5" fill="none" stroke="#ffcb45" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-alert)"/>
+<path d="M 590.0 634.1 L 582.0 634.1 Q 576.0 634.1 576.0 640.1 L 576.0 734.0 Q 576.0 740.0 582.0 740.0 L 754.0 740.0 Q 760.0 740.0 760.0 746.0 L 760.0 792.0" fill="none" stroke="#ffcb45" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 590.0 634.1 L 582.0 634.1 Q 576.0 634.1 576.0 640.1 L 576.0 734.0 Q 576.0 740.0 582.0 740.0 L 754.0 740.0 Q 760.0 740.0 760.0 746.0 L 760.0 792.0" fill="none" stroke="#ffcb45" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-alert)"/>
+<path d="M 1109.6 705.4 L 1109.6 746.0 Q 1109.6 752.0 1103.6 752.0 L 836.0 752.0 Q 830.0 752.0 830.0 758.0 L 830.0 792.0" fill="none" stroke="#ffcb45" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1109.6 705.4 L 1109.6 746.0 Q 1109.6 752.0 1103.6 752.0 L 836.0 752.0 Q 830.0 752.0 830.0 758.0 L 830.0 792.0" fill="none" stroke="#ffcb45" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-alert)"/>
+<path d="M 877.2 814.3 L 880.5 814.3 Q 883.8 814.3 887.0 814.3 L 890.2 814.3" fill="none" stroke="#ffcb45" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 877.2 814.3 L 880.5 814.3 Q 883.8 814.3 887.0 814.3 L 890.2 814.3" fill="none" stroke="#ffcb45" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-alert)"/>
+<path d="M 1002.0 296.0 L 1002.0 299.0 Q 1002.0 302.0 1008.0 302.0 L 1024.0 302.0 Q 1030.0 302.0 1030.0 308.0 L 1030.0 760.0 Q 1030.0 766.0 1036.0 766.0 L 1299.0 766.0 Q 1305.0 766.0 1305.0 772.0 L 1305.0 792.0" fill="none" stroke="#54cbff" stroke-width="4.5" stroke-linecap="square" opacity=".22"/>
+<path d="M 1002.0 296.0 L 1002.0 299.0 Q 1002.0 302.0 1008.0 302.0 L 1024.0 302.0 Q 1030.0 302.0 1030.0 308.0 L 1030.0 760.0 Q 1030.0 766.0 1036.0 766.0 L 1299.0 766.0 Q 1305.0 766.0 1305.0 772.0 L 1305.0 792.0" fill="none" stroke="#54cbff" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" opacity=".95" marker-end="url(#ar-work)"/>
+<rect width="1414" height="1000" fill="url(#vignette)" pointer-events="none"/></svg>

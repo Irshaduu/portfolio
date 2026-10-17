@@ -278,6 +278,47 @@ in 2026 and the time machine is hidden.
 
 ---
 
+## The resume and the write-ups
+
+`resume/` is the resume, and the only source of it. It's a page anyone can read before
+downloading: a sheet of A4 paper on a desk (dark around it at night), edge to edge on a phone,
+with **Print** and **Download PDF** above it. It doesn't travel in time; recruiters get the same
+calm page in every era.
+
+The PDF, `assets/Mohammed_Irshad_C_Resume.pdf`, is that page printed, so the page, the print and
+the download always match, and links shared before keep working. To change the resume:
+
+1. Edit `resume/index.html`, and the date in its bar.
+2. If the fact also appears in the portfolio (`index.html`) or a write-up (`work/`), change it there
+   too.
+3. Run `node tools/facts.mjs`. It finds the 18 facts the pages share (test counts, models, routes,
+   modules and so on) by their wording on each page, and says where any two pages disagree. It
+   also checks that "3,400+ tests" still adds up, that the resume's phone number is the one the
+   WhatsApp links use, and that no Google Drive link has come back.
+4. Run `node tools/pdf.mjs`. It starts its own local server, prints every document page with
+   headless Edge or Chrome, and stops. Check the resume is still one page.
+
+Git keeps every version, so an old resume can always be brought back.
+
+The phone number is the WhatsApp number, as a tap-to-call link on the page, in print and in the
+PDF. The text is laid out in reading order, so applicant tracking systems read the summary first. The shared design is
+`css/doc.css`.
+
+The project cards' documents are pages in the same design, under `work/`, each printed to
+`assets/docs/` by the same script:
+
+- `work/workshopos/`: the WorkshopOS technical overview and the system map. The map is
+  `system-map.svg`, the same diagram as the PDF that used to be on Google Drive. The page draws it
+  inline so its text stays sharp at any zoom. On a wide screen it spreads past the paper like a
+  fold-out, on a phone it scrolls sideways, and on paper it gets a landscape page of its own.
+  "Open the map full size" opens the SVG alone, to zoom.
+- `work/catering/`: the catering staff system, written for a reader: the problem, the role ladder,
+  the flow, the rules, the registration-day plan, the cost and the module plan. The two documents
+  the client received, the architecture report and the module plan, sit in `assets/docs/` exactly
+  as delivered and are linked at the end. Don't edit them.
+
+---
+
 ## Files
 
 ```
@@ -285,6 +326,9 @@ index.html            all content, once
 css/base.css          layers, reset, shared mechanics, view transitions
 css/eras/<year>.css   one file per era
 css/print.css         print = 1992
+css/doc.css           the document pages: a sheet of A4 on screen, in print and as a PDF
+resume/index.html     the resume, the source of its PDF
+work/<project>/       a project's write-up (workshopos: overview and system-map.svg; catering: the spec), the source of its PDF
 js/main.js            state, URL, fonts, era modules, keyboard
 js/eras.js            the eras: years, names, notes, fonts, favicons, titles
 js/time.js            year-dependent content: tools that exist yet, "N years from now"
@@ -298,9 +342,11 @@ js/eras/2030/         the WebGL scene (scene.js), the shapes built from project 
                       the Stack constellation (constellation.js), the sky clock (sky.js), and the
                       2030 score (audio.js)
 tools/serve.mjs       zero-dependency local server
+tools/pdf.mjs         prints the document pages to their PDFs (the resume, the write-ups)
+tools/facts.mjs       checks the portfolio, resume and write-ups agree on the facts they share
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
 tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
-assets/               resume PDF, link preview picture, project pictures and clips (shots/),
+assets/               resume PDF, the write-ups' PDFs (docs/), link preview picture, project pictures and clips (shots/),
                       and the drawn 1997 and 2001 devices (devices/)
 ```
 

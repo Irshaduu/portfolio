@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorkshopOS · Technical overview · Mohammed Irshad C</title>
+  <meta name="description" content="Technical overview of WorkshopOS, a Django / PostgreSQL platform for a premium car workshop: 49 models, 3,185 automated tests, 21 rule modules, and the system map.">
+  <meta property="og:title" content="WorkshopOS · Technical overview">
+  <meta property="og:description" content="A Django / PostgreSQL platform for a premium car workshop, built by Mohammed Irshad C: the numbers, the design decisions and the system map.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://irshaduu.github.io/portfolio/work/workshopos/">
+  <meta property="og:image" content="https://irshaduu.github.io/portfolio/assets/share.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%237df3ff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b8a4ff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Inter:wght@400..900&display=swap">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <!--
+    The WorkshopOS technical overview, and the source of assets/docs/WorkshopOS_Technical_Overview.pdf
+    (node tools/pdf.mjs). Figures as measured from the client's repository on 9 October 2026; the code
+    itself is private, so this shows architecture and ideas, never code. The map is system-map.svg,
+    drawn into the page by the script at the end so its text stays sharp at any size.
+  -->
+</head>
+<body>
+  <nav class="doc-bar" aria-label="WorkshopOS overview">
+    <a class="doc-bar__back" href="../../#workshopos">&larr; Portfolio</a>
+    <button class="btn" type="button" data-print hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+      Print
+    </button>
+    <a class="btn btn--primary" href="../../assets/docs/WorkshopOS_Technical_Overview.pdf" download="WorkshopOS_Technical_Overview.pdf" type="application/pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      Download PDF
+    </a>
+  </nav>
+
+  <main class="doc doc--read">
+    <header>
+      <p class="d-kicker">Technical overview</p>
+      <h1 class="d-title">WorkshopOS “Titan”</h1>
+      <p class="d-lede">A Django / PostgreSQL platform for a premium car workshop</p>
+      <p class="d-meta">Built by Mohammed Irshad C · Measured from the repository on 9 October 2026 · Tested by the owners on staging and approved for go-live</p>
+    </header>
+
+    <dl class="d-stats">
+      <div><dt>lines of code, in 510 files</dt><dd>169,231</dd></div>
+      <div><dt>automated Django tests, plus 71 in JavaScript</dt><dd>3,185</dd></div>
+      <div><dt>data models</dt><dd>49</dd></div>
+      <div><dt>URL routes</dt><dd>324</dd></div>
+      <div><dt>screens</dt><dd>140</dd></div>
+      <div><dt>rule modules</dt><dd>21</dd></div>
+      <div><dt>all-or-nothing transaction blocks</dt><dd>72</dd></div>
+      <div><dt>commits, January to October 2026</dt><dd>294</dd></div>
+    </dl>
+
+    <section aria-labelledby="does">
+      <h2 class="d-h" id="does">What it does</h2>
+      <p class="d-text">
+        One system for a workshop that ran on paper job cards, WhatsApp groups and spreadsheets: job cards,
+        warehouse inventory, supplier and spare-shop ledgers, fleet billing, payroll, rent, estimates, warranty
+        claims, photo evidence, printed service records, owner withdrawals and owner analytics. Three roles
+        (owner, office, floor) each see only what they need. It is built for its real load: about thirty cars
+        a month, six or seven staff and two owners.
+      </p>
+    </section>
+
+    <section aria-labelledby="architecture">
+      <h2 class="d-h" id="architecture">Architecture</h2>
+      <p class="d-text">
+        A Django 5.2 monolith in two apps, <strong>workshop</strong> for the core business logic and
+        <strong>inventory</strong> for stock and supplier shops. Server-rendered, PostgreSQL in development and
+        production, nine runtime dependencies, no build step and no bundler.
+      </p>
+      <table class="d-table">
+        <thead><tr><th scope="col">Part</th><th scope="col">Files</th><th scope="col">Lines</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Application code</th><td>101</td><td>35,896</td></tr>
+          <tr><th scope="row">Test suite</th><td>92</td><td>48,146</td></tr>
+          <tr><th scope="row">Database migrations</th><td>105</td><td>3,128</td></tr>
+          <tr><th scope="row">Django templates (screens)</th><td>137</td><td>50,032</td></tr>
+          <tr><th scope="row">Shared JavaScript and CSS</th><td>12</td><td>6,646</td></tr>
+          <tr><th scope="row">JavaScript tests</th><td>4</td><td>1,076</td></tr>
+        </tbody>
+      </table>
+      <p class="d-text">
+        Own code by language: Python 60.6%, HTML 15.7%, CSS 15.6%, JavaScript 8.0%. The test suite is larger
+        than the application it tests: <strong>1.34 lines of test for every line of application code</strong>.
+      </p>
+    </section>
+
+    <section class="d-map" aria-labelledby="map">
+      <h2 class="d-h" id="map">System map</h2>
+      <p class="d-text">
+        Every part of the system on one sheet: the three roles and their sign-in, the job card and bill as they
+        move through their states, then stock, money in and out, alerts and the platform underneath. Lines show
+        what feeds what: <span class="d-key" style="--k: #54cbff">workflow</span>,
+        <span class="d-key" style="--k: #4ce0a6">money in</span>, <span class="d-key" style="--k: #ff8f8f">money out</span>,
+        <span class="d-key" style="--k: #bda4ff">stock</span>, <span class="d-key" style="--k: #adbdd2">telemetry</span>
+        and <span class="d-key" style="--k: #ffcb45">alerts and audit</span>.
+      </p>
+      <figure class="d-figure">
+        <div class="d-figure__frame" data-svg="system-map.svg">
+          <img src="system-map.svg" width="1414" height="1000" alt="The WorkshopOS system map: owner, office and floor roles; job card and bill states; vehicle, customer, concerns, jobs, spare parts, inventory and photos; stock, money and audit flows; and the platform services underneath.">
+        </div>
+        <figcaption><span class="d-hint">Swipe sideways to explore. </span><a href="system-map.svg">Open the map full size</a></figcaption>
+      </figure>
+    </section>
+
+    <section aria-labelledby="decisions">
+      <h2 class="d-h" id="decisions">Design decisions worth knowing</h2>
+      <div class="d-list">
+        <p><strong>One rule, one implementation.</strong> Twenty-one modules contain no screens. Each owns exactly one question: profit and cash for a date window, what a customer bill shows, whether a typed amount is acceptable, which part a warranty claim applies to. The rule exists because the cost of a spare part was once calculated in five places and gave two different answers.</p>
+        <p><strong>Profit and cash are never added together.</strong> They differ by unused stock, unpaid bills and earlier payments, so both are shown side by side and never subtracted. Owner withdrawals are cash out, never an expense.</p>
+        <p><strong>Inventory cost is a full replay.</strong> Warehouse cost is a weighted average recomputed in date order from every receipt, so back-dated supplier bills and negative stock re-price correctly. Per-batch cost is kept, so FIFO can still be reconstructed.</p>
+        <p><strong>A part is paid for exactly once.</strong> A spare reaches a car either from a spare shop or from stock already paid for. The route is stored, never guessed, so expenses are never counted twice.</p>
+        <p><strong>The server never works out a price.</strong> Customer prices are calculated in the browser in whole paise and reach a bill only when a person presses Save. The arithmetic has its own unit tests, with expected values produced in Python first, so browser and server cannot round differently.</p>
+        <p><strong>Every typed rupee passes one gate.</strong> One module rejects values too large for the column, infinity and NaN before they can corrupt a total or crash a page.</p>
+        <p><strong>Photographs never touch the server.</strong> The browser uploads straight to object storage on a signed URL. The request signing is written against the standard library and verified against Amazon's published test vector.</p>
+        <p><strong>It installs into a workshop that is already running.</strong> Opening stock and shop balances are entered once, then locked. Years of earlier bills are typed in for history but touch no profit, cash or stock figure.</p>
+        <p><strong>Every deletion and back-dated entry leaves a trace.</strong> Deletions write a snapshot first. A Change History page shows what was deleted, what was edited (before and after), and what was entered on a later day than the money moved.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="testing">
+      <h2 class="d-h" id="testing">Testing and documentation</h2>
+      <p class="d-text">
+        <strong>3,185 Django tests</strong> in 569 classes across 91 files, plus <strong>71 JavaScript tests</strong>
+        on Node's built-in runner for the three modules written to be provable: price arithmetic, reading dates
+        and amounts, and photo logic. The final full run passed all 3,185 tests in 49.6 minutes.
+      </p>
+      <p class="d-text">
+        About 197,000 words of documentation across ten documents record 801 business rules and 526 hazards,
+        each one a failure that raised no error and left the tests green, with 236 rules pointing to the test
+        that guards them.
+      </p>
+    </section>
+
+    <p class="d-note">The client's code is private, so this overview shows the architecture and the ideas, not the code.</p>
+  </main>
+
+  <script>
+    // The map is drawn into the page rather than shown as a picture: its text stays sharp at any
+    // zoom and in print. Without JavaScript, the picture stays.
+    for (const frame of document.querySelectorAll('[data-svg]')) {
+      fetch(frame.dataset.svg)
+        .then((response) => (response.ok ? response.text() : Promise.reject(response.status)))
+        .then((text) => {
+          const svg = new DOMParser().parseFromString(text, 'image/svg+xml').documentElement;
+          if (svg.nodeName === 'svg') frame.replaceChildren(document.importNode(svg, true));
+        })
+        .catch(() => {});
+    }
+    for (const el of document.querySelectorAll('[data-print]')) {
+      el.hidden = false;
+      el.addEventListener('click', () => print());
+    }
+  </script>
+</body>
+</html>

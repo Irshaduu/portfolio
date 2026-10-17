@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catering staff system · Specification · Mohammed Irshad C</title>
+  <meta name="description" content="The architecture and specification of a 10-role staff app for a Kerala catering company: 24 modules across six Django apps, written so other developers can build it.">
+  <meta property="og:title" content="Catering staff system · Architecture and specification">
+  <meta property="og:description" content="A 10-role staff app for a Kerala catering company, specified by Mohammed Irshad C: the rules, the scale plan, the cost and the module plan.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://irshaduu.github.io/portfolio/work/catering/">
+  <meta property="og:image" content="https://irshaduu.github.io/portfolio/assets/share.png?v=2">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='11' fill='none' stroke='%237df3ff' stroke-width='3'/%3E%3Ccircle cx='16' cy='16' r='4' fill='%23b8a4ff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&display=swap">
+  <link rel="stylesheet" href="../../css/doc.css">
+  <!--
+    The catering staff system, written for a reader rather than a builder: the same decisions as the
+    two documents delivered to the client, which stay exactly as delivered in assets/docs/. This page is
+    the source of assets/docs/Catering_Staff_System_Overview.pdf (node tools/pdf.mjs).
+  -->
+</head>
+<body>
+  <nav class="doc-bar" aria-label="Catering staff system">
+    <a class="doc-bar__back" href="../../#catering">&larr; Portfolio</a>
+    <button class="btn" type="button" data-print hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg>
+      Print
+    </button>
+    <a class="btn btn--primary" href="../../assets/docs/Catering_Staff_System_Overview.pdf" download="Catering_Staff_System_Overview.pdf" type="application/pdf">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      Download PDF
+    </a>
+  </nav>
+
+  <main class="doc doc--read">
+    <header>
+      <p class="d-kicker">Architecture and specification</p>
+      <h1 class="d-title">Catering staff system</h1>
+      <p class="d-lede">A 10-role staff app for a Kerala catering company, specified so other developers can build it</p>
+      <p class="d-meta">Written by Mohammed Irshad C for Badusha Event Management · July 2026 · Delivered to the client; the build waits on the client's budget</p>
+    </header>
+
+    <dl class="d-stats">
+      <div><dt>roles, from office to field</dt><dd>10</dd></div>
+      <div><dt>modules, ranked MVP, Optional or Deferred</dt><dd>24</dd></div>
+      <div><dt>Django apps, and no more</dt><dd>6</dd></div>
+      <div><dt>build phases, in order</dt><dd>7</dd></div>
+    </dl>
+
+    <section aria-labelledby="problem">
+      <h2 class="d-h" id="problem">The problem</h2>
+      <p class="d-text">
+        The company staffs its events from a large pool of catering workers, and ran all of it on paper
+        and WhatsApp: who has registered, whose identity is checked, which events need people, who turned up,
+        who is late, who deserves a step up. The specification turns that into one installable app with two
+        sides: a portal for the field staff and a panel for the office.
+      </p>
+      <p class="d-text">
+        Everything is designed around three properties first: <strong>stability, performance and security</strong>.
+        Anything that doesn't serve them is deferred, not built. The plan ships a simple, working first version,
+        adds payments and distance search only after months of real use, and handles rare high-load days by
+        scaling up for the day rather than over-building for every day.
+      </p>
+    </section>
+
+    <section aria-labelledby="roles">
+      <h2 class="d-h" id="roles">Who uses it</h2>
+      <p class="d-text">The office side has three roles: <strong>Main Admin</strong> (full control), <strong>Sub Admin</strong> (oversight of the office) and <strong>Office Staff</strong> (verification, work listings, daily operations). The field side is a ladder:</p>
+      <ol class="d-ladder" aria-label="Field roles, lowest to highest">
+        <li><span>D Boy</span></li><li><span>C Boy</span></li><li><span>B Boy</span></li><li><span>A Boy</span></li><li class="is-assigned"><span>Supervisor</span></li><li class="is-assigned"><span>Captain</span></li><li class="is-assigned"><span>Site Manager</span></li>
+      </ol>
+      <p class="d-text">A Boy and below apply for work themselves. Supervisors and above never self-apply: the office assigns or calls them. The ladder is configurable, not hard-coded, because positions are expected to change.</p>
+    </section>
+
+    <section aria-labelledby="flow">
+      <h2 class="d-h" id="flow">How it flows</h2>
+      <ol class="d-steps">
+        <li><strong>Register.</strong> Personal details, Aadhaar front and back, an emergency contact and four consents, confirmed by an OTP. Every new account starts as D Boy.</li>
+        <li><strong>Get verified.</strong> Office Staff approve, or reject with a reason (“Aadhaar photo is blurry, re-upload”) and the worker fixes it and resubmits.</li>
+        <li><strong>Apply for work.</strong> The office lists an event; eligible staff are told by push and apply first come, first served: Confirmed, then Substitute, then Full.</li>
+        <li><strong>Turn up.</strong> Whoever the Site Manager assigns marks attendance on site from their phone.</li>
+        <li><strong>Finish.</strong> The office or the Site Manager closes the work, which counts it towards each worker's promotions.</li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="rules">
+      <h2 class="d-h" id="rules">Rules worth knowing</h2>
+      <div class="d-list">
+        <p><strong>Promotions are earned, mostly automatically.</strong> A worker's 3rd completed work makes them C Boy and the 8th makes them B Boy. A Boy is a performance call instead: a Site Manager or Captain nominates someone who stood out, repeat nominations stack up as 2×, 3× on one card, and the office decides: a signal, not a trigger.</p>
+        <p><strong>First come, first served, with a bench.</strong> Applicants beyond a tier's number wait on a substitute list. There's no self-cancel in the app: staff call the office, and every substitute is told at once by push and SMS. The first to accept takes the place, and a substitute who confirms elsewhere that day drops off by itself.</p>
+        <p><strong>One work a day, with one tracked exception.</strong> Nobody can apply to two listings on the same date. The office can still move people to a short-staffed dinner nearby, but that is recorded as its own reason, and it's exempt from late marking, since lateness caused by a double booking isn't the worker's fault.</p>
+        <p><strong>Late is a question, not a timestamp.</strong> Up to 45 minutes after the site time counts as on time. After that, the person taking attendance is asked “[Name] is late?” Only a Yes adds the minutes, counted from the site time, to the worker's profile.</p>
+        <p><strong>Push is free; SMS is a decision.</strong> Push goes automatically to everyone it concerns. SMS costs money, so the office sends it by hand in waves, PIN code, then district, then neighbouring districts, and stops as soon as the listing is full.</p>
+        <p><strong>The office's accounts are locked to their devices.</strong> Sub Admin and Office Staff hold sensitive staff data, so a first login from any device waits for the Main Admin's approval. The Main Admin sees every active device, can end sessions, and can read the full login history.</p>
+        <p><strong>Aadhaar is handled in the open.</strong> The retention policy is shown at the upload step, never hidden. India's DPDP Act is phased in through 2026 and 2027, so the risk of holding government ID at this scale is flagged for a legal check before launch.</p>
+        <p><strong>Bans are public at once; promotions go public later.</strong> Bans show everyone, with the reason, what gets someone removed from day one. Promotions go public once the system has settled, to build positive momentum.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="scale">
+      <h2 class="d-h" id="scale">Planned for registration day</h2>
+      <p class="d-text">Once or twice every two years, 2,000 to 3,000 people register in a day. The plan is a checklist for that day, not a heavier everyday system:</p>
+      <ul class="d-points">
+        <li>Resize the server a day or two ahead, and back down afterwards.</li>
+        <li>Confirm the SMS provider's burst limit in advance: OTPs are a likelier bottleneck than the server.</li>
+        <li>Compress photos in the browser, because the venue's network is the real limit on Aadhaar uploads.</li>
+        <li>Allow one account per mobile number and flag duplicate Aadhaar uploads for review, since duplicates would also skew the automatic promotion counts.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="cost">
+      <h2 class="d-h" id="cost">Technology and cost</h2>
+      <p class="d-text">Django, delivered as a PWA: it installs to the home screen with no app store, with full push notifications on Android and iOS 16.4 or later, and SMS for older iPhones.</p>
+      <table class="d-table d-table--words">
+        <thead><tr><th scope="col">Part</th><th scope="col">Tool</th><th scope="col">Cost</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">App and database server</th><td>DigitalOcean droplet, 2 GB RAM</td><td>₹1,000 a month</td></tr>
+          <tr><th scope="row">Aadhaar and photo storage</th><td>Cloudinary, free tier</td><td>Free</td></tr>
+          <tr><th scope="row">Push notifications</th><td>Firebase Cloud Messaging</td><td>Free</td></tr>
+          <tr><th scope="row">SMS</th><td>MSG91</td><td>About ₹0.20 each</td></tr>
+          <tr><th scope="row">Domain and SSL</th><td>Any registrar, Let's Encrypt</td><td>₹1,000 a year</td></tr>
+        </tbody>
+      </table>
+      <p class="d-text">Estimated at <strong>₹14,800 to ₹16,840 a year</strong>, including 750 to 1,600 SMS a month. Growth past 5,000 staff means a bigger droplet in the same setup: no migration and no data loss.</p>
+    </section>
+
+    <section aria-labelledby="modules">
+      <h2 class="d-h" id="modules">The module plan</h2>
+      <p class="d-text">The second document breaks the system into 24 modules for building and billing. Most of the first version is MVP by design: the scope was trimmed hard during planning, so only two small pieces are optional, and two are explicitly for later.</p>
+      <table class="d-table d-table--words">
+        <thead><tr><th scope="col">Group</th><th scope="col">Modules</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Shared, S1 to S6</th><td>Roles and permissions · authentication and sessions · staff profile · the work engine (states and rules) · notifications engine · Aadhaar and photo storage</td></tr>
+          <tr><th scope="row">Staff portal, U1 to U8</th><td>Registration · work feed · apply · my works · attendance · promotion requests · notifications · profile</td></tr>
+          <tr><th scope="row">Office panel, A1 to A8</th><td>Verification queue · work management · promotion queue · role management · staff directory · broadcast tools · account and device security · Sub Admin oversight</td></tr>
+          <tr><th scope="row">Later, F1 and F2</th><td>Payments and financial tracking · radius search, both added as new apps when the time comes, never merged into existing ones</td></tr>
+        </tbody>
+      </table>
+      <ul class="d-points">
+        <li><strong>Built once, used everywhere:</strong> one name card, one work card, one filter bar and one file upload, each with role-based actions rather than four versions of the same thing. Nothing sends a push or an SMS except the notifications engine.</li>
+        <li><strong>Six Django apps:</strong> accounts, registration, work, notifications, directory and media storage. Enough to keep boundaries clean without a folder per tiny feature.</li>
+        <li><strong>Seven build phases:</strong> the foundation, then the first working loop (sign up and get approved), then the second (work is posted and people apply), then attendance and promotions, the remaining notifications and the directory, security and oversight, and finally hardening and launch.</li>
+        <li><strong>Two developers, split by portal, not by feature:</strong> they build the foundation together, then one owns the staff portal and the other the office panel, so names can't drift and every bug has an owner.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="open">
+      <h2 class="d-h" id="open">Questions left open, on purpose</h2>
+      <ul class="d-points">
+        <li>Whether the office panel is a customised Django admin or its own interface: it changes every office module's estimate, so it's decided before quoting, not after.</li>
+        <li>The night-before reminders need one daily job: a cron task and a management command, rather than standing up Celery and Redis for one batch a day.</li>
+        <li>How long Aadhaar photos are kept: deleted after verification or auto-deleted after a few months. It doesn't block the build; the notice at upload is settled either way.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="documents">
+      <h2 class="d-h" id="documents">The documents, as delivered</h2>
+      <p class="d-text">This page is a reader's version. The two documents the client received are here exactly as delivered:</p>
+      <ul class="d-docs">
+        <li>
+          <a href="../../assets/docs/Catering_System_Architecture_Report.pdf" download="Catering_System_Architecture_Report.pdf" type="application/pdf">
+            <strong>Architecture report</strong>
+            <span>Version 4.0, July 2026 · 6 pages, 14 sections and a flow appendix · PDF, 610 KB</span>
+          </a>
+        </li>
+        <li>
+          <a href="../../assets/docs/Catering_System_Module_Plan.pdf" download="Catering_System_Module_Plan.pdf" type="application/pdf">
+            <strong>Module plan</strong>
+            <span>The 24 modules, folder structure, build order and team split · 6 pages · PDF, 670 KB</span>
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    for (const el of document.querySelectorAll('[data-print]')) {
+      el.hidden = false;
+      el.addEventListener('click', () => print());
+    }
+  </script>
+</body>
+</html>
