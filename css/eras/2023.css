@@ -121,6 +121,42 @@
     & .shot a { overflow: hidden; border-radius: 16px; border: 1px solid var(--line); background: rgb(255 255 255 / .02); transition: border-color .25s; }
     & .shot a:hover { border-color: var(--line-2); }
     & .shot figcaption { margin-top: .6rem; font-size: .8rem; color: var(--ink-3); }
+
+    /* The live apps as every template showed them: a dark window and a titanium phone, in front
+       of the obligatory glow. */
+    & .duo { --rim: 3; }
+    & .duo::before {
+      content: ""; position: absolute; z-index: -1; inset: 0;
+      background:
+        radial-gradient(closest-side, rgb(124 58 237 / .45), transparent) 48% 42% / 62% 78% no-repeat,
+        radial-gradient(closest-side, rgb(96 165 250 / .3), transparent) 92% 70% / 52% 66% no-repeat;
+    }
+    & .duo__win {
+      background: #111114;
+      box-shadow: 0 0 0 1px rgb(255 255 255 / .1), 0 calc(30 * var(--u)) calc(70 * var(--u)) calc(-30 * var(--u)) rgb(124 58 237 / .55);
+    }
+    & .duo__bar { background: #1b1b20; font: 500 calc(10 * var(--u)) / 1 var(--sans); color: var(--ink-2); }
+    & .duo__bar::before {
+      content: ""; position: absolute; left: var(--clear); top: 50%; translate: 0 -50%; width: calc(48 * var(--u)); height: calc(12 * var(--u));
+      background:
+        radial-gradient(circle closest-side, #ff5f57 94%, transparent) 0 0 / calc(12 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, #febc2e 94%, transparent) 50% 0 / calc(12 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, #28c840 94%, transparent) 100% 0 / calc(12 * var(--u)) 100% no-repeat;
+    }
+    & .duo__phone {
+      border-radius: calc(46 * var(--u)); background: #0a0a0c;
+      box-shadow: inset 0 0 0 calc(2 * var(--u)) #4b4b51, inset 0 0 0 calc(3 * var(--u)) #161619, 0 calc(30 * var(--u)) calc(60 * var(--u)) calc(-20 * var(--u)) #000;
+    }
+    & .duo__screen { border-radius: calc(37 * var(--u)); }
+    /* Volume up and down on the left, the side button on the right. */
+    & .duo__phone::before, & .duo__phone::after {
+      content: ""; position: absolute; width: calc(3 * var(--u)); background: #3c3c42;
+    }
+    & .duo__phone::before {
+      left: calc(-3 * var(--u)); top: calc(118 * var(--u)); height: calc(46 * var(--u)); border-radius: calc(2 * var(--u)) 0 0 calc(2 * var(--u));
+      box-shadow: 0 calc(58 * var(--u)) #3c3c42;
+    }
+    & .duo__phone::after { right: calc(-3 * var(--u)); top: calc(150 * var(--u)); height: calc(72 * var(--u)); border-radius: 0 calc(2 * var(--u)) calc(2 * var(--u)) 0; }
     & .project__meta { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; font-size: .78rem; color: var(--ink-3); }
     & .project__kind { padding: .2rem .65rem; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-2); background: rgb(255 255 255 / .03); }
     & .project__title { font-size: 1.6rem; font-weight: 600; letter-spacing: -.035em; line-height: 1.15; }

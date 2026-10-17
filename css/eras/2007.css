@@ -109,9 +109,59 @@
     & .project--feature .project__data { border-left: 1px solid var(--rule); background: #f7fafc; }
     & .shot a { padding: 4px; border: 1px solid var(--rule); border-radius: 6px; background: #fff; box-shadow: 0 1px 3px rgb(0 0 0 / .15); }
     & .shot a:hover { border-color: var(--blue-light); }
-    & .shot img { border-radius: 3px; }
+    & .shot a > img { border-radius: 3px; }
     & .shot--docs a { background: linear-gradient(#fff, #eef3f7); }
     & .shot figcaption { font-size: 11px; color: var(--ink-2); }
+
+    /* The live apps the year the iPhone shipped: black glass in a steel rim with a home button, and
+       a glossy Safari window. Both stand on a shiny floor. The gloss lies on the glass around a
+       screen, never on it. */
+    & .duo {
+      --top: 34; --bottom: 110; --bar: 30; --edge: 6; --rim: 4;
+      --pt: 58; --pr: 16; --pb: 84; --pl: 16;
+    }
+    & .duo__win {
+      border-radius: calc(7 * var(--u)) calc(7 * var(--u)) calc(3 * var(--u)) calc(3 * var(--u)); background: #fff;
+      box-shadow: 0 0 0 1px #7d7d7d, 0 calc(16 * var(--u)) calc(40 * var(--u)) rgb(0 0 0 / .4);
+      -webkit-box-reflect: below calc(3 * var(--u)) linear-gradient(transparent 76%, rgb(255 255 255 / .3));
+    }
+    & .duo__bar {
+      background: linear-gradient(#ececec, #d3d3d3 50%, #c4c4c4 51%, #b2b2b2); box-shadow: inset 0 1px #fff, inset 0 -1px #7d7d7d;
+      font: calc(11 * var(--u)) / 1 "Lucida Grande", var(--sans); color: #333;
+    }
+    /* Close, minimise and zoom: three glossy drops. */
+    & .duo__bar::before {
+      content: ""; position: absolute; left: var(--clear); top: 50%; translate: 0 -50%; width: calc(54 * var(--u)); height: calc(14 * var(--u));
+      background:
+        radial-gradient(circle closest-side at 50% 32%, rgb(255 255 255 / .85), transparent 60%) 0 0 / calc(14 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side at 50% 32%, rgb(255 255 255 / .85), transparent 60%) 50% 0 / calc(14 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side at 50% 32%, rgb(255 255 255 / .85), transparent 60%) 100% 0 / calc(14 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, #ff6b5f, #c8261c 82%, #8c1a12 92%, transparent 100%) 0 0 / calc(14 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, #ffcf4a, #d99a10 82%, #9a6a05 92%, transparent 100%) 50% 0 / calc(14 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, #8be05a, #3f9e1c 82%, #2a6d10 92%, transparent 100%) 100% 0 / calc(14 * var(--u)) 100% no-repeat;
+    }
+    & .duo__host {
+      min-width: 46%; padding: calc(5 * var(--u)) calc(10 * var(--u)); border-radius: calc(4 * var(--u)); text-align: left;
+      background: #fff; box-shadow: inset 0 1px 2px rgb(0 0 0 / .35), 0 0 0 1px #8e8e8e, 0 1px 0 rgb(255 255 255 / .6);
+    }
+    & .duo__phone {
+      border-radius: calc(46 * var(--u));
+      background: linear-gradient(122deg, rgb(255 255 255 / .22), rgb(255 255 255 / .06) 42%, transparent 42.5%), #0b0b0c;
+      box-shadow: 0 0 0 calc(1 * var(--u)) #4d5358, 0 0 0 calc(3 * var(--u)) #e6eaed, 0 0 0 calc(4 * var(--u)) #8e959c, 0 calc(12 * var(--u)) calc(24 * var(--u)) rgb(0 0 0 / .3);
+      -webkit-box-reflect: below calc(8 * var(--u)) linear-gradient(transparent 91%, rgb(255 255 255 / .32));
+    }
+    & .duo__phone::before {
+      content: ""; position: absolute; left: 50%; top: calc(27 * var(--u)); translate: -50% 0; width: calc(48 * var(--u)); height: calc(7 * var(--u));
+      border-radius: calc(4 * var(--u)); background: #1c1e21; box-shadow: inset 0 1px 1px #000, 0 1px rgb(255 255 255 / .14);
+    }
+    & .duo__phone::after {
+      content: ""; position: absolute; left: 50%; bottom: calc(20 * var(--u)); translate: -50% 0; width: calc(46 * var(--u)); aspect-ratio: 1; border-radius: 50%;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 46 46'%3E%3Crect x='16' y='16' width='14' height='14' rx='3.5' fill='none' stroke='%23b9bdc2' stroke-opacity='.75' stroke-width='1.6'/%3E%3C/svg%3E") center / 100% no-repeat,
+        radial-gradient(circle at 50% 30%, #2b2d31, #0a0a0b 70%);
+      box-shadow: inset 0 0 0 1px #3a3d41, inset 0 2px 3px rgb(0 0 0 / .8), 0 1px rgb(255 255 255 / .16);
+    }
+    & .duo__screen { border-radius: 0; }
     & .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 8px; }
     & .stat { display: flex; flex-direction: column-reverse; padding: 6px 8px; border-radius: 6px; background: #fff; border: 1px solid #e0e8ee; }
     & .stat dt { font-size: 10px; text-transform: uppercase; color: #999; letter-spacing: .04em; }

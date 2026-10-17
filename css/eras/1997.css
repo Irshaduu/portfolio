@@ -83,8 +83,70 @@
     & .project__main, & .project__data { display: grid; gap: 10px; }
     & .project__data { margin-top: 10px; }
     & .project__head { display: grid; gap: 4px; }
-    & .shot img { max-width: 420px; border: 3px ridge var(--silver); }
+    & .shot a > img { max-width: 420px; border: 3px ridge var(--silver); }
     & .shot figcaption { font: italic 13px var(--times); color: #ff0; }
+
+    /* The live apps on a beige CRT and a brick phone with an antenna and a keypad. */
+    & .duo {
+      max-width: 420px;
+      --top: 80; --bottom: 95; --bar: 20; --edge: 4;
+      --pt: 64; --pr: 16; --pb: 120; --pl: 16;
+      --dt: 22; --dr: 22; --db: 52; --dl: 22;
+    }
+    & .duo__desk {
+      border-radius: calc(16 * var(--u));
+      background: linear-gradient(#efe9d6, #d9d1b9);
+      box-shadow: inset calc(3 * var(--u)) calc(3 * var(--u)) rgb(255 255 255 / .75), inset calc(-3 * var(--u)) calc(-3 * var(--u)) rgb(110 98 70 / .35), 0 calc(14 * var(--u)) calc(26 * var(--u)) calc(-8 * var(--u)) #000;
+    }
+    /* The chin: a maker's name, a green power light and a power button. */
+    & .duo__desk::before {
+      content: "IRSHAD"; position: absolute; left: calc(30 * var(--u)); right: calc(30 * var(--u)); bottom: calc(14 * var(--u));
+      height: calc(24 * var(--u)); display: flex; align-items: center; justify-content: center;
+      font: bold calc(11 * var(--u)) / 1 Arial, sans-serif; letter-spacing: .3em; color: #a1977c;
+      background:
+        radial-gradient(circle closest-side, #4dff7a 0 40%, rgb(77 255 122 / .3) 62%, transparent 90%) calc(100% - 44 * var(--u)) 50% / calc(12 * var(--u)) calc(12 * var(--u)) no-repeat,
+        linear-gradient(#e9e2cd, #cbc2a8) 100% 50% / calc(30 * var(--u)) calc(16 * var(--u)) no-repeat;
+    }
+    & .duo__desk::after {
+      content: ""; position: absolute; z-index: -1; left: 26%; right: 26%; top: calc(100% - 4 * var(--u)); height: calc(30 * var(--u));
+      background: linear-gradient(#d3cbb2, #b3aa91); clip-path: polygon(12% 0, 88% 0, 100% 100%, 0 100%);
+    }
+    /* A Windows 95 window on the dark glass of the tube. */
+    & .duo__win {
+      overflow: visible; border-radius: 0; background: var(--silver);
+      box-shadow: 0 0 0 calc(3 * var(--u)) var(--silver), 0 0 0 calc(8 * var(--u)) #23221f, 0 0 0 calc(9 * var(--u)) #a59d86;
+    }
+    & .duo__bar {
+      justify-content: flex-start; padding-inline: var(--clear) calc(26 * var(--u));
+      background: #000080; box-shadow: none; font: bold calc(11 * var(--u)) / 1 var(--win); color: #fff;
+    }
+    & .duo__host { padding: 0; border-radius: 0; background: none; overflow: hidden; text-overflow: ellipsis; }
+    & .duo__host::after { content: " - Netscape"; }
+    & .duo__bar::after {
+      content: "\00d7"; position: absolute; right: calc(3 * var(--u)); top: calc(3 * var(--u)); width: calc(17 * var(--u)); height: calc(14 * var(--u));
+      display: grid; place-items: center; font: bold calc(13 * var(--u)) / 1 var(--win); color: #000; background: var(--silver); box-shadow: var(--bevel-out);
+    }
+    & .duo__phone {
+      border-radius: calc(50 * var(--u)) calc(50 * var(--u)) calc(64 * var(--u)) calc(64 * var(--u));
+      background:
+        repeating-linear-gradient(90deg, #121417 0 calc(4 * var(--u)), transparent 0 calc(9 * var(--u))) 50% calc(28 * var(--u)) / calc(58 * var(--u)) calc(5 * var(--u)) no-repeat,
+        linear-gradient(90deg, #1f2225, #484d54 26%, #3a3e44 70%, #1b1d20);
+      box-shadow: inset calc(3 * var(--u)) calc(3 * var(--u)) rgb(255 255 255 / .12), inset calc(-3 * var(--u)) calc(-3 * var(--u)) rgb(0 0 0 / .4), 0 calc(16 * var(--u)) calc(30 * var(--u)) calc(-10 * var(--u)) #000;
+    }
+    & .duo__phone::before {
+      content: ""; position: absolute; z-index: -1; right: calc(36 * var(--u)); top: calc(-48 * var(--u));
+      width: calc(20 * var(--u)); height: calc(62 * var(--u)); border-radius: calc(10 * var(--u)) calc(10 * var(--u)) calc(3 * var(--u)) calc(3 * var(--u));
+      background: linear-gradient(90deg, #17191c, #50555c 45%, #222529);
+    }
+    /* Call, menu and end, then nine number keys. */
+    & .duo__phone::after {
+      content: ""; position: absolute; left: calc(26 * var(--u)); right: calc(26 * var(--u)); bottom: calc(14 * var(--u)); height: calc(96 * var(--u));
+      background:
+        radial-gradient(closest-side, #4fae45 72%, transparent 80%) 0 0 / 33.34% 25% no-repeat,
+        radial-gradient(closest-side, #c9463b 72%, transparent 80%) 100% 0 / 33.34% 25% no-repeat,
+        radial-gradient(closest-side, #b4b9bf 72%, transparent 80%) 0 0 / 33.333% 25%;
+    }
+    & .duo__screen { border-radius: calc(4 * var(--u)); box-shadow: 0 0 0 calc(5 * var(--u)) #101214, 0 0 0 calc(6 * var(--u)) #5d6268; }
     & .project__meta { font: 13px Arial, sans-serif; color: var(--silver); }
     & .project__meta .when { color: #0f0; }
     & .project__title { font: bold 27px var(--comic); color: #ff0; text-decoration: underline; }

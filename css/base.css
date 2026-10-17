@@ -57,17 +57,70 @@
   .shot img { display: block; width: 100%; height: auto; }
   .shot--cover img { aspect-ratio: 4 / 3; object-fit: cover; }
   .shot--docs img { object-fit: contain; }
-  /* The live apps: a laptop and a phone in one picture (tools/duo.html). The phone's screen is the
-     clip's first frame, so the clip plays exactly over it: same box, same corners. Video arrived
+  /* The live apps: two real screens, a computer's and a phone's, and around them the devices of
+     the era you are in. Each era only draws the hardware around the screens, in the room the
+     variables below give it. Whatever it draws, the phone hides the same 35 units of the computer
+     screen's left edge as it always has, and no bezel ever lies over a screen. An era with thick
+     bezels makes the picture wider instead, so it scales down a little (1-3%), never covers more.
+     Every size is in --u, 1/--w of the picture's width (800 today), so it all scales as one.
+     - The phone screen sits at --phone-x, 30 + --top, 249 x 539. --pt --pr --pb --pl are its
+       bezels, --rim anything the era draws outside them.
+     - The computer screen sits at --desk-x, 159 + --top, 547 wide, 16:9, under a --bar tall title
+       bar. --dt --dr --db --dl are the bezels of the monitor around that window, if the era has one.
+     - --edge is the margin at the sides; --top and --bottom add room above and below for antennas,
+       stands and reflections.
+     The phone's screen is the clip's first frame, so the clip plays exactly over it. Video arrived
      on the web in 2010; before that the clip is hidden and the still stands in. */
-  .duo { position: relative; display: block; }
+  .duo {
+    --top: 0; --bottom: 0; --bar: 28; --edge: 11; --overlap: 35;
+    --pt: 9; --pr: 9; --pb: 9; --pl: 9; --rim: 0;
+    --dt: 0; --dr: 0; --db: 0; --dl: 0;
+    --phone-x: calc(var(--edge) - 1 + var(--pl) + var(--rim));
+    --desk-x: calc(var(--phone-x) + 249 + var(--pr) + var(--rim) - var(--overlap));
+    --w: calc(var(--desk-x) + 547 + var(--dr) + var(--edge));
+    --u: calc(100cqw / var(--w));
+    position: relative; display: block; isolation: isolate; container-type: inline-size;
+    aspect-ratio: var(--w) / calc(600 + var(--top) + var(--bottom));
+  }
+  .duo__desk, .duo__phone { position: absolute; display: block; }
+  .duo__desk {
+    z-index: 1;
+    left: calc((var(--desk-x) - var(--dl)) * var(--u));
+    top: calc((159 + var(--top) - var(--bar) - var(--dt)) * var(--u));
+    padding: calc(var(--dt) * var(--u)) calc(var(--dr) * var(--u)) calc(var(--db) * var(--u)) calc(var(--dl) * var(--u));
+  }
+  .duo__win { position: relative; display: block; width: calc(547 * var(--u)); }
+  /* --clear: past the phone's edge, for anything in the title bar that must not hide behind it. */
+  .duo__bar {
+    --clear: calc((var(--overlap) + 8) * var(--u));
+    position: relative; display: flex; align-items: center; justify-content: center; height: calc(var(--bar) * var(--u)); overflow: hidden;
+  }
+  .duo__host { white-space: nowrap; }
+  .duo__win img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; }
+  .duo__phone {
+    z-index: 2;
+    left: calc((var(--phone-x) - var(--pl)) * var(--u));
+    top: calc((30 + var(--top) - var(--pt)) * var(--u));
+    padding: calc(var(--pt) * var(--u)) calc(var(--pr) * var(--u)) calc(var(--pb) * var(--u)) calc(var(--pl) * var(--u));
+  }
+  .duo__screen { position: relative; display: block; width: calc(249 * var(--u)); aspect-ratio: 249 / 539; }
+  .duo__screen :is(img, video) { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
   .duo video {
-    position: absolute; left: 2.375%; top: 5%; width: 31.125%; height: 89.833%;
-    border-radius: 12.05% / 5.566%; object-fit: cover; pointer-events: none;
+    position: absolute; inset: 0; pointer-events: none;
     opacity: 0; transition: opacity .4s;
   }
   .duo video.is-playing { opacity: 1; }
   .duo video[data-future] { display: none; }
+
+  /* Today's devices, which 2026 wears as they are: a dark browser window and a phone in front. */
+  .duo__win { overflow: hidden; border-radius: calc(12 * var(--u)); background: #0c0f16; box-shadow: 0 0 0 calc(1 * var(--u)) rgb(255 255 255 / .14), 0 calc(28 * var(--u)) calc(56 * var(--u)) calc(-22 * var(--u)) rgb(0 0 0 / .75); }
+  .duo__bar { background: #161a23; box-shadow: inset 0 calc(-1 * var(--u)) rgb(255 255 255 / .06); font: 500 calc(10 * var(--u)) / 1 system-ui, "Segoe UI", sans-serif; color: #9aa3b2; }
+  .duo__host { padding: calc(4 * var(--u)) calc(14 * var(--u)); border-radius: calc(7 * var(--u)); background: rgb(255 255 255 / .06); }
+  .duo__phone {
+    border-radius: calc(39 * var(--u)); background: #05070b;
+    box-shadow: inset 0 0 0 calc(1 * var(--u)) rgb(255 255 255 / .2), 0 0 0 1px #000, 0 calc(34 * var(--u)) calc(60 * var(--u)) calc(-18 * var(--u)) rgb(0 0 0 / .85), calc(18 * var(--u)) 0 calc(40 * var(--u)) calc(-20 * var(--u)) rgb(0 0 0 / .7);
+  }
+  .duo__screen { border-radius: calc(30 * var(--u)); }
   .shot figcaption { margin-top: .5em; }
 
   /* ---- time machine: structure only, every era dresses it ---- */

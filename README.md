@@ -29,11 +29,11 @@ Share an era with a link: `?y=1997`.
 | **1997** | The homepage years | Starfield tiles, rainbow Impact, Comic Sans, bevelled tables, a Win95 taskbar | Marquee, blinking NEW!, a sparkle cursor trail, a visitor counter, a webring that travels in time, MIDI music made with Web Audio |
 | **1992** | Hypertext | The browser's own stylesheet. Nothing else | Links are numbered like the 1991 Line Mode Browser: type a number and press Return |
 
-**The year matters, not only the era.** Every tool in the Stack section knows the year it
-arrived (`data-since`). Drag back and Django greys out before 2005, WebSockets before 2011,
-and the line above the stack counts down: *"In 1997, 6 of the 25 tools I use exist. Next:
-REST and SQLite, in 2000."* Every project knows when it was built (`data-when`), so in 1997
-WorkshopOS is *29 years from now*. The copyright year follows the slider.
+**The year matters, not only the look.** Every tool in the Stack section knows the year it
+arrived (`data-since`). Drag back and Django greys out in 2001, WebSockets in 2007, and the
+line above the stack counts down: *"In 1997, 6 of the 25 tools I use exist. Next: REST and
+SQLite, in 2000."* Every project knows when it was built (`data-when`), so in 1997 WorkshopOS
+is *29 years from now*. The copyright year follows the slider.
 
 ---
 
@@ -85,11 +85,34 @@ map, the two live apps, and the first pages of the catering documents. Each era 
 inline images, so there the picture is a numbered `[IMAGE]` link, as a text browser shows it.
 Print keeps the system map and drops the screens.
 
-**The live apps are a laptop and a phone in one picture** (`tools/duo.html`, photographed at 2x
-on a transparent background, so every era's frame shows through). The phone's screen is the
-first frame of a short silent clip of the real app, recorded on a phone-size screen: Robo picks a
-word and you find it in Word Hunt; a 10-second hold counts up in PhysioCoach. The clip plays
-exactly over that screen, so starting it changes nothing but the motion (`js/clips.js`):
+**The live apps are a computer and a phone, and the devices change with the era.** The page
+holds only the two real screens of each app (`assets/shots/*-desk.webp` and `*-phone.webp`);
+the hardware around them is CSS, so every era draws the devices of its own time:
+
+| Era | Computer | Phone |
+|---|---|---|
+| 1997 | A beige CRT with a power light, a Windows 95 window, Netscape in the title bar | A brick phone with an antenna and a keypad |
+| 2001 | A silver flat panel on a stand, a Flash player's chrome title bar | A silver phone with a blue light, a nav pad and orange corner brackets |
+| 2007 | A glossy Safari window with three drops | The first iPhone: black glass, a steel rim, a home button. Both stand on a shiny floor |
+| 2013 | A flat monitor with a silver chin | A flat phone with a ring for a home button |
+| 2023 | A dark window with traffic lights | A titanium phone with side buttons, in front of the obligatory purple glow |
+| 2026 | Today's dark browser window | Today's phone |
+| 2030 | No devices: each screen is a pane of light with a holographic edge, cast by an emitter below it | |
+
+The rules that keep the screens readable in every era (`.duo` in `css/base.css`):
+
+- **Nothing lies over a screen.** Bezels, buttons, gloss and brackets sit around the screens,
+  never on them. 2007's gloss is on the glass around the screen, not on it.
+- **The screens keep their place.** The phone hides the same 35 units (of 800) of the computer
+  screen's left edge as it always has, in every era. An era with thick bezels makes the picture
+  wider instead, so it scales down by 1 to 3%; it never covers more.
+- **One unit for everything.** Every size is in `--u`, a fraction of the picture's width
+  (container query units), so the devices scale as one picture on any screen.
+
+The phone's screen is the first frame of a short silent clip of the real app, recorded on a
+phone-size screen: Robo picks a word and you find it in Word Hunt; a 10-second hold counts up in
+PhysioCoach. The clip plays exactly over that screen, so starting it changes nothing but the
+motion (`js/clips.js`):
 
 - it plays only while its card is on screen, and loads only then;
 - never with reduced motion or Save-Data, when the still stands in;
@@ -97,10 +120,11 @@ exactly over that screen, so starting it changes nothing but the motion (`js/cli
 
 ### The time machine
 
-- **Every era gets the same width on the slider**, however many years it spans, so the eight
-  milestones sit evenly and 2023, 2026 and 2030 never crowd together at the end. The years
-  inside an era share that era's width. The range counts track positions; `js/timemachine.js`
-  turns them into years, and the arrow keys still move one year at a time.
+- **It stops only at the eight era years.** The years between two eras look exactly like the
+  first of them, so there is nothing to stop at there: drag from 2013 and the next stop is 2023,
+  never 2014 to 2022. Every era gets the same width on the slider, however many years it spans,
+  so 2023, 2026 and 2030 never crowd together at the end. A link to a year in between, like
+  `?y=2015`, lands on its era (2013).
 - **On a phone it docks to the bottom edge** in every era, solid, with a thumb big enough to
   grab. 1992 keeps it to one line of text and one row of year buttons there, and drops the
   "type a link number" prompt on touch screens, which have no keyboard to type it with.
@@ -244,7 +268,7 @@ js/eras/2030/         the WebGL scene (scene.js), the shapes built from project 
                       the Stack constellation (constellation.js), the sky clock (sky.js)
 tools/serve.mjs       zero-dependency local server
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
-tools/duo.html        the laptop-and-phone pictures of the live apps
+tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
 assets/               resume PDF, link preview picture, project pictures and clips (shots/)
 ```
 
@@ -258,17 +282,18 @@ assets/               resume PDF, link preview picture, project pictures and cli
 
 ## Keyboard
 
-- Arrow keys on the slider move one year, Page Up and Page Down one era; Home and End jump to
-  1992 and 2030.
+- Arrow keys and Page Up and Page Down on the slider move one era; Home and End jump to 1992
+  and 2030.
 - `[` and `]` step one era from anywhere.
 - In 1992, type a link's number and press Return.
 
 ## Performance and accessibility
 
-- No framework, no build. The only images are the four project pictures (WebP, lazy-loaded,
-  64 to 77 KB each), and the only video is the two phone clips (75 and 138 KB, fetched when
-  their card comes on screen). Era scenery is CSS gradients, except 2030's, which is drawn by code.
-- Unminified, uncompressed: 34 KB of HTML, 153 KB of CSS for all eight eras, 94 KB of JavaScript,
+- No framework, no build. The only images are the project pictures (WebP, lazy-loaded): the
+  system map and the documents (65 and 75 KB), and the live apps' screens (13 to 39 KB each).
+  The only video is the two phone clips (75 and 138 KB, fetched when their card comes on
+  screen). Era scenery and devices are CSS, except 2030's scenery, which is drawn by code.
+- Unminified, uncompressed: 34 KB of HTML, 178 KB of CSS for all eight eras, 93 KB of JavaScript,
   of which 48 KB is 2030. Only the current era's JavaScript module runs.
 - The slider's year labels shorten (2026, then '26, then 26) only if they would touch at the
   current width in the current era's type. With even spacing, a 375 px phone fits them in full in

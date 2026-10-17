@@ -174,6 +174,11 @@
     }
     & .shot a:hover { border-color: var(--c1); box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 30px 60px -36px rgb(0 0 0 / .95); }
     & .shot figcaption { margin-top: .65rem; font: 500 .64rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+    /* The live apps on today's devices, as base.css draws them, edged in this era's light. */
+    & .duo__win { box-shadow: 0 0 0 calc(1 * var(--u)) rgb(125 243 255 / .22), 0 calc(28 * var(--u)) calc(56 * var(--u)) calc(-22 * var(--u)) rgb(0 0 0 / .75); }
+    & .duo__phone {
+      box-shadow: inset 0 0 0 calc(1 * var(--u)) rgb(184 164 255 / .34), 0 0 0 1px #000, 0 calc(34 * var(--u)) calc(60 * var(--u)) calc(-18 * var(--u)) rgb(0 0 0 / .85), calc(18 * var(--u)) 0 calc(40 * var(--u)) calc(-20 * var(--u)) rgb(0 0 0 / .7);
+    }
     & .project__meta {
       display: flex; flex-wrap: wrap; gap: .35rem 1rem;
       font: 500 .68rem/1.35 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);

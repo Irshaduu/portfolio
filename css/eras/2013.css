@@ -81,6 +81,46 @@
     & .points li::before { content: "\2713"; position: absolute; left: 0; font-weight: 900; color: var(--tile); }
     & .project__data { flex: 1; display: flex; flex-direction: column; gap: 1.25rem; padding: 0 1.75rem 1.75rem; }
     & .shot a { background: var(--clouds); } /* flat: no frame, no shadow */
+
+    /* The live apps as a flat illustration: solid shapes, no shadow, no shine. */
+    & .duo {
+      --top: 26; --bottom: 40; --bar: 22; --edge: 6;
+      --pt: 52; --pr: 14; --pb: 64; --pl: 14;
+      --dt: 14; --dr: 14; --db: 44; --dl: 14;
+    }
+    & .duo__desk { border-radius: calc(10 * var(--u)); background: linear-gradient(to top, var(--silver) calc(44 * var(--u)), var(--midnight) 0); }
+    & .duo__desk::before {
+      content: ""; position: absolute; left: 50%; bottom: calc(16 * var(--u)); translate: -50% 0;
+      width: calc(12 * var(--u)); aspect-ratio: 1; border-radius: 50%; background: var(--concrete);
+    }
+    & .duo__desk::after {
+      content: ""; position: absolute; z-index: -1; left: 50%; top: 100%; translate: -50% 0; width: calc(170 * var(--u)); height: calc(46 * var(--u));
+      background: linear-gradient(var(--asbestos), var(--asbestos)) 50% 100% / 100% calc(8 * var(--u)) no-repeat,
+        linear-gradient(var(--concrete), var(--concrete)) 50% 0 / 50% calc(38 * var(--u)) no-repeat;
+    }
+    & .duo__win { border-radius: 0; box-shadow: none; background: var(--midnight); }
+    & .duo__bar {
+      justify-content: flex-start; gap: calc(10 * var(--u)); padding-left: calc(var(--clear) + 50 * var(--u));
+      background: #fff; box-shadow: none; font: 700 calc(8 * var(--u)) / 1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--concrete);
+    }
+    & .duo__bar::before {
+      content: ""; position: absolute; left: var(--clear); top: 50%; translate: 0 -50%; width: calc(36 * var(--u)); height: calc(8 * var(--u));
+      background:
+        radial-gradient(circle closest-side, var(--alizarin) 96%, transparent) 0 0 / calc(8 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, #f1c40f 96%, transparent) 50% 0 / calc(8 * var(--u)) 100% no-repeat,
+        radial-gradient(circle closest-side, var(--emerald) 96%, transparent) 100% 0 / calc(8 * var(--u)) 100% no-repeat;
+    }
+    & .duo__host { padding: 0; border-radius: 0; background: none; }
+    & .duo__phone { border-radius: calc(38 * var(--u)); background: var(--midnight); box-shadow: none; }
+    & .duo__phone::before {
+      content: ""; position: absolute; left: 50%; top: calc(23 * var(--u)); translate: -50% 0;
+      width: calc(42 * var(--u)); height: calc(6 * var(--u)); border-radius: calc(3 * var(--u)); background: var(--asphalt);
+    }
+    & .duo__phone::after {
+      content: ""; position: absolute; left: 50%; bottom: calc(14 * var(--u)); translate: -50% 0;
+      width: calc(36 * var(--u)); aspect-ratio: 1; border-radius: 50%; border: calc(3 * var(--u)) solid var(--asphalt);
+    }
+    & .duo__screen { border-radius: 0; }
     & .shot figcaption { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--concrete); }
     & .stats { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-top: 1.25rem; border-top: 2px solid var(--clouds); }
     & .stat { display: flex; flex-direction: column-reverse; }

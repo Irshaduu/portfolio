@@ -216,6 +216,42 @@
     }
     & .shot a:hover { border-color: var(--ice); box-shadow: 0 0 50px -16px rgb(159 232 255 / .6); }
     & .shot figcaption { margin-top: .65rem; font: 500 .62rem/1.4 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+
+    /* The live apps without devices: each screen is a pane of light with a holographic edge,
+       cast by a small emitter below it. */
+    & .duo { --pt: 0; --pr: 0; --pb: 0; --pl: 0; --bottom: 30; }
+    & .duo__phone { border-radius: 0; background: none; box-shadow: none; }
+    & .duo__screen { border-radius: calc(34 * var(--u)); box-shadow: 0 0 calc(46 * var(--u)) calc(-8 * var(--u)) rgb(159 232 255 / .5); }
+    & .duo__win {
+      overflow: visible; border-radius: calc(16 * var(--u)); background: rgb(9 11 24 / .7);
+      box-shadow: 0 0 calc(56 * var(--u)) calc(-14 * var(--u)) rgb(159 232 255 / .45);
+    }
+    & .duo__bar {
+      justify-content: flex-start; padding-left: var(--clear); border-radius: calc(16 * var(--u)) calc(16 * var(--u)) 0 0;
+      background: none; box-shadow: none; font: 500 calc(9 * var(--u)) / 1 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);
+    }
+    & .duo__host { padding: 0; border-radius: 0; background: none; }
+    & .duo__host::before { content: "\25CF\00a0\00a0"; color: var(--ice); }
+    & .duo__win img { border-radius: 0 0 calc(16 * var(--u)) calc(16 * var(--u)); }
+    & :is(.duo__screen, .duo__win)::before {
+      content: ""; position: absolute; inset: calc(-2 * var(--u)); padding: calc(1.5 * var(--u)); border-radius: calc(36 * var(--u));
+      background: var(--holo); pointer-events: none; opacity: .85;
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      mask-composite: exclude;
+    }
+    & .duo__win::before { border-radius: calc(18 * var(--u)); }
+    /* The beam, from the emitter up to the pane, and the emitter itself. */
+    & :is(.duo__phone, .duo__desk)::before {
+      content: ""; position: absolute; z-index: -1; left: 50%; translate: -50% 0; top: calc(100% - 40 * var(--u)); width: 86%; height: calc(66 * var(--u));
+      background: linear-gradient(rgb(159 232 255 / 0) 45%, rgb(159 232 255 / .38));
+      clip-path: polygon(0 0, 100% 0, 54% 100%, 46% 100%);
+    }
+    & :is(.duo__phone, .duo__desk)::after {
+      content: ""; position: absolute; left: 50%; translate: -50% -50%; top: calc(100% + 26 * var(--u)); width: calc(64 * var(--u)); height: calc(10 * var(--u));
+      border-radius: 50%; background: radial-gradient(closest-side, #fff, var(--ice) 30%, rgb(159 232 255 / .25) 60%, transparent);
+    }
     & .project__meta {
       display: flex; flex-wrap: wrap; gap: .35rem 1.1rem;
       font: 500 .66rem/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);

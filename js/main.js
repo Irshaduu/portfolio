@@ -7,9 +7,10 @@ import './clips.js';
 
 const root = document.documentElement;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const clamp = (y) => Math.min(MAX_YEAR, Math.max(MIN_YEAR, Math.round(y)));
+// Only the eras' own years exist here: a link to ?y=2015 lands on 2013, the era it belongs to.
+const snap = (y) => eraForYear(Math.min(MAX_YEAR, Math.max(MIN_YEAR, Math.round(y)))).from;
 
-const state = { year: clamp(Number(root.dataset.year) || DEFAULT_YEAR), era: null };
+const state = { year: snap(Number(root.dataset.year) || DEFAULT_YEAR), era: null };
 
 // ---- fonts: each era's stylesheet is fetched the first time it is needed --------------
 
@@ -87,7 +88,7 @@ function writeUrl(year) {
 }
 
 function setYear(year, { scrub = false } = {}) {
-  year = clamp(year);
+  year = snap(year);
   const prevYear = state.year;
   const prevEra = state.era;
   const era = eraForYear(year);
@@ -140,8 +141,6 @@ function stepEra(dir) {
 
 tm = mountTimeMachine(document.getElementById('timemachine'), {
   eras: ERAS,
-  min: MIN_YEAR,
-  max: MAX_YEAR,
   onYear: (year, opts) => setYear(year, opts),
   onStep: stepEra,
 });

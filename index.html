@@ -30,7 +30,7 @@
       if (!(y >= 1992 && y <= 2030)) return;
       var e = m[0];
       for (var i = 0; i < m.length; i++) if (y >= m[i]) e = m[i];
-      d.setAttribute('data-year', y);
+      d.setAttribute('data-year', e);
       d.setAttribute('data-era', e);
     })();
   </script>
@@ -194,8 +194,9 @@
             </header>
             <figure class="shot shot--duo">
               <a href="assets/shots/word-hunt.webp"><span class="duo">
-                <img src="assets/shots/word-hunt.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="Word Hunt on a laptop and a phone: the home screen with Practice with Robo, and a practice game where Robo has picked “movement” and your time bank drains while you hunt for it among scattered words.">
-                <video src="assets/shots/word-hunt.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1" data-since="2010"></video>
+                <span class="duo__desk"><span class="duo__win"><span class="duo__bar"><span class="duo__host">word-hunt-game.onrender.com</span></span><img src="assets/shots/word-hunt-desk.webp" width="1094" height="616" loading="lazy" decoding="async" alt="Word Hunt on a computer and a phone: the home screen with Practice with Robo, and a practice game where Robo has picked “movement” and your time bank drains while you hunt for it among scattered words."></span></span>
+                <span class="duo__phone"><span class="duo__screen"><img src="assets/shots/word-hunt-phone.webp" width="390" height="844" loading="lazy" decoding="async" alt="">
+                  <video src="assets/shots/word-hunt.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1" data-since="2010"></video></span></span>
               </span></a>
             </figure>
             <p class="project__summary">
@@ -240,8 +241,9 @@
             </header>
             <figure class="shot shot--duo">
               <a href="assets/shots/physiocoach.webp"><span class="duo">
-                <img src="assets/shots/physiocoach.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="PhysioCoach on a phone and a laptop: Quad Sets mid-hold, the ring at 9 of 10 seconds on rep 4 of 20, and the progress report, ten days of scores climbing to 86%.">
-                <video src="assets/shots/physiocoach.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1" data-since="2010"></video>
+                <span class="duo__desk"><span class="duo__win"><span class="duo__bar"><span class="duo__host">therapist.pythonanywhere.com</span></span><img src="assets/shots/physiocoach-desk.webp" width="1094" height="616" loading="lazy" decoding="async" alt="PhysioCoach on a phone and a computer: Quad Sets mid-hold, the ring at 9 of 10 seconds on rep 4 of 20, and the progress report, ten days of scores climbing to 86%."></span></span>
+                <span class="duo__phone"><span class="duo__screen"><img src="assets/shots/physiocoach-phone.webp" width="390" height="844" loading="lazy" decoding="async" alt="">
+                  <video src="assets/shots/physiocoach.mp4" muted loop playsinline preload="none" disablepictureinpicture disableremoteplayback aria-hidden="true" tabindex="-1" data-since="2010"></video></span></span>
               </span></a>
             </figure>
             <p class="project__summary">
@@ -478,7 +480,7 @@
     <div class="tm__control">
       <button type="button" class="tm__step" data-step="-1" aria-label="Previous era"><span aria-hidden="true">&#8249;</span></button>
       <div class="tm__track">
-        <input class="tm__range" id="tm-range" type="range" min="0" max="420" step="1" value="360" aria-label="Travel to year">
+        <input class="tm__range" id="tm-range" type="range" min="0" max="7" step="1" value="6" aria-label="Travel to year">
         <ol class="tm__ticks"></ol>
       </div>
       <button type="button" class="tm__step" data-step="1" aria-label="Next era"><span aria-hidden="true">&#8250;</span></button>
