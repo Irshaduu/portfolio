@@ -109,7 +109,7 @@
       border: 1px solid var(--line-2); background: rgb(255 255 255 / .02); color: var(--ink);
       font-size: .93rem; transition: border-color .25s, background .25s, box-shadow .25s;
     }
-    & .intent__btn:hover { border-color: rgb(125 243 255 / .6); }
+    @media (hover: hover) { & .intent__btn:hover { border-color: rgb(125 243 255 / .6); } }
     & .intent__btn[aria-pressed="true"] {
       background: rgb(125 243 255 / .12); border-color: var(--c1);
       box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 0 26px rgb(125 243 255 / .28);
@@ -189,7 +189,9 @@
       overflow: hidden; border-radius: 18px; border: 1px solid var(--line); background: #070912;
       box-shadow: 0 30px 60px -36px rgb(0 0 0 / .95), inset 0 1px 0 rgb(255 255 255 / .05); transition: border-color .3s, box-shadow .3s;
     }
-    & .shot a:hover { border-color: var(--c1); box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 30px 60px -36px rgb(0 0 0 / .95); }
+    @media (hover: hover) {
+      & .shot a:hover { border-color: var(--c1); box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 30px 60px -36px rgb(0 0 0 / .95); }
+    }
     & .shot figcaption { margin-top: .65rem; font: 500 .64rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
     /* The live apps on today's devices, as base.css draws them, edged in this era's light. */
     & .duo__win { box-shadow: 0 0 0 calc(1 * var(--u)) rgb(125 243 255 / .22), 0 calc(28 * var(--u)) calc(56 * var(--u)) calc(-22 * var(--u)) rgb(0 0 0 / .75); }
@@ -243,9 +245,12 @@
     & .project__links a::after, & .link::after { content: "\2197"; font-size: .85em; }
     & .link--primary::after { content: "\2192"; }
     & .link--wa::before { content: ""; width: .5em; height: .5em; border-radius: 50%; background: #25d366; box-shadow: 0 0 10px #25d366; }
-    & .project__links a:hover, & .link:hover {
-      border-color: var(--c1); transform: translateY(-1px);
-      box-shadow: 0 0 0 4px rgb(125 243 255 / .1), 0 0 32px rgb(125 243 255 / .28);
+    /* Glows wait for a real mouse: on a touch screen a hover sticks after the tap. */
+    @media (hover: hover) {
+      & .project__links a:hover, & .link:hover {
+        border-color: var(--c1); transform: translateY(-1px);
+        box-shadow: 0 0 0 4px rgb(125 243 255 / .1), 0 0 32px rgb(125 243 255 / .28);
+      }
     }
     & .status { position: relative; padding-left: 1.1rem; font: 400 .76rem/1.55 var(--mono); color: var(--ink-3); }
     & .status::before {
@@ -331,7 +336,7 @@
       flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 1.4rem;
       border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--ink-2); font-size: 1.15rem;
     }
-    & :is(.tm__step, .sound-switch):hover { border-color: var(--c1); color: var(--ink); }
+    @media (hover: hover) { & :is(.tm__step, .sound-switch):hover { border-color: var(--c1); color: var(--ink); } }
     & .sound-switch { --call: var(--c1); background: rgb(7 9 17 / .8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); } /* it floats over text */
     & .tm__range { -webkit-appearance: none; appearance: none; height: 26px; background: transparent; cursor: grab; }
     & .tm__range:active { cursor: grabbing; }
@@ -395,16 +400,23 @@
       & .project--feature { grid-template-columns: 1fr; }
       & .project--feature .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       & .stat { padding: .8rem; }
-      /* On a phone the bar docks to the bottom edge, solid, with a thumb big enough for a thumb. */
+      /* On a phone the bar docks to the bottom edge, solid and compact: the year and the era on one
+         line (with the invitation to drag beside them, until the first trip), the slider below,
+         with a thumb big enough for a thumb. */
       & .timemachine {
         --thumb: 24px;
-        grid-template-columns: 1fr; gap: .25rem; left: 0; right: 0; bottom: 0; width: auto; transform: none;
-        padding: .75rem 14px calc(.45rem + env(safe-area-inset-bottom));
+        grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "read hint" "ctrl ctrl";
+        gap: .3rem .75rem; left: 0; right: 0; bottom: 0; width: auto; transform: none;
+        padding: .7rem 14px calc(.3rem + env(safe-area-inset-bottom));
         border-radius: 20px 20px 0 0; border-width: 1px 0 0; background: rgb(7 9 17 / .95);
       }
-      & .tm__year { font-size: 1.6rem; }
+      & .tm__readout { grid-area: read; gap: .8rem; padding-left: 2px; }
+      & .tm__control { grid-area: ctrl; }
+      & .tm__hint { grid-area: hint; align-self: center; margin: 0; text-align: right; font-size: .56rem; letter-spacing: .16em; }
+      & .tm__year { font-size: 1.4rem; min-width: 0; }
+      & .tm__era-name { font-size: .6rem; letter-spacing: .16em; white-space: nowrap; }
       & .tm__note { display: none; }
-      & .tm__step { width: 38px; height: 38px; }
+      & .tm__step { width: 36px; height: 36px; }
       & .tm__range { height: 30px; }
       & .tm__range::-webkit-slider-runnable-track { height: 3px; }
       & .tm__range::-moz-range-track { height: 3px; }
@@ -418,6 +430,9 @@
         flex: 1 1 auto; min-width: 0; padding: .65rem .5rem;
         font-size: clamp(.75rem, 3.4vw, .93rem); line-height: 1.2; text-align: center;
       }
+    }
+    @media (max-width: 374px) {
+      &:not([data-traveled]) .tm__era-name { display: none; } /* the invitation to drag needs the room */
     }
     @media (max-width: 359px) {
       & .project--feature .project__title { font-size: 1.75rem; } /* "WorkshopOS" fits the smallest phones */
@@ -433,11 +448,114 @@
         }
       }
     }
+    /* ---- phones: the same page, organised for a thumb ----
+       The fixed controls make room for reading, the name leads, each card shows what it is before
+       how it works, and every row of buttons lines up. A press answers a tap, where a mouse gets a glow. */
+    & .project__more { display: none; }
+    @media (hover: none) {
+      & :is(.intent__btn, .project__links a, .link, .project__more, .nav a, .shot a, .tm__step, .tm__ticks button, .agent-launch, .sound-switch) {
+        -webkit-tap-highlight-color: transparent;
+      }
+      & :is(.intent__btn, .project__links a, .link, .project__more, .nav a):active { scale: .97; }
+      & .shot a:active { scale: .99; }
+    }
+    @media screen and (max-width: 760px) {
+      /* Reading down the page, the bar steps aside and the agent's button shrinks to its face and
+         rides down to the corner. Scrolling up, reaching either end of the page, or opening the
+         agent brings both back (js/eras/2026.js says when). */
+      & .timemachine { transition: translate .45s cubic-bezier(.2, .8, .2, 1); }
+      & .agent-launch {
+        transition: translate .45s cubic-bezier(.2, .8, .2, 1), padding .45s cubic-bezier(.2, .8, .2, 1),
+          gap .45s cubic-bezier(.2, .8, .2, 1), border-color .25s, box-shadow .25s;
+      }
+      & .agent-launch__label {
+        display: inline-block; max-width: 5em; overflow: hidden; white-space: nowrap;
+        transition: max-width .45s cubic-bezier(.2, .8, .2, 1), opacity .3s;
+      }
+      &[data-tucked]:not(:has(.agent:not([hidden]))) {
+        & .timemachine { translate: 0 calc(100% + 2px); }
+        & .agent-launch { translate: 0 calc(var(--tm-h, 6rem) - env(safe-area-inset-bottom, 0px)); padding-right: .42rem; gap: 0; }
+        & .agent-launch__label { max-width: 0; opacity: 0; }
+      }
+
+      /* The opening screen: one line of instruments, then the name, large. */
+      & .masthead { min-height: 0; padding-bottom: 2.25rem; }
+      & .masthead__inner { padding-top: clamp(2rem, 6vh, 3.25rem); gap: 1.35rem; }
+      & .hud > :nth-child(2) { display: none; }
+      & .name { font-size: clamp(2.5rem, 13vw, 4.4rem); }
+      & .role { font-size: .74rem; letter-spacing: .09em; text-wrap: balance; }
+      & .lede { text-wrap: pretty; }
+      & .intent { padding: .95rem .95rem 1rem; border-radius: 18px; }
+      & .fact { gap: .35rem; padding: 1.05rem 1.1rem 1.15rem; }
+      & .fact__n { font-size: clamp(1.6rem, 7.4vw, 2.1rem); }
+      & .fact__l { font-size: .8rem; }
+      & .nav ul { justify-content: space-between; gap: .25rem 1rem; }
+
+      & .section { padding-block: 3.75rem; }
+      & .section__title { font-size: clamp(1.9rem, 9vw, 3.3rem); text-wrap: balance; }
+      & .section__intro { margin-bottom: 1.1rem; font-size: 1rem; text-wrap: pretty; }
+
+      /* A card reads top to bottom: what it is, a picture, the numbers, the story. The details fold
+         behind "How it works" (js/eras/2026.js adds the switch; without it they stay open). */
+      & .project, & .project:not(.project--feature) {
+        display: flex; flex-direction: column; gap: 1.15rem; grid-row: auto;
+        padding: 1.2rem 1.15rem 1.3rem; border-radius: 22px;
+      }
+      & .project--feature :is(.project__main, .project__data) { display: contents; }
+      & .project--feature :is(.project__main, .project__data) > *,
+      & .project:not(.project--feature) :is(.project__main, .project__data) > * { position: relative; z-index: 1; align-self: stretch; }
+      & .project__head { order: 1; }
+      & .shot { order: 2; }
+      & .stats { order: 3; }
+      & .project__summary { order: 4; font-size: .97rem; line-height: 1.62; text-wrap: pretty; }
+      & .project__more { order: 5; }
+      & .points { order: 6; gap: .7rem; font-size: .93rem; }
+      & .tags { order: 7; }
+      & .project__foot { order: 8; gap: .9rem; }
+      & .project__tagline { font-size: 1.04rem; line-height: 1.5; text-wrap: pretty; }
+      & .project[data-folds] .project__more {
+        display: flex; align-items: center; justify-content: space-between; gap: 1rem; width: 100%;
+        margin-block: -.15rem; padding: .95rem .1rem; border: 0; border-block: 1px solid var(--line); background: none;
+        color: var(--ink-2); font: 500 .68rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase;
+      }
+      & .project__more-icon { position: relative; flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--line-2); }
+      & .project__more-icon::before, & .project__more-icon::after {
+        content: ""; position: absolute; left: 50%; top: 50%; width: 9px; height: 1.5px; margin: -.75px 0 0 -4.5px;
+        border-radius: 1px; background: var(--c1); transition: rotate .35s cubic-bezier(.2, .8, .2, 1);
+      }
+      & .project__more-icon::after { rotate: 90deg; }
+      & .project[data-open] .project__more { color: var(--ink); }
+      & .project[data-open] .project__more-icon::after { rotate: 0deg; }
+      & .project[data-folds]:not([data-open]) .points { display: none; }
+      & .project[data-open] .points { animation: tt26-unfold .45s cubic-bezier(.2, .8, .2, 1); }
+      /* Two links under a card share the row evenly. */
+      & .project__links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+      & .project__links a { justify-content: center; }
+
+      /* The stack: one sheet, its groups split by hairlines, the chips a size smaller. */
+      & .stack { grid-template-columns: 1fr; gap: 0; border: 1px solid var(--line); border-radius: 22px; background: var(--glass); overflow: hidden; }
+      & .stack__group { gap: .75rem; padding: 1.15rem 1.15rem 1.25rem; border: 0; border-radius: 0; background: none; animation: none; }
+      & .stack__group + .stack__group { border-top: 1px solid var(--line); }
+      & .chips { gap: .4rem; }
+      & .chip { padding: .36rem .68rem; font-size: .84rem; }
+
+      /* Contact: the email across the top, the other four in an even grid under it. */
+      & .section--contact { justify-items: stretch; }
+      & .contact__lead { font-size: 1.05rem; text-wrap: pretty; }
+      & .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
+      & .links li:first-child { grid-column: 1 / -1; }
+      & .link { justify-content: center; width: 100%; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       & .hud__live::before, & .tm__hint { animation: none; }
       & .project { transition: none; }
+      & :is(.timemachine, .agent-launch, .agent-launch__label) { transition: none; }
+      & .project[data-open] .points { animation: none; }
     }
   }
+
+  @keyframes tt26-unfold { from { opacity: 0; translate: 0 -6px; } }
 
   @keyframes tt26-pulse { 50% { opacity: .35; } }
   /* No opacity here: intent owns opacity, and a filled animation would override it. */
