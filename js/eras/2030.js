@@ -4,6 +4,7 @@
 //   2030/constellation.js  the Stack as a night sky
 //   2030/marks.js          the moment each project's symbol makes its move
 //   2030/face.js           Irshad's Agent's face, a globe of light
+//   ../reading.js          room to read: the bar docks while you read, card details fold on phones
 // Each part loads and starts on its own, so one that fails (a dropped file, a graphics card
 // without WebGL2) never stops the others. Without the scene, the name simply stays as text.
 
@@ -17,6 +18,7 @@ const part = (path, start, stop) => ({ url: new URL(path, import.meta.url), star
 // scene gets the latest value.
 let scene = null;
 let starlight = null;
+let reading = []; // undo for each piece of ../reading.js
 const PARTS = [
   part('./2030/scene.js', (m, ctx) => {
     scene = m;
@@ -30,6 +32,13 @@ const PARTS = [
   part('./2030/constellation.js', (m) => m.startConstellation(), (m) => m.stopConstellation()),
   part('./2030/marks.js', (m) => m.startMarks(), (m) => m.stopMarks()),
   part('./2030/face.js', (m) => m.startFace(), (m) => m.stopFace()),
+  part('../reading.js', (m) => {
+    const finePointer = matchMedia('(pointer: fine)').matches;
+    reading = [m.tuck(root, { finePointer }), m.folds('2030')];
+  }, () => {
+    reading.forEach((undo) => undo());
+    reading = [];
+  }),
 ];
 
 let visit = 0;
