@@ -245,8 +245,9 @@ export const ANSWERS = [
 // The first questions offered, before the visitor types anything.
 export const START = ['What has he built?', 'Can I play his game?', 'Is he free to hire?'];
 
-// What the assistant says when nothing fits and the AI is resting.
-export const DONT_KNOW = "That one's beyond me right now. Irshad can answer it himself, on WhatsApp or email, and he might just enjoy it.";
+// What the assistant says when nothing fits and the AI is resting (or out of reach): the truth, in
+// its own voice. The header's dot says how long the rest will be.
+export const DONT_KNOW = 'My AI brain is catching its breath. Ask me again in a minute. The buttons below still work, and Irshad is one message away on WhatsApp or email.';
 export const DONT_KNOW_NEXT = ['How can I contact him?', 'What has he built?'];
 
 // When a visitor reaches their share of AI questions (assistant/worker/limits.js), the agent says so

@@ -13,7 +13,10 @@
 //                                          and the era to travel to, if the visitor asked to
 //                                          (checkFit's says { fit, next }: the check, read)
 // and resolves to { text, by, link, next, travel, id }, to keep in the conversation's history (id:
-// which ready answer, if one was given).
+// which ready answer, if one was given). Two more, for the page's header, when they apply:
+//   wait { reason: 'minute' | 'day' | 'rest', seconds }   the visitor used their share, or every AI
+//                                                         is resting: how long until they can ask
+//   left                                                  questions left today, when 5 or fewer
 //
 // Options: context { era, section, intent } tells the AI where the visitor is; tapped: true for a
 // suggestion button's question; deep: true for "tell me more", which always asks the AI.
@@ -44,9 +47,9 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
   // The visitor's own share is used up: the agent says so, rather than a stand-in that may not fit.
   if (got.limit) {
     on({ type: 'step', text: got.why });
-    return reply(on, { id: 'limit', ...LIMIT[got.limit] }, 'limit');
+    return { ...reply(on, { id: 'limit', ...LIMIT[got.limit] }, 'limit'), wait: pause(got) };
   }
-  if (got.why) return standIn(got.why);
+  if (got.why) return { ...standIn(got.why), ...(got.wait && { wait: pause(got) }) };
   let { text } = got;
   if (!got.finished) {
     const note = ' (The answer was cut short.)';
@@ -58,8 +61,11 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
   const link = text.match(/\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/)?.[1] ?? null;
   const next = nextFor(link);
   on({ type: 'done', link, next, travel: null });
-  return { text, by: got.by, link, next, travel: null, id: null };
+  return { text, by: got.by, link, next, travel: null, id: null, ...(got.left != null && { left: got.left }) };
 }
+
+// How long until the visitor can ask the AI again, from a refusal: { reason, seconds }.
+const pause = (got) => ({ reason: got.limit ?? 'rest', seconds: got.wait ?? 60 });
 
 // Checks a job post against his work. The AI's lines arrive as text events (parseFit reads them as
 // they come), and the result is { text, by, fit, next, ... }: `fit` the check, read, and `text` the
@@ -79,15 +85,15 @@ export async function checkFit(post, { on = () => {}, server = SERVER, signal } 
     // The visitor's share is used up: say so, and give the word check meanwhile.
     if (got.limit === 'minute') quick.summary = "You're quick! Give me a minute for the full check. Here's a quick word check meanwhile.";
     if (got.limit === 'day') quick.summary = "We've talked a lot today, so the full check rests till tomorrow. Here's a quick word check meanwhile.";
-    return done(quick, 'ready');
+    return { ...done(quick, 'ready'), ...((got.limit || got.wait) && { wait: pause(got) }) };
   }
   const fit = parseFit(got.text);
   if (!got.finished) fit.summary = `${fit.summary} (The answer was cut short.)`.trim();
-  return done(fit, got.by);
+  return { ...done(fit, got.by), ...(got.left != null && { left: got.left }) };
 }
 
-// Asks the Worker at `path` and passes the answer on as it arrives. Resolves to { text, by, finished },
-// or to { why } when no AI answered, for the caller's stand-in.
+// Asks the Worker at `path` and passes the answer on as it arrives. Resolves to { text, by, finished,
+// left }, or to { why, limit?, wait? } when no AI answered, for the caller's stand-in.
 async function stream(server, path, body, on, signal) {
   if (!server) return { why: 'The AI is not switched on yet' };
   on({ type: 'step', text: 'Asking the AI' });
@@ -106,17 +112,22 @@ async function stream(server, path, body, on, signal) {
   if (!res.ok || !res.body) {
     const info = await res.json().catch(() => ({}));
     const why = REASONS[res.status] ?? info.error ?? 'The AI could not answer';
-    // 429: this visitor's share (the server says which: 'minute' or 'day').
-    return res.status === 429 ? { why, limit: info.limit === 'day' ? 'day' : 'minute' } : { why };
+    // How long to wait, when the server says: a visitor's share (429, with which limit), or every
+    // AI resting (503).
+    const wait = Number(info.wait) > 0 ? Math.round(Number(info.wait)) : null;
+    if (res.status === 429) return { why, limit: info.limit === 'day' ? 'day' : 'minute', wait };
+    return { why, wait };
   }
 
   let text = '';
   let by = null;
+  let left = null;
   let finished = false;
   try {
     for await (const { name, data } of events(res.body)) {
       if (name === 'meta') {
         by = data.by;
+        if (Number.isInteger(data.left)) left = data.left;
         on({ type: 'source', by, tried: data.tried ?? [] });
       } else if (name === 'text') {
         text += data.t;
@@ -132,7 +143,7 @@ async function stream(server, path, body, on, signal) {
     if (signal?.aborted) throw error;
   }
   if (!text.trim()) return { why: 'The AI went quiet' };
-  return { text, by, finished };
+  return { text, by, finished, left };
 }
 
 const REASONS = {

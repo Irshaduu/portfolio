@@ -394,6 +394,12 @@
       display: flex; align-items: center; gap: .65em;
       font: 500 .7rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2);
     }
+    /* While the AI rests, the dot turns amber and stops breathing, and a small countdown sits beside
+       the name. Near the day's end, just a faint "5 left today". */
+    & .agent__wait { text-transform: none; letter-spacing: .06em; font-size: .64rem; color: var(--ink-3); }
+    & .agent__wait::before { content: "· "; }
+    & .agent[data-resting] .agent__wait { color: var(--c3); font-variant-numeric: tabular-nums; }
+    & .agent[data-resting] .agent__dot { background: var(--c3); box-shadow: 0 0 10px rgb(255 179 138 / .55); animation: none; }
     & .agent__close {
       display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
       border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--ink-2);

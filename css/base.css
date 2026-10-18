@@ -204,6 +204,8 @@
   .agent__msg--me { align-self: flex-end; }
   .agent__text { white-space: pre-wrap; overflow-wrap: anywhere; }
   .agent__next { display: flex; flex-wrap: wrap; gap: .4rem; }
+  /* Beside the agent's name: "back in 0:52" while the AI rests, "5 left today" near the day's end; usually nothing. */
+  .agent__wait:empty { display: none; }
   /* After an AI answer's last word: three signal bars for how strong the AI that answered was; a tap opens the note. */
   .agent__signal { display: inline-flex; align-items: flex-end; gap: 2px; vertical-align: baseline; border: 0; background: none; color: inherit; font: inherit; cursor: help; }
   .agent__signal i { display: block; width: 3px; border-radius: 1px; background: currentColor; }

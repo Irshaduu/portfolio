@@ -6,9 +6,12 @@
 //
 //   GET  /      a health check: open it in a browser to see which services have their keys
 //   POST /chat  { messages: [{ role: 'user' | 'assistant', content }], context?: { era, section, intent } }
-//               -> server-sent events: meta { by, tried }, then text { t } pieces, then done {}
-//               (or error { partial })
+//               -> server-sent events: meta { by, tried, left? }, then text { t } pieces, then done {}
+//               (or error { partial }). left: questions left today, only when 5 or fewer.
 //   POST /fit   { post }: a job post, checked against his work (prompt.js), as the same events
+//
+// Refusals say how long to wait: 429 { limit: 'minute' | 'day', wait } when the visitor used their
+// share, 503 { wait } when every AI is resting (wait: seconds until the first is free again).
 
 import { firstAnswer, routes } from './chain.js';
 import { makeLimiter } from './limits.js';
@@ -90,8 +93,15 @@ export async function handle(request, env, deps) {
   // the question or the job post.
   console.log(JSON.stringify({ path: url.pathname, by: result.route?.name ?? null, tried, ms: Date.now() - started }));
 
-  if (!result.route) return json({ error: 'No AI service is free right now.', fallback: true, tried }, 503, cors);
-  return new Response(relay(result, tried), {
+  if (!result.route) {
+    // When the first one is free again, for the page's "back in 0:52". Each rests as chain.js decided.
+    const free = routes(env).filter((r) => r.key && r.model).map((r) => deps.cooling.get(r.name) ?? 0);
+    const wait = Math.min(3600, Math.max(5, Math.ceil((Math.min(...free) - Date.now()) / 1000)));
+    return json({ error: 'No AI service is free right now.', fallback: true, tried, wait }, 503, { ...cors, 'retry-after': String(wait) });
+  }
+  // Near the end of their day's share, the page says "5 left today", so a long chat never ends by surprise.
+  const left = examining || typeof deps.allow.left !== 'function' ? null : deps.allow.left(visitor);
+  return new Response(relay(result, tried, left !== null && left <= 5 ? left : null), {
     headers: { ...cors, 'content-type': 'text/event-stream; charset=utf-8', 'cache-control': 'no-store' },
   });
 }
@@ -134,7 +144,7 @@ export function readContext(context) {
 }
 
 // The answer, as server-sent events the page reads as they arrive.
-function relay({ route, first, rest, abort }, tried) {
+function relay({ route, first, rest, abort }, tried, left) {
   const encoder = new TextEncoder();
   const event = (name, data) => encoder.encode(`event: ${name}\ndata: ${JSON.stringify(data)}\n\n`);
   let opened = false;
@@ -142,7 +152,7 @@ function relay({ route, first, rest, abort }, tried) {
     async pull(controller) {
       if (!opened) {
         opened = true;
-        controller.enqueue(event('meta', { by: route.name, tried }));
+        controller.enqueue(event('meta', { by: route.name, tried, ...(left !== null && { left }) }));
         controller.enqueue(event('text', { t: first }));
         return;
       }

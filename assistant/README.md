@@ -47,6 +47,11 @@ two for Flash-Lite, one for Groq. A tap (or hover) says "Full power", "Busy hour
 or "Backup model". When a long chat slides to a backup and the answers get plainer, the visitor
 knows why, the way a weak signal explains a bad call, and no screenshot ever says "Low". Nothing
 under the helpline or a trip in time.
+
+**The dot beside its name says when to wait.** Cyan and glowing: the AI is awake. Amber and still,
+with a small "back in 0:52" ticking down: the visitor used their minute's share, or every AI is
+resting (the server says when the first is free again). "back tomorrow" for the day's share, and a
+faint "5 left today" near its end. Nothing more the rest of the time: a number only when it matters.
 To see it yourself, open the site once with `?trace` at the end of the address
 (`https://irshaduu.github.io/portfolio/?trace`) and open the agent: from then on, in that browser,
 a small line under each answer says "Gemini · 1.9 s", "Gemini Lite", "Groq" or "Quick answer", and
@@ -313,8 +318,8 @@ the assistant can be built into the real page.
 |---|---|
 | Gemini Flash hits its per-minute limit | Flash-Lite answers. Flash rests as long as Google asks (usually under a minute) |
 | Flash's daily allowance is used up | Flash-Lite answers until it resets, then Groq if Flash-Lite runs out too |
-| All three are at their limit or down | The closest ready-made answer, or "I don't know, Irshad can answer that himself" |
-| One visitor asks more than 10 a minute or 50 a day | The agent says so in its own voice ("You're quick! Give me a minute…" or "We've talked a lot today!…"); the suggestion buttons still answer |
+| All three are at their limit or down | The closest ready-made answer, or "My AI brain is catching its breath. Ask me again in a minute…"; the header's dot turns amber with "back in 0:52" |
+| One visitor asks more than 10 a minute or 50 a day | The agent says so in its own voice ("You're quick! Give me a minute…" or "We've talked a lot today!…"); the dot turns amber with "back in 0:38" or "back tomorrow"; the suggestion buttons still answer |
 | A key or a model name is wrong | That service rests 10 minutes at a time. Check the server's address (step 7) |
 
 Gemini's daily allowance resets at midnight Pacific time (early afternoon in India).

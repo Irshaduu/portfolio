@@ -11,6 +11,7 @@
 //
 // allow(visitor) says true, or which limit the visitor reached and how long until they may ask
 // again: { limit: 'minute' | 'day', wait } (seconds). The page says it in the agent's own voice.
+// allow.left(visitor) says how many questions they have left today, for the page's "5 left today".
 
 const MINUTE = 60 * 1000;
 const DAY = 24 * 60 * MINUTE;
@@ -18,7 +19,10 @@ const DAY = 24 * 60 * MINUTE;
 export function makeLimiter({ perMinute = 10, perDay = 50, now = Date.now } = {}) {
   const visitors = new Map(); // visitor -> times of their recent questions
 
-  return function allow(visitor) {
+  allow.left = (visitor) => Math.max(0, perDay - (visitors.get(visitor) ?? []).filter((at) => now() - at < DAY).length);
+  return allow;
+
+  function allow(visitor) {
     const t = now();
     const times = (visitors.get(visitor) ?? []).filter((at) => t - at < DAY);
     const lastMinute = times.filter((at) => t - at < MINUTE);
@@ -36,5 +40,5 @@ export function makeLimiter({ perMinute = 10, perDay = 50, now = Date.now } = {}
       for (const [key, list] of visitors) if (!list.length || t - list[list.length - 1] > DAY) visitors.delete(key);
     }
     return true;
-  };
+  }
 }

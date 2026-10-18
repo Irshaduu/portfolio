@@ -14,6 +14,7 @@ import { MAX_POST, isJobPost, parseFit } from './assistant/fit.js';
 import { blip } from './sound.js';
 
 const KEY = 'tt-agent'; // the conversation, kept for this visit (sessionStorage)
+const WAIT_KEY = 'tt-agent-wait'; // a rest being counted down, and questions left today (sessionStorage)
 const KEEP = 30; // messages kept
 
 // Where an answer can point, and what to call it in "See …".
@@ -282,7 +283,7 @@ export function mount(ctx) {
   function labelOf({ by, id, travel }, rested) {
     if (id === 'crisis' || id === 'fit' || id === 'fit-check' || travel) return null;
     if (by === 'ready') return rested ? 'Quick answer · the AI is resting' : 'Quick answer';
-    if (by === 'none') return 'The AI is resting';
+    if (by === 'none') return null; // the answer says it's resting, and the header's dot says how long
     return null;
   }
 
@@ -353,6 +354,7 @@ export function mount(ctx) {
       live.textContent = words(result.text);
       blip(880, 0.08);
       if (result.id === 'fit') setWaiting(true);
+      noteStatus(result);
       act(result);
     } catch {
       li.querySelector('.fit')?.remove();
@@ -429,6 +431,52 @@ export function mount(ctx) {
   window.visualViewport?.addEventListener('scroll', fitKeyboard);
   input.addEventListener('focus', () => setTimeout(fitKeyboard, 300)); // after the keyboard has risen
   input.addEventListener('blur', () => setTimeout(fitKeyboard, 300));
+
+  // ---- the header's dot: is the AI awake? ------------------------------------------------
+
+  // Cyan and glowing, as always: the AI is awake. Amber and still, with "back in 0:52" ticking
+  // down: the visitor used their minute's share, or every AI is resting. "back tomorrow" for the
+  // day's share, and a faint "5 left today" near its end, so a long chat never ends by surprise.
+  // Nothing more the rest of the time: a number only when it matters.
+  const status = el('span', 'agent__wait');
+  status.setAttribute('aria-hidden', 'true'); // the answer says it in words; a ticking clock would chatter
+  title.append(status);
+  let rest = { until: 0, reason: null, left: null };
+  try {
+    rest = { ...rest, ...JSON.parse(sessionStorage.getItem(WAIT_KEY)) };
+  } catch {
+    // Nothing kept, or storage blocked: awake.
+  }
+  let ticking = null;
+
+  const clock = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  function drawStatus() {
+    const s = Math.ceil((rest.until - Date.now()) / 1000);
+    const resting = s > 0;
+    panel.toggleAttribute('data-resting', resting);
+    status.textContent = resting ? (rest.reason === 'day' ? 'back tomorrow' : `back in ${clock(s)}`)
+      : Number.isInteger(rest.left) && rest.left <= 5 ? `${rest.left} left today` : '';
+    if (resting && !ticking) ticking = setInterval(drawStatus, 1000);
+    if (!resting && ticking) {
+      clearInterval(ticking);
+      ticking = null;
+    }
+  }
+
+  // What an answer says about the AI: a rest to count down, how many are left today, or, when a
+  // model answered, that it's awake again.
+  function noteStatus({ by, wait, left }) {
+    if (wait) rest = { ...rest, until: Date.now() + wait.seconds * 1000, reason: wait.reason };
+    else if (POWER[by]) rest = { ...rest, until: 0, reason: null };
+    if (Number.isInteger(left)) rest.left = left;
+    try {
+      sessionStorage.setItem(WAIT_KEY, JSON.stringify(rest));
+    } catch {
+      // Storage blocked: the dot just won't outlive the page.
+    }
+    drawStatus();
+  }
+  drawStatus();
 
   let returnTo = null;
   function open() {

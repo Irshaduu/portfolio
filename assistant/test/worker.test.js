@@ -53,10 +53,20 @@ test('when Gemini is at its limit, Gemini Lite answers and the trace shows both'
   assert.deepEqual(meta, ['meta', { by: 'Gemini Lite', tried: ['Gemini: HTTP 429', 'Gemini Lite: answered'] }]);
 });
 
-test('when no service answers, the page is told to use its ready answers', async () => {
+test('when no service answers, the page is told to use its ready answers, and when the first is free again', async () => {
   const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_LITE]: failure(429), [GROQ]: failure(500) }));
   assert.equal(res.status, 503);
-  assert.deepEqual(await res.json(), { error: 'No AI service is free right now.', fallback: true, tried: ['Gemini: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500'] });
+  // Gemini and Lite rest a minute after a 429, Groq 30 seconds after a 500: the first is back in 30.
+  assert.deepEqual(await res.json(), { error: 'No AI service is free right now.', fallback: true, tried: ['Gemini: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500'], wait: 30 });
+  assert.equal(res.headers.get('retry-after'), '30');
+});
+
+test('near the end of their day\'s share, a visitor is told how many questions are left', async () => {
+  const allow = makeLimiter({ perDay: 7 });
+  const meta = async () => (await events(await handle(ask(question('Hi')), ENV, deps({ [GEMINI]: () => answer('ok') }, allow))))[0][1];
+  assert.deepEqual(await meta(), { by: 'Gemini', tried: ['Gemini: answered'] }); // 6 left: no need to say
+  assert.deepEqual(await meta(), { by: 'Gemini', tried: ['Gemini: answered'], left: 5 });
+  assert.equal((await meta()).left, 4);
 });
 
 test('the AI gets who it is, the facts and where the visitor is, before the conversation', async () => {

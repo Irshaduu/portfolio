@@ -96,15 +96,27 @@ test('when both AIs rest, the closest ready answer stands in', async () => {
 });
 
 test('a visitor who used up their share is told so in the agent\'s voice, not given a stand-in', async () => {
-  for (const [limit, expected] of [['minute', LIMIT.minute], ['day', LIMIT.day], [undefined, LIMIT.minute]]) {
-    globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true, limit }), { status: 429 });
+  for (const [limit, wait, expected] of [['minute', 40, LIMIT.minute], ['day', 3600, LIMIT.day], [undefined, undefined, LIMIT.minute]]) {
+    globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true, limit, wait }), { status: 429 });
     const result = await ask(DEEP_QUESTION, [], { server: SERVER });
-    assert.deepEqual(result, { text: expected.text, by: 'limit', link: null, next: expected.next, travel: null, id: 'limit' });
+    assert.deepEqual(result, {
+      text: expected.text, by: 'limit', link: null, next: expected.next, travel: null, id: 'limit',
+      wait: { reason: limit ?? 'minute', seconds: wait ?? 60 }, // for the header's "back in 0:40"
+    });
   }
   globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true, limit: 'day' }), { status: 429 });
   const check = await checkFit(DJANGO_POST, { server: SERVER });
   assert.match(check.fit.summary, /talked a lot today/);
   assert.ok(check.fit.matches.length); // the word check, meanwhile
+});
+
+test('when every AI rests, the page learns how long, and near the day\'s end how many are left', async () => {
+  globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true, wait: 52 }), { status: 503 });
+  assert.deepEqual((await ask('What is the weather in Kochi?', [], { server: SERVER })).wait, { reason: 'rest', seconds: 52 });
+  globalThis.fetch = async () => sse(['meta', { by: 'Gemini', tried: [], left: 3 }], ['text', { t: 'Sure.' }], ['done', {}]);
+  assert.equal((await ask(DEEP_QUESTION, [], { server: SERVER })).left, 3);
+  globalThis.fetch = async () => sse(['meta', { by: 'Gemini', tried: [] }], ['text', { t: 'Sure.' }], ['done', {}]);
+  assert.equal('left' in (await ask(DEEP_QUESTION, [], { server: SERVER })), false);
 });
 
 test('when nothing fits and the AI is out of reach, it says so and offers where to go', async () => {
