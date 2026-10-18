@@ -199,7 +199,8 @@
   .agent[hidden] { display: none; }
   .agent-launch[aria-expanded="true"] { visibility: hidden; }
   .agent__head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .agent__log { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 1rem; }
+  /* Positioned, so a message's offsetTop is measured from the top of the conversation (js/agent.js). */
+  .agent__log { position: relative; flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; display: flex; flex-direction: column; gap: 1rem; }
   .agent__msg--me { align-self: flex-end; }
   .agent__text { white-space: pre-wrap; overflow-wrap: anywhere; }
   .agent__next { display: flex; flex-wrap: wrap; gap: .4rem; }

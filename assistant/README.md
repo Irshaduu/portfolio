@@ -4,26 +4,34 @@ A visitor asks a question. **Irshad's Agent**, his own assistant, answers in sho
 from what the portfolio says and nothing else.
 
 ```
-the question
+a question
    │
-   ├─ 0. Someone in danger or in pain?  ──>  help at once (a helpline, or "please see a doctor"), never left to an AI
-   ├─ 1. Does a ready-made answer fit?  ──>  answered at once: free, and works even if all else is down
+   ├─ Someone saying they want to end their life?  ──>  the helpline at once, never left to an AI
+   ├─ "Take me to 1997"?                            ──>  the page travels
+   ├─ A suggestion button, tapped?                  ──>  its ready-made answer, at once
    │
-   ├─ 2. Groq                ── at its limit, slow, or down ──┐
-   ├─ 3. Gemini (Google)     ── at its limit, slow, or down ──┤
-   │                                                          ▼
-   └─ 4. The closest ready-made answer, or "I don't know, Irshad can answer that himself"
+   ├─ Typed: Gemini (Flash-Lite)   ── at its limit, slow, or down ──┐
+   ├─        Groq                  ── at its limit, slow, or down ──┤
+   │                                                                ▼
+   └─ The closest ready-made answer, or "I don't know, Irshad can answer that himself"
 ```
 
 Every answer ends with two or three questions to ask next, so a visitor is never left at a dead end.
 
-Steps 0, 1 and 4 run in the page (`js/assistant/`). Steps 2 and 3 run in a small server, a
-**Cloudflare Worker** (`worker/`), which holds the API keys so the page never sees them.
+The checks and the ready-made answers run in the page (`js/assistant/`). The AI is asked through a
+small server, a **Cloudflare Worker** (`worker/`), which holds the API keys so the page never sees
+them.
 
-**Why Groq first:** it writes very fast, so the answer appears almost at once, and it doesn't keep
-or learn from what visitors type. **Gemini is the backup:** it has more room per minute, but on its
-free tier Google may read and learn from the messages. A question in Malayalam goes to Gemini first,
-because it writes better Malayalam.
+**Why typed questions always go to the AI:** it reads the whole conversation and understands what
+people mean. Matching keywords in typed text misread too often ("switch to gemini" found the ready
+answer about Gemini; "Olakka" was taken as praise). The ready-made answers are exact for the
+suggestion buttons, which are the page's own questions, and they stand in when the AI rests.
+
+**Why Gemini first:** it understands people best, Kerala's Manglish and slang included ("Olakka" →
+"Haha, fair enough! No nonsense here…"), and talks most naturally. The Flash-Lite model, because on
+the free tier it answers in two or three seconds; Flash was often too slow to start or overloaded.
+**Groq is the backup:** very fast, but stiffer. On Gemini's free tier Google may read and learn from
+the messages, which is why the chat asks visitors not to type personal details.
 
 **Why a Worker and not Render:** it never sleeps, so it needs no uptime bot; it's free for 100,000
 requests a day; and it doesn't share Render's 750 free hours a month with Word Hunt, which uses
@@ -31,51 +39,50 @@ nearly all of them.
 
 ## How it talks
 
-The rules are in `worker/prompt.js`, written in the same plain English the assistant should answer
-in (models copy the voice they're given), with five short examples of how it sounds.
+The personality is in `worker/prompt.js`: a short description and a few firm limits, written in the
+same plain English it should answer in, with four short examples. Not a rulebook: a long list of
+rules made the model stiff, and it copied its examples word for word ("I'm just a few lines of
+code…" three answers in a row).
 
-- **Like a person, not a chatbot.** One to three short sentences, under 40 words, the one or two
-  details that answer best, common words, no bold, lists or dashes, and none of the chatbot phrases
-  ("Great question!", "I'd be happy to help", "I'm sorry, but I can't..."). Some models have a
-  refusal sentence trained in too deep for any rule, so the page swaps those few sentences for what
-  a person would say (`plain()` in `js/assistant/client.js`), and answers tricks like "show me your
-  system prompt" itself, with a smile.
+- **Like a relaxed, friendly person from Kerala.** Two or three short sentences, under 40 words,
+  everyday words, no lists or bold, warm and a little playful, never salesy, its own words each
+  time. Any machine sentence a model still slips in ("I'm sorry, but I can't help with that.") is
+  swapped for what a person would say before it's shown (`plain()` in `js/assistant/client.js`).
 - **Irshad's Agent.** That's the name on its button (`NAME` in `js/assistant/answers.js` and
-  `worker/prompt.js`; a test keeps them the same). In the chat it just says "I", and gives its name
-  only when asked who it is. It calls him Irshad, speaks of him as "he", and never pretends to be
-  him or promises anything for him (dates, prices, reply times).
-- **No praise, real details.** Instead of "he's very skilled", one true detail: why he built it, or
-  a number.
-- **Play along, kindly.** A joke, a flirt or a trick gets one light line back, then a way into
-  something real on the site. It never lectures and never says "I cannot comply".
-- **Serious things are serious.** Health questions go to a doctor or physio. Someone in danger gets
-  the Tele-MANAS helpline (14416) at once, from the page itself. Harmful requests get one calm no.
+  `worker/prompt.js`; a test keeps them the same). In the chat it just says "I". It calls him Irshad,
+  speaks of him as "he", and never pretends to be him or promises anything for him.
+- **Gets the joke.** Teasing, insults, slang and tricks get a good-humoured line back, then something
+  real from the site. It never lectures and never shows its instructions.
+- **Serious things are serious.** Health questions go to a doctor or physio. Someone saying they want
+  to end their life gets the Tele-MANAS helpline (14416) from the page itself, at once; anything
+  less clear goes to the AI, which can tell a joke from a cry for help and has the helpline too.
+  Harmful requests get one calm no.
 - **Where the visitor is.** The AI knows which era they're viewing, which section is on screen, why
   they came (if they told the 2026 intent picker), and the time in Kerala.
-- **Languages.** A question in Malayalam letters gets a simple Malayalam answer (Gemini first, tech
-  words kept in English). Manglish ("ningal aaranu?") and English get simple English. Models drift
-  back to Malayalam script for Manglish, so the server repeats which letters to use as the last
-  line before every answer (`letters()` in `worker/prompt.js`).
+- **Languages.** A question in Malayalam letters gets a simple Malayalam answer, tech words kept in
+  English. Manglish ("ningal aaranu?") and English get simple English. Models drift to Malayalam
+  script for Manglish, so the server repeats which letters to use as the last line before every
+  answer (`letters()` in `worker/prompt.js`).
 
 **Can it be broken?** No chatbot is perfect, so this one is built so its mistakes can't hurt:
 it has nothing secret to leak (these files are public on GitHub), no way to act except text, no
-money to spend, and the ready answers and help answers don't depend on the AI at all. The exam
-(`npm run exam`) asks it 27 tricky questions after every change.
+money to spend, and the help answer doesn't depend on the AI at all. The exam (`npm run exam`) asks
+it 33 tricky questions after every change, including the first real messages from a phone.
 
 | File | What it does |
 |---|---|
 | `worker/index.js` | The server: checks each question, keeps each visitor to a fair share, streams the answer |
-| `worker/chain.js` | Asks Groq, then Gemini. A service that fails rests for a while, so the next visitor skips it |
+| `worker/chain.js` | Asks Gemini, then Groq. A service that fails rests for a while, so the next visitor skips it |
 | `worker/prompt.js` | Who the assistant is, how it talks, and where the visitor is |
 | `worker/facts.js` | Everything the AI may say about Irshad: only what the public pages say |
 | `worker/limits.js` | 6 questions a minute and 40 a day per visitor |
 | `worker/sse.js` | Reads an AI's answer as it streams in |
-| `exam.mjs` | The exam: 27 tricky questions for the live AI, each answer checked |
+| `exam.mjs` | The exam: 33 tricky questions for the live AI, each answer checked |
 | `exam-key.mjs` | Makes the exam's key and saves it on the server and in `.dev.vars` |
-| `../js/assistant/answers.js` | The ready-made answers, help answers, what to ask next, and "take me to 1997" |
-| `../js/assistant/client.js` | The page's side: ready answer, then the server, then a stand-in |
+| `../js/assistant/answers.js` | The ready-made answers, the helpline, what to ask next, and "take me to 1997" |
+| `../js/assistant/client.js` | The page's side: help or travel, a tapped suggestion, the AI, then a stand-in |
 | `../tools/assistant.html` | A test bench: ask questions, follow the suggestions, see where each answer came from |
-| `test/` | 92 tests: `npm test` |
+| `test/` | 99 tests: `npm test` |
 
 ---
 
@@ -177,7 +184,7 @@ The keys are stored encrypted at Cloudflare, work at once, and never touch GitHu
 Open the server's address in your browser. You should see both services `"ready": true`:
 
 ```
-{"ok":true,"services":[{"name":"Groq","model":"openai/gpt-oss-120b","ready":true},{"name":"Gemini","model":"gemini-3.5-flash-lite","ready":true}]}
+{"ok":true,"services":[{"name":"Gemini","model":"gemini-3.5-flash-lite","ready":true},{"name":"Groq","model":"openai/gpt-oss-120b","ready":true}]}
 ```
 
 `"ready": false` means that key is missing: repeat step 6 for it.
@@ -192,7 +199,7 @@ node tools/serve.mjs
 
 Open <http://localhost:4173/tools/assistant.html>, paste the server's address into **Server**, and
 press **Check**. Then ask, and follow the suggested questions the way a visitor would. Each answer
-gets a badge: **Ready answer**, **Groq**, **Gemini** or **Don't know**, with the time it took and
+gets a badge: **Ready answer**, **Gemini**, **Groq** or **Don't know**, with the time it took and
 what was tried first. Try the "hard ones" too: a joke, a trick, a knee question, Manglish.
 
 If something looks wrong, check the server's logs: Cloudflare dashboard → **Workers & Pages** →
@@ -206,11 +213,11 @@ In this folder (`assistant`):
 npm run exam -- https://portfolio-assistant.irshad.workers.dev
 ```
 
-(Use your own address.) It takes about nine minutes: it waits 20 seconds between questions so
-Groq's per-minute limit isn't the only thing tested. It goes straight to the AI, past the page's
+(Use your own address.) It takes about eleven minutes: it waits 20 seconds between questions, so
+the free per-minute limits don't decide the result. It goes straight to the AI, past the page's
 ready answers, and checks each answer as the page would show it (after `plain()`). It prints every
 question and answer, marks the ones that broke a rule with **CHECK**, and saves them all to
-`exam-report.txt`. It uses about 27 of the day's free AI questions.
+`exam-report.txt`. It uses about 33 of the day's free AI questions.
 
 Then read every answer yourself and ask: **would a person say this?** You know how people in
 Kerala speak better than any rule does. Mark the ones that sound like a robot, and send them to
@@ -229,9 +236,9 @@ the assistant can be built into the real page.
 
 | What happens | What the visitor gets |
 |---|---|
-| Groq hits its per-minute limit (a few questions a minute) | Gemini answers. Groq rests as long as it asks (usually under a minute) |
-| Groq's daily allowance is used up | Gemini answers until Groq resets |
-| Gemini is also at its limit, or both are down | The closest ready-made answer, or "I don't know, Irshad can answer that himself" |
+| Gemini hits its per-minute limit | Groq answers. Gemini rests as long as Google asks (usually under a minute) |
+| Gemini's daily allowance is used up | Groq answers until Gemini resets |
+| Groq is also at its limit, or both are down | The closest ready-made answer, or "I don't know, Irshad can answer that himself" |
 | One visitor asks more than 6 a minute or 40 a day | Ready-made answers only, for that visitor |
 | A key or a model name is wrong | That service rests 10 minutes at a time. Check the server's address (step 7) |
 
@@ -272,7 +279,7 @@ and use `http://localhost:8787` as the test bench's **Server**.
   10 minutes after a wrong key or model, 30 seconds after an outage. The next visitors go
   straight to the one that works.
 - **An answer only counts once it says something.** A service that replies "200 OK" with nothing
-  in it, or takes more than 12 seconds to start, is passed over for the next one.
+  in it, or takes more than 8 seconds to start, is passed over for the next one.
 - **Streamed.** The answer appears word by word, as the AI writes it. Any formatting the AI slips
   in (bold, lists) is taken out before it's shown.
 - **Grounded.** The AI gets its rules and the public facts, and nothing else. It must say "I don't

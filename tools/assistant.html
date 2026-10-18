@@ -56,7 +56,7 @@
 <main>
   <header>
     <h1>Assistant test bench</h1>
-    <p class="dim">Ready answers first, then Groq, then Gemini, then a stand-in. Each answer says where it came from, and offers what to ask next.</p>
+    <p class="dim">Typed questions go to the AI (Gemini, then Gemini Lite, then Groq); suggestion buttons get their ready answer at once; a stand-in when the AI rests. Each answer says where it came from, and offers what to ask next.</p>
   </header>
 
   <div class="row">
@@ -90,7 +90,7 @@
     <input id="question" placeholder="Ask about Irshad's work" maxlength="600" autocomplete="off" required>
     <button type="submit">Ask</button>
   </form>
-  <p class="dim">Answers may be made by AI (Groq or Google Gemini). Please don't type personal details.</p>
+  <p class="dim">Answers may be made by AI (Google Gemini or Groq). Please don't type personal details.</p>
 </main>
 
 <script type="module">
@@ -151,17 +151,18 @@
     el.append(text.slice(last));
   }
 
-  // Buttons for the next questions. "Tell me more" sends the last question to the AI.
+  // Buttons for the next questions: a tap gets the ready answer at once, as on the page. "Tell me
+  // more" sends the last question to the AI. The "hard ones" below are sent as if typed.
   function chips(questions, more) {
     const row = Object.assign(document.createElement('div'), { className: 'chips' });
     for (const q of questions) {
       const b = Object.assign(document.createElement('button'), { type: 'button', textContent: q });
-      b.addEventListener('click', () => send(q));
+      b.addEventListener('click', () => send(q, { tapped: true }));
       row.append(b);
     }
     if (more) {
       const b = Object.assign(document.createElement('button'), { type: 'button', className: 'more', textContent: 'Tell me more' });
-      b.addEventListener('click', () => send(more, { deep: true }));
+      b.addEventListener('click', () => send(more, { deep: true, tapped: true }));
       row.append(b);
     }
     return row;
@@ -171,7 +172,7 @@
   const hello = add('msg--bot');
   hello.append(Object.assign(document.createElement('div'), { className: 'text', textContent: "Hi! I know Irshad's work inside out. Ask me anything, or pick one below." }), chips(START));
 
-  async function send(question, { deep = false } = {}) {
+  async function send(question, { deep = false, tapped = false } = {}) {
     $('question').value = '';
     add('msg--me', deep ? `Tell me more: ${question}` : question);
     const bot = add('msg--bot');
@@ -191,6 +192,7 @@
       server: $('server').value.trim(),
       context: { era: $('era').value },
       deep,
+      tapped,
       on(e) {
         if (e.type === 'step') steps.push(e.text);
         if (e.type === 'source') { source = e.by; tried = e.tried; }

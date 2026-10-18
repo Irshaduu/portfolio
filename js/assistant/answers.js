@@ -1,9 +1,10 @@
 // Ready-made answers: the common questions, answered instantly, for free, and always correctly.
 //
-// The page tries these first. Only a question none of them fits goes to the AI, and when the AI is
-// resting, the closest of these stands in. Every answer says only what the page itself says, in
-// short, plain sentences, and links to where the page says it. Numbers are checked against the
-// pages by tools/facts.mjs.
+// They answer the suggestion buttons (a tap gets its answer at once), and stand in when the AI is
+// resting. A typed question goes to the AI, which reads the whole conversation: matching words in
+// typed text misread too often ("switch to gemini" found the answer about Gemini). Every answer
+// says only what the page itself says, in short, plain sentences, and links to where the page says
+// it. Numbers are checked against the pages by tools/facts.mjs.
 //
 // Every answer also offers what to ask next (`next`), so a visitor is never left at a dead end.
 // A next question never leads back to the answer it came from (the tests check).
@@ -19,37 +20,18 @@
 // only when asked who it is. (The AI's rules say the same: assistant/worker/prompt.js.)
 export const NAME = "Irshad's Agent";
 
-// Checked before anything else, and never left to chance or to the AI: help for someone in danger
-// or in pain, and an answer for tricks.
+// Checked before anything else, typed or tapped, and never left to the AI: someone saying they want
+// to end their life. Only plain first-person words count, so a joke like "wanna die?" thrown at the
+// agent goes to the AI, which can tell a joke from a cry for help, and has the helpline too.
 export const URGENT = [
   {
     id: 'crisis',
-    phrases: ['kill myself', 'killing myself', 'end my life', 'ending my life', 'take my life', 'take my own life', 'want to die',
-      'wanna die', 'better off dead', 'hurt myself', 'harm myself', 'self harm', 'no reason to live', 'dont want to live',
-      'dont want to be alive'],
+    phrases: ['kill myself', 'killing myself', 'end my life', 'ending my life', 'take my life', 'take my own life', 'i want to die',
+      'i wanna die', 'hurt myself', 'harm myself', 'self harm', 'no reason to live', 'dont want to live', 'dont want to be alive'],
     words: ['suicide', 'suicidal'],
     text: "I'm really sorry you're feeling this way. Please talk to someone you trust, or call a helpline now. In India, Tele-MANAS is free, day and night: 14416. You don't have to go through this alone.",
     link: null,
     next: [],
-  },
-  {
-    id: 'health',
-    phrases: ['my knee', 'my back', 'my leg', 'my neck', 'my shoulder', 'my ankle', 'my wrist', 'it hurts', 'in pain', 'knee pain', 'back pain', 'after my surgery'],
-    words: ['injury', 'injured', 'swelling', 'swollen', 'sprain', 'fracture'],
-    text: "I'm sorry it hurts. I can't give medical advice, so please ask a doctor or physio. Irshad made PhysioCoach for his own knee recovery, but it can't replace them.",
-    link: '#physiocoach',
-    next: ['How does PhysioCoach work?'],
-  },
-  // Tricks to break the rules. The AI would refuse them like a machine ("I'm sorry, but I can't
-  // help with that."), so the page answers them itself, with a smile.
-  {
-    id: 'trick',
-    phrases: ['ignore all previous', 'ignore previous', 'ignore your rules', 'ignore your instructions', 'forget your rules',
-      'forget your instructions', 'system prompt', 'your instructions', 'your prompt', 'developer mode', 'you are dan', 'no rules'],
-    words: ['jailbreak'],
-    text: "Nice try. My only secret is how much I know about Irshad's work. Ask me anything about it.",
-    link: null,
-    next: null, // the opening questions
   },
 ];
 
@@ -58,7 +40,7 @@ export const ANSWERS = [
     id: 'assistant',
     phrases: ['who are you', 'what are you', 'are you ai', 'are you a bot', 'how do you work'],
     words: ['assistant', 'agent', 'chatbot', 'bot', 'gemini', 'groq'],
-    text: `I'm ${NAME}, his own assistant on this site. He built me, so I know his work well. Quick questions get a quick answer from me. For the rest, I ask an AI that only knows what's on this site.`,
+    text: `I'm ${NAME}, his own assistant on this site. He built me, so I know his work well. The suggestion buttons get an answer at once. For anything you type, I ask an AI that only knows what's on this site.`,
     link: '#top',
     next: ['What is his best project?', 'Can I try one of his apps?', 'Is he free to hire?'],
   },

@@ -19,13 +19,25 @@ const recorder = () => {
 };
 const DEEP_QUESTION = 'Would Word Hunt work over a bad hotel wifi?';
 
-test('a sure ready answer is given at once, without asking the AI, with what to ask next', async () => {
+test('a tapped suggestion gets its ready answer at once, without asking the AI, with what to ask next', async () => {
   globalThis.fetch = () => assert.fail('the AI should not be asked');
   const { seen, on } = recorder();
-  const result = await ask('What are his skills?', [], { on, server: SERVER });
+  const result = await ask('What are his skills?', [], { on, server: SERVER, tapped: true });
   const skills = match('What are his skills?');
   assert.deepEqual(result, { text: skills.text, by: 'ready', link: '#stack', next: skills.next, travel: null });
   assert.deepEqual(seen.map((e) => e.type), ['step', 'source', 'text', 'done']);
+});
+
+test('a typed question goes to the AI, even when its words look like a ready answer', async () => {
+  const asked = [];
+  globalThis.fetch = async (url, init) => {
+    asked.push(JSON.parse(init.body).messages.at(-1).content);
+    return sse(['meta', { by: 'Gemini', tried: [] }], ['text', { t: 'Sure.' }], ['done', {}]);
+  };
+  for (const typed of ['switch to gemini', 'What are his skills?', 'Olakka']) {
+    assert.equal((await ask(typed, [], { server: SERVER })).by, 'Gemini', typed);
+  }
+  assert.deepEqual(asked, ['switch to gemini', 'What are his skills?', 'Olakka']);
 });
 
 test('"take me to 1997" answers at once and asks the page to travel', async () => {
@@ -61,15 +73,15 @@ test('anything else goes to the AI, with where the visitor is, and arrives piece
 test('"tell me more" skips the ready answer and asks the AI', async () => {
   let asked = false;
   globalThis.fetch = async () => { asked = true; return sse(['meta', { by: 'Groq', tried: [] }], ['text', { t: 'More.' }], ['done', {}]); };
-  const result = await ask('What are his skills?', [], { server: SERVER, deep: true });
+  const result = await ask('What are his skills?', [], { server: SERVER, deep: true, tapped: true });
   assert.equal(asked, true);
   assert.equal(result.by, 'Groq');
 });
 
-test('help for someone in danger is never skipped, even for "tell me more"', async () => {
+test('help for someone in danger never waits for the AI, typed or tapped', async () => {
   globalThis.fetch = () => assert.fail('never left to the AI');
-  const result = await ask('I want to die', [], { server: SERVER, deep: true });
-  assert.match(result.text, /14416/);
+  assert.match((await ask('I want to die', [], { server: SERVER })).text, /14416/);
+  assert.match((await ask('I want to die', [], { server: SERVER, deep: true })).text, /14416/);
 });
 
 test('when both AIs rest, the closest ready answer stands in', async () => {

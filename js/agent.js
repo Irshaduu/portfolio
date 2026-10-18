@@ -1,8 +1,9 @@
 // Irshad's Agent on the page: the chat panel, and what its answers do to the page.
 //
-// The answers come from js/assistant/client.js (a ready answer, else the AI, else a stand-in). This
-// file shows them as they arrive, keeps the conversation for the visit, and acts on the page: an
-// answer about a part of the page scrolls there and lights it up, and "take me to 1997" travels.
+// The answers come from js/assistant/client.js (a tapped suggestion's ready answer, a typed
+// question's AI answer, or a stand-in when the AI rests). This file shows them as they arrive,
+// keeps the conversation for the visit, and acts on the page: an answer about a part of the page
+// scrolls there and lights it up, and "take me to 1997" travels.
 // It's loaded the first time someone opens the agent (js/eras/2026.js), never before.
 
 import { ask, plain } from './assistant/client.js';
@@ -64,10 +65,15 @@ export function mount(ctx) {
   let messages = read(); // { role: 'user' | 'assistant', text, by?, link?, next?, trace? }
   let busy = false;
   const wide = matchMedia('(min-width: 900px)');
+  // A touch screen: its keyboard is on the screen, and covers half of it while it's up.
+  const touch = matchMedia('(pointer: coarse)');
 
   // ---- showing ---------------------------------------------------------------------------
 
-  const scrollLog = () => { log.scrollTop = log.scrollHeight; };
+  // Scroll the conversation so a message sits at the top of the view: the visitor's question, with
+  // the answer reading on from its first word below it. (Scrolling to the very bottom would show
+  // the next-question buttons and hide the answer above them.)
+  const showFrom = (node) => { log.scrollTop = Math.max(0, node.offsetTop - 10); };
 
   function userBubble(text) {
     const li = el('li', 'agent__msg agent__msg--me', text);
@@ -132,7 +138,9 @@ export function mount(ctx) {
       finish(botMessage(), { ...m, next: last ? m.next : null, more: last ? m.more : null });
     });
     if (messages.length) log.querySelector('.agent__next')?.remove(); // the greeting's starters, once talking
-    scrollLog();
+    const lastQuestion = [...log.querySelectorAll('.agent__msg--me')].at(-1);
+    if (lastQuestion) showFrom(lastQuestion);
+    else log.scrollTop = 0;
   }
 
   // ---- asking ----------------------------------------------------------------------------
@@ -155,17 +163,20 @@ export function mount(ctx) {
     return [`${by} · ${(ms / 1000).toFixed(1)} s`, ...busyOnes.map((name) => `${name} was busy`)].join(' · ');
   }
 
-  async function send(question, { deep = false } = {}) {
+  // `tapped`: a suggestion button, whose ready answer comes at once. Typed questions go to the AI.
+  async function send(question, { deep = false, tapped = false } = {}) {
     question = question.trim().slice(0, 600);
     if (!question || busy) return;
     busy = true;
     form.classList.add('is-busy');
     input.value = '';
     sendButton.disabled = true;
+    // On a touch screen, put the keyboard away so the whole answer has room.
+    if (touch.matches) input.blur();
     clearOldNext();
-    userBubble(deep ? `Tell me more: ${question}` : question);
+    const asked = userBubble(deep ? `Tell me more: ${question}` : question);
     const li = botMessage();
-    scrollLog();
+    showFrom(asked);
     blip(520, 0.05);
 
     const started = performance.now();
@@ -176,13 +187,13 @@ export function mount(ctx) {
     try {
       const result = await ask(question, history, {
         deep,
+        tapped,
         context: { era: ctx.root.dataset.era, section: onScreen(), intent: ctx.root.dataset.intent },
         on(e) {
           if (e.type === 'source') { by = e.by; tried = e.tried ?? []; }
           if (e.type === 'text') {
             raw += e.t;
             li.querySelector('.agent__text').textContent = words(raw);
-            scrollLog();
           }
         },
       });
@@ -200,8 +211,9 @@ export function mount(ctx) {
       busy = false;
       form.classList.remove('is-busy');
       sendButton.disabled = false;
-      scrollLog();
-      if (!panel.hidden && wide.matches) input.focus({ preventScroll: true });
+      showFrom(asked);
+      // With a real keyboard, ready for the next question. A touch keyboard waits for a tap.
+      if (!panel.hidden && !touch.matches) input.focus({ preventScroll: true });
     }
   }
 
@@ -249,21 +261,45 @@ export function mount(ctx) {
 
   // ---- opening and closing ---------------------------------------------------------------
 
+  // A phone's keyboard covers the bottom of the screen without moving anything fixed there, so it
+  // would hide the box you type in. While it's up, the panel sits on top of it, in the part of the
+  // screen still visible (the visual viewport).
+  const title = panel.querySelector('.agent__title');
+  title.tabIndex = -1;
+  function fitKeyboard() {
+    const vv = window.visualViewport;
+    if (!vv || panel.hidden) return;
+    const covered = Math.max(0, Math.round(innerHeight - (vv.offsetTop + vv.height)));
+    const up = touch.matches && covered > 80;
+    panel.toggleAttribute('data-keyboard', up);
+    panel.style.setProperty('--kb', `${covered}px`);
+    panel.style.setProperty('--vvh', `${Math.round(vv.height)}px`);
+  }
+  window.visualViewport?.addEventListener('resize', fitKeyboard);
+  window.visualViewport?.addEventListener('scroll', fitKeyboard);
+  input.addEventListener('focus', () => setTimeout(fitKeyboard, 300)); // after the keyboard has risen
+  input.addEventListener('blur', () => setTimeout(fitKeyboard, 300));
+
   let returnTo = null;
   function open() {
-    if (!panel.hidden) return input.focus({ preventScroll: true });
+    if (!panel.hidden) return touch.matches ? undefined : input.focus({ preventScroll: true });
     returnTo = document.activeElement;
     render();
     panel.hidden = false;
     launchers().forEach((b) => b.setAttribute('aria-expanded', 'true'));
-    input.focus({ preventScroll: true });
-    scrollLog();
+    // A real keyboard can type at once. On a touch screen the keyboard would cover the starter
+    // questions, so it waits until the visitor taps the box; focus goes to the panel's title.
+    (touch.matches ? title : input).focus({ preventScroll: true });
+    const lastQuestion = [...log.querySelectorAll('.agent__msg--me')].at(-1);
+    if (lastQuestion) showFrom(lastQuestion);
+    fitKeyboard();
   }
 
   function close() {
     if (panel.hidden) return;
     const hadFocus = panel.contains(document.activeElement);
     panel.hidden = true;
+    panel.removeAttribute('data-keyboard');
     launchers().forEach((b) => b.setAttribute('aria-expanded', 'false'));
     if (hadFocus) (returnTo?.isConnected && returnTo.offsetParent ? returnTo : launchers()[0])?.focus({ preventScroll: true });
   }
@@ -275,7 +311,7 @@ export function mount(ctx) {
   panel.addEventListener('click', (event) => {
     if (event.target.closest('[data-agent-close]')) return close();
     const chip = event.target.closest('[data-ask]');
-    if (chip) return send(chip.dataset.ask, { deep: 'deep' in chip.dataset });
+    if (chip) return send(chip.dataset.ask, { deep: 'deep' in chip.dataset, tapped: true });
     const see = event.target.closest('[data-agent-point]');
     if (see && !wide.matches) close(); // a phone: get the panel out of the way, then follow the link
   });

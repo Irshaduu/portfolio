@@ -1,5 +1,7 @@
-// Asks the assistant a question: a ready-made answer if one fits, otherwise the AI (through the
-// Worker in assistant/), and when the AI is resting, the closest ready answer or "I don't know".
+// Asks the assistant a question. A tapped suggestion gets its ready-made answer at once; a typed
+// question goes to the AI (through the Worker in assistant/), which reads the whole conversation;
+// and when the AI is resting, the closest ready answer or "I don't know" stands in. Two things never
+// wait for the AI: someone in danger gets the helpline, and "take me to 1997" travels.
 // Every era's assistant will use this; only how they look will differ.
 //
 // It reports as it goes, so a page can show the answer arriving and the steps behind it:
@@ -10,8 +12,8 @@
 //                                          and the era to travel to, if the visitor asked to
 // and resolves to { text, by, link, next, travel }, to keep in the conversation's history.
 //
-// Options: context { era, section, intent } tells the AI where the visitor is; deep: true skips the
-// ready answers, for "tell me more".
+// Options: context { era, section, intent } tells the AI where the visitor is; tapped: true for a
+// suggestion button's question; deep: true for "tell me more", which always asks the AI.
 
 import { DONT_KNOW, DONT_KNOW_NEXT, START, match, nextFor, travel } from './answers.js';
 
@@ -19,12 +21,13 @@ import { DONT_KNOW, DONT_KNOW_NEXT, START, match, nextFor, travel } from './answ
 // ready-made answer or "I don't know".
 export const SERVER = 'https://portfolio-assistant.irshaduu.workers.dev';
 
-export async function ask(question, history = [], { on = () => {}, server = SERVER, signal, context, deep = false } = {}) {
+export async function ask(question, history = [], { on = () => {}, server = SERVER, signal, context, tapped = false, deep = false } = {}) {
   on({ type: 'step', text: 'Looking for a ready answer' });
   const trip = travel(question);
   if (trip) return reply(on, trip, 'ready');
   const ready = match(question);
-  if (ready?.sure && (!deep || isUrgent(ready))) return reply(on, ready, 'ready');
+  if (ready?.id === 'crisis') return reply(on, ready, 'ready');
+  if (tapped && !deep && ready?.sure) return reply(on, ready, 'ready');
 
   // No sure fit: the AI. If it can't answer, the closest ready answer stands in.
   const standIn = (why) => {
@@ -87,8 +90,6 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
   return { text, by, link, next, travel: null };
 }
 
-// Help and safety answers are never skipped, even for "tell me more".
-const isUrgent = (answer) => answer.id === 'crisis' || answer.id === 'health';
 
 const REASONS = {
   403: 'This page may not ask the AI',

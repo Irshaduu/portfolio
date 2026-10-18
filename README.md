@@ -395,10 +395,11 @@ The project cards' documents are pages in the same design, under `work/`, each p
 
 ## The assistant
 
-Irshad's Agent, his own assistant, in short, plain English. A visitor's question gets a ready-made answer if
-one fits (`js/assistant/answers.js`), otherwise an AI answers it from the portfolio's public facts:
-Groq first, Google Gemini when Groq is at its limit, and the closest ready-made answer when both
-rest. Someone in danger or in pain gets help from the page itself, never from an AI. Every answer
+Irshad's Agent, his own assistant, in short, plain English. A typed question goes to an AI, which
+reads the whole conversation and answers from the portfolio's public facts: Google Gemini first
+(Flash-Lite), Groq when Gemini is at its limit, and the closest ready-made answer
+(`js/assistant/answers.js`) when both rest. A tapped suggestion gets its ready-made answer at once.
+Someone saying they want to end their life gets the helpline from the page itself, never from an AI. Every answer
 offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant/`) that holds the
 keys, so the page never sees them. `assistant/README.md` has how it talks, the setup step by step,
 and how it's built; `tools/assistant.html` is its test bench.

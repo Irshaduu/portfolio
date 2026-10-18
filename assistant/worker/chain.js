@@ -6,33 +6,35 @@
 
 import { textDeltas } from './sse.js';
 
-// The services, in the order they are asked. Both speak the OpenAI chat format.
-// A service with no key is skipped, so the chain works with one key while you set up the other.
+// The services, in the order they are asked. All speak the OpenAI chat format.
+// A service with no key or model is skipped, so the chain works with whatever is set up.
 //
-// Groq first: it writes very fast, so the answer appears almost at once, and it doesn't keep or
-// learn from what visitors type. Gemini is the backup: more room per minute, but on its free tier
-// Google may read and learn from the messages. A question in Malayalam goes to Gemini first,
-// because it writes better Malayalam.
-export function routes(env, { question = '' } = {}) {
-  const groq = {
-    name: 'Groq',
-    url: 'https://api.groq.com/openai/v1/chat/completions',
-    key: env.GROQ_API_KEY,
-    model: env.GROQ_MODEL,
-    // gpt-oss thinks before it answers. Keep the thinking short (it counts against the free
-    // per-minute token limit) and out of the reply.
-    extra: { reasoning_effort: 'low', include_reasoning: false },
-  };
-  const gemini = {
-    name: 'Gemini',
-    url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-    key: env.GEMINI_API_KEY,
-    model: env.GEMINI_MODEL,
-  };
-  return MALAYALAM.test(question) ? [gemini, groq] : [groq, gemini];
+// Gemini first: it understands people, Kerala's Manglish and slang included, and talks most
+// naturally. The Flash-Lite model, because on the free tier it answers in two or three seconds and
+// has a big daily share, where Flash was often too slow to start or overloaded. When Gemini is busy
+// or out for the day, Groq takes over: very fast, but stiffer. On Gemini's free tier Google may read
+// and learn from the messages, which is why the chat asks visitors not to type personal details.
+export function routes(env) {
+  return [
+    // Gemini 3 always thinks a little before it answers; "low" keeps that quick.
+    {
+      name: 'Gemini',
+      url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
+      key: env.GEMINI_API_KEY,
+      model: env.GEMINI_MODEL,
+      extra: { reasoning_effort: 'low' },
+    },
+    {
+      name: 'Groq',
+      url: 'https://api.groq.com/openai/v1/chat/completions',
+      key: env.GROQ_API_KEY,
+      model: env.GROQ_MODEL,
+      // gpt-oss thinks before it answers. Keep the thinking short (it counts against the free
+      // per-minute token limit) and out of the reply.
+      extra: { reasoning_effort: 'low', include_reasoning: false },
+    },
+  ];
 }
-
-const MALAYALAM = /[ഀ-ൿ]/;
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -52,7 +54,7 @@ export function coolDown(status, retryAfter) {
 // Asks each service in turn until one starts answering. Returns the service and its answer as a
 // stream of text pieces, the first piece already in hand, or { route: null } if none would answer.
 // `tried` says what happened at each service, for the logs and the visitor's trace.
-export async function firstAnswer(list, request, { fetch, cooling, now = Date.now, waitMs = 12 * SECOND }) {
+export async function firstAnswer(list, request, { fetch, cooling, now = Date.now, waitMs = 8 * SECOND }) {
   const tried = [];
   for (const route of list) {
     if (!route.key || !route.model) {

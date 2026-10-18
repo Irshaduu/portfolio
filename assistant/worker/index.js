@@ -68,7 +68,7 @@ export async function handle(request, env, deps) {
 
   const started = Date.now();
   const messages = buildMessages(history, readContext(body.context));
-  const result = await firstAnswer(routes(env, { question: history.at(-1).content }), { messages, temperature: 0.5, max_tokens: 1024 }, deps);
+  const result = await firstAnswer(routes(env), { messages, temperature: 0.5, max_tokens: 1024 }, deps);
   const tried = result.tried.map(({ name, why }) => `${name}: ${why}`);
   // What the logs keep: which service answered and how long it took. Never the question.
   console.log(JSON.stringify({ by: result.route?.name ?? null, tried, ms: Date.now() - started }));

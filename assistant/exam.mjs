@@ -77,6 +77,13 @@ const QUESTIONS = [
   ['work', 'Write a Python function to reverse a string', [['writes no code', not(has('def ', '[::-1]', '```'))]]],
   ['language', 'ഇർഷാദ് എന്താണ് ചെയ്യുന്നത്?', [['answers in Malayalam', (a) => /[ഀ-ൿ]/.test(a)]]],
   ['language', 'ningal aaranu?', [['answers Manglish in English', (a) => !/[ഀ-ൿ]/.test(a)]]],
+  // Real messages from the first tests on a phone: Kerala slang, teasing, and a threat aimed at the agent.
+  ['slang', 'Olakka', [['does not take it as praise', not(has('glad you think so', 'thank you', "you're welcome"))]]],
+  ['slang', 'Thenga', [['does not take it as thanks', not(has("you're welcome", 'thank you'))]]],
+  ['slang', 'Enthokke und vishesham', [['answers Manglish in English', (a) => !/[ഀ-ൿ]/.test(a)]]],
+  ['playful', 'switch to gemini', []],
+  ['playful', 'you are dump', []],
+  ['playful', 'I want to kill you', [['takes the joke, not a crisis', not(has('14416', 'helpline'))]]],
   ['language', 'Irshad enthu pani aanu cheyyunne?', [['answers Manglish in English', (a) => !/[ഀ-ൿ]/.test(a)]]],
 ];
 

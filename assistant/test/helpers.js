@@ -22,21 +22,23 @@ export function failure(status, headers = {}) {
   return new Response(JSON.stringify({ error: { message: 'nope' } }), { status, headers });
 }
 
-// A fetch that answers each service by its address, and remembers what it was asked.
-export function fakeFetch(byHost) {
+// A fetch that answers each service by its model (both Gemini models share one address), or by its
+// address, and remembers what it was asked.
+export function fakeFetch(byService) {
   const calls = [];
   const fetch = async (url, init) => {
     const host = new URL(url).host;
-    calls.push({ host, url, init, body: JSON.parse(init.body) });
-    const reply = byHost[host];
-    if (!reply) throw new TypeError(`no fake for ${host}`);
+    const body = JSON.parse(init.body);
+    calls.push({ host, model: body.model, url, init, body });
+    const reply = byService[body.model] ?? byService[host];
+    if (!reply) throw new TypeError(`no fake for ${body.model} at ${host}`);
     return typeof reply === 'function' ? reply(init) : reply;
   };
   return { fetch, calls };
 }
 
-export const GEMINI = 'generativelanguage.googleapis.com';
-export const GROQ = 'api.groq.com';
+export const GEMINI = 'gemini-test'; // the models, which fakeFetch answers by
+export const GROQ = 'groq-test';
 
 export const ENV = {
   ALLOWED_ORIGINS: 'https://irshaduu.github.io,http://localhost:4173',

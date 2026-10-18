@@ -409,10 +409,11 @@
     & .agent__see a::after { content: " \2198"; }
     & .agent__trace { font: 400 .64rem/1.4 var(--mono); letter-spacing: .06em; color: var(--ink-3); }
     & .agent__next button {
-      padding: .45rem .8rem; border-radius: 999px; text-align: left;
-      border: 1px solid var(--line-2); background: rgb(255 255 255 / .025); color: var(--ink); font-size: .84rem; line-height: 1.3;
-      transition: border-color .2s, background .2s;
+      padding: .32rem .7rem; border-radius: 999px; text-align: left;
+      border: 1px solid var(--line-2); background: rgb(255 255 255 / .025); color: var(--ink-2); font-size: .78rem; line-height: 1.3;
+      transition: border-color .2s, background .2s, color .2s;
     }
+    & .agent__next button:hover { color: var(--ink); }
     & .agent__next button:hover { border-color: var(--c1); background: rgb(125 243 255 / .06); }
     & .agent__next .agent__more { border-style: dashed; color: var(--ink-2); }
     & .agent__typing { color: var(--c1); }
@@ -430,6 +431,12 @@
     & .agent__send:hover { box-shadow: 0 0 24px rgb(125 243 255 / .45); }
     & .agent__send:disabled { opacity: .35; cursor: default; box-shadow: none; }
     & .agent__note { font-size: .66rem; line-height: 1.4; color: var(--ink-3); text-align: center; }
+    /* A touch keyboard is up (js/agent.js measures it): the panel sits on top of it, in what's
+       left of the screen, and the small print waits until the keyboard goes. */
+    & .agent[data-keyboard] { bottom: calc(var(--kb) + 10px); height: min(620px, var(--vvh) - 20px); }
+    & .agent[data-keyboard] .agent__note { display: none; }
+    /* Below 16px, an iPhone zooms the whole page in when the box is tapped. */
+    @media (pointer: coarse) { & .agent__form input { font-size: 16px; } }
     /* A part of the page an answer points to lights up for a moment. */
     & .agent-spot { border: 2px solid var(--c1); animation: tt26-spot 2.8s ease-out forwards; }
 
@@ -471,6 +478,11 @@
         padding: .9rem 14px .6rem; border-radius: 22px 22px 0 0; border-width: 1px 0 0;
         background: rgb(7 9 17 / .97);
       }
+      & .agent[data-keyboard] { bottom: var(--kb); height: calc(var(--vvh) - 8px); }
+      /* The suggestions: one row that scrolls sideways, instead of a stack that pushes the answer away. */
+      & .agent__next { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+      & .agent__next::-webkit-scrollbar { display: none; }
+      & .agent__next button { flex: none; white-space: nowrap; }
     }
 
     /* Panels rise out of depth as they scroll in, where the browser can tie it to scroll. */
