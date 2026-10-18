@@ -34,12 +34,16 @@ const GREETING = "Hi! I know Irshad's work inside out. Ask me anything, or pick 
 // "(#word-hunt)" at the end of an AI answer: the page shows it as "See Word Hunt" instead.
 const CITE = /\s*\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/g;
 
-// Under an answer, visitors see only "Quick answer", for one the page knew without asking the AI:
-// it shows the care taken over speed and cost, and explains an answer that fits a little loosely.
-// Never under the helpline or a trip in time; AI answers carry no label. Which AI answered
-// ("Gemini · 1.9 s", "Groq") is for Irshad, not visitors: they should meet Irshad's Agent, not a
-// brand they use every day. ?trace in the address shows it, and it stays on in that browser;
-// ?trace=off turns it off. Cloudflare's logs record which AI answered every question too.
+// Under an answer, visitors see "Quick answer" for one the page knew without asking the AI: it
+// shows the care taken over speed and cost, and explains an answer that fits a little loosely.
+// Under an AI answer, faint signal bars say how strong the AI that answered was (POWER): when the
+// strongest is busy and a backup answers, a weaker answer is explained the way a weak phone signal
+// explains a bad call, without the word "low" on anyone's screenshot. A tap says it in words.
+// Nothing under the helpline or a trip in time. Which AI answered ("Gemini · 1.9 s", "Groq") is for
+// Irshad, not visitors: they should meet Irshad's Agent, not a brand they use every day. ?trace in
+// the address shows it, and it stays on in that browser; ?trace=off turns it off. Cloudflare's
+// logs record which AI answered every question too.
+const POWER = { Gemini: [3, 'Full power'], 'Gemini Lite': [2, 'Busy hour: a lighter model'], Groq: [1, 'Backup model'] };
 const showTrace = (() => {
   const asked = new URLSearchParams(location.search).get('trace');
   try {
@@ -177,7 +181,18 @@ export function mount(ctx) {
   }
 
   // `seen`: the answer just before pointed to the same part, so its "See …" isn't repeated.
-  function finish(li, { text, fit, post, link, seen, next, trace, label, more }) {
+  // The signal bars, as a button: a tap (or a hover) says what they mean.
+  function signal([level, note]) {
+    const b = el('button', 'agent__signal');
+    b.type = 'button';
+    b.title = note;
+    b.setAttribute('aria-label', `Answer strength: ${note}`);
+    for (let i = 1; i <= 3; i++) b.append(el('i', i <= level ? 'is-on' : null));
+    b.append(el('span', 'agent__signal-note', note));
+    return b;
+  }
+
+  function finish(li, { text, fit, post, link, seen, next, by, trace, label, more }) {
     if (fit) {
       drawFit(li, fit);
       if (!fit.summary) li.querySelector('.agent__text').textContent = 'Here is how the post compares with his work.';
@@ -195,6 +210,9 @@ export function mount(ctx) {
       const p = el('p', 'agent__trace', line);
       if (!showTrace && line.startsWith('Quick answer')) p.title = 'Answered instantly, without asking the AI.';
       li.append(p);
+    } else if (!showTrace && POWER[by]) {
+      // Right after the last word, like the ticks on a chat message: no line of its own.
+      li.querySelector('.agent__text').append(signal(POWER[by]));
     }
     if (next?.length || more) {
       const row = el('div', 'agent__next');
@@ -450,6 +468,8 @@ export function mount(ctx) {
   });
   panel.addEventListener('click', (event) => {
     if (event.target.closest('[data-agent-close]')) return close();
+    const bars = event.target.closest('.agent__signal');
+    if (bars) return bars.toggleAttribute('data-open');
     const chip = event.target.closest('[data-ask]');
     if (chip) return send(chip.dataset.ask, { deep: 'deep' in chip.dataset, tapped: true });
     const see = event.target.closest('[data-agent-point]');

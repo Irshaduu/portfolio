@@ -204,6 +204,15 @@
   .agent__msg--me { align-self: flex-end; }
   .agent__text { white-space: pre-wrap; overflow-wrap: anywhere; }
   .agent__next { display: flex; flex-wrap: wrap; gap: .4rem; }
+  /* After an AI answer's last word: three signal bars for how strong the AI that answered was; a tap opens the note. */
+  .agent__signal { display: inline-flex; align-items: flex-end; gap: 2px; vertical-align: baseline; border: 0; background: none; color: inherit; font: inherit; cursor: help; }
+  .agent__signal i { display: block; width: 3px; border-radius: 1px; background: currentColor; }
+  .agent__signal i:nth-child(1) { height: 4px; }
+  .agent__signal i:nth-child(2) { height: 7px; }
+  .agent__signal i:nth-child(3) { height: 10px; }
+  .agent__signal i:not(.is-on) { opacity: .25; }
+  .agent__signal-note { display: none; margin-left: .55em; line-height: 10px; }
+  .agent__signal[data-open] .agent__signal-note { display: inline; }
   .agent__form { display: flex; align-items: center; gap: .5rem; }
   /* The box grows with what's in it (js/agent.js sets its height), so it never needs a handle. */
   .agent__form textarea { flex: 1; min-width: 0; resize: none; font: inherit; }

@@ -38,10 +38,15 @@ fast, but stiffer, and it misreads slang. On Gemini's free tier Google may read 
 messages, which is why the chat asks visitors not to share personal or sensitive data.
 
 **Visitors never see which AI answered.** They meet Irshad's Agent, not a brand they use every day.
-The one label they see is **"Quick answer"**, under an answer the page knew without asking the AI
-(a tapped suggestion): it shows the care taken over speed and cost, and if a ready answer ever fits
-a little loosely, it explains why. When one stands in for a resting AI, it says "Quick answer · the
-AI is resting". Never under the helpline or a trip in time; AI answers carry no label.
+Under an answer the page knew without asking the AI (a tapped suggestion) they see **"Quick
+answer"**: it shows the care taken over speed and cost, and if a ready answer ever fits a little
+loosely, it explains why. When one stands in for a resting AI, it says "Quick answer · the AI is
+resting". At the end of an AI answer, right after its last word like the ticks on a chat message,
+they see faint **signal bars**, like a phone's: three for Gemini Flash,
+two for Flash-Lite, one for Groq. A tap (or hover) says "Full power", "Busy hour: a lighter model"
+or "Backup model". When a long chat slides to a backup and the answers get plainer, the visitor
+knows why, the way a weak signal explains a bad call, and no screenshot ever says "Low". Nothing
+under the helpline or a trip in time.
 To see it yourself, open the site once with `?trace` at the end of the address
 (`https://irshaduu.github.io/portfolio/?trace`) and open the agent: from then on, in that browser,
 a small line under each answer says "Gemini · 1.9 s", "Gemini Lite", "Groq" or "Quick answer", and
