@@ -414,6 +414,12 @@ a wide screen an answer about Word Hunt scrolls there and lays a ring of light o
 to 1997" travels. Visitors never see which AI answered: the only label they see is "Quick answer", under an answer
 the page knew without asking the AI. Open the page once with `?trace` and a small line under every
 answer says where it came from ("Gemini · 1.9 s", "Groq", what was busy). The conversation is kept for the visit (sessionStorage), across eras and reloads.
+
+**The job-fit check:** a recruiter taps "Does he fit my job?" or just pastes a job post, and gets a
+card instead of a chat answer: what the job asks that the site shows (each with its proof and a
+link that lights it up), what the site doesn't show (never "he can't"), one question worth asking
+him, and a button to email the job to him. Honest on purpose, so the matches are believable. When
+every AI rests, the page checks the post's words itself. `assistant/README.md` has how it works.
 For now the agent lives in 2026 only: travelling away closes it, and it's there again on the way
 back. Each era gets its own costume next.
 
@@ -443,7 +449,7 @@ js/eras/2030/         the WebGL scene (scene.js), the shapes built from project 
                       the Stack constellation (constellation.js), the sky clock (sky.js), the
                       2030 score (audio.js), and the moment each project symbol moves (marks.js)
 js/agent.js           Irshad's Agent on the page: the chat panel, and what its answers do to the page
-js/assistant/         the assistant's page side: ready-made answers (answers.js), asking (client.js)
+js/assistant/         the assistant's page side: ready-made answers (answers.js), asking (client.js), the job-fit check (fit.js)
 assistant/            the assistant's server, a Cloudflare Worker, with its tests and setup guide
 tools/serve.mjs       zero-dependency local server
 tools/stamp.mjs       fingerprints every stylesheet and script, so a deploy never mixes versions

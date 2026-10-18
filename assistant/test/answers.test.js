@@ -30,6 +30,8 @@ const SURE = {
   'Is he available for hire?': 'hire',
   'Is he open to freelance work?': 'hire',
   'Is he free to hire?': 'hire',
+  'Does he fit my job?': 'fit',
+  'Check another job': 'fit',
   'How can I contact him?': 'contact',
   "What's his email?": 'contact',
   'Where is he based?': 'location',

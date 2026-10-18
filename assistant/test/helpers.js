@@ -55,3 +55,12 @@ export async function collect(iterator) {
   for await (const value of iterator) out.push(value);
   return out;
 }
+
+// A job post, as a recruiter would paste it.
+export const DJANGO_POST = `Backend Developer (Python/Django), Kochi
+We are looking for a backend developer to build and maintain our ERP product.
+Requirements:
+- 2+ years of experience with Python and Django
+- REST APIs, PostgreSQL, Git
+- Experience writing automated tests
+Nice to have: Docker, React`;

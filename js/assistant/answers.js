@@ -151,13 +151,23 @@ export const ANSWERS = [
     link: '#story',
     next: ['What has he built since?', 'What are his skills?', 'Is he free to hire?'],
   },
+  // The job-fit check: the visitor pastes a job post next, and js/agent.js waits for it (js/assistant/fit.js).
+  // Before 'hire', which "job" also points to.
+  {
+    id: 'fit',
+    phrases: ['fit my job', 'fit the job', 'fit this job', 'fit our job', 'fit my role', 'fit our role', 'fit the role',
+      'job fit', 'another job', 'check a job', 'check my job', 'check this job', 'match my job', 'compare my job'],
+    text: "Paste the job post below, the whole thing. I'll check it against what this site shows: what matches, with proof, and what isn't shown here.",
+    link: null,
+    next: [], // the visitor's next move is the paste
+  },
   {
     id: 'hire',
     phrases: ['open to', 'looking for a job', 'work with him', 'work with you'],
     words: ['hire', 'hiring', 'available', 'availability', 'freelance', 'job', 'role', 'position', 'opportunit', 'recruit'],
     text: "Yes. He's open to full-time roles and freelance projects. Message him on WhatsApp or email irshaduu01@gmail.com, whichever is easier for you.",
     link: '#contact',
-    next: ['Where is he based?', 'Can I see his resume?', 'What kind of work suits him best?'],
+    next: ['Does he fit my job?', 'Where is he based?', 'Can I see his resume?'],
   },
   {
     id: 'contact',

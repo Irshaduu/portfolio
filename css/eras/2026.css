@@ -424,8 +424,49 @@
       border: 1px solid var(--line-2); background: rgb(255 255 255 / .03); transition: border-color .2s, box-shadow .2s;
     }
     & .agent__form:focus-within { border-color: var(--c1); box-shadow: 0 0 0 4px rgb(125 243 255 / .08); }
-    & .agent__form input { padding: .45rem 0; border: 0; outline: none; background: transparent; color: var(--ink); font-size: .95rem; }
-    & .agent__form input::placeholder { color: var(--ink-3); }
+    & .agent__form textarea {
+      height: 2.23rem; max-height: 8.6em; padding: .45rem 0; border: 0; outline: none; overflow-y: auto;
+      background: transparent; color: var(--ink); font-size: .95rem; line-height: 1.4;
+      scrollbar-width: thin; scrollbar-color: var(--line-2) transparent;
+    }
+    & .agent__form textarea::placeholder { color: var(--ink-3); }
+    /* More than a line in the box: the pill becomes a rounded card, the send button at its foot. */
+    & .agent__form[data-tall] { align-items: flex-end; border-radius: 20px; }
+    /* Waiting for a job post: a bigger box, ready for it. */
+    & .agent__form[data-paste] textarea { min-height: 5.6em; }
+    & .agent__status { margin-left: .7em; font: 400 .68rem/1 var(--mono); letter-spacing: .08em; color: var(--ink-3); }
+
+    /* ---- the job-fit check: the post, folded, and a card of what matches and what isn't shown ---- */
+    & .agent__post-head { font: 500 .6rem/1.2 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--c1); }
+    & .agent__post-text { font-size: .86rem; color: var(--ink-2); }
+    & .fit {
+      gap: .75rem; padding: .85rem .95rem .9rem; border-radius: 16px;
+      border: 1px solid var(--line-2); background: rgb(255 255 255 / .025);
+    }
+    & .fit__head { font: 500 .6rem/1.2 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
+    & .fit__list { gap: .55rem; margin-top: -.25rem; }
+    /* A match reads as two lines: what the job asks, then the proof with its link at the end. */
+    & .fit__row { position: relative; display: block; padding-left: 1.1rem; }
+    & .fit__row::before {
+      content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--c1); box-shadow: 0 0 10px rgb(125 243 255 / .7);
+    }
+    & .fit__list--gap .fit__row { font-size: .88rem; line-height: 1.45; color: var(--ink-2); }
+    & .fit__list--gap .fit__row::before { background: transparent; border: 1px solid var(--ink-3); box-shadow: none; }
+    & .fit__need { display: block; font-size: .92rem; font-weight: 500; line-height: 1.4; color: var(--ink); }
+    & .fit__proof { font-size: .84rem; line-height: 1.45; color: var(--ink-2); }
+    & .fit__link {
+      margin-left: .5em; white-space: nowrap;
+      font: 500 .6rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
+    }
+    & .fit__link::after { content: " \2198"; }
+    & .fit__ask { gap: .3rem; padding-top: .7rem; border-top: 1px solid var(--line); font-size: .9rem; line-height: 1.45; }
+    & .fit__mail {
+      justify-self: start; padding: .5rem 1rem; border-radius: 999px;
+      border: 1px solid rgb(125 243 255 / .5); background: rgb(125 243 255 / .08); color: var(--ink);
+      font-size: .82rem; text-decoration: none; transition: box-shadow .2s, border-color .2s;
+    }
+    & .fit__mail:hover { border-color: var(--c1); box-shadow: 0 0 24px rgb(125 243 255 / .3); }
     & .agent__send {
       flex: none; display: grid; place-items: center; width: 38px; height: 38px; padding: 0;
       border-radius: 999px; border: 0; background: var(--ink); color: #05060c; transition: opacity .2s, box-shadow .2s;
@@ -438,7 +479,7 @@
     & .agent[data-keyboard] { bottom: calc(var(--kb) + 10px); max-height: min(620px, var(--vvh) - 20px); }
     & .agent[data-keyboard] .agent__note { display: none; }
     /* Below 16px, an iPhone zooms the whole page in when the box is tapped. */
-    @media (pointer: coarse) { & .agent__form input { font-size: 16px; } }
+    @media (pointer: coarse) { & .agent__form textarea { font-size: 16px; } }
     /* A part of the page an answer points to lights up for a moment. */
     & .agent-spot { border: 2px solid var(--c1); animation: tt26-spot 2.8s ease-out forwards; }
 

@@ -2,6 +2,7 @@
 // question goes to the AI (through the Worker in assistant/), which reads the whole conversation;
 // and when the AI is resting, the closest ready answer or "I don't know" stands in. Two things never
 // wait for the AI: someone in danger gets the helpline, and "take me to 1997" travels.
+// A pasted job post goes to checkFit() instead, which checks it against his work (fit.js).
 // Every era's assistant will use this; only how they look will differ.
 //
 // It reports as it goes, so a page can show the answer arriving and the steps behind it:
@@ -10,6 +11,7 @@
 //   { type: 'text', t }                    the next piece of the answer (pass the whole so far through plain())
 //   { type: 'done', link, next, travel }   finished: the part of the page to show, what to ask next,
 //                                          and the era to travel to, if the visitor asked to
+//                                          (checkFit's says { fit, next }: the check, read)
 // and resolves to { text, by, link, next, travel, id }, to keep in the conversation's history (id:
 // which ready answer, if one was given).
 //
@@ -17,6 +19,7 @@
 // suggestion button's question; deep: true for "tell me more", which always asks the AI.
 
 import { DONT_KNOW, DONT_KNOW_NEXT, START, match, nextFor, travel } from './answers.js';
+import { FIT_NEXT, fitText, parseFit, wordCheck } from './fit.js';
 
 // The Worker's address, printed by `npm run deploy` in assistant/. Empty, every question gets a
 // ready-made answer or "I don't know".
@@ -28,7 +31,8 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
   if (trip) return reply(on, trip, 'ready');
   const ready = match(question);
   if (ready?.id === 'crisis') return reply(on, ready, 'ready');
-  if (tapped && !deep && ready?.sure) return reply(on, ready, 'ready');
+  // "Does he fit my job?" typed asks to start the check, like the button: no AI needed to say "paste it".
+  if ((tapped && !deep && ready?.sure) || (ready?.id === 'fit' && ready.sure)) return reply(on, ready, 'ready');
 
   // No sure fit: the AI. If it can't answer, the closest ready answer stands in.
   const standIn = (why) => {
@@ -36,24 +40,63 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
     const guess = ready && ready.score >= 2 ? ready : null;
     return reply(on, guess ?? { text: DONT_KNOW, link: '#contact', next: DONT_KNOW_NEXT }, guess ? 'ready' : 'none');
   };
-  if (!server) return standIn('The AI is not switched on yet');
+  const got = await stream(server, '/chat', { messages: [...history, { role: 'user', content: question }], context }, on, signal);
+  if (got.why) return standIn(got.why);
+  let { text } = got;
+  if (!got.finished) {
+    const note = ' (The answer was cut short.)';
+    text += note;
+    on({ type: 'text', t: note });
+  }
+  text = plain(text);
+  // "(#word-hunt)", or "(#stack #workshopos)" when it points to two: the first is shown.
+  const link = text.match(/\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/)?.[1] ?? null;
+  const next = nextFor(link);
+  on({ type: 'done', link, next, travel: null });
+  return { text, by: got.by, link, next, travel: null, id: null };
+}
 
+// Checks a job post against his work. The AI's lines arrive as text events (parseFit reads them as
+// they come), and the result is { text, by, fit, next, ... }: `fit` the check, read, and `text` the
+// same in sentences, for the conversation's history. When the AI is resting, a check of the post's
+// own words stands in (by: 'ready').
+export async function checkFit(post, { on = () => {}, server = SERVER, signal } = {}) {
+  on({ type: 'step', text: 'Reading the job post' });
+  const done = (fit, by) => {
+    on({ type: 'done', fit, next: FIT_NEXT });
+    return { text: fitText(fit), by, fit, link: null, next: FIT_NEXT, travel: null, id: 'fit-check' };
+  };
+  const got = await stream(server, '/fit', { post }, on, signal);
+  if (got.why) {
+    on({ type: 'step', text: got.why });
+    on({ type: 'source', by: 'ready', tried: [] });
+    return done(wordCheck(post), 'ready');
+  }
+  const fit = parseFit(got.text);
+  if (!got.finished) fit.summary = `${fit.summary} (The answer was cut short.)`.trim();
+  return done(fit, got.by);
+}
+
+// Asks the Worker at `path` and passes the answer on as it arrives. Resolves to { text, by, finished },
+// or to { why } when no AI answered, for the caller's stand-in.
+async function stream(server, path, body, on, signal) {
+  if (!server) return { why: 'The AI is not switched on yet' };
   on({ type: 'step', text: 'Asking the AI' });
   let res;
   try {
-    res = await fetch(`${server.replace(/\/+$/, '')}/chat`, {
+    res = await fetch(`${server.replace(/\/+$/, '')}${path}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ messages: [...history, { role: 'user', content: question }], context }),
+      body: JSON.stringify(body),
       signal,
     });
   } catch (error) {
     if (signal?.aborted) throw error;
-    return standIn('Could not reach the AI');
+    return { why: 'Could not reach the AI' };
   }
   if (!res.ok || !res.body) {
     const info = await res.json().catch(() => ({}));
-    return standIn(REASONS[res.status] ?? info.error ?? 'The AI could not answer');
+    return { why: REASONS[res.status] ?? info.error ?? 'The AI could not answer' };
   }
 
   let text = '';
@@ -77,18 +120,8 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
   } catch (error) {
     if (signal?.aborted) throw error;
   }
-  if (!text.trim()) return standIn('The AI went quiet');
-  if (!finished) {
-    const note = ' (The answer was cut short.)';
-    text += note;
-    on({ type: 'text', t: note });
-  }
-  text = plain(text);
-  // "(#word-hunt)", or "(#stack #workshopos)" when it points to two: the first is shown.
-  const link = text.match(/\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/)?.[1] ?? null;
-  const next = nextFor(link);
-  on({ type: 'done', link, next, travel: null });
-  return { text, by, link, next, travel: null, id: null };
+  if (!text.trim()) return { why: 'The AI went quiet' };
+  return { text, by, finished };
 }
 
 const REASONS = {

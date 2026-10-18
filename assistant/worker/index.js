@@ -8,15 +8,17 @@
 //   POST /chat  { messages: [{ role: 'user' | 'assistant', content }], context?: { era, section, intent } }
 //               -> server-sent events: meta { by, tried }, then text { t } pieces, then done {}
 //               (or error { partial })
+//   POST /fit   { post }: a job post, checked against his work (prompt.js), as the same events
 
 import { firstAnswer, routes } from './chain.js';
 import { makeLimiter } from './limits.js';
-import { buildMessages, ERAS, INTENTS, SECTIONS } from './prompt.js';
+import { buildFitMessages, buildMessages, ERAS, INTENTS, SECTIONS } from './prompt.js';
 
 const MAX_BODY = 16 * 1024; // bytes in one request
 const MAX_TURNS = 8; // messages of the conversation sent on to the AI
 const MAX_QUESTION = 600; // characters in one question
 const MAX_ANSWER = 4000; // characters in one earlier answer sent back as context
+const MAX_POST = 6000; // characters in one job post
 
 // Shared by every request this Worker handles (see chain.js and limits.js for why memory is enough).
 const cooling = new Map();
@@ -36,7 +38,7 @@ export async function handle(request, env, deps) {
     const services = routes(env).map(({ name, key, model }) => ({ name, model: model ?? null, ready: Boolean(key && model) }));
     return json({ ok: true, services }, 200, cors ?? {});
   }
-  if (url.pathname !== '/chat') return json({ error: 'Not found.' }, 404);
+  if (url.pathname !== '/chat' && url.pathname !== '/fit') return json({ error: 'Not found.' }, 404);
 
   // Only the portfolio's own pages may ask. (A script can fake this header; limits.js covers that.)
   if (!cors) return json({ error: "This assistant only answers on Irshad's portfolio." }, 403);
@@ -56,8 +58,12 @@ export async function handle(request, env, deps) {
   } catch {
     return json({ error: 'Not JSON.' }, 400, cors);
   }
-  const history = readHistory(body);
-  if (!history) return json({ error: `Ask a question of up to ${MAX_QUESTION} characters.` }, 400, cors);
+  const fit = url.pathname === '/fit';
+  const asked = fit ? readPost(body) : readHistory(body);
+  if (!asked) {
+    const error = fit ? `Paste a job post of up to ${MAX_POST} characters.` : `Ask a question of up to ${MAX_QUESTION} characters.`;
+    return json({ error }, 400, cors);
+  }
 
   // Cloudflare puts the visitor's real address in this header. (WorkshopOS learned the hard way that
   // behind a proxy the "visitor" can otherwise be the proxy itself, so everyone shares one count.)
@@ -67,11 +73,17 @@ export async function handle(request, env, deps) {
   if (!examining && !deps.allow(visitor)) return json({ error: 'Too many questions for now.', fallback: true }, 429, cors);
 
   const started = Date.now();
-  const messages = buildMessages(history, readContext(body.context));
-  const result = await firstAnswer(routes(env), { messages, temperature: 0.5, max_tokens: 1024 }, deps);
+  // A job-fit check wants care more than charm, so it runs cooler than the chat. max_tokens is a
+  // ceiling, not a target, and Gemini counts its hidden thinking in it: at 1024, a job post that
+  // made it think hard came back cut off mid-line.
+  const call = fit
+    ? { messages: buildFitMessages(asked), temperature: 0.2, max_tokens: 4096 }
+    : { messages: buildMessages(asked, readContext(body.context)), temperature: 0.5, max_tokens: 2048 };
+  const result = await firstAnswer(routes(env), call, deps);
   const tried = result.tried.map(({ name, why }) => `${name}: ${why}`);
-  // What the logs keep: which service answered and how long it took. Never the question.
-  console.log(JSON.stringify({ by: result.route?.name ?? null, tried, ms: Date.now() - started }));
+  // What the logs keep: what was asked for, which service answered and how long it took. Never
+  // the question or the job post.
+  console.log(JSON.stringify({ path: url.pathname, by: result.route?.name ?? null, tried, ms: Date.now() - started }));
 
   if (!result.route) return json({ error: 'No AI service is free right now.', fallback: true, tried }, 503, cors);
   return new Response(relay(result, tried), {
@@ -98,6 +110,12 @@ export function readHistory(body) {
   if (!question || question.role !== 'user' || question.content.length > MAX_QUESTION) return null;
   if (turns.some(({ role, content }) => role === 'assistant' && content.length > MAX_ANSWER)) return null;
   return turns;
+}
+
+// The job post a visitor pasted, trimmed, or null if it isn't text of a sensible length.
+export function readPost(body) {
+  const post = typeof body?.post === 'string' ? body.post.trim() : '';
+  return post.length >= 10 && post.length <= MAX_POST ? post : null;
 }
 
 // Where the visitor is on the site. Only known values pass, so nothing a visitor sends here can

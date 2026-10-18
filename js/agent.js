@@ -3,11 +3,14 @@
 // The answers come from js/assistant/client.js (a tapped suggestion's ready answer, a typed
 // question's AI answer, or a stand-in when the AI rests). This file shows them as they arrive,
 // keeps the conversation for the visit, and acts on the page: an answer about a part of the page
-// scrolls there and lights it up, and "take me to 1997" travels.
+// scrolls there and lights it up, and "take me to 1997" travels. A pasted job post gets the
+// job-fit check instead (js/assistant/fit.js), shown as a card: what matches, each with its proof
+// on the page, what the site doesn't show, and a question worth asking Irshad.
 // It's loaded the first time someone opens the agent (js/eras/2026.js), never before.
 
-import { ask, plain } from './assistant/client.js';
+import { ask, checkFit, plain } from './assistant/client.js';
 import { START } from './assistant/answers.js';
+import { MAX_POST, isJobPost, parseFit } from './assistant/fit.js';
 import { blip } from './sound.js';
 
 const KEY = 'tt-agent'; // the conversation, kept for this visit (sessionStorage)
@@ -22,7 +25,7 @@ const PLACES = {
 
 // The first questions offered, by why the visitor came (the 2026 intent picker).
 const STARTERS = {
-  hire: ['Is he free to hire?', 'What are his skills?', 'Show me his biggest project'],
+  hire: ['Does he fit my job?', 'Is he free to hire?', 'Show me his biggest project'],
   build: ['Could he build a system for my business?', 'Tell me about the catering project', 'How can I contact him?'],
   explore: ['Can I play his game?', 'Take me to 1997', 'What has he built?'],
 };
@@ -77,9 +80,13 @@ export function mount(ctx) {
   const form = panel.querySelector('.agent__form');
   const input = form.elements.q;
   const sendButton = form.querySelector('.agent__send');
+  const askHint = input.placeholder;
 
-  let messages = read(); // { role: 'user' | 'assistant', text, by?, link?, next?, trace? }
+  // { role: 'user' | 'assistant', text, post?, id?, by?, link?, next?, fit?, trace?, label? }
+  // (post: the visitor's message is a job post; id: which ready answer; fit: the check of a post)
+  let messages = read();
   let busy = false;
+  let waiting = false; // for a job post, after "Does he fit my job?"
   const wide = matchMedia('(min-width: 900px)');
   // A touch screen: its keyboard is on the screen, and covers half of it while it's up.
   const touch = matchMedia('(pointer: coarse)');
@@ -97,12 +104,22 @@ export function mount(ctx) {
     return li;
   }
 
-  function botMessage() {
+  // A pasted job post: its first lines, folded, so it doesn't push the check out of view.
+  function postBubble(text) {
+    const li = el('li', 'agent__msg agent__msg--me agent__msg--post');
+    li.append(el('span', 'agent__post-head', 'Job post'), el('span', 'agent__post-text', text));
+    log.append(li);
+    return li;
+  }
+
+  // `status`: what it's doing, beside the dots, for an answer that takes a few seconds.
+  function botMessage(status) {
     const li = el('li', 'agent__msg agent__msg--bot');
     const text = el('p', 'agent__text');
     text.append(el('span', 'agent__typing'));
     text.lastChild.append(el('i'), el('i'), el('i'));
     text.lastChild.setAttribute('aria-label', 'Thinking');
+    if (status) text.append(el('span', 'agent__status', status));
     li.append(text);
     log.append(li);
     return li;
@@ -111,14 +128,65 @@ export function mount(ctx) {
   // The answer's words, without the "(#section)" the AI adds for the page.
   const words = (raw) => plain(raw).replace(CITE, '').trim();
 
-  function finish(li, { text, link, next, trace, label, more }) {
-    li.querySelector('.agent__text').textContent = words(text);
+  // A link to a part of the page; on a wide screen it scrolls there and lights it up.
+  function placeLink(className, link, text) {
+    const a = el('a', className, text);
+    a.href = link;
+    if (link.startsWith('#')) a.dataset.agentPoint = link;
+    return a;
+  }
+
+  // The job-fit check as a card, redrawn as its lines arrive. The summary takes the answer's usual
+  // place; the matches, gaps and question follow.
+  function drawFit(li, fit) {
+    li.classList.add('agent__msg--fit');
+    if (fit.summary) li.querySelector('.agent__text').textContent = fit.summary;
+    const card = li.querySelector('.fit') ?? li.appendChild(el('div', 'fit'));
+    card.replaceChildren();
+    if (fit.matches.length) {
+      const list = el('ul', 'fit__list fit__list--match');
+      for (const m of fit.matches) {
+        const row = el('li', 'fit__row');
+        row.append(el('span', 'fit__need', m.need));
+        if (m.proof) row.append(el('span', 'fit__proof', m.proof));
+        if (m.link && PLACES[m.link]) row.append(placeLink('fit__link', m.link, `See ${PLACES[m.link]}`));
+        list.append(row);
+      }
+      card.append(el('p', 'fit__head', 'Shown on this site'), list);
+    }
+    if (fit.gaps.length) {
+      const list = el('ul', 'fit__list fit__list--gap');
+      for (const gap of fit.gaps) list.append(el('li', 'fit__row', gap));
+      card.append(el('p', 'fit__head', 'Not shown here'), list);
+    }
+    if (fit.ask) {
+      const ask = el('p', 'fit__ask');
+      ask.append(el('span', 'fit__head', 'Worth asking him'), el('span', null, fit.ask));
+      card.append(ask);
+    }
+    if (!card.childElementCount) card.remove();
+  }
+
+  // "Email this job to Irshad": his address from the Contact section, the post in the body.
+  function mailLink(post) {
+    const to = document.querySelector('#contact a[href^="mailto:"]')?.getAttribute('href').split('?')[0] ?? 'mailto:irshaduu01@gmail.com';
+    const body = `Hi Irshad,\n\nI checked this job against your portfolio. Could we talk?\n\n${post.slice(0, 800)}${post.length > 800 ? '…' : ''}`;
+    const a = el('a', 'fit__mail', 'Email this job to Irshad');
+    a.href = `${to}?subject=${encodeURIComponent('A job that may fit you')}&body=${encodeURIComponent(body)}`;
+    return a;
+  }
+
+  function finish(li, { text, fit, post, link, next, trace, label, more }) {
+    if (fit) {
+      drawFit(li, fit);
+      if (!fit.summary) li.querySelector('.agent__text').textContent = 'Here is how the post compares with his work.';
+      if (post) li.append(mailLink(post));
+    } else {
+      li.querySelector('.agent__text').textContent = words(text);
+    }
     if (link && PLACES[link]) {
       const see = el('p', 'agent__see');
-      const a = el('a', null, `See ${PLACES[link]}`);
-      a.href = link;
-      if (link.startsWith('#')) a.dataset.agentPoint = link;
-      see.append(a);
+      see.append(placeLink(null, link, `See ${PLACES[link]}`));
       li.append(see);
     }
     const line = showTrace ? trace : label;
@@ -154,11 +222,13 @@ export function mount(ctx) {
     const intent = ctx.root.dataset.intent;
     finish(botMessage(), { text: GREETING, next: STARTERS[intent] ?? START });
     messages.forEach((m, i) => {
-      if (m.role === 'user') return userBubble(m.text);
+      if (m.role === 'user') return m.post ? postBubble(m.text) : userBubble(m.text);
       const last = i === messages.length - 1;
-      finish(botMessage(), { ...m, next: last ? m.next : null, more: last ? m.more : null });
+      const post = m.fit && messages[i - 1]?.post ? messages[i - 1].text : null;
+      finish(botMessage(), { ...m, post, next: last ? m.next : null, more: last ? m.more : null });
     });
     if (messages.length) log.querySelector('.agent__next')?.remove(); // the greeting's starters, once talking
+    setWaiting(messages.at(-1)?.id === 'fit'); // still waiting for the job post it asked for
     const lastQuestion = [...log.querySelectorAll('.agent__msg--me')].at(-1);
     if (lastQuestion) showFrom(lastQuestion);
     else log.scrollTop = 0;
@@ -178,66 +248,91 @@ export function mount(ctx) {
   }
 
   // For Irshad (?trace): where the answer came from, how long it took, and what was busy.
-  function traceOf(by, tried, ms, rested) {
-    if (by === 'ready') return ['Quick answer', rested].filter(Boolean).join(' · ');
+  function traceOf({ by, id }, tried, ms, rested) {
+    if (by === 'ready') return [id === 'fit-check' ? 'Word check' : 'Quick answer', rested].filter(Boolean).join(' · ');
     if (by === 'none') return ['No answer found', rested].filter(Boolean).join(' · ');
     const busyOnes = tried.filter((t) => !t.endsWith('answered')).map((t) => t.split(':')[0]);
     return [`${by} · ${(ms / 1000).toFixed(1)} s`, ...busyOnes.map((name) => `${name} was busy`)].join(' · ');
   }
 
   // For visitors: "Quick answer" under a ready answer, saying so when it stood in for a resting AI.
+  // Not under "paste the job post", nor under a job-fit check: a word check says what it is itself.
   function labelOf({ by, id, travel }, rested) {
-    if (id === 'crisis' || travel) return null;
+    if (id === 'crisis' || id === 'fit' || id === 'fit-check' || travel) return null;
     if (by === 'ready') return rested ? 'Quick answer · the AI is resting' : 'Quick answer';
     if (by === 'none') return 'The AI is resting';
     return null;
   }
 
-  // `tapped`: a suggestion button, whose ready answer comes at once. Typed questions go to the AI.
+  // The box grows with what's typed or pasted, up to a few lines (its max-height), then scrolls.
+  function grow() {
+    if (panel.hidden) return;
+    input.style.height = 'auto';
+    input.style.height = `${input.scrollHeight}px`;
+    const cs = getComputedStyle(input);
+    const oneLine = parseFloat(cs.lineHeight) + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+    form.toggleAttribute('data-tall', input.scrollHeight > oneLine * 1.5);
+  }
+
+  // After "Does he fit my job?": the box asks for the post, and whatever comes next is checked.
+  function setWaiting(on) {
+    waiting = on;
+    form.toggleAttribute('data-paste', on);
+    input.placeholder = on ? 'Paste the job post here' : askHint;
+    grow();
+  }
+
+  // `tapped`: a suggestion button, whose ready answer comes at once. Typed questions go to the AI,
+  // and a job post to the job-fit check.
   async function send(question, { deep = false, tapped = false } = {}) {
-    question = question.trim().slice(0, 600);
+    question = question.trim();
+    const post = !tapped && isJobPost(question, { waiting });
+    question = question.slice(0, post ? MAX_POST : 600);
     if (!question || busy) return;
     busy = true;
+    setWaiting(false);
     form.classList.add('is-busy');
     input.value = '';
+    grow();
     sendButton.disabled = true;
     // On a touch screen, put the keyboard away so the whole answer has room.
     if (touch.matches) input.blur();
     clearOldNext();
-    const asked = userBubble(deep ? `Tell me more: ${question}` : question);
-    const li = botMessage();
+    const asked = post ? postBubble(question) : userBubble(deep ? `Tell me more: ${question}` : question);
+    const li = botMessage(post ? 'Reading the job post' : null);
     showFrom(asked);
     blip(520, 0.05);
 
     const started = performance.now();
-    const history = messages.map(({ role, text }) => ({ role, content: text }));
+    // An earlier job post goes to the AI shortened: its check, the answer after it, says the rest.
+    const history = messages.map(({ role, text, post: pasted }) => ({ role, content: pasted ? `A job post (the start of it): ${text.slice(0, 1200)}` : text }));
     let raw = '';
-    let by = null;
     let tried = [];
     let rested = null; // why the AI couldn't answer, if it couldn't
+    const on = (e) => {
+      if (e.type === 'step' && !/^(Looking for|Asking|Reading)/.test(e.text)) rested = e.text;
+      if (e.type === 'source') tried = e.tried ?? [];
+      if (e.type === 'text') {
+        raw += e.t;
+        if (post) drawFit(li, parseFit(raw, { done: false }));
+        else li.querySelector('.agent__text').textContent = words(raw);
+      }
+    };
     try {
-      const result = await ask(question, history, {
-        deep,
-        tapped,
-        context: { era: ctx.root.dataset.era, section: onScreen(), intent: ctx.root.dataset.intent },
-        on(e) {
-          if (e.type === 'step' && !/^(Looking for|Asking)/.test(e.text)) rested = e.text;
-          if (e.type === 'source') { by = e.by; tried = e.tried ?? []; }
-          if (e.type === 'text') {
-            raw += e.t;
-            li.querySelector('.agent__text').textContent = words(raw);
-          }
-        },
-      });
-      const more = result.by === 'ready' && result.next?.length && !result.travel && !deep ? question : null;
-      const answer = { role: 'assistant', text: result.text, by: result.by, link: result.link, next: result.next, more, trace: traceOf(result.by, tried, performance.now() - started, rested), label: labelOf(result, rested) };
-      finish(li, answer);
-      messages.push({ role: 'user', text: question }, answer);
+      const result = post
+        ? await checkFit(question, { on })
+        : await ask(question, history, { deep, tapped, on, context: { era: ctx.root.dataset.era, section: onScreen(), intent: ctx.root.dataset.intent } });
+      const more = result.by === 'ready' && result.next?.length && !result.travel && !result.fit && !deep ? question : null;
+      const answer = { role: 'assistant', id: result.id, text: result.text, by: result.by, link: result.link, next: result.next, more, fit: result.fit, trace: traceOf(result, tried, performance.now() - started, rested), label: labelOf(result, rested) };
+      finish(li, { ...answer, post: post ? question : null });
+      messages.push(post ? { role: 'user', text: question, post: true } : { role: 'user', text: question }, answer);
       write(messages);
       live.textContent = words(result.text);
       blip(880, 0.08);
+      if (result.id === 'fit') setWaiting(true);
       act(result);
     } catch {
+      li.querySelector('.fit')?.remove();
       finish(li, { text: "Something went wrong on my side. Please try again, or ask Irshad directly in Contact.", next: ['How can I contact him?'] });
     } finally {
       busy = false;
@@ -318,6 +413,7 @@ export function mount(ctx) {
     returnTo = document.activeElement;
     render();
     panel.hidden = false;
+    grow();
     launchers().forEach((b) => b.setAttribute('aria-expanded', 'true'));
     // A real keyboard can type at once. On a touch screen the keyboard would cover the starter
     // questions, so it waits until the visitor taps the box; focus goes to the panel's title.
@@ -340,12 +436,27 @@ export function mount(ctx) {
     event.preventDefault();
     send(input.value);
   });
+  input.addEventListener('input', grow);
+  input.addEventListener('keydown', (event) => {
+    // Enter sends, as in any chat; Shift+Enter starts a new line.
+    if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
   panel.addEventListener('click', (event) => {
     if (event.target.closest('[data-agent-close]')) return close();
     const chip = event.target.closest('[data-ask]');
     if (chip) return send(chip.dataset.ask, { deep: 'deep' in chip.dataset, tapped: true });
     const see = event.target.closest('[data-agent-point]');
-    if (see && !wide.matches) close(); // a phone: get the panel out of the way, then follow the link
+    if (!see) return;
+    if (wide.matches) {
+      // Beside the page: scroll there and light it up, with the panel still open.
+      event.preventDefault();
+      point(see.dataset.agentPoint);
+    } else {
+      close(); // a phone: get the panel out of the way, then follow the link
+    }
   });
   panel.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') close();

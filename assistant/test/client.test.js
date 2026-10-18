@@ -4,7 +4,9 @@ import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
 
 import { DONT_KNOW, DONT_KNOW_NEXT, START, match } from '../../js/assistant/answers.js';
-import { ask, plain } from '../../js/assistant/client.js';
+import { ask, checkFit, plain } from '../../js/assistant/client.js';
+import { FIT_NEXT, wordCheck } from '../../js/assistant/fit.js';
+import { DJANGO_POST } from './helpers.js';
 
 const realFetch = globalThis.fetch;
 afterEach(() => { globalThis.fetch = realFetch; });
@@ -126,6 +128,58 @@ test('machine sentences become what a person would say', () => {
   assert.equal(plain('I can’t help with that. If you like websites, see his projects.'), "That's not something I'll help with. If you like websites, see his projects.");
   assert.equal(plain('I don’t have that information. You can ask Irshad directly.'), "That isn't on this site, so I don't know. You can ask Irshad directly.");
   assert.equal(plain("I'm sorry it hurts."), "I'm sorry it hurts."); // real sympathy stays
+});
+
+test('"Does he fit my job?", tapped or typed, asks for the post without asking the AI', async () => {
+  globalThis.fetch = () => assert.fail('no AI needed to say "paste it"');
+  for (const tapped of [true, false]) {
+    const result = await ask('Does he fit my job?', [], { server: SERVER, tapped });
+    assert.equal(result.id, 'fit');
+    assert.match(result.text, /Paste the job post/);
+    assert.deepEqual(result.next, []);
+  }
+});
+
+test('a job post goes to /fit, and its lines become the check as they arrive', async () => {
+  let sent;
+  globalThis.fetch = async (url, init) => {
+    sent = { url, body: JSON.parse(init.body) };
+    return sse(['meta', { by: 'Gemini', tried: ['Gemini: answered'] }],
+      ['text', { t: 'SUMMARY: Close on the Django side.\nMATCH: Django | Built WorkshopOS in Django | #workshopos\n' }],
+      ['text', { t: 'GAP: Docker\nASK: Has he used Docker?' }], ['done', {}]);
+  };
+  const { seen, on } = recorder();
+  const result = await checkFit(DJANGO_POST, { on, server: SERVER });
+  assert.equal(sent.url, 'https://assistant.test/fit');
+  assert.deepEqual(sent.body, { post: DJANGO_POST });
+  assert.equal(result.by, 'Gemini');
+  assert.equal(result.id, 'fit-check');
+  assert.deepEqual(result.fit, {
+    summary: 'Close on the Django side.',
+    matches: [{ need: 'Django', proof: 'Built WorkshopOS in Django', link: '#workshopos' }],
+    gaps: ['Docker'],
+    ask: 'Has he used Docker?',
+  });
+  assert.equal(result.text, 'Close on the Django side.\nMatches: Django (Built WorkshopOS in Django).\nNot shown on this site: Docker.\nWorth asking him: Has he used Docker?');
+  assert.deepEqual(result.next, FIT_NEXT);
+  assert.equal(seen.filter((e) => e.type === 'text').length, 2);
+  assert.deepEqual(seen.at(-1), { type: 'done', fit: result.fit, next: FIT_NEXT });
+});
+
+test('when the AIs rest, the word check stands in for the job-fit check', async () => {
+  globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true }), { status: 503 });
+  const { seen, on } = recorder();
+  const result = await checkFit(DJANGO_POST, { on, server: SERVER });
+  assert.equal(result.by, 'ready');
+  assert.deepEqual(result.fit, wordCheck(DJANGO_POST));
+  assert.ok(seen.some((e) => e.type === 'step' && e.text === 'Both AIs are resting'));
+});
+
+test('a job-fit check that breaks off keeps what arrived and says so', async () => {
+  globalThis.fetch = async () => sse(['meta', { by: 'Groq', tried: [] }], ['text', { t: 'SUMMARY: Close.\nMATCH: Django | WorkshopOS | #workshopos\n' }], ['error', { partial: true }]);
+  const result = await checkFit(DJANGO_POST, { server: SERVER });
+  assert.equal(result.fit.summary, 'Close. (The answer was cut short.)');
+  assert.equal(result.fit.matches.length, 1);
 });
 
 test('an answer pointing to two sections shows the first', async () => {

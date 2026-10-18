@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 
-import { handle, readContext, readHistory } from '../worker/index.js';
+import { handle, readContext, readHistory, readPost } from '../worker/index.js';
 import { makeLimiter } from '../worker/limits.js';
 import { buildMessages, keralaTime, NAME, SECTIONS } from '../worker/prompt.js';
 import { NAME as PAGE_NAME } from '../../js/assistant/answers.js';
-import { ENV, GEMINI, GEMINI_LITE, GROQ, answer, failure, fakeFetch } from './helpers.js';
+import { DJANGO_POST, ENV, GEMINI, GEMINI_LITE, GROQ, answer, failure, fakeFetch } from './helpers.js';
 
 const SITE = 'https://irshaduu.github.io';
 const deps = (byHost, allow = () => true) => ({ ...fakeFetch(byHost), cooling: new Map(), allow });
@@ -162,6 +162,47 @@ test('the rules name every section the AI may point to, and the helpline', () =>
   const [system] = buildMessages([], {});
   for (const id of SECTIONS) assert.ok(system.content.includes(id), id);
   assert.match(system.content, /Tele-MANAS helpline \(India, free, day and night: 14416\)/);
+});
+
+const fitRequest = (post) => new Request('https://assistant.test/fit', {
+  method: 'POST',
+  headers: { origin: SITE, 'content-type': 'application/json', 'cf-connecting-ip': '203.0.113.7' },
+  body: JSON.stringify({ post }),
+});
+
+test('a job post gets the job-fit rules, the facts, and the post as the visitor\'s message, answered with care', async () => {
+  const d = deps({ [GEMINI]: answer('SUMMARY: Close.\n', 'MATCH: Django | WorkshopOS | #workshopos') });
+  const res = await handle(fitRequest(DJANGO_POST), ENV, d);
+  assert.equal(res.status, 200);
+  assert.deepEqual((await events(res)).map(([name]) => name), ['meta', 'text', 'text', 'done']);
+  const { messages, temperature } = d.calls[0].body;
+  assert.equal(temperature, 0.2);
+  assert.match(messages[0].content, /has pasted a job post/);
+  assert.match(messages[0].content, /MATCH: what the job asks \| the proof/);
+  assert.match(messages[0].content, /## #workshopos: WorkshopOS/);
+  assert.match(messages[0].content, /Today is \w+ \d{4}\.$/); // to count his years from
+  assert.deepEqual(messages[1], { role: 'user', content: `JOB POST\n\n${DJANGO_POST}` });
+  assert.equal(messages.length, 2);
+});
+
+test('a job post must be text, of 10 to 6000 characters', async () => {
+  const d = deps({ [GEMINI]: answer('SUMMARY: ok') });
+  for (const post of ['', 'short', 'x'.repeat(6001), 42, null]) {
+    assert.equal((await handle(fitRequest(post), ENV, d)).status, 400, String(post).slice(0, 20));
+  }
+  assert.equal(d.calls.length, 0);
+  assert.equal(readPost({ post: `  ${'x'.repeat(6000)}  ` })?.length, 6000);
+});
+
+test('a job post counts toward the visitor\'s share like a question', async () => {
+  const d = deps({ [GEMINI]: answer('never') }, () => false);
+  assert.equal((await handle(fitRequest(DJANGO_POST), ENV, d)).status, 429);
+  assert.equal(d.calls.length, 0);
+});
+
+test('the chat tells a visitor asking about a job that they can paste the post', () => {
+  const [system] = buildMessages([{ role: 'user', content: 'Does he fit a Django job?' }], {});
+  assert.match(system.content, /paste the whole job post/);
 });
 
 test('each visitor gets a few questions a minute and a few dozen a day', () => {

@@ -205,7 +205,14 @@
   .agent__text { white-space: pre-wrap; overflow-wrap: anywhere; }
   .agent__next { display: flex; flex-wrap: wrap; gap: .4rem; }
   .agent__form { display: flex; align-items: center; gap: .5rem; }
-  .agent__form input { flex: 1; min-width: 0; }
+  /* The box grows with what's in it (js/agent.js sets its height), so it never needs a handle. */
+  .agent__form textarea { flex: 1; min-width: 0; resize: none; font: inherit; }
+  /* A pasted job post, folded to its first lines; and the job-fit check's card. */
+  .agent__msg--post { display: grid; gap: .3rem; }
+  .agent__post-text { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; line-clamp: 4; overflow: hidden; white-space: pre-line; overflow-wrap: anywhere; }
+  .fit { display: grid; }
+  .fit__list { display: grid; margin: 0; padding: 0; list-style: none; }
+  .fit__ask { display: grid; }
   .agent__typing { display: inline-flex; gap: 4px; padding-block: .4em; }
   .agent__typing i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; opacity: .3; animation: tt-typing 1.2s infinite; }
   .agent__typing i:nth-child(2) { animation-delay: .15s; }
