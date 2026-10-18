@@ -1,8 +1,8 @@
 // Checks that the pages still agree on the facts they share: node tools/facts.mjs
-// The portfolio, the resume and the write-ups each state the same numbers in their own words. Every
-// fact below is found by its wording on each page; if two pages give different values, or a page no
-// longer words a fact the way it's looked for, this says where and exits with an error. Run it after
-// changing any number, before printing the PDFs.
+// The portfolio, the resume, the write-ups and the assistant (its fact sheet and ready answers) each
+// state the same numbers in their own words. Every fact below is found by its wording in each file;
+// if two give different values, or a file no longer words a fact the way it's looked for, this says
+// where and exits with an error. Run it after changing any number, before printing the PDFs.
 
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -13,6 +13,8 @@ const PAGES = {
   resume: 'resume/index.html',
   workshopos: 'work/workshopos/index.html',
   catering: 'work/catering/index.html',
+  assistant: 'assistant/worker/facts.js',
+  answers: 'js/assistant/answers.js',
 };
 const html = Object.fromEntries(Object.entries(PAGES).map(([page, file]) => [page, readFileSync(join(root, file), 'utf8')]));
 
@@ -26,45 +28,60 @@ const FACTS = [
     portfolio: [/Django tests<\/dt><dd>([\d,]+)/],
     resume: [/lines, ([\d,]+) automated tests/, /([\d,]+) automated Django tests/],
     workshopos: [/automated Django tests[^<]*<\/dt><dd>([\d,]+)/, /([\d,]+) Django tests<\/strong>/, /passed all ([\d,]+) tests/],
+    assistant: [/([\d,]+) Django tests and \d+ JavaScript/],
+    answers: [/with ([\d,]+) Django tests/, /alone has ([\d,]+) Django tests/],
   } },
   { fact: 'WorkshopOS JavaScript tests', find: {
     resume: [/and (\d+) JavaScript tests/],
     workshopos: [/plus (\d+) in JavaScript/, /(\d+) JavaScript tests/],
+    assistant: [/Django tests and (\d+) JavaScript/],
+    answers: [/Django tests and (\d+) JavaScript tests/],
   } },
   { fact: 'WorkshopOS models', find: {
     portfolio: [/<dt>Models<\/dt><dd>(\d+)/],
     resume: [/(\d+)-model/, /(\d+) models/],
     workshopos: [/<dt>data models<\/dt><dd>(\d+)/],
+    assistant: [/(\d+) models, \d+ routes/],
+    answers: [/: (\d+) models,/],
   } },
   { fact: 'WorkshopOS routes', find: {
     portfolio: [/<dt>Routes<\/dt><dd>(\d+)/],
     resume: [/(\d+) routes/],
     workshopos: [/<dt>URL routes<\/dt><dd>(\d+)/],
+    assistant: [/models, (\d+) routes/],
+    answers: [/models, (\d+) routes/],
   } },
   { fact: 'WorkshopOS screens', find: {
     portfolio: [/<dt>Screens<\/dt><dd>(\d+)/, /fact__n">(\d+)<\/span> <span class="fact__l">screens/],
     resume: [/(\d+) screens/],
     workshopos: [/<dt>screens<\/dt><dd>(\d+)/],
+    assistant: [/routes, (\d+) screens/, /(\d+) screens in one system/],
+    answers: [/routes and (\d+) screens/],
   } },
   { fact: 'WorkshopOS commits', find: {
     portfolio: [/<dt>Commits<\/dt><dd>(\d+)/],
     resume: [/in (\d+) commits/],
     workshopos: [/<dt>commits[^<]*<\/dt><dd>(\d+)/],
+    assistant: [/screens, (\d+) commits/],
   } },
   { fact: 'WorkshopOS lines of test per line of code', find: {
     portfolio: [/Test to code<\/dt><dd>([\d.]+)/],
     resume: [/([\d.]+) lines of test/],
     workshopos: [/([\d.]+) lines of test/],
+    assistant: [/([\d.]+) lines of test/],
+    answers: [/([\d.]+) lines of test/],
   } },
   { fact: 'WorkshopOS rule modules', find: {
     portfolio: [/(\d+) rule modules/],
     resume: [/(\d+) view-free rule modules/],
     workshopos: [/<dt>rule modules<\/dt><dd>(\d+)/],
+    assistant: [/(\d+) rule modules/],
   } },
   { fact: 'WorkshopOS all-or-nothing transaction blocks', find: {
     portfolio: [/one of (\d+) all-or-nothing/],
     resume: [/(\d+) all-or-nothing transaction blocks/],
     workshopos: [/all-or-nothing transaction blocks<\/dt><dd>(\d+)/],
+    assistant: [/one of (\d+) all-or-nothing/],
   } },
   { fact: 'WorkshopOS lines of code (in thousands)', same: (v) => Math.floor(v / 1000), find: {
     resume: [/\(([\d,]+) lines, /],
@@ -73,37 +90,51 @@ const FACTS = [
   { fact: 'Word Hunt tests', find: {
     portfolio: [/id="word-hunt"[\s\S]*?<dt>Tests<\/dt><dd>(\d+)/],
     resume: [/Word Hunt:[\s\S]*?(\d+) tests\./],
+    assistant: [/## #word-hunt[\s\S]*?(\d+) tests\./],
+    answers: [/id: 'word-hunt'[\s\S]*?It has (\d+) tests/],
   } },
   { fact: 'PhysioCoach tests', find: {
     portfolio: [/id="physiocoach"[\s\S]*?<dt>Tests<\/dt><dd>(\d+)/],
     resume: [/PhysioCoach:[\s\S]*?(\d+) tests\./],
+    assistant: [/## #physiocoach[\s\S]*?(\d+) tests\./],
+    answers: [/id: 'physiocoach'[\s\S]*?It has (\d+) tests/],
   } },
   { fact: 'PhysioCoach voice clips', find: {
     portfolio: [/<dt>Voice clips<\/dt><dd>(\d+)/, /then (\d+) pre-generated/],
     resume: [/then (\d+) pre-generated/],
+    assistant: [/then (\d+) pre-generated/],
   } },
   { fact: 'Catering roles', find: {
     portfolio: [/<dt>Roles<\/dt><dd>(\d+)/, /(\d+)-role/],
     resume: [/(\d+)-role/],
     catering: [/<dt>roles[^<]*<\/dt><dd>(\d+)/, /A (\d+)-role/],
+    assistant: [/a (\d+)-role/],
+    answers: [/a (\d+)-role catering/],
   } },
   { fact: 'Catering modules', find: {
     portfolio: [/<dt>Modules<\/dt><dd>(\d+)/, /(\d+) modules, ranked/],
     resume: [/(\d+) modules<\/strong>/],
     catering: [/<dt>modules[^<]*<\/dt><dd>(\d+)/, /into (\d+) modules/],
+    assistant: [/(\d+) modules ranked/],
+    answers: [/(\d+) modules, ranked/],
   } },
   { fact: 'Catering Django apps', find: {
     portfolio: [/<dt>Django apps<\/dt><dd>(\d+)/, /across (\w+) Django apps/],
     resume: [/across (\w+) Django apps/],
     catering: [/<dt>Django apps[^<]*<\/dt><dd>(\d+)/, /(\w+) Django apps:<\/strong>/],
+    assistant: [/across (\w+) Django apps/],
+    answers: [/across (\w+) Django apps/],
   } },
   { fact: 'Catering registration day (people)', same: (v) => v, raw: true, find: {
     portfolio: [/([\d,]+ to [\d,]+) sign-ups/],
     catering: [/([\d,]+ to [\d,]+) people register/],
+    assistant: [/([\d,]+ to [\d,]+) sign-ups/],
   } },
   { fact: 'Full-stack course grade', find: {
     portfolio: [/Grade A\+ \((\d+)%\)/],
     resume: [/Grade A\+ \((\d+)%\)/],
+    assistant: [/Grade A\+ \((\d+)%\)/],
+    answers: [/Grade A\+ \((\d+)%\)/],
   } },
 ];
 
@@ -131,7 +162,7 @@ for (const { fact, find, same = (v) => v, raw = false } of FACTS) {
 
 // "3,400+ automated tests" must still be true of the projects' own counts.
 const total = ['WorkshopOS Django tests', 'WorkshopOS JavaScript tests', 'Word Hunt tests', 'PhysioCoach tests'].reduce((sum, fact) => sum + (found[fact] ?? 0), 0);
-for (const page of ['portfolio', 'resume']) {
+for (const page of ['portfolio', 'resume', 'assistant', 'answers']) {
   const claim = html[page].match(/([\d,]+)\+(?:<\/span> <span class="fact__l">| )automated tests/);
   if (!claim) problems.push(`Total tests: no "N+ automated tests" on ${PAGES[page]}`);
   else if (number(claim[1]) > total) problems.push(`Total tests: ${PAGES[page]} claims ${claim[1]}+, but the projects add up to ${total.toLocaleString('en-US')}`);
@@ -156,4 +187,4 @@ if (problems.length) {
   console.error(`${problems.length} problem${problems.length > 1 ? 's' : ''}:\n${problems.map((p) => `  - ${p}`).join('\n')}`);
   process.exit(1);
 }
-console.log(`All ${FACTS.length} shared facts agree across ${Object.keys(PAGES).length} pages; the tests add up to ${total.toLocaleString('en-US')}; one phone number; no Google Drive links.`);
+console.log(`All ${FACTS.length} shared facts agree across ${Object.keys(PAGES).length} files; the tests add up to ${total.toLocaleString('en-US')}; one phone number; no Google Drive links.`);

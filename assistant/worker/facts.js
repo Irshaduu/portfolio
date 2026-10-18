@@ -1,0 +1,116 @@
+// Everything the AI may say about Irshad. It reads this and nothing else.
+//
+// Only what the public pages already say (index.html, resume/, work/). Never the private notes in
+// CONTENT.md: no client details beyond the site, no prices, nothing personal. If a fact isn't here,
+// the assistant answers "I don't know, ask Irshad". Each heading is a section id on the page, so the
+// AI can point to where a fact comes from. The numbers are checked against the pages by
+// tools/facts.mjs: change them there first.
+
+export const FACTS = `
+## #top: Who he is
+Mohammed Irshad C (Irshad). Python developer: Django, backend and full-stack systems. Lives in
+Malappuram, Kerala, India; time zone IST (UTC+5:30). He builds the software a business runs on,
+from the job card to the profit page. He ran a company before writing code, so he keeps cost,
+profit and cash as three separate numbers. In numbers: 3,400+ automated tests across his projects,
+140 screens in one system he built alone, 2 apps live today (built solo), $0 a month to run a live
+multiplayer game.
+
+## #workshopos: WorkshopOS (freelance, sole engineer, Jan to Oct 2026)
+One system for a premium car workshop, Formula D in Pullara, Kerala, that ran on paper job cards,
+WhatsApp and spreadsheets. The owners had tried off-the-shelf workshop software without finding a
+fit. He mapped how the floor really works, then built one Django and PostgreSQL system: job cards,
+stock, supplier ledgers, payroll, estimates and warranty claims, with three roles (owner, office,
+floor). 49 models, 324 routes, 140 screens, 294 commits. 3,185 Django tests and 71 JavaScript
+tests: 1.34 lines of test for every line of app code.
+- 21 rule modules each own one question, such as "How much do we hand the rent collector today?",
+  so no figure can be worked out two ways.
+- Stock is costed by weighted average, replayed in date order, so a supplier bill keyed weeks late
+  re-prices only what came after it. Chosen over FIFO; per-batch cost is kept, so FIFO stays
+  rebuildable.
+- Every money movement runs in one of 72 all-or-nothing transactions, and every delete, edit and
+  back-dated entry lands in a Change History.
+- Security: per-account and per-IP lockout, device-aware sessions with remote revoke, OTP reset,
+  Web Push (VAPID), photo uploads signed with AWS SigV4 from the Python standard library, checked
+  against Amazon's test vector.
+- Status: tested by the owners on staging and approved for go-live. The client's code is private,
+  so only the architecture is shown (overview and system map at work/workshopos/).
+- Built for its real load: about thirty cars a month, six or seven staff and two owners. A Django
+  5.2 monolith in two apps, server-rendered, nine runtime dependencies, no build step.
+- Why one rule has one home: the cost of a spare part was once worked out in five places and gave
+  two different answers.
+- Profit and cash are shown side by side, never added together: they differ by unused stock,
+  unpaid bills and earlier payments. Owner withdrawals are cash out, never an expense.
+- A part is paid for exactly once: it comes from a spare shop or from stock already paid for, and
+  the route is stored, never guessed, so no expense is counted twice.
+- The server never works out a price: prices are worked out in the browser in whole paise and
+  reach a bill only when a person presses Save, with tests so browser and server can't round
+  differently. Every typed amount passes one check that stops impossible values.
+- Photos never touch the server: the browser uploads them straight to storage on a signed link.
+- It went into a workshop that was already running: opening stock and balances are entered once,
+  then locked. Every deletion saves a copy first, and a Change History page shows what changed.
+
+## #word-hunt: Word Hunt (personal, live, 2026)
+A real-time multiplayer word game for voice calls with friends. Up to 10 players. One secretly picks
+a word from a board of 71, and everyone else hunts it while a 100-second time bank drains. Room
+codes are three letters, so you can say them out loud. 78 tests. Running cost $0.
+- A six-state, server-authoritative state machine on Django Channels (WebSockets, ASGI).
+- A dropped connection marks a player disconnected, not removed, so a network blip never costs
+  their time bank. Reconnects back off and resync the full state.
+- Every sound is synthesised with the Web Audio API and the channel layer runs in memory: no audio
+  files, no Redis, no bill. Server-side rate limiting on broadcast events.
+- Play it: word-hunt-game.onrender.com ("Try the demo", no sign-up). Source: github.com/Irshaduu/word-hunt-game
+
+## #physiocoach: PhysioCoach (personal, live, 2026)
+A hands-free knee rehab coach he built for his own recovery after knee surgery, and used every day
+of it. It counts holds and reps out loud, in English or Malayalam: press Start and put the phone
+down. 80 tests.
+- Three-tier voice: the browser's speech engine, then 215 pre-generated English and Malayalam
+  clips, then a server endpoint. A stall timeout clears the browser's known hung-speech bug.
+- Offline-first: sessions queue in localStorage and sync when the network returns.
+- Screen Wake Lock keeps the display on mid-exercise.
+- Open it: therapist.pythonanywhere.com ("Try the demo", no sign-up). Source: github.com/Irshaduu/physio-coach
+
+## #catering: Catering staff system (technical consultant, 2026)
+Badusha Event Management ran its catering staff on paper and WhatsApp. He wrote the product and
+architecture specification for an installable app: a 10-role staff app, 24 modules ranked MVP,
+Optional or Deferred, across six Django apps, written so other developers can build it.
+Specification delivered to the client; the build is pending the client's budget.
+- Staff climb grades on their own: a 3rd completed event makes grade C, an 8th grade B. Grade A
+  needs a site manager's nomination.
+- Planned for mass registration days of 2,000 to 3,000 sign-ups: scale up for the day, then down.
+- Flagged India's DPDP Act risk for Aadhaar photos, and designed the retention notice to show at
+  upload, never hidden.
+- Overview and the original PDFs at work/catering/.
+
+## #stack: Stack
+Languages: Python, JavaScript (ES6+), SQL, HTML, CSS.
+Back end: Django 5.2, Django ORM, PostgreSQL, Django Channels, WebSockets, REST, JSON, SQLite.
+In the browser: PWA and Service Workers, Web Push (VAPID), Web Audio API, Web Speech API, Screen
+Wake Lock, localStorage, Bootstrap. Vanilla JavaScript, mobile-first.
+Shipping: Git, GitHub, Render, PythonAnywhere, Railway, Cloudflare R2, AWS SigV4.
+How he builds: role-based access, decimal money logic, audit trails, regression testing, query
+optimisation (N+1 removal, composite indexes), technical specs, one rule in one home.
+
+## #story: Story
+- 2019 to 2023: founder of an event management company. Built and scaled it, then handed it to
+  family. Four years of P&L, staffing and suppliers: the problems he now builds software for.
+- 2023 to 2024: algorithmic trading. Deployed and managed automated trading systems, with hands-on
+  risk management.
+- 2025: Python and Django. Full-stack development at Entri Elevate, Grade A+ (98%). Python
+  certificates from Illinois Institute of Technology (Certified User) and Skill India NSDC (Grade A+).
+- 2026: freelance developer. WorkshopOS for Formula D, the catering architecture for Badusha Event
+  Management, and two live apps of his own.
+
+## #contact: Contact
+Open to full-time roles and freelance projects. Email irshaduu01@gmail.com or WhatsApp (the button
+in Contact), whichever is easier. GitHub: github.com/Irshaduu. LinkedIn:
+linkedin.com/in/mohammed-irshad-c. Resume: the resume/ page, with a PDF.
+
+## This site
+One page, eight eras of the web: a time machine at the bottom restyles the whole portfolio as the
+web of 1992, 1997, 2001, 2007, 2013, 2023, 2026 or 2030. The content never changes, only the look.
+Plain HTML, CSS and JavaScript: no framework, no build step, served as plain files on GitHub Pages.
+2030 is drawn live in WebGL, and every sound on the site is made in code with the Web Audio API.
+This assistant: common questions get ready-made answers instantly; the rest go to an AI (Google
+Gemini, or Groq when Gemini is busy) through a small Cloudflare Worker that holds the keys.
+`.trim();

@@ -6,6 +6,11 @@ PLAN.md
 .claude/
 node_modules/
 
+# The assistant's API keys for local runs, and Wrangler's cache. Keys never go to GitHub.
+.dev.vars
+.wrangler/
+assistant/exam-report.txt
+
 # OS and editor clutter
 .DS_Store
 Thumbs.db

@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-assistant",
+  "private": true,
+  "type": "module",
+  "description": "The portfolio assistant's server: a Cloudflare Worker that asks Gemini, then Groq.",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "exam": "node exam.mjs",
+    "exam-key": "node exam-key.mjs",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "4.142.0"
+  }
+}

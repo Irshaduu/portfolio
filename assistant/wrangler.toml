@@ -1,0 +1,18 @@
+# The assistant's server, as Cloudflare runs it. `npm run deploy` sends it there.
+# The API keys are not here: they are secrets, set once with `npx wrangler secret put` (see README.md).
+
+name = "portfolio-assistant"
+main = "worker/index.js"
+compatibility_date = "2026-09-20"
+
+# Logs in the Cloudflare dashboard: which service answered each question, and how fast.
+[observability]
+enabled = true
+
+[vars]
+# The pages allowed to ask: the live portfolio, and the local server (node tools/serve.mjs).
+ALLOWED_ORIGINS = "https://irshaduu.github.io,http://localhost:4173,http://127.0.0.1:4173"
+# The models, one per service. Check your free limits for each in Google AI Studio and the Groq
+# console; change a name here and deploy again to switch.
+GEMINI_MODEL = "gemini-3.5-flash-lite"
+GROQ_MODEL = "openai/gpt-oss-120b"

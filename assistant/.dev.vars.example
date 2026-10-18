@@ -1,0 +1,10 @@
+# Copy this file to .dev.vars and fill it in. .dev.vars is in .gitignore, so it never reaches GitHub.
+#
+# EXAM_KEY: any long random text you make up. Put the same text on the live server once with
+# `npx wrangler secret put EXAM_KEY`. The exam (npm run exam) sends it to skip the visitor limit.
+EXAM_KEY=
+
+# Only for trying the server on this computer (npm run dev): paste your keys after the = signs.
+# The live server doesn't read this file: it uses the secrets set with `npx wrangler secret put`.
+GEMINI_API_KEY=
+GROQ_API_KEY=

@@ -367,7 +367,8 @@ the download always match, and links shared before keep working. To change the r
 2. If the fact also appears in the portfolio (`index.html`) or a write-up (`work/`), change it there
    too.
 3. Run `node tools/facts.mjs`. It finds the 18 facts the pages share (test counts, models, routes,
-   modules and so on) by their wording on each page, and says where any two pages disagree. It
+   modules and so on) by their wording on each page, and in the assistant's fact sheet and ready
+   answers, and says where any two disagree. It
    also checks that "3,400+ tests" still adds up, that the resume's phone number is the one the
    WhatsApp links use, and that no Google Drive link has come back.
 4. Run `node tools/pdf.mjs`. It starts its own local server, prints every document page with
@@ -391,6 +392,17 @@ The project cards' documents are pages in the same design, under `work/`, each p
   the flow, the rules, the registration-day plan, the cost and the module plan. The two documents
   the client received, the architecture report and the module plan, sit in `assets/docs/` exactly
   as delivered and are linked at the end. Don't edit them.
+
+## The assistant
+
+Irshad's Agent, his own assistant, in short, plain English. A visitor's question gets a ready-made answer if
+one fits (`js/assistant/answers.js`), otherwise an AI answers it from the portfolio's public facts:
+Groq first, Google Gemini when Groq is at its limit, and the closest ready-made answer when both
+rest. Someone in danger or in pain gets help from the page itself, never from an AI. Every answer
+offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant/`) that holds the
+keys, so the page never sees them. It's not on the page yet: `tools/assistant.html` is its test
+bench, and each era will get its own costume for it next. `assistant/README.md` has how it talks,
+the setup step by step, and how it's built.
 
 ---
 
@@ -417,10 +429,13 @@ js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter,
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js), the
                       2030 score (audio.js), and the moment each project symbol moves (marks.js)
+js/assistant/         the assistant's page side: ready-made answers (answers.js), asking (client.js)
+assistant/            the assistant's server, a Cloudflare Worker, with its tests and setup guide
 tools/serve.mjs       zero-dependency local server
 tools/stamp.mjs       fingerprints every stylesheet and script, so a deploy never mixes versions
 tools/pdf.mjs         prints the document pages to their PDFs (the resume, the write-ups)
-tools/facts.mjs       checks the portfolio, resume and write-ups agree on the facts they share
+tools/facts.mjs       checks the portfolio, resume, write-ups and assistant agree on the facts they share
+tools/assistant.html  the assistant's test bench: ask, and see where each answer came from
 tools/share-card.html the link preview picture (assets/share.png); how to rebuild it is inside
 tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
 tools/era-screens.html the live apps' screens as 1997, 2001 and 2007 would have shown them
