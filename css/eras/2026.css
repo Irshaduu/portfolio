@@ -16,6 +16,12 @@
     --sans: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
     --wrap: min(1180px, 100% - 2 * clamp(16px, 4vw, 48px));
+    /* Irshad's Agent wears the shared glass (css/agent.css) in these colours. */
+    --agent-accent: var(--c1);
+    --agent-warm: var(--c3);
+    --agent-mono: var(--mono);
+    --agent-panel: rgb(9 11 20 / .88);
+    --agent-panel-phone: rgb(7 9 17 / .97);
     color-scheme: dark;
     scroll-behavior: smooth;
 
@@ -85,19 +91,6 @@
       background: linear-gradient(100deg, var(--ink) 5%, var(--c1) 48%, var(--c2) 92%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
       padding-bottom: .08em;
-    }
-    /* "Ask my AI", right under the name: small, a friendly face, the same agent as the floating button. */
-    & .ask-ai {
-      justify-self: start; display: inline-flex; align-items: center; gap: .5em; margin-top: -.5rem;
-      padding: .36rem .95rem .36rem .5rem; border-radius: 999px;
-      border: 1px solid var(--line-2); background: rgb(9 11 20 / .7); color: var(--ink);
-      font: 500 .86rem/1 var(--sans); letter-spacing: .01em;
-      transition: border-color .25s, box-shadow .25s, transform .25s;
-    }
-    & .ask-ai__bot { flex: none; color: var(--c1); filter: drop-shadow(0 0 6px rgb(125 243 255 / .45)); }
-    & .ask-ai:hover {
-      border-color: var(--c1); transform: translateY(-1px);
-      box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 0 24px rgb(125 243 255 / .2);
     }
     & .role { font: 400 .82rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
     & .lede { max-width: 44ch; font-size: clamp(1.1rem, 1.7vw, 1.38rem); line-height: 1.55; color: var(--ink-2); }
@@ -371,144 +364,6 @@
       animation: tt26-pulse 2.4s ease-in-out infinite;
     }
 
-    /* ---- Irshad's Agent: a glass panel that rises above the time machine ---- */
-    & .agent-launch {
-      position: fixed; z-index: 97; right: max(16px, env(safe-area-inset-right)); bottom: calc(var(--tm-h, 6rem) + 22px);
-      align-items: center; gap: .65em; padding: .72rem 1.15rem .72rem 1rem;
-      border-radius: 999px; border: 1px solid var(--line-2); background: rgb(9 11 20 / .8); color: var(--ink);
-      font: 500 .84rem/1 var(--sans); letter-spacing: .01em;
-      backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
-      box-shadow: 0 18px 50px -18px rgb(0 0 0 / .9), inset 0 1px 0 rgb(255 255 255 / .07);
-      transition: border-color .25s, box-shadow .25s, transform .25s;
-    }
-    & .agent-launch:not([aria-expanded="true"]) { display: inline-flex; }
-    & .agent-launch:hover {
-      border-color: var(--c1); transform: translateY(-1px);
-      box-shadow: 0 0 0 4px rgb(125 243 255 / .1), 0 0 32px rgb(125 243 255 / .25), 0 18px 50px -18px rgb(0 0 0 / .9);
-    }
-    & :is(.agent-launch__dot, .agent__dot) {
-      width: 8px; height: 8px; border-radius: 50%; flex: none;
-      background: var(--c1); box-shadow: 0 0 12px var(--c1); animation: tt26-pulse 2.4s ease-in-out infinite;
-    }
-    /* The panel is only as tall as the conversation, up to its max-height: a new chat opens as a
-       small card, not a tall empty one, and grows as the visitor talks. */
-    & .agent {
-      right: max(16px, env(safe-area-inset-right)); bottom: calc(var(--tm-h, 6rem) + 22px);
-      width: min(410px, 100vw - 32px); max-height: min(620px, 100svh - var(--tm-h, 6rem) - 60px);
-      gap: .85rem; padding: 1rem 1rem .75rem;
-      border-radius: 26px; border: 1px solid var(--line-2);
-      background: linear-gradient(180deg, rgb(255 255 255 / .05), rgb(255 255 255 / 0) 30%), rgb(9 11 20 / .88);
-      backdrop-filter: blur(26px) saturate(1.4); -webkit-backdrop-filter: blur(26px) saturate(1.4);
-      box-shadow: 0 30px 90px -20px rgb(0 0 0 / .95), 0 0 0 1px rgb(0 0 0 / .4), inset 0 1px 0 rgb(255 255 255 / .08);
-      animation: tt26-agent-in .38s cubic-bezier(.2, .8, .2, 1) both;
-    }
-    & .agent__head { padding: .15rem .1rem .1rem .3rem; }
-    & .agent__title {
-      display: flex; align-items: center; gap: .65em;
-      font: 500 .7rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2);
-    }
-    /* While the AI rests, the dot turns amber and stops breathing, and a small countdown sits beside
-       the name. Near the day's end, just a faint "5 left today". */
-    & .agent__wait { text-transform: none; letter-spacing: .06em; font-size: .64rem; color: var(--ink-3); }
-    & .agent__wait::before { content: "· "; }
-    & .agent[data-resting] .agent__wait { color: var(--c3); font-variant-numeric: tabular-nums; }
-    & .agent[data-resting] .agent__dot { background: var(--c3); box-shadow: 0 0 10px rgb(255 179 138 / .55); animation: none; }
-    & .agent__close {
-      display: grid; place-items: center; width: 32px; height: 32px; padding: 0;
-      border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--ink-2);
-    }
-    & .agent__close:hover { border-color: var(--c1); color: var(--ink); }
-    & .agent__log { padding: .2rem .35rem .2rem .3rem; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
-    & .agent__msg--me {
-      max-width: 86%; padding: .55rem .9rem; border-radius: 18px 18px 4px 18px;
-      background: rgb(125 243 255 / .1); border: 1px solid rgb(125 243 255 / .24); font-size: .94rem; line-height: 1.45;
-    }
-    & .agent__msg--bot { display: grid; gap: .55rem; max-width: 96%; font-size: .97rem; line-height: 1.58; }
-    & .agent__see a {
-      font: 500 .68rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-    }
-    & .agent__see a::after { content: " \2198"; }
-    & .agent__trace { font: 400 .64rem/1.4 var(--mono); letter-spacing: .06em; color: var(--ink-3); }
-    /* Small and quiet, after the last word: the faintest ink, a little brighter when asked. A bigger
-       tap area than it looks, which doesn't push the lines apart. */
-    & .agent__signal {
-      padding: 6px 8px 6px 4px; margin: -6px 0 -6px .3em; opacity: .6;
-      color: var(--ink-3); font: 400 .62rem/1 var(--mono); letter-spacing: .06em; transition: opacity .2s;
-    }
-    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
-    & .agent__next button {
-      padding: .32rem .7rem; border-radius: 999px; text-align: left;
-      border: 1px solid var(--line-2); background: rgb(255 255 255 / .025); color: var(--ink-2); font-size: .78rem; line-height: 1.3;
-      transition: border-color .2s, background .2s, color .2s;
-    }
-    & .agent__next button:hover { color: var(--ink); }
-    & .agent__next button:hover { border-color: var(--c1); background: rgb(125 243 255 / .06); }
-    & .agent__next .agent__more { border-style: dashed; color: var(--ink-2); }
-    & .agent__typing { color: var(--c1); }
-    & .agent__form {
-      padding: .3rem .3rem .3rem 1rem; border-radius: 999px;
-      border: 1px solid var(--line-2); background: rgb(255 255 255 / .03); transition: border-color .2s, box-shadow .2s;
-    }
-    & .agent__form:focus-within { border-color: var(--c1); box-shadow: 0 0 0 4px rgb(125 243 255 / .08); }
-    & .agent__form textarea {
-      height: 2.23rem; max-height: 8.6em; padding: .45rem 0; border: 0; outline: none; overflow-y: auto;
-      background: transparent; color: var(--ink); font-size: .95rem; line-height: 1.4;
-      scrollbar-width: thin; scrollbar-color: var(--line-2) transparent;
-    }
-    & .agent__form textarea::placeholder { color: var(--ink-3); }
-    /* More than a line in the box: the pill becomes a rounded card, the send button at its foot. */
-    & .agent__form[data-tall] { align-items: flex-end; border-radius: 20px; }
-    /* Waiting for a job post: a bigger box, ready for it. */
-    & .agent__form[data-paste] textarea { min-height: 5.6em; }
-    & .agent__status { margin-left: .7em; font: 400 .68rem/1 var(--mono); letter-spacing: .08em; color: var(--ink-3); }
-
-    /* ---- the job-fit check: the post, folded, and a card of what matches and what isn't shown ---- */
-    & .agent__post-head { font: 500 .6rem/1.2 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--c1); }
-    & .agent__post-text { font-size: .86rem; color: var(--ink-2); }
-    & .fit {
-      gap: .75rem; padding: .85rem .95rem .9rem; border-radius: 16px;
-      border: 1px solid var(--line-2); background: rgb(255 255 255 / .025);
-    }
-    & .fit__head { font: 500 .6rem/1.2 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); }
-    & .fit__list { gap: .55rem; margin-top: -.25rem; }
-    /* A match reads as two lines: what the job asks, then the proof with its link at the end. */
-    & .fit__row { position: relative; display: block; padding-left: 1.1rem; }
-    & .fit__row::before {
-      content: ""; position: absolute; left: 0; top: .5em; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--c1); box-shadow: 0 0 10px rgb(125 243 255 / .7);
-    }
-    & .fit__list--gap .fit__row { font-size: .88rem; line-height: 1.45; color: var(--ink-2); }
-    & .fit__list--gap .fit__row::before { background: transparent; border: 1px solid var(--ink-3); box-shadow: none; }
-    & .fit__need { display: block; font-size: .92rem; font-weight: 500; line-height: 1.4; color: var(--ink); }
-    & .fit__proof { font-size: .84rem; line-height: 1.45; color: var(--ink-2); }
-    & .fit__link {
-      margin-left: .5em; white-space: nowrap;
-      font: 500 .6rem/1.4 var(--mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none;
-    }
-    & .fit__link::after { content: " \2198"; }
-    & .fit__ask { gap: .3rem; padding-top: .7rem; border-top: 1px solid var(--line); font-size: .9rem; line-height: 1.45; }
-    & .fit__mail {
-      justify-self: start; padding: .5rem 1rem; border-radius: 999px;
-      border: 1px solid rgb(125 243 255 / .5); background: rgb(125 243 255 / .08); color: var(--ink);
-      font-size: .82rem; text-decoration: none; transition: box-shadow .2s, border-color .2s;
-    }
-    & .fit__mail:hover { border-color: var(--c1); box-shadow: 0 0 24px rgb(125 243 255 / .3); }
-    & .agent__send {
-      flex: none; display: grid; place-items: center; width: 38px; height: 38px; padding: 0;
-      border-radius: 999px; border: 0; background: var(--ink); color: #05060c; transition: opacity .2s, box-shadow .2s;
-    }
-    & .agent__send:hover { box-shadow: 0 0 24px rgb(125 243 255 / .45); }
-    & .agent__send:disabled { opacity: .35; cursor: default; box-shadow: none; }
-    & .agent__note { font-size: .66rem; line-height: 1.4; color: var(--ink-3); text-align: center; }
-    /* A touch keyboard is up (js/agent.js measures it): the panel sits on top of it, in what's
-       left of the screen, and the small print waits until the keyboard goes. */
-    & .agent[data-keyboard] { bottom: calc(var(--kb) + 10px); max-height: min(620px, var(--vvh) - 20px); }
-    & .agent[data-keyboard] .agent__note { display: none; }
-    /* Below 16px, an iPhone zooms the whole page in when the box is tapped. */
-    @media (pointer: coarse) { & .agent__form textarea { font-size: 16px; } }
-    /* A part of the page an answer points to lights up for a moment. */
-    & .agent-spot { border: 2px solid var(--c1); animation: tt26-spot 2.8s ease-out forwards; }
-
     /* ---- small screens ---- */
     @media (max-width: 1100px) {
       & .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -540,21 +395,6 @@
       & .tm__range::-moz-range-track { height: 3px; }
       & .tm__range::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
       & .tm__range::-moz-range-thumb { width: 20px; height: 20px; }
-      /* The agent: a small button over the docked bar, and a card that floats above it, with a
-         little air on every side so it reads as one calm thing on top of the page. */
-      & .agent-launch { right: 12px; bottom: calc(var(--tm-h, 6rem) + 12px); padding: .62rem 1rem .62rem .9rem; font-size: .8rem; }
-      & .agent {
-        left: 10px; right: 10px; bottom: calc(var(--tm-h, 6rem) + 10px); width: auto;
-        max-height: min(72svh, 100svh - var(--tm-h, 6rem) - 24px);
-        padding: .9rem 14px .6rem; border-radius: 22px;
-        background: rgb(7 9 17 / .97);
-        box-shadow: 0 24px 70px -10px rgb(0 0 0 / .95), 0 0 0 1px rgb(0 0 0 / .5), inset 0 1px 0 rgb(255 255 255 / .08);
-      }
-      & .agent[data-keyboard] { bottom: calc(var(--kb) + 8px); max-height: calc(var(--vvh) - 16px); }
-      /* The suggestions: one row that scrolls sideways, instead of a stack that pushes the answer away. */
-      & .agent__next { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-      & .agent__next::-webkit-scrollbar { display: none; }
-      & .agent__next button { flex: none; white-space: nowrap; }
     }
 
     /* Panels rise out of depth as they scroll in, where the browser can tie it to scroll. */
@@ -568,22 +408,12 @@
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      & .hud__live::before, & .tm__hint, & .agent-launch__dot, & .agent__dot, & .agent { animation: none; }
+      & .hud__live::before, & .tm__hint { animation: none; }
       & .project { transition: none; }
-      & .agent-spot { animation: tt26-spot-still 2.8s step-end forwards; }
     }
   }
 
   @keyframes tt26-pulse { 50% { opacity: .35; } }
-  @keyframes tt26-agent-in { from { opacity: 0; translate: 0 18px; scale: .97; } }
-  @keyframes tt26-spot {
-    0% { opacity: 0; box-shadow: 0 0 0 0 rgb(125 243 255 / 0); }
-    12% { opacity: 1; box-shadow: 0 0 0 6px rgb(125 243 255 / .14), 0 0 70px rgb(125 243 255 / .45); }
-    70% { opacity: 1; box-shadow: 0 0 0 3px rgb(125 243 255 / .08), 0 0 40px rgb(125 243 255 / .25); }
-    100% { opacity: 0; box-shadow: 0 0 0 0 rgb(125 243 255 / 0); }
-  }
-  /* Reduced motion: the ring is simply there, then gone. */
-  @keyframes tt26-spot-still { 0% { opacity: 1; } 100% { opacity: 0; } }
   /* No opacity here: intent owns opacity, and a filled animation would override it. */
   @keyframes tt26-rise { from { translate: 0 56px; scale: .955; } to { translate: 0 0; scale: 1; } }
 }

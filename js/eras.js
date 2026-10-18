@@ -74,6 +74,7 @@ export const ERAS = [
     fonts: [gf('family=Inter:wght@400;500;600;700'), gf('family=Instrument+Serif:ital@0;1')],
     fontProbe: '600 1em Inter',
     module: false,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a78bfa"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs><rect x="2" y="2" width="28" height="28" rx="9" fill="url(#g)"/>`),
   },
   {
@@ -88,6 +89,7 @@ export const ERAS = [
     ],
     fontProbe: '300 1em Unbounded',
     module: true,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<circle cx="16" cy="16" r="11" fill="none" stroke="#7df3ff" stroke-width="3"/><circle cx="16" cy="16" r="4" fill="#b8a4ff"/>`),
   },
   {

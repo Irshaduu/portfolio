@@ -61,6 +61,28 @@ async function syncModule() {
   }
 }
 
+// ---- Irshad's Agent: one for the whole visit, in whichever era it visits -----------------
+
+// Loaded the first time someone asks for it (js/agent.js), then kept for the visit. It's kept as
+// the promise, so a second tap while it loads (a slow phone) waits for the same agent instead of
+// mounting another. It stays open through a trip in time, changing clothes with the page
+// (css/agent.css), and closes only in an era it doesn't visit yet (`agent` in eras.js); the
+// conversation waits for the way back.
+let agent = null;
+document.addEventListener('click', async (event) => {
+  if (!event.target.closest('[data-agent-open]')) return;
+  agent ??= load(new URL('./agent.js', import.meta.url)).then((module) => module.mount(ctx));
+  try {
+    (await agent).open();
+  } catch (err) {
+    agent = null; // let the next tap try again
+    console.error('The agent failed to load', err);
+  }
+});
+const agentFollows = (era) => {
+  if (!era.agent) agent?.then((a) => a.close(), () => {});
+};
+
 // ---- rendering ----------------------------------------------------------------------
 
 const favicon = document.getElementById('favicon');
@@ -71,6 +93,7 @@ function render() {
   const { year, era } = state;
   root.dataset.year = year;
   if (root.dataset.era !== era.id) root.dataset.era = era.id;
+  agentFollows(era);
   document.title = era.title;
   favicon.href = era.favicon;
   applyYear(year);

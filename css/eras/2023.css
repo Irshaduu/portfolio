@@ -13,6 +13,12 @@
     --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     --serif: "Instrument Serif", Georgia, serif;
     --wrap: min(1120px, 100% - 2 * clamp(16px, 4vw, 40px));
+    /* Irshad's Agent wears the shared glass (css/agent.css) in 2023's indigo. */
+    --agent-accent: #818cf8;
+    --agent-warm: #fbbf24;
+    --agent-mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
+    --agent-panel: rgb(24 24 27 / .9);
+    --agent-panel-phone: rgb(24 24 27 / .98);
     color-scheme: dark;
     scroll-behavior: smooth;
 
@@ -269,6 +275,21 @@
     & .tm__ticks button { font-size: .66rem; font-weight: 500; color: var(--ink-3); }
     & .tm__ticks button:hover, & .tm__ticks button[aria-current] { color: var(--ink); }
     & .tm__hint { grid-column: 1 / -1; text-align: center; font-size: .7rem; color: #c4b5fd; }
+
+    /* ---- Irshad's Agent, 2023: the chat box every product shipped that year ----
+       The shared glass (css/agent.css) in indigo, with that year's habits: a soft glow behind
+       the panel, a title in plain words, grey bubbles for you, a rounded box to type in. */
+    & .agent {
+      border-radius: 20px;
+      box-shadow: 0 0 0 1px var(--line), 0 30px 80px -24px rgb(0 0 0 / .9), 0 0 90px -30px rgb(129 140 248 / .5);
+    }
+    & .agent__title { font: 600 .92rem/1 var(--sans); letter-spacing: -.01em; text-transform: none; color: var(--ink); }
+    & .agent__wait { font-family: var(--sans); font-weight: 400; }
+    & .agent__msg--me { border: 0; border-radius: 18px; background: rgb(255 255 255 / .08); }
+    & .agent__form { border-radius: 16px; background: rgb(255 255 255 / .04); }
+    & .agent__send { width: 34px; height: 34px; border-radius: 10px; }
+    & .agent__see a, & .fit__link { font-family: var(--sans); font-weight: 600; letter-spacing: .02em; text-transform: none; }
+    & .ask-ai { justify-self: center; margin-top: -.2rem; background: rgb(255 255 255 / .04); } /* the hero is centred here */
 
     @media (max-width: 900px) {
       & .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }

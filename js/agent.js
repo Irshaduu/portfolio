@@ -6,7 +6,8 @@
 // scrolls there and lights it up, and "take me to 1997" travels. A pasted job post gets the
 // job-fit check instead (js/assistant/fit.js), shown as a card: what matches, each with its proof
 // on the page, what the site doesn't show, and a question worth asking Irshad.
-// It's loaded the first time someone opens the agent (js/eras/2026.js), never before.
+// It's loaded the first time someone opens the agent (js/main.js), never before, and dressed by
+// css/agent.css and each era it visits.
 
 import { ask, checkFit, plain } from './assistant/client.js';
 import { START } from './assistant/answers.js';
@@ -377,11 +378,9 @@ export function mount(ctx) {
 
   function act({ link, travel }) {
     if (travel) {
-      // Say it, then go. The agent lives in 2026 for now, so it closes on the way out.
-      setTimeout(() => {
-        close();
-        ctx.goTo(travel);
-      }, 900);
+      // Say it, then go. The agent travels too, changing clothes with the page (js/main.js closes
+      // it only in an era it doesn't visit yet).
+      setTimeout(() => ctx.goTo(travel), 900);
       return;
     }
     // On a wide screen the panel sits beside the page, so the page can show what the answer is

@@ -404,9 +404,9 @@ offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant
 keys, so the page never sees them. `assistant/README.md` has how it talks, the setup step by step,
 and how it's built; `tools/assistant.html` is its test bench.
 
-**On the page, in 2026** (`js/agent.js`): a small glowing button, *Irshad's Agent*, floats just
-above the time machine, and the 2026 intent hint ends with "Or ask my agent". Neither opens by
-itself. The chat is a glass panel beside the page (a sheet rising from the time machine on a
+**On the page** (`js/agent.js`, loaded by `js/main.js`): a small "Ask my AI" button with a robot
+face sits right under the name, a glowing *Irshad's Agent* button floats just above the time
+machine, and the 2026 intent hint ends with "Or ask my agent". None opens by itself. The chat is a glass panel beside the page (a sheet rising from the time machine on a
 phone), loaded only when first opened. It greets the visitor with three questions to start from,
 chosen by why they came, and every answer ends with what to ask next. Answers act on the page: on
 a wide screen an answer about Word Hunt scrolls there and lays a ring of light over the card
@@ -421,8 +421,12 @@ card instead of a chat answer: what the job asks that the site shows (each with 
 link that lights it up), what the site doesn't show (never "he can't"), one question worth asking
 him, and a button to email the job to him. Honest on purpose, so the matches are believable. When
 every AI rests, the page checks the post's words itself. `assistant/README.md` has how it works.
-For now the agent lives in 2026 only: travelling away closes it, and it's there again on the way
-back. Each era gets its own costume next.
+**In every era, its own clothes** (`css/agent.css`): one brain, and a costume for each era it
+visits. The layout (floating above the time machine, phone and keyboard) is shared; the modern
+eras share a glass look in their own colours (2026 cyan; 2023 indigo, like that year's chat
+apps), and each era adds its habits. It stays open through a trip in time and changes clothes with
+the page. So far it visits 2023 and 2026 (`agent: true` in `js/eras.js`); in other eras its
+buttons hide and the panel closes, and the conversation waits for the way back.
 
 ---
 
@@ -432,6 +436,7 @@ back. Each era gets its own costume next.
 index.html            all content, once
 css/base.css          layers, reset, shared mechanics, view transitions
 css/eras/<year>.css   one file per era
+css/agent.css         Irshad's Agent's clothes: the shared layout, and the glass look the modern eras share
 css/print.css         print = 1992
 css/doc.css           the document pages: a sheet of A4 on screen, in print and as a PDF
 resume/index.html     the resume, the source of its PDF

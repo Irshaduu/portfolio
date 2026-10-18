@@ -1,7 +1,6 @@
-// 2026: light that follows the pointer across the glass panels, intent: tell the page why you
-// came and it leans toward what matters to you, and Irshad's Agent, to ask about my work.
-
-import { load } from '../load.js';
+// 2026: light that follows the pointer across the glass panels, and intent: tell the page why you
+// came and it leans toward what matters to you, with "ask my agent" at the end of its hint (the
+// agent itself is the whole page's: js/main.js loads it).
 
 const ASK = ' Or <button type="button" class="intent__ask" data-agent-open>ask my agent</button>.';
 const HINTS = {
@@ -75,37 +74,11 @@ function intent(root) {
   });
 }
 
-// Irshad's Agent (js/agent.js): loaded the first time someone asks for it, then kept for the visit.
-// It's kept as the promise, so a second tap while it loads (a slow phone) waits for the same agent
-// instead of mounting a second one on top.
-let agent = null;
-
-function agentButtons(ctx) {
-  const onClick = async (event) => {
-    const opener = event.target.closest('[data-agent-open]');
-    if (!opener) return;
-    agent ??= load(new URL('../agent.js', import.meta.url)).then((module) => module.mount(ctx));
-    try {
-      (await agent).open();
-    } catch (err) {
-      agent = null; // let the next tap try again
-      console.error('The agent failed to load', err);
-    }
-  };
-  document.addEventListener('click', onClick);
-  // The agent lives in 2026 for now: leaving closes it. The conversation waits for the way back.
-  onLeave(() => {
-    document.removeEventListener('click', onClick);
-    agent?.then((a) => a.close(), () => {});
-  });
-}
-
 export function enter(ctx) {
   const { root } = ctx;
   const finePointer = matchMedia('(pointer: fine)').matches;
   if (finePointer) pointerLight(root);
   intent(root);
-  agentButtons(ctx);
 }
 
 export function leave() {

@@ -1,9 +1,10 @@
 /*
-  The cascade has three layers. Era stylesheets live in `era`, so they always win over the
-  reset and the shared mechanics below, whatever their selectors. Each era is scoped by
+  The cascade has four layers. Era stylesheets live in `era`, so they always win over the
+  reset, the shared mechanics below and Irshad's Agent's shared clothes (css/agent.css, `agent`),
+  whatever their selectors. Each era is scoped by
   :root[data-era="…"], so switching eras is one attribute change and nothing else.
 */
-@layer reset, base, era;
+@layer reset, base, agent, era;
 
 @layer reset {
   *, *::before, *::after { box-sizing: border-box; }
