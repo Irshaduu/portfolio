@@ -30,6 +30,7 @@ export const ERAS = [
     fonts: [gf('family=Comic+Neue:wght@400;700')],
     fontProbe: '700 1em "Comic Neue"',
     module: true,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<rect width="32" height="32" fill="#000"/><polygon points="16,3 19.5,12 29,12 21.5,18 24.5,28 16,22 7.5,28 10.5,18 3,12 12.5,12" fill="#ff0"/>`),
   },
   {

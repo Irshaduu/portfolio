@@ -32,6 +32,10 @@ const STARTERS = {
   explore: ['Can I play his game?', 'Take me to 1997', 'What has he built?'],
 };
 const GREETING = "Hi! I know Irshad's work inside out. Ask me anything, or pick one below.";
+// Some eras greet in their own way; the agent behind it is the same everywhere.
+const GREETINGS = {
+  1997: "It looks like you're visiting a homepage! Would you like help? Ask me anything about Irshad, or pick one below.",
+};
 
 // "(#word-hunt)" at the end of an AI answer: the page shows it as "See Word Hunt" instead.
 const CITE = /\s*\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/g;
@@ -241,7 +245,7 @@ export function mount(ctx) {
   function render() {
     log.replaceChildren();
     const intent = ctx.root.dataset.intent;
-    finish(botMessage(), { text: GREETING, next: STARTERS[intent] ?? START });
+    finish(botMessage(), { text: GREETINGS[ctx.root.dataset.era] ?? GREETING, next: STARTERS[intent] ?? START });
     let before = null; // the part of the page the answer before pointed to
     messages.forEach((m, i) => {
       if (m.role === 'user') return m.post ? postBubble(m.text) : userBubble(m.text);
@@ -550,5 +554,10 @@ export function mount(ctx) {
     if (event.key === 'Escape') close();
   });
 
-  return { open, close, isOpen: () => !panel.hidden };
+  // After a trip in time: greet the way the new era does (not while an answer is still arriving).
+  const refresh = () => {
+    if (!panel.hidden && !busy) render();
+  };
+
+  return { open, close, refresh, isOpen: () => !panel.hidden };
 }

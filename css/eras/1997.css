@@ -9,6 +9,8 @@
     --silver: #c0c0c0;
     --bevel-out: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
     --bevel-in: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
+    /* Irshad's Agent's 1997 helper: a little beige computer with a face (see the agent's block below). */
+    --agent-face: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='5' y='4' width='38' height='30' rx='3' fill='%23d6d0bd' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='10' y='8' width='28' height='20' fill='%23008080' stroke='%23585858'/%3E%3Cpath d='M15 12.2l5 .9M33 12.2l-5 .9' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='16.5' r='3.2' fill='%23fff'/%3E%3Ccircle cx='29' cy='16.5' r='3.2' fill='%23fff'/%3E%3Ccircle cx='19.7' cy='17.1' r='1.5' fill='%23000'/%3E%3Ccircle cx='29.7' cy='17.1' r='1.5' fill='%23000'/%3E%3Cpath d='M18.5 22.3q5.5 3.6 11 0' stroke='%23fff' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3Crect x='18' y='34' width='12' height='4' fill='%23bdb6a0' stroke='%23000' stroke-width='1.2'/%3E%3Crect x='11' y='38' width='26' height='6' rx='1' fill='%23d6d0bd' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='31' y='40' width='3' height='1.5' fill='%2300a000'/%3E%3C/svg%3E");
     color-scheme: dark;
 
     & :where(.orn[data-orn~="1997"]) { display: revert; }
@@ -238,6 +240,98 @@
     & .tm__ticks button[aria-current] { font-weight: bold; text-decoration: underline; }
     & .tm__hint { grid-column: 1 / -1; text-align: center; font: 11px var(--win); color: #000080; }
 
+    /* ---- Irshad's Agent, 1997: an office helper in a Windows 95 window ----
+       A little beige computer with a face (its own character, nobody's paperclip) beside a
+       pale-yellow help balloon, and the chat in a grey window with a blue title bar, a white text
+       field and bevelled buttons: the help every desktop had that year. Where it floats and how it
+       fits a phone come from css/agent.css. */
+
+    /* The floating helper: the character, with its name in a help balloon. */
+    & .agent-launch { gap: 4px; align-items: flex-end; padding: 0; border: 0; background: none; color: #000; font: 12px/1.2 var(--win); }
+    & .agent-launch::before {
+      content: ""; order: 2; width: 56px; height: 56px; flex: none;
+      background: var(--agent-face) center / contain no-repeat; filter: drop-shadow(2px 2px 0 rgb(0 0 0 / .45));
+      animation: tt97-helper 5s ease-in-out infinite;
+    }
+    & .agent-launch__dot { display: none; }
+    & .agent-launch__label {
+      position: relative; margin-bottom: 34px; padding: 6px 10px;
+      background: #ffffe1; border: 1px solid #000; border-radius: 8px; box-shadow: 2px 2px 0 rgb(0 0 0 / .45);
+    }
+    & .agent-launch__label::after {
+      content: ""; position: absolute; right: -5px; bottom: 9px; width: 8px; height: 8px;
+      background: #ffffe1; border: solid #000; border-width: 0 1px 1px 0; transform: rotate(-45deg);
+    }
+    & .agent-launch:hover .agent-launch__label { background: #ffff99; }
+    & .agent-launch:hover .agent-launch__label::after { background: #ffff99; }
+
+    /* "Ask my AI" under the name: a grey Windows button. */
+    & .ask-ai {
+      justify-self: center; padding: 4px 12px 4px 8px; border: 0; border-radius: 0;
+      background: var(--silver); color: #000; font: 12px/1.2 var(--win); box-shadow: var(--bevel-out);
+    }
+    & .ask-ai:active { box-shadow: var(--bevel-in); }
+    & .ask-ai__bot { color: #000080; }
+
+    /* The window. */
+    & .agent {
+      padding: 3px; gap: 0; border: 0; border-radius: 0;
+      background: var(--silver); color: #000; font: 13px/1.45 var(--win);
+      box-shadow: var(--bevel-out), 4px 4px 0 rgb(0 0 0 / .55);
+    }
+    & .agent a { color: #00f; }
+    & .agent a:visited { color: #800080; }
+    & .agent__head { padding: 3px 3px 3px 4px; background: linear-gradient(90deg, #000080, #1084d0); }
+    & .agent__title { gap: 5px; font: bold 12px/1 var(--win); color: #fff; }
+    & .agent__dot { width: 16px; height: 16px; flex: none; background: var(--agent-face) center / contain no-repeat; }
+    & .agent__wait { font: 11px var(--win); color: #c0c0c0; }
+    & .agent__wait::before { content: "- "; }
+    & .agent[data-resting] .agent__wait { color: #ff0; }
+    & .agent[data-resting] .agent__dot { filter: grayscale(1); }
+    & .agent__close { width: 18px; height: 16px; border: 0; border-radius: 0; background: var(--silver); color: #000; box-shadow: var(--bevel-out); }
+    & .agent__close svg { width: 9px; height: 9px; }
+    & .agent__close:active { box-shadow: var(--bevel-in); }
+    & .agent__log { margin: 6px 4px 0; padding: 8px; gap: 10px; background: #fff; box-shadow: var(--bevel-in); }
+    & .agent__msg--me { padding: 4px 8px; background: #ffffe1; border: 1px solid #000; font: 13px/1.35 var(--win); }
+    & .agent__msg--bot { gap: 6px; max-width: 100%; }
+    & .agent__see a { font: 12px var(--win); }
+    & :is(.agent__trace, .agent__status) { margin-left: 0; font: 11px var(--win); color: #808080; }
+    & .agent__status::before { content: " "; }
+    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 4px; color: #000; opacity: .5; font: 11px var(--win); }
+    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    & .agent__typing { color: #000080; }
+    & .agent__next { gap: 4px; }
+    & .agent__next button, & .fit__mail {
+      padding: 3px 8px; border: 0; border-radius: 0; background: var(--silver); color: #000;
+      font: 12px/1.25 var(--win); text-decoration: none; box-shadow: var(--bevel-out);
+    }
+    & :is(.agent__next button, .fit__mail):active { box-shadow: var(--bevel-in); }
+    & .agent__next button:focus-visible { outline: 1px dotted #000; outline-offset: -4px; }
+    & .agent__form { margin: 6px 4px 0; gap: 4px; }
+    & .agent__form textarea { padding: 4px 6px; background: #fff; color: #000; font: 13px/1.4 var(--win); box-shadow: var(--bevel-in); }
+    & .agent__form textarea::placeholder { color: #808080; }
+    & .agent__send { width: 52px; height: 26px; border: 0; border-radius: 0; background: var(--silver); color: #000; box-shadow: var(--bevel-out); }
+    & .agent__send:active { box-shadow: var(--bevel-in); }
+    & .agent__send:disabled { color: #808080; }
+    & .agent__note { margin: 5px 4px 2px; font: 11px/1.3 var(--win); color: #404040; text-align: center; }
+
+    /* The job-fit check, as a plain white report. */
+    & .agent__post-head { font: bold 11px var(--win); color: #000080; }
+    & .agent__post-text { font-size: 12px; }
+    & .fit { gap: 8px; padding: 8px; background: #fff; border: 1px solid #808080; }
+    & .fit__head { font: bold 11px var(--win); color: #000080; }
+    & .fit__list { gap: 6px; }
+    & .fit__row::before { content: ""; position: absolute; left: 0; top: .45em; width: 6px; height: 6px; background: #008000; }
+    & .fit__list--gap .fit__row::before { background: #fff; border: 1px solid #000; }
+    & .fit__list--gap .fit__row { font-size: 12px; color: #404040; }
+    & .fit__need { display: block; font-weight: bold; }
+    & .fit__proof { font-size: 12px; color: #404040; }
+    & .fit__link { margin-left: .4em; font-size: 11px; }
+    & .fit__ask { gap: 3px; padding-top: 6px; border-top: 1px solid #c0c0c0; }
+
+    /* A part of the page an answer points to: a blinking yellow frame, as 1997 would. */
+    & .agent-spot { border: 3px dashed #ff0; animation: tt97-blink .5s step-end 6; }
+
     /* Leave the top right corner to the sound switch. */
     @media (max-width: 900px) {
       & .marquee { margin-right: 40px; }
@@ -252,7 +346,16 @@
     @media (prefers-reduced-motion: reduce) {
       & .marquee span { animation: none; padding-left: 0; }
       & .blink, & .guestbook a { animation: none; }
+      & .agent-launch::before, & .agent-spot { animation: none; }
     }
+  }
+
+  /* The helper shifts its weight now and then, as desktop helpers did. */
+  @keyframes tt97-helper {
+    0%, 82%, 100% { translate: 0 0; rotate: 0deg; }
+    86% { translate: 0 -5px; rotate: -4deg; }
+    90% { translate: 0 0; rotate: 0deg; }
+    94% { translate: 0 -3px; rotate: 3deg; }
   }
 
   @keyframes tt97-marquee { to { transform: translateX(-100%); } }

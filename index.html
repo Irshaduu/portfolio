@@ -43,9 +43,9 @@
   <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
 
   <link rel="stylesheet" href="css/base.css?v=2c450ec88c">
-  <link rel="stylesheet" href="css/agent.css?v=186e5d2248">
+  <link rel="stylesheet" href="css/agent.css?v=73c8a91694">
   <link rel="stylesheet" href="css/eras/1992.css?v=8496562c20">
-  <link rel="stylesheet" href="css/eras/1997.css?v=76487bfc65">
+  <link rel="stylesheet" href="css/eras/1997.css?v=825a9b0c05">
   <link rel="stylesheet" href="css/eras/2001.css?v=248a02f042">
   <link rel="stylesheet" href="css/eras/2007.css?v=9a83f758d5">
   <link rel="stylesheet" href="css/eras/2013.css?v=75d82c5e45">
@@ -56,7 +56,7 @@
   <script type="importmap">
     {
     "imports": {
-      "./js/agent.js": "./js/agent.js?v=9b1292822f",
+      "./js/agent.js": "./js/agent.js?v=e9214542cc",
       "./js/assistant/answers.js": "./js/assistant/answers.js?v=669b99a2ae",
       "./js/assistant/client.js": "./js/assistant/client.js?v=ac03c313bb",
       "./js/assistant/fit.js": "./js/assistant/fit.js?v=d1b512e7aa",
@@ -72,9 +72,9 @@
       "./js/eras/2030/shapes.js": "./js/eras/2030/shapes.js?v=2abbedbeaa",
       "./js/eras/2030/sky.js": "./js/eras/2030/sky.js?v=b6e16cbf7a",
       "./js/eras/2030.js": "./js/eras/2030.js?v=ab2e922747",
-      "./js/eras.js": "./js/eras.js?v=f67960b951",
+      "./js/eras.js": "./js/eras.js?v=87260e7871",
       "./js/load.js": "./js/load.js?v=64778aca5c",
-      "./js/main.js": "./js/main.js?v=1fcdfd5f09",
+      "./js/main.js": "./js/main.js?v=23b39ecfc5",
       "./js/sound.js": "./js/sound.js?v=ee719b67d9",
       "./js/time.js": "./js/time.js?v=317eef6c31",
       "./js/timemachine.js": "./js/timemachine.js?v=1bb2dbb481",
@@ -82,7 +82,7 @@
     }
     }
   </script>
-  <script type="module" src="js/main.js?v=1fcdfd5f09"></script>
+  <script type="module" src="js/main.js?v=23b39ecfc5"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -123,7 +123,7 @@
         <span class="name__last">Irshad C<sup class="orn beta" data-orn="2007" aria-hidden="true">beta</sup></span>
       </h1>
       <!-- Irshad's Agent, right under the name: where every visitor looks first. -->
-      <button type="button" class="orn ask-ai" data-orn="2023 2026" data-agent-open aria-controls="agent">
+      <button type="button" class="orn ask-ai" data-orn="1997 2023 2026" data-agent-open aria-controls="agent">
         <svg class="ask-ai__bot" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
           <circle cx="12" cy="2.6" r="1.4" fill="currentColor"/>
           <path d="M12 4v2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
@@ -517,9 +517,9 @@
     <span class="sound-switch__label">Sound</span><span class="sound-switch__hint" aria-hidden="true">Turn on sound</span></button>
 
   <!-- Irshad's Agent: ask about my work (js/agent.js, assistant/README.md). It opens only when asked.
-       It visits the eras css/agent.css dresses (2023 and 2026 so far); each wears its own clothes. -->
-  <button type="button" class="orn agent-launch" data-orn="2023 2026" data-agent-open aria-controls="agent" aria-expanded="false">
-    <span class="agent-launch__dot" aria-hidden="true"></span>Irshad's Agent
+       It visits the eras css/agent.css dresses (1997, 2023 and 2026 so far); each wears its own clothes. -->
+  <button type="button" class="orn agent-launch" data-orn="1997 2023 2026" data-agent-open aria-controls="agent" aria-expanded="false">
+    <span class="agent-launch__dot" aria-hidden="true"></span><span class="agent-launch__label">Irshad's Agent</span>
   </button>
   <aside class="agent" id="agent" aria-labelledby="agent-title" hidden>
     <header class="agent__head">

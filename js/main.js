@@ -80,7 +80,7 @@ document.addEventListener('click', async (event) => {
   }
 });
 const agentFollows = (era) => {
-  if (!era.agent) agent?.then((a) => a.close(), () => {});
+  agent?.then((a) => (era.agent ? a.refresh() : a.close()), () => {});
 };
 
 // ---- rendering ----------------------------------------------------------------------
@@ -92,8 +92,10 @@ let tm;
 function render() {
   const { year, era } = state;
   root.dataset.year = year;
-  if (root.dataset.era !== era.id) root.dataset.era = era.id;
-  agentFollows(era);
+  if (root.dataset.era !== era.id) {
+    root.dataset.era = era.id;
+    agentFollows(era);
+  }
   document.title = era.title;
   favicon.href = era.favicon;
   applyYear(year);

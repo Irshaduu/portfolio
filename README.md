@@ -424,9 +424,12 @@ every AI rests, the page checks the post's words itself. `assistant/README.md` h
 **In every era, its own clothes** (`css/agent.css`): one brain, and a costume for each era it
 visits. The layout (floating above the time machine, phone and keyboard) is shared; the modern
 eras share a glass look in their own colours (2026 cyan; 2023 indigo, like that year's chat
-apps), and each era adds its habits. It stays open through a trip in time and changes clothes with
-the page. So far it visits 2023 and 2026 (`agent: true` in `js/eras.js`); in other eras its
-buttons hide and the panel closes, and the conversation waits for the way back.
+apps), and each era adds its habits. In 1997 it's a desktop helper: a little beige computer with a
+face (its own character, nobody's paperclip) beside a yellow help balloon, and a Windows 95
+window: "It looks like you're visiting a homepage! Would you like help?" It stays open through a
+trip in time, changing clothes and greeting with the page. So far it visits 1997, 2023 and 2026
+(`agent: true` in `js/eras.js`); in other eras its buttons hide and the panel closes, and the
+conversation waits for the way back.
 
 ---
 
