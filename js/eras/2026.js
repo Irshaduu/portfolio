@@ -1,7 +1,7 @@
 // 2026: light that follows the pointer across the glass panels, and intent: tell the page why you
 // came and it leans toward what matters to you, with "ask my agent" at the end of its hint (the
-// agent itself is the whole page's: js/main.js loads it). On a phone, cards fold their details and
-// the time machine steps aside while you read.
+// agent itself is the whole page's: js/main.js loads it). On a tablet or a phone, cards fold their
+// details; at any size the time machine steps aside while you read.
 
 const ASK = ' Or <button type="button" class="intent__ask" data-agent-open>ask my agent</button>.';
 const HINTS = {
@@ -75,9 +75,9 @@ function intent(root) {
   });
 }
 
-// On a phone each card's details fold behind "How it works", so the page reads as cards first and
-// the depth is one tap away. The switch is a 2026 ornament: wider screens hide it and keep the
-// details open (css/eras/2026.css), and other eras never see it.
+// On a tablet or a phone each card's details fold behind "How it works", so the page reads as
+// cards first and the depth is one tap away. The switch is a 2026 ornament: wider screens hide it
+// and keep the details open (css/eras/2026.css), and other eras never see it.
 function folds() {
   const made = [];
   for (const card of document.querySelectorAll('.project')) {
@@ -107,11 +107,10 @@ function folds() {
   });
 }
 
-// On a phone the docked time machine steps aside while you read down the page, and comes back as
-// soon as you scroll up, reach either end of the page, or tab into it. The CSS also keeps it in
-// place while the agent is open.
-function tuck(root) {
-  const phone = matchMedia('(max-width: 760px)');
+// The time machine steps aside while you read down the page, and comes back as soon as you scroll
+// up, reach either end of the page, tab into it, or (with a mouse) point at the bottom edge where it
+// lives. The CSS also keeps it in place while the agent is open.
+function tuck(root, finePointer) {
   const bar = document.querySelector('.timemachine');
   let lastY = scrollY;
   let frame = 0;
@@ -124,7 +123,7 @@ function tuck(root) {
     const y = scrollY;
     const nearTop = y < innerHeight * 0.6;
     const nearEnd = y + innerHeight > document.documentElement.scrollHeight - 120;
-    if (!phone.matches || nearTop || nearEnd || keyboardIn()) {
+    if (nearTop || nearEnd || keyboardIn() || bar.matches(':hover')) {
       lastY = y;
       set(false);
       return;
@@ -139,14 +138,17 @@ function tuck(root) {
   const show = () => {
     if (keyboardIn()) set(false);
   };
+  const onPointer = (event) => {
+    if (event.clientY > innerHeight - 110) set(false);
+  };
 
   addEventListener('scroll', onScroll, { passive: true });
   bar.addEventListener('focusin', show);
-  phone.addEventListener('change', check);
+  if (finePointer) addEventListener('pointermove', onPointer, { passive: true });
   onLeave(() => {
     removeEventListener('scroll', onScroll);
     bar.removeEventListener('focusin', show);
-    phone.removeEventListener('change', check);
+    removeEventListener('pointermove', onPointer);
     cancelAnimationFrame(frame);
     set(false);
   });
@@ -158,7 +160,7 @@ export function enter(ctx) {
   if (finePointer) pointerLight(root);
   intent(root);
   folds();
-  tuck(root);
+  tuck(root, finePointer);
 }
 
 export function leave() {
