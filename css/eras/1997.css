@@ -310,6 +310,7 @@
     & .agent__form { margin: 6px 4px 0; gap: 4px; }
     & .agent__form textarea { padding: 4px 6px; background: #fff; color: #000; font: 13px/1.4 var(--win); box-shadow: var(--bevel-in); }
     & .agent__form textarea::placeholder { color: #808080; }
+    & .agent__form textarea:focus { outline: 1px dotted #000; outline-offset: -4px; } /* Windows' own focus mark */
     & .agent__send { width: 52px; height: 26px; border: 0; border-radius: 0; background: var(--silver); color: #000; box-shadow: var(--bevel-out); }
     & .agent__send:active { box-shadow: var(--bevel-in); }
     & .agent__send:disabled { color: #808080; }

@@ -105,6 +105,7 @@
       font: 15px/1.4 "Courier New", Courier, monospace;
     }
     & .agent__note { text-align: left; margin: 0; }
+    & .agent__form textarea:focus-visible { outline: revert; } /* the browser's own focus ring */
 
     /* The job-fit check, as a plain list. */
     & .agent__post-head { font-weight: bold; }

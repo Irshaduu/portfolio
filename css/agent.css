@@ -5,8 +5,8 @@
   change anything:
   - The layout, for every era the agent visits: the button and the panel float just above the time
     machine, fit a phone and its keyboard, and the box grows with what's typed.
-  - The glass look the modern eras share (2023, 2026), drawn from a few colours the era sets:
-      --agent-accent  the glow (2026 cyan, 2023 indigo)     --agent-warm   resting: the amber dot
+  - The glass look the modern eras share (2023, 2026, 2030), drawn from a few colours the era sets:
+      --agent-accent  the glow (2026 cyan, 2023 indigo, 2030 ice)   --agent-warm   resting: the amber dot
       --agent-mono    the small labels' font                --agent-panel  the panel's fill
                                                             (--agent-panel-phone: on a phone, more solid)
     An older era keeps the layout and dresses the rest itself (1992: plain hypertext; 1997: a Windows 95 window; 2001: a Flash instant messenger;
@@ -18,7 +18,7 @@
 
 @layer agent {
   /* ---- the layout, every era the agent visits ---- */
-  :root:is([data-era="1992"], [data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"]) {
+  :root:is([data-era="1992"], [data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"], [data-era="2030"]) {
     & .agent-launch {
       position: fixed; z-index: 97; right: max(16px, env(safe-area-inset-right)); bottom: calc(var(--tm-h, 6rem) + 22px);
       align-items: center; gap: .65em;
@@ -68,7 +68,7 @@
   }
 
   /* ---- the glass look, shared by the modern eras ---- */
-  :root:is([data-era="2023"], [data-era="2026"]) {
+  :root:is([data-era="2023"], [data-era="2026"], [data-era="2030"]) {
     --agent-glow: color-mix(in srgb, var(--agent-accent) 25%, transparent);
     --agent-tint: color-mix(in srgb, var(--agent-accent) 10%, transparent);
 
@@ -221,7 +221,13 @@
    (`display: revert`), which would otherwise win over the layer above and turn them back into
    plain inline buttons, the robot face on top of its words. */
 @layer era {
-  :root:is([data-era="1992"], [data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"]) {
+  :root:is([data-era="1992"], [data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"], [data-era="2030"]) {
     & :is(.agent-launch:not([aria-expanded="true"]), .ask-ai) { display: inline-flex; }
+  }
+  /* The same for the typing box: a text box always counts as :focus-visible, so each era's focus
+     ring drew a second ring inside the field. The field shows focus itself (its border, glow or
+     underline lights up); 1992 keeps the browser's own ring, and 1997 draws a dotted one. */
+  :root:is([data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"], [data-era="2030"]) {
+    & .agent__form textarea { outline: none; }
   }
 }

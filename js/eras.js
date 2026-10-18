@@ -109,6 +109,7 @@ export const ERAS = [
     ],
     fontProbe: '200 1em Sora',
     module: true,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<circle cx="16" cy="16" r="15" fill="#03040a"/><ellipse cx="16" cy="16" rx="13" ry="5" fill="none" stroke="#ffd28a" stroke-width="2" transform="rotate(-24 16 16)"/><circle cx="16" cy="16" r="5" fill="#9fe8ff"/>`),
   },
 ];

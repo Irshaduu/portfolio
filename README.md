@@ -435,8 +435,10 @@ transcript of screen names, chrome capsule buttons. In 2007 it's a glossy live-c
 beta of course: a blue gloss title bar with a "beta" badge, shiny speech bubbles with tails, green
 ticks, an orange Send, and the yellow fade on the part of the page an answer points to. In 2013
 it's flat, the way iOS 7 drew a conversation: a midnight bar with thin type, flat blue and grey
-bubbles, ghost buttons, and Siri's "What can I help you with?". So far it visits every era but
-2030
+bubbles, ghost buttons, and Siri's "What can I help you with?". In 2030 it's an orb of light
+over the stars: the glass in ice with a holographic edge, an orb that breathes beside its name,
+speaks faster while it answers and dims to gold while it rests: "Hello from 2030. Here the page is
+a place, and I'm its guide." It visits every era
 (`agent: true` in `js/eras.js`); in other eras its buttons hide and the panel closes, and the
 conversation waits for the way back.
 

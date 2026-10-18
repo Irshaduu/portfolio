@@ -22,6 +22,13 @@
     --mono: "Geist Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
     --wrap: min(1240px, 100% - 2 * clamp(16px, 4vw, 56px));
     --orb: min(36vw, 500px, 62svh);
+    /* Irshad's Agent wears the shared glass (css/agent.css) in ice; its 2030 touches are below. */
+    --agent-accent: var(--ice);
+    --agent-warm: var(--gold);
+    --agent-mono: var(--mono);
+    --agent-panel: rgb(9 11 24 / .55);
+    --agent-panel-phone: rgb(5 6 15 / .95);
+    --agent-holo: linear-gradient(100deg, rgb(159 232 255 / .6), rgb(157 255 214 / .18) 35%, rgb(255 210 138 / .18) 65%, rgb(255 143 184 / .6));
     color-scheme: dark;
     scroll-behavior: smooth;
 
@@ -528,6 +535,36 @@
     }
 
     /* ---- small screens ---- */
+    /* ---- Irshad's Agent, 2030: an orb of light over the stars ----
+       The shared glass (css/agent.css) in ice, thinner so the stars show through, with this
+       year's face: a holographic orb that breathes beside its name, speaks faster while it
+       answers and dims to gold while it rests, and holographic edges like the time machine's. */
+    & :is(.agent-launch__dot, .agent__dot) {
+      width: 16px; height: 16px;
+      background: radial-gradient(circle at 35% 30%, #fff 0 12%, var(--ice) 32%, var(--mint) 56%, var(--rose) 88%);
+      box-shadow: 0 0 14px rgb(159 232 255 / .7), 0 0 30px rgb(255 143 184 / .35);
+      animation: tt30-orb 3.2s ease-in-out infinite;
+    }
+    & .agent__dot { width: 22px; height: 22px; }
+    & .agent:has(.agent__form.is-busy) .agent__dot { animation-duration: .9s; } /* it speaks */
+    & .agent[data-resting] .agent__dot {
+      background: radial-gradient(circle at 35% 30%, #fff 0 10%, var(--gold) 42%, #8a5a20 92%);
+      box-shadow: 0 0 12px rgb(255 210 138 / .5); animation: none;
+    }
+    & :is(.agent-launch, .ask-ai, .agent__next button) {
+      border: 1px solid transparent;
+      background: linear-gradient(rgb(5 6 15 / .72), rgb(5 6 15 / .72)) padding-box, var(--agent-holo) border-box;
+    }
+    & :is(.agent-launch, .ask-ai, .agent__next button):hover { box-shadow: 0 0 0 4px rgb(159 232 255 / .08), 0 0 30px rgb(159 232 255 / .25); }
+    & .agent {
+      border: 1px solid transparent;
+      background: linear-gradient(rgb(9 11 24 / .55), rgb(9 11 24 / .55)) padding-box, var(--agent-holo) border-box;
+      backdrop-filter: blur(22px) saturate(1.5); -webkit-backdrop-filter: blur(22px) saturate(1.5);
+      box-shadow: 0 30px 90px -20px rgb(0 0 0 / .95), 0 0 60px -24px rgb(159 232 255 / .45);
+    }
+    & .agent__title { font-family: var(--display); font-weight: 400; letter-spacing: .14em; }
+    & .agent__send { box-shadow: 0 0 18px rgb(159 232 255 / .35); }
+
     @media (max-width: 900px) {
       & .project, & .project:nth-child(even) { grid-template-columns: minmax(0, 1fr); }
       & .orb, & .project:nth-child(even) .orb {
@@ -570,6 +607,7 @@
       & .tm__range::-moz-range-track { height: 3px; }
       & .tm__range::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
       & .tm__range::-moz-range-thumb { width: 20px; height: 20px; }
+      & .agent { background: linear-gradient(var(--agent-panel-phone), var(--agent-panel-phone)) padding-box, var(--agent-holo) border-box; }
     }
 
     /* Panels come out of the dark as they scroll in, where the browser can tie it to scroll. */
@@ -586,6 +624,7 @@
       & .fly-cue::before { animation: none; }
       & .moment::before, & .sky-line { transition: none; }
       & .chip::before { animation: none; }
+      & :is(.agent-launch__dot, .agent__dot) { animation: none; }
     }
   }
 
@@ -599,6 +638,8 @@
     100% { transform: scaleY(0); transform-origin: bottom; }
   }
   @keyframes tt30-twinkle { 50% { opacity: .45; scale: .8; } }
+  /* Irshad's Agent's orb breathes, shifting through the holographic colours. */
+  @keyframes tt30-orb { 50% { scale: 1.12; filter: hue-rotate(40deg) brightness(1.15); } }
   @keyframes tt30-emerge { from { opacity: 0; scale: .94; filter: blur(8px); } to { opacity: 1; scale: 1; filter: none; } }
   /* The project symbols: drawing on, the hand's sweep, the centre dot, and each one's own move. */
   @keyframes tt30-mk-draw { 0% { stroke-dashoffset: 1; opacity: 0; } 6% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }
