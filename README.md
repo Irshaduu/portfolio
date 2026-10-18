@@ -433,8 +433,10 @@ Submit: "Welcome. This is Irshad's agent, an experimental hypertext service." In
 instant messenger in Flash chrome: a gunmetal IM window, "IrshadsAgent signed on.", the chat as a
 transcript of screen names, chrome capsule buttons. In 2007 it's a glossy live-chat widget, in
 beta of course: a blue gloss title bar with a "beta" badge, shiny speech bubbles with tails, green
-ticks, an orange Send, and the yellow fade on the part of the page an answer points to. So far it
-visits 1992, 1997, 2001, 2007, 2023 and 2026
+ticks, an orange Send, and the yellow fade on the part of the page an answer points to. In 2013
+it's flat, the way iOS 7 drew a conversation: a midnight bar with thin type, flat blue and grey
+bubbles, ghost buttons, and Siri's "What can I help you with?". So far it visits every era but
+2030
 (`agent: true` in `js/eras.js`); in other eras its buttons hide and the panel closes, and the
 conversation waits for the way back.
 

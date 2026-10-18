@@ -226,6 +226,81 @@
     & .tm__ticks button:hover, & .tm__ticks button[aria-current] { color: var(--turquoise); }
     & .tm__hint { grid-column: 1 / -1; text-align: center; font-size: .65rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--sunflower, #f1c40f); }
 
+    /* ---- Irshad's Agent, 2013: flat, the way iOS 7 drew a conversation ----
+       No gloss and no gradients: a white card under a solid midnight bar with thin type, flat
+       bubbles (yours river blue, its own clouds grey), ghost buttons outlined in turquoise, a
+       flat round send button, and Siri's question to open with. On the turquoise band, "Ask my
+       AI" is a white ghost button. Where it floats and how it fits a phone come from css/agent.css. */
+    & .agent-launch {
+      gap: .6em; padding: .7rem 1.2rem .7rem 1rem; border: 0; border-radius: 4px; color: #fff;
+      font: 700 .82rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; background: var(--carrot);
+    }
+    & .agent-launch:hover { background: var(--pumpkin); }
+    & .agent-launch__dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+    & .ask-ai {
+      justify-self: center; gap: .5em; padding: .5rem 1.1rem .5rem .8rem; border: 2px solid #fff; border-radius: 4px; background: transparent; color: #fff;
+      font: 700 .8rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; transition: background .2s, color .2s;
+    }
+    & .ask-ai:hover { background: #fff; color: var(--green-sea); }
+    & .ask-ai__bot { color: currentColor; }
+
+    & .agent {
+      padding: 0; gap: 0; overflow: hidden; border: 0; border-radius: 6px;
+      background: #fff; color: var(--asphalt); font: 400 .95rem/1.55 var(--sans);
+      box-shadow: 0 12px 34px rgb(44 62 80 / .35);
+      animation: tt13-zoom .3s ease-out both;
+    }
+    & .agent__head { padding: .75rem .75rem .75rem 1rem; background: var(--midnight); }
+    & .agent__title { gap: .6em; font: 300 1.05rem/1 var(--sans); letter-spacing: .02em; color: #fff; }
+    & .agent__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--emerald); }
+    & .agent__wait { font: 400 .78rem var(--sans); color: var(--concrete); }
+    & .agent__wait::before { content: "· "; }
+    & .agent[data-resting] .agent__dot { background: var(--carrot); }
+    & .agent[data-resting] .agent__wait { color: var(--carrot); }
+    & .agent__close { width: 30px; height: 30px; border: 0; border-radius: 4px; background: var(--asphalt); color: #fff; }
+    & .agent__close:hover { background: var(--alizarin); }
+    & .agent__close svg { width: 13px; height: 13px; }
+    & .agent__log { padding: 1rem 1rem .5rem; gap: .7rem; scrollbar-color: var(--silver) transparent; }
+    & .agent__msg--me { padding: .5rem .9rem; border-radius: 18px; background: var(--river); color: #fff; }
+    & .agent__msg--bot { gap: .5rem; }
+    & .agent__msg--bot > .agent__text { justify-self: start; padding: .55rem .95rem; border-radius: 18px; background: var(--clouds); }
+    & .agent__see a, & .fit__link { font: 700 .72rem/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--belize); }
+    & :is(.agent__trace, .agent__status) { font: 400 .74rem/1.4 var(--sans); color: var(--concrete); }
+    & .agent__status { margin-left: .5em; }
+    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--asbestos); opacity: .7; font: 400 .72rem var(--sans); }
+    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    & .agent__typing { color: var(--concrete); }
+    & .agent__next { gap: .4rem; }
+    & .agent__next button {
+      padding: .35rem .75rem; border: 2px solid var(--turquoise); border-radius: 4px; background: transparent; color: var(--green-sea);
+      font: 700 .74rem/1.25 var(--sans); letter-spacing: .03em; text-align: left; transition: background .2s, color .2s;
+    }
+    & .agent__next button:hover { background: var(--turquoise); color: #fff; }
+    & .agent__form { margin: .5rem .75rem 0; gap: .5rem; }
+    & .agent__form textarea { padding: .5rem .75rem; border-radius: 4px; background: var(--clouds); color: var(--asphalt); font: 400 .95rem/1.4 var(--sans); }
+    & .agent__form textarea::placeholder { color: var(--concrete); }
+    & .agent__form:focus-within textarea { box-shadow: inset 0 -2px 0 var(--turquoise); }
+    & .agent__send { border: 0; border-radius: 50%; background: var(--turquoise); color: #fff; }
+    & .agent__send:hover { background: var(--green-sea); }
+    & .agent__send:disabled { background: var(--silver); }
+    & .agent__note { margin: .5rem .75rem .65rem; font-size: .7rem; color: var(--concrete); text-align: center; }
+
+    /* The job-fit check, flat: colour dots, no lines. */
+    & .agent__post-head, & .fit__head { font: 700 .68rem/1.3 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: rgb(255 255 255 / .8); }
+    & .fit__head { color: var(--asbestos); }
+    & .fit { gap: .6rem; padding: .8rem .9rem; border-radius: 6px; background: var(--clouds); }
+    & .fit__list { gap: .45rem; }
+    & .fit__row::before { content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px; border-radius: 50%; background: var(--emerald); }
+    & .fit__list--gap .fit__row::before { background: transparent; border: 2px solid var(--concrete); }
+    & .fit__need { display: block; font-weight: 700; }
+    & .fit__proof { font-size: .86rem; color: var(--asbestos); }
+    & .fit__ask { gap: .2rem; padding-top: .55rem; border-top: 2px solid #fff; }
+    & .fit__mail { padding: .5rem 1rem; border-radius: 4px; background: var(--turquoise); color: #fff; font: 700 .78rem/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; }
+    & .fit__mail:hover { background: var(--green-sea); }
+
+    /* The part of the page an answer points to: a flat turquoise frame. */
+    & .agent-spot { border: 4px solid var(--turquoise); border-radius: 6px; animation: tt13-spot 2.6s ease-out forwards; }
+
     @media (max-width: 860px) {
       & .projects { grid-template-columns: 1fr; }
       & .timeline { grid-template-columns: 1fr; gap: 1.75rem; }
@@ -240,9 +315,12 @@
       & .tm__note { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
-      & .scroll-cue { animation: none; }
+      & .scroll-cue, & .agent { animation: none; }
     }
   }
 
   @keyframes tt13-bob { 50% { translate: 0 8px; } }
+  /* Irshad's Agent opens the way iOS 7 opened things, and its frame fades out flat. */
+  @keyframes tt13-zoom { from { opacity: 0; transform: scale(.94); } }
+  @keyframes tt13-spot { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
 }

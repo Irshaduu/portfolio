@@ -67,6 +67,7 @@ export const ERAS = [
     fonts: [gf('family=Lato:wght@300;400;700;900')],
     fontProbe: '300 1em Lato',
     module: false,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<rect width="32" height="32" fill="#1abc9c"/><text x="16" y="23" font-family="Arial,sans-serif" font-weight="bold" font-size="18" text-anchor="middle" fill="#fff">I</text>`),
   },
   {

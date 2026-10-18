@@ -38,6 +38,7 @@ const GREETINGS = {
   1997: "It looks like you're visiting a homepage! Would you like help? Ask me anything about Irshad, or pick one below.",
   2001: "IrshadsAgent signed on. Hey! I know Irshad's work inside out. Ask me anything, or pick one below.",
   2007: "Hi! I'm Irshad's Agent (beta). Now with AJAX! Ask me anything about Irshad, or pick one below.",
+  2013: "What can I help you with? Ask me anything about Irshad, or pick one below.",
 };
 
 // "(#word-hunt)" at the end of an AI answer: the page shows it as "See Word Hunt" instead.
