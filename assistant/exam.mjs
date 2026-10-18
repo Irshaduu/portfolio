@@ -207,7 +207,7 @@ async function askServer(question, path = '/chat') {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const report = [];
 let failed = 0;
-if (!examKey) console.warn('No EXAM_KEY in .dev.vars: after 6 questions the server will ask the exam to slow down.\n');
+if (!examKey) console.warn('No EXAM_KEY in .dev.vars: after 10 questions the server will ask the exam to slow down.\n');
 
 let asked = 0;
 // `chat` or `fit` runs one half; anything else is a list of kinds to ask, like "character,slang".

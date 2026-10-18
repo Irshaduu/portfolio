@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { afterEach, test } from 'node:test';
 
-import { DONT_KNOW, DONT_KNOW_NEXT, START, match } from '../../js/assistant/answers.js';
+import { DONT_KNOW, DONT_KNOW_NEXT, LIMIT, START, match } from '../../js/assistant/answers.js';
 import { ask, checkFit, plain } from '../../js/assistant/client.js';
 import { FIT_NEXT, wordCheck } from '../../js/assistant/fit.js';
 import { DJANGO_POST } from './helpers.js';
@@ -93,6 +93,18 @@ test('when both AIs rest, the closest ready answer stands in', async () => {
   assert.equal(result.by, 'ready');
   assert.equal(result.link, '#word-hunt');
   assert.ok(seen.some((e) => e.type === 'step' && e.text === 'Both AIs are resting'));
+});
+
+test('a visitor who used up their share is told so in the agent\'s voice, not given a stand-in', async () => {
+  for (const [limit, expected] of [['minute', LIMIT.minute], ['day', LIMIT.day], [undefined, LIMIT.minute]]) {
+    globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true, limit }), { status: 429 });
+    const result = await ask(DEEP_QUESTION, [], { server: SERVER });
+    assert.deepEqual(result, { text: expected.text, by: 'limit', link: null, next: expected.next, travel: null, id: 'limit' });
+  }
+  globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true, limit: 'day' }), { status: 429 });
+  const check = await checkFit(DJANGO_POST, { server: SERVER });
+  assert.match(check.fit.summary, /talked a lot today/);
+  assert.ok(check.fit.matches.length); // the word check, meanwhile
 });
 
 test('when nothing fits and the AI is out of reach, it says so and offers where to go', async () => {

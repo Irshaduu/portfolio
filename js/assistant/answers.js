@@ -249,6 +249,19 @@ export const START = ['What has he built?', 'Can I play his game?', 'Is he free 
 export const DONT_KNOW = "That one's beyond me right now. Irshad can answer it himself, on WhatsApp or email, and he might just enjoy it.";
 export const DONT_KNOW_NEXT = ['How can I contact him?', 'What has he built?'];
 
+// When a visitor reaches their share of AI questions (assistant/worker/limits.js), the agent says so
+// in its own voice, so it never looks broken. The suggestion buttons still answer instantly.
+export const LIMIT = {
+  minute: {
+    text: "You're quick! Give me a minute to catch up, then ask again. The buttons below still answer instantly.",
+    next: START,
+  },
+  day: {
+    text: "We've talked a lot today! I'm resting till tomorrow. The buttons below still work, and Irshad is one message away on WhatsApp or email.",
+    next: ['How can I contact him?', 'Can I play his game?', 'What has he built?'],
+  },
+};
+
 // What to offer after an answer that points to `link` (an AI answer points with "(#word-hunt)"):
 // that section's own answer's next questions, else any answer's that points there, else the start.
 export function nextFor(link) {

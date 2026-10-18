@@ -1,23 +1,33 @@
-// How many questions one visitor may ask: a few a minute, a few dozen a day.
+// How many questions one visitor may ask: 10 a minute, 50 a day.
 //
 // This is a fair-share rule, not a wall. The counts live in one Worker's memory, and Cloudflare
 // runs many Workers, so a determined script can get past it. That's fine here: the AI services are
 // on free plans with no card, so the worst a flood can do is use up today's free quota, and then
 // visitors get the ready-made answers until it resets. Nobody can run up a bill.
+//
+// A real person rarely asks more than one question every six seconds (answers take a few seconds
+// to arrive, and longer to read), so ten a minute only stops scripts. The free quotas are shared
+// by every visitor, so a bigger share for one person is a smaller one for everyone else.
+//
+// allow(visitor) says true, or which limit the visitor reached and how long until they may ask
+// again: { limit: 'minute' | 'day', wait } (seconds). The page says it in the agent's own voice.
 
 const MINUTE = 60 * 1000;
 const DAY = 24 * 60 * MINUTE;
 
-export function makeLimiter({ perMinute = 6, perDay = 40, now = Date.now } = {}) {
+export function makeLimiter({ perMinute = 10, perDay = 50, now = Date.now } = {}) {
   const visitors = new Map(); // visitor -> times of their recent questions
 
   return function allow(visitor) {
     const t = now();
     const times = (visitors.get(visitor) ?? []).filter((at) => t - at < DAY);
-    const lastMinute = times.filter((at) => t - at < MINUTE).length;
-    if (lastMinute >= perMinute || times.length >= perDay) {
+    const lastMinute = times.filter((at) => t - at < MINUTE);
+    if (times.length >= perDay || lastMinute.length >= perMinute) {
       visitors.set(visitor, times);
-      return false;
+      // The day's limit first: waiting a minute wouldn't help.
+      return times.length >= perDay
+        ? { limit: 'day', wait: Math.ceil((times[0] + DAY - t) / 1000) }
+        : { limit: 'minute', wait: Math.ceil((lastMinute[0] + MINUTE - t) / 1000) };
     }
     times.push(t);
     visitors.set(visitor, times);

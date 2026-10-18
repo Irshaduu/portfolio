@@ -272,6 +272,7 @@ export function mount(ctx) {
   function traceOf({ by, id }, tried, ms, rested) {
     if (by === 'ready') return [id === 'fit-check' ? 'Word check' : 'Quick answer', rested].filter(Boolean).join(' · ');
     if (by === 'none') return ['No answer found', rested].filter(Boolean).join(' · ');
+    if (by === 'limit') return 'Visitor limit reached';
     const busyOnes = tried.filter((t) => !t.endsWith('answered')).map((t) => t.split(':')[0]);
     return [`${by} · ${(ms / 1000).toFixed(1)} s`, ...busyOnes.map((name) => `${name} was busy`)].join(' · ');
   }

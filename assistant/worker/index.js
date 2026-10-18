@@ -70,7 +70,12 @@ export async function handle(request, env, deps) {
   const visitor = request.headers.get('cf-connecting-ip') ?? 'unknown';
   // The exam (exam.mjs) asks many questions in a row, so it carries a key that skips the share.
   const examining = Boolean(env.EXAM_KEY) && request.headers.get('x-exam-key') === env.EXAM_KEY;
-  if (!examining && !deps.allow(visitor)) return json({ error: 'Too many questions for now.', fallback: true }, 429, cors);
+  const share = examining || deps.allow(visitor);
+  if (share !== true) {
+    // Which limit, so the page can say "give me a minute" or "see you tomorrow" in the agent's voice.
+    const { limit = 'minute', wait = 60 } = share || {};
+    return json({ error: 'Too many questions for now.', limit, wait, fallback: true }, 429, { ...cors, 'retry-after': String(wait) });
+  }
 
   const started = Date.now();
   // A job-fit check wants care more than charm, so it runs cooler than the chat. max_tokens is a

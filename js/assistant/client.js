@@ -7,7 +7,7 @@
 //
 // It reports as it goes, so a page can show the answer arriving and the steps behind it:
 //   { type: 'step', text }                 what it's doing ("Asking the AI")
-//   { type: 'source', by, tried }          who answers: 'ready', 'Groq', 'Gemini', or 'none'
+//   { type: 'source', by, tried }          who answers: 'ready', 'Gemini', 'Gemini Lite', 'Groq', 'none', or 'limit'
 //   { type: 'text', t }                    the next piece of the answer (pass the whole so far through plain())
 //   { type: 'done', link, next, travel }   finished: the part of the page to show, what to ask next,
 //                                          and the era to travel to, if the visitor asked to
@@ -18,7 +18,7 @@
 // Options: context { era, section, intent } tells the AI where the visitor is; tapped: true for a
 // suggestion button's question; deep: true for "tell me more", which always asks the AI.
 
-import { DONT_KNOW, DONT_KNOW_NEXT, START, match, nextFor, travel } from './answers.js';
+import { DONT_KNOW, DONT_KNOW_NEXT, LIMIT, START, match, nextFor, travel } from './answers.js';
 import { FIT_NEXT, fitText, parseFit, wordCheck } from './fit.js';
 
 // The Worker's address, printed by `npm run deploy` in assistant/. Empty, every question gets a
@@ -41,6 +41,11 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
     return reply(on, guess ?? { text: DONT_KNOW, link: '#contact', next: DONT_KNOW_NEXT }, guess ? 'ready' : 'none');
   };
   const got = await stream(server, '/chat', { messages: [...history, { role: 'user', content: question }], context }, on, signal);
+  // The visitor's own share is used up: the agent says so, rather than a stand-in that may not fit.
+  if (got.limit) {
+    on({ type: 'step', text: got.why });
+    return reply(on, { id: 'limit', ...LIMIT[got.limit] }, 'limit');
+  }
   if (got.why) return standIn(got.why);
   let { text } = got;
   if (!got.finished) {
@@ -70,7 +75,11 @@ export async function checkFit(post, { on = () => {}, server = SERVER, signal } 
   if (got.why) {
     on({ type: 'step', text: got.why });
     on({ type: 'source', by: 'ready', tried: [] });
-    return done(wordCheck(post), 'ready');
+    const quick = wordCheck(post);
+    // The visitor's share is used up: say so, and give the word check meanwhile.
+    if (got.limit === 'minute') quick.summary = "You're quick! Give me a minute for the full check. Here's a quick word check meanwhile.";
+    if (got.limit === 'day') quick.summary = "We've talked a lot today, so the full check rests till tomorrow. Here's a quick word check meanwhile.";
+    return done(quick, 'ready');
   }
   const fit = parseFit(got.text);
   if (!got.finished) fit.summary = `${fit.summary} (The answer was cut short.)`.trim();
@@ -96,7 +105,9 @@ async function stream(server, path, body, on, signal) {
   }
   if (!res.ok || !res.body) {
     const info = await res.json().catch(() => ({}));
-    return { why: REASONS[res.status] ?? info.error ?? 'The AI could not answer' };
+    const why = REASONS[res.status] ?? info.error ?? 'The AI could not answer';
+    // 429: this visitor's share (the server says which: 'minute' or 'day').
+    return res.status === 429 ? { why, limit: info.limit === 'day' ? 'day' : 'minute' } : { why };
   }
 
   let text = '';
@@ -126,7 +137,7 @@ async function stream(server, path, body, on, signal) {
 
 const REASONS = {
   403: 'This page may not ask the AI',
-  429: "You've asked a lot for now, so ready answers only",
+  429: 'This visitor reached their share of AI questions',
   503: 'Both AIs are resting',
 };
 

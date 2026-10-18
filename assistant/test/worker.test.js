@@ -109,12 +109,15 @@ test('broken or oversized requests are refused before any AI is asked', async ()
   assert.equal(d.calls.length, 0);
 });
 
-test('a visitor over their share is told to use ready answers, and no AI is asked', async () => {
-  const d = deps({ [GEMINI]: answer('never') }, () => false);
+test('a visitor over their share is told which limit and how long to wait, and no AI is asked', async () => {
+  const d = deps({ [GEMINI]: answer('never') }, () => ({ limit: 'day', wait: 3600 }));
   const res = await handle(ask(question('Hi')), ENV, d);
   assert.equal(res.status, 429);
-  assert.equal((await res.json()).fallback, true);
+  assert.equal(res.headers.get('retry-after'), '3600');
+  assert.deepEqual(await res.json(), { error: 'Too many questions for now.', limit: 'day', wait: 3600, fallback: true });
   assert.equal(d.calls.length, 0);
+  // An older answer from the limiter (just "no") still counts as the minute's limit.
+  assert.equal((await (await handle(ask(question('Hi')), ENV, deps({}, () => false))).json()).limit, 'minute');
 });
 
 test('the exam\'s key skips the share, but only the right key, and only when one is set', async () => {
@@ -205,17 +208,32 @@ test('the chat tells a visitor asking about a job that they can paste the post',
   assert.match(system.content, /paste the whole job post/);
 });
 
-test('each visitor gets a few questions a minute and a few dozen a day', () => {
+test('each visitor gets a few questions a minute and a few dozen a day, and is told which limit they reached', () => {
   let t = 0;
   const allow = makeLimiter({ perMinute: 2, perDay: 3, now: () => t });
   assert.equal(allow('a'), true);
+  t += 20_000;
   assert.equal(allow('a'), true);
-  assert.equal(allow('a'), false); // third in one minute
+  assert.deepEqual(allow('a'), { limit: 'minute', wait: 40 }); // third in one minute: the first leaves it in 40 s
   assert.equal(allow('b'), true); // someone else is not affected
   t += 61_000;
   assert.equal(allow('a'), true);
   t += 61_000;
-  assert.equal(allow('a'), false); // three today already
+  assert.deepEqual(allow('a'), { limit: 'day', wait: 24 * 60 * 60 - 142 }); // three today already
   t += 24 * 60 * 60 * 1000;
   assert.equal(allow('a'), true); // a new day
+});
+
+test('ten a minute and fifty a day, unless told otherwise', () => {
+  let t = 0;
+  const allow = makeLimiter({ now: () => t });
+  for (let i = 0; i < 10; i++) assert.equal(allow('a'), true);
+  assert.equal(allow('a').limit, 'minute');
+  t += 60_000;
+  for (let i = 0; i < 40; i++) {
+    t += 7_000;
+    assert.equal(allow('a'), true, `question ${11 + i}`);
+  }
+  t += 7_000;
+  assert.equal(allow('a').limit, 'day');
 });

@@ -147,7 +147,7 @@ it 41 tricky questions and 7 job posts after every change, including the first r
 | `worker/chain.js` | Asks Gemini Flash, then Flash-Lite, then Groq. A service that fails rests for a while, so the next visitor skips it |
 | `worker/prompt.js` | Who the assistant is, how it talks, and where the visitor is |
 | `worker/facts.js` | Everything the AI may say about Irshad: only what the public pages say |
-| `worker/limits.js` | 6 questions a minute and 40 a day per visitor |
+| `worker/limits.js` | 10 questions a minute and 50 a day per visitor, and which limit was reached |
 | `worker/sse.js` | Reads an AI's answer as it streams in |
 | `exam.mjs` | The exam: 33 tricky questions for the live AI, each answer checked |
 | `exam-key.mjs` | Makes the exam's key and saves it on the server and in `.dev.vars` |
@@ -314,7 +314,7 @@ the assistant can be built into the real page.
 | Gemini Flash hits its per-minute limit | Flash-Lite answers. Flash rests as long as Google asks (usually under a minute) |
 | Flash's daily allowance is used up | Flash-Lite answers until it resets, then Groq if Flash-Lite runs out too |
 | All three are at their limit or down | The closest ready-made answer, or "I don't know, Irshad can answer that himself" |
-| One visitor asks more than 6 a minute or 40 a day | Ready-made answers only, for that visitor |
+| One visitor asks more than 10 a minute or 50 a day | The agent says so in its own voice ("You're quick! Give me a minute…" or "We've talked a lot today!…"); the suggestion buttons still answer |
 | A key or a model name is wrong | That service rests 10 minutes at a time. Check the server's address (step 7) |
 
 Gemini's daily allowance resets at midnight Pacific time (early afternoon in India).
