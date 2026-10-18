@@ -283,17 +283,15 @@
        bar with an orange "beta" badge, speech bubbles with a shine and a tail, aqua buttons, a
        lime launcher, an orange Send, and the yellow fade that showed what had just changed on
        the page. Where it floats and how it fits a phone come from css/agent.css. */
-    & :is(.agent-launch, .ask-ai) {
-      border: 1px solid var(--lime-dark); border-radius: 999px; color: #fff;
+    & .agent-launch {
+      gap: 8px; padding: 6px 18px 6px 8px; border: 1px solid var(--lime-dark); border-radius: 999px; color: #fff;
       font: bold 13px/1 var(--sans); text-shadow: 0 -1px 0 rgb(0 0 0 / .25);
       background: var(--gloss), linear-gradient(#a9db5c, var(--lime) 55%, #79b52c);
       box-shadow: 0 2px 6px rgb(0 0 0 / .25), inset 0 1px 0 rgb(255 255 255 / .6);
     }
-    & :is(.agent-launch, .ask-ai):hover {
+    & .agent-launch:hover {
       border-color: var(--orange-dark); background: var(--gloss), linear-gradient(#ffc266, var(--orange) 55%, var(--orange-dark));
     }
-    & .agent-launch { gap: 8px; padding: 6px 18px 6px 8px; }
-    & .ask-ai { gap: 6px; margin-top: 10px; padding: 4px 14px 4px 6px; } /* clear of the name's reflection */
 
     /* Its face, a Web 2.0 mascot: a glossy blue speech bubble with a white rim, a shine across
        its top and big cartoon eyes. Now and then it hops, the way that year's mascots bounced. */
@@ -304,7 +302,6 @@
       filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / .35));
       transform-origin: 50% 90%; animation: tt07-hop 7s ease-out infinite;
     }
-    & .ask-ai .agent-face { animation-delay: -3.5s; }
     & .agent[data-resting] .agent-face { animation: none; filter: grayscale(.85) drop-shadow(0 1px 1.5px rgb(0 0 0 / .3)); }
 
     & .agent {

@@ -229,18 +229,13 @@
     /* ---- Irshad's Agent, 2013: flat, the way iOS 7 drew a conversation ----
        No gloss and no gradients: a white card under a solid midnight bar with thin type, flat
        bubbles (yours river blue, its own clouds grey), ghost buttons outlined in turquoise, a
-       flat round send button, and Siri's question to open with. On the turquoise band, "Ask my
-       AI" is a white ghost button. Where it floats and how it fits a phone come from css/agent.css. */
+       flat round send button, and Siri's question to open with. Where it floats and how it fits a
+       phone come from css/agent.css. */
     & .agent-launch {
       gap: .6em; padding: .45rem 1.2rem .45rem .45rem; border: 0; border-radius: 4px; color: #fff;
       font: 700 .82rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; background: var(--carrot);
     }
     & .agent-launch:hover { background: var(--pumpkin); }
-    & .ask-ai {
-      justify-self: center; gap: .5em; padding: .35rem 1.1rem .35rem .4rem; border: 2px solid #fff; border-radius: 4px; background: transparent; color: #fff;
-      font: 700 .8rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; transition: background .2s, color .2s;
-    }
-    & .ask-ai:hover { background: #fff; color: var(--green-sea); }
 
     /* Its face, an iOS 7 icon: a flat squircle tile, a white head with thin eyes and a thin smile,
        and the long shadow every flat icon cast that year. It blinks and glances. */

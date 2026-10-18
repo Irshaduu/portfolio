@@ -404,10 +404,9 @@ offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant
 keys, so the page never sees them. `assistant/README.md` has how it talks, the setup step by step,
 and how it's built; `tools/assistant.html` is its test bench.
 
-**On the page** (`js/agent.js`, loaded by `js/main.js`): a small "Ask my AI" button sits right
-under the name, the agent itself says "Ask me" from a button floating just above the time machine,
-and the 2026 intent hint ends with "Or ask my agent". None opens by itself. Both buttons and the
-chat's header wear the agent's face (`.agent-face`), a different one in every era (below). Where
+**On the page** (`js/agent.js`, loaded by `js/main.js`): the agent itself says "Ask me" from a
+button floating just above the time machine, and the 2026 intent hint ends with "Or ask my
+agent". Neither opens it by itself. The button and the chat's header wear the agent's face (`.agent-face`), a different one in every era (below). Where
 it has eyes, it blinks and looks around now and then, looks up and wanders while the AI thinks,
 and shuts its eyes while the AI rests; 2023's mark and 2030's globe have no eyes, and spin instead. The chat is a glass panel beside the page (a sheet rising from the time machine on a
 phone), loaded only when first opened. It greets the visitor with three questions to start from,

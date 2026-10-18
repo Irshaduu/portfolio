@@ -335,16 +335,15 @@
        the chat as a transcript of screen names (IrshadsAgent in blue, You in orange), chrome
        capsule buttons, and an LED-blue box to type in. It signs on like a buddy did.
        Where it floats and how it fits a phone come from css/agent.css. */
-    & :is(.agent-launch, .ask-ai, .agent__next button, .agent__send) {
+    & :is(.agent-launch, .agent__next button, .agent__send) {
       border: 1px solid #000; border-radius: 14px; color: #11151a;
       font: 10px/1 var(--pixel); letter-spacing: .12em; text-transform: uppercase;
       background: linear-gradient(#ffffff, #c9d0d7 50%, #9aa4af 51%, #d9dfe5); box-shadow: 0 1px 0 rgb(255 255 255 / .1);
     }
-    & :is(.agent-launch, .ask-ai, .agent__next button, .agent__send):hover {
+    & :is(.agent-launch, .agent__next button, .agent__send):hover {
       color: #000; background: linear-gradient(#ffe0a3, var(--orange) 50%, #d97f00 51%, #ffb340); box-shadow: 0 0 12px rgb(255 153 0 / .6);
     }
     & .agent-launch { gap: 8px; padding: 5px 16px 5px 6px; }
-    & .ask-ai { gap: 6px; padding: 3px 14px 3px 4px; }
 
     /* Its face: the yellow smiley every messenger sent that year, drawn like Flash drew, with a
        black outline. It winks now and then; while it's away, it sleeps. */
@@ -359,7 +358,6 @@
       border: max(1.5px, calc(var(--face) * .07)) solid #111; border-top: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%;
     }
     & .agent-face i::after { animation: tt01-wink 9s ease-in-out infinite; }
-    & .ask-ai .agent-face i::after { animation-delay: -4.5s; }
     & .agent[data-resting] .agent-face { filter: grayscale(.7); }
     & .agent[data-resting] .agent-face::after { top: 60%; height: 0; border-radius: 0; }
     & .agent[data-resting] .agent-face i::after { animation: none; }

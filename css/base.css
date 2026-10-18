@@ -199,7 +199,7 @@
   .agent { position: fixed; z-index: 98; display: flex; flex-direction: column; }
   .agent[hidden] { display: none; }
   .agent-launch[aria-expanded="true"] { visibility: hidden; }
-  /* Its face, on its button, on "Ask my AI" and beside its name: a head each era draws, and two
+  /* Its face, on its button and beside its name: a head each era draws, and two
      eyes (the <i>) that css/agent.css places and moves. */
   .agent-face { position: relative; display: inline-block; flex: none; width: var(--face, 22px); height: var(--face, 22px); }
   .agent-face :is(i, canvas) { position: absolute; inset: 0; width: 100%; height: 100%; }

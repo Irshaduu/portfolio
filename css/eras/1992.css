@@ -66,12 +66,11 @@
        like the time machine's form, the visitor's words as typed lines ("> …") and the answers as
        plain text. Every look here is the browser's own (`revert`, one property at a time, so the
        floating and fitting from css/agent.css stay). */
-    & :is(.agent-launch, .ask-ai, .agent__close, .agent__send, .agent__next button) {
+    & :is(.agent-launch, .agent__close, .agent__send, .agent__next button) {
       appearance: auto; padding: revert; border: revert; border-radius: revert; background: revert;
       color: revert; font: revert; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
     }
     & :is(.agent__close svg, .agent__send svg) { display: none; }
-    & .ask-ai { margin-top: 0; }
     & .agent-launch { bottom: calc(var(--tm-h, 8rem) + 12px); }
 
     /* Its face is typed, as faces were then: [o_o], blinking to [-_-] now and then, [o_O] while
@@ -81,7 +80,6 @@
     & .agent-face i { position: absolute; inset: 0; opacity: 0; animation: tt92-shut 7s step-end infinite; } /* the page's `all: revert` takes these back under the name */
     & .agent-face i::before { content: "[-_-]"; position: static; width: auto; height: auto; border-radius: 0; background: none; box-shadow: none; }
     & .agent-face i::after { content: none; }
-    & .ask-ai .agent-face i, & .ask-ai .agent-face::before { animation-delay: -3.5s; }
     & .agent:has(.agent__form.is-busy) .agent-face::before { content: "[o_O]"; animation: none; }
     & .agent[data-resting] .agent-face::before { content: "[-_-]zZ"; animation: none; }
     & :is(.agent:has(.agent__form.is-busy), .agent[data-resting]) .agent-face i { animation: none; scale: none; }

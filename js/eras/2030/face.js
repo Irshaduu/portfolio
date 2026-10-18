@@ -1,7 +1,7 @@
 // 2030: Irshad's Agent's face, a globe of light. css/eras/2030.css gives it a soft orb to stand
-// in until this arrives; this draws the globe in every face on the page (its button, "Ask my AI",
-// beside its name): points of light along its lines of latitude, turning, the near side bright
-// and the far side faint. It spins up and ripples while the AI answers, and turns slowly,
+// in until this arrives; this draws the globe in every face on the page (its button, and beside
+// its name): points of light along its lines of latitude, turning, the near side bright and the
+// far side faint. It spins up and ripples while the AI answers, and turns slowly,
 // in gold, while it rests. With reduced motion it holds still.
 
 const reduced = matchMedia('(prefers-reduced-motion: reduce)');

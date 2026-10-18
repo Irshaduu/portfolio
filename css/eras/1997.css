@@ -265,19 +265,11 @@
     & .agent-launch:hover .agent-launch__label { background: #ffff99; }
     & .agent-launch:hover .agent-launch__label::after { background: #ffff99; }
 
-    /* "Ask my AI" under the name: a grey Windows button. */
-    & .ask-ai {
-      justify-self: center; padding: 4px 12px 4px 8px; border: 0; border-radius: 0;
-      background: var(--silver); color: #000; font: 12px/1.2 var(--win); box-shadow: var(--bevel-out);
-    }
-    & .ask-ai:active { box-shadow: var(--bevel-in); }
-
     /* The helper's face, wherever it shows: it blinks now and then, and shuts its eyes (and loses
        its colour) while it rests. */
     & .agent-face { background: var(--agent-face) center / contain no-repeat; }
     & .agent-face i { opacity: 0; background: var(--agent-face-shut) center / contain no-repeat; animation: tt97-shut 6s step-end infinite; }
     & .agent-face i::before, & .agent-face i::after { content: none; }
-    & .ask-ai .agent-face i { animation-delay: -3s; }
     & .agent[data-resting] .agent-face { filter: grayscale(1); }
     & .agent[data-resting] .agent-face i { animation: none; opacity: 1; scale: none; }
 

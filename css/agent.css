@@ -24,7 +24,6 @@
       position: fixed; z-index: 97; right: max(16px, env(safe-area-inset-right)); bottom: calc(var(--tm-h, 6rem) + 22px);
       align-items: center; gap: .65em;
     }
-    & .ask-ai { align-items: center; gap: .5em; justify-self: start; }
 
     /* The face: each era draws the head (.agent-face, its ::before and ::after) and places the two
        eyes with a few shares of the face: --eye-w and --eye-h (each eye), --eye-gap (between
@@ -32,7 +31,6 @@
        --look (how far they turn). Now and then they blink and look around; while the AI thinks
        they look up and wander; while it rests they close. */
     & .agent-launch .agent-face { --face: 24px; }
-    & .ask-ai .agent-face { --face: 20px; }
     & .agent__title .agent-face { --face: 22px; }
     & .agent-face i { transform-origin: 50% calc(var(--eye-y, 30%) + var(--eye-h, 22%) / 2); animation: agent-look 11s ease-in-out infinite; }
     & .agent-face i::before, & .agent-face i::after {
@@ -41,7 +39,6 @@
     }
     & .agent-face i::before { left: calc(50% + var(--eye-x, 0%) - var(--eye-gap, 22%) / 2 - var(--eye-w, 9%) / 2); }
     & .agent-face i::after { left: calc(50% + var(--eye-x, 0%) + var(--eye-gap, 22%) / 2 - var(--eye-w, 9%) / 2); }
-    & .ask-ai .agent-face i { animation-delay: -5.5s; } /* the two on screen together don't blink as one */
     & .agent:has(.agent__form.is-busy) .agent-face i { animation: agent-think 2.4s ease-in-out infinite; }
     & .agent[data-resting] .agent-face i { animation: none; scale: 1 .14; }
     /* The panel is only as tall as the conversation, up to its max-height: a new chat opens as a
@@ -103,18 +100,6 @@
       border-color: var(--agent-accent); transform: translateY(-1px);
       box-shadow: 0 0 0 4px var(--agent-tint), 0 0 32px var(--agent-glow), 0 18px 50px -18px rgb(0 0 0 / .9);
     }
-    /* "Ask my AI", right under the name: small, a friendly face, the same agent as the floating button. */
-    & .ask-ai {
-      margin-top: -.5rem; padding: .36rem .95rem .36rem .36rem; border-radius: 999px;
-      border: 1px solid var(--line-2); background: color-mix(in srgb, var(--agent-panel) 80%, transparent); color: var(--ink);
-      font: 500 .86rem/1 var(--sans); letter-spacing: .01em;
-      transition: border-color .25s, box-shadow .25s, transform .25s;
-    }
-    & .ask-ai:hover {
-      border-color: var(--agent-accent); transform: translateY(-1px);
-      box-shadow: 0 0 0 4px var(--agent-tint), 0 0 24px var(--agent-glow);
-    }
-
     & .agent {
       border-radius: 26px; border: 1px solid var(--line-2);
       background: linear-gradient(180deg, rgb(255 255 255 / .05), rgb(255 255 255 / 0) 30%), var(--agent-panel);
@@ -245,12 +230,12 @@
   @keyframes agent-spot-still { 0% { opacity: 1; } 100% { opacity: 0; } }
 }
 
-/* The two buttons' display lives in the era layer, beside each era's own rule for its ornaments
-   (`display: revert`), which would otherwise win over the layer above and turn them back into
-   plain inline buttons, the face on top of its words. */
+/* The button's display lives in the era layer, beside each era's own rule for its ornaments
+   (`display: revert`), which would otherwise win over the layer above and turn it back into a
+   plain inline button, the face on top of its words. */
 @layer era {
   :root:is([data-era="1992"], [data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"], [data-era="2030"]) {
-    & :is(.agent-launch:not([aria-expanded="true"]), .ask-ai) { display: inline-flex; }
+    & .agent-launch:not([aria-expanded="true"]) { display: inline-flex; }
   }
   /* The same for the typing box: a text box always counts as :focus-visible, so each era's focus
      ring drew a second ring inside the field. The field shows focus itself (its border, glow or

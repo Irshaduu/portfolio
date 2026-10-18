@@ -289,7 +289,6 @@
     & .agent__form { border-radius: 16px; background: rgb(255 255 255 / .04); }
     & .agent__send { width: 34px; height: 34px; border-radius: 10px; }
     & .agent__see a, & .fit__link { font-family: var(--sans); font-weight: 600; letter-spacing: .02em; text-transform: none; }
-    & .ask-ai { justify-self: center; margin-top: -.2rem; background: rgb(255 255 255 / .04); } /* the hero is centred here */
     /* Its face: a rosette knotted round a hexagon, like that year's best-known AI mark, but its
        own shape, in the year's gradient. A mark, not a face, as that year's AIs had: no eyes. It
        turns slowly, and spins while it answers, as the chat logos did. */
