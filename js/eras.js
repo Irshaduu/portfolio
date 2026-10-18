@@ -19,6 +19,7 @@ export const ERAS = [
     title: 'Mohammed Irshad C - Home Page',
     fonts: [],
     module: true,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<rect width="32" height="32" fill="#fff"/><text x="16" y="25" font-family="Times New Roman,serif" font-size="26" text-anchor="middle" fill="#000">i</text>`),
   },
   {

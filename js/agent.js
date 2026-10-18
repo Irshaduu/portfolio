@@ -34,6 +34,7 @@ const STARTERS = {
 const GREETING = "Hi! I know Irshad's work inside out. Ask me anything, or pick one below.";
 // Some eras greet in their own way; the agent behind it is the same everywhere.
 const GREETINGS = {
+  1992: "Welcome. This is Irshad's agent, an experimental hypertext service. Type a question and press Return, or select a topic below.",
   1997: "It looks like you're visiting a homepage! Would you like help? Ask me anything about Irshad, or pick one below.",
 };
 
@@ -295,7 +296,8 @@ export function mount(ctx) {
   function grow() {
     if (panel.hidden) return;
     input.style.height = 'auto';
-    input.style.height = `${input.scrollHeight}px`;
+    // scrollHeight leaves out the box's own border (1992's has one), which would add a scroll bar.
+    input.style.height = `${input.scrollHeight + input.offsetHeight - input.clientHeight}px`;
     const cs = getComputedStyle(input);
     const oneLine = parseFloat(cs.lineHeight) + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
     form.toggleAttribute('data-tall', input.scrollHeight > oneLine * 1.5);

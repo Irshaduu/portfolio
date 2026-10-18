@@ -61,6 +61,66 @@
     & .sound-switch::after { content: ": off"; }
     & .sound-switch[aria-pressed="true"]::after { content: ": on"; }
 
+    /* ---- Irshad's Agent, 1992: an experimental hypertext service ----
+       No CSS, no icons, no images yet: plain browser buttons, a white box with a thin black rule
+       like the time machine's form, the visitor's words as typed lines ("> …") and the answers as
+       plain text. Every look here is the browser's own (`revert`, one property at a time, so the
+       floating and fitting from css/agent.css stay). */
+    & :is(.agent-launch, .ask-ai, .agent__close, .agent__send, .agent__next button) {
+      appearance: auto; padding: revert; border: revert; border-radius: revert; background: revert;
+      color: revert; font: revert; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
+    }
+    & :is(.agent-launch__dot, .ask-ai__bot, .agent__dot, .agent__close svg, .agent__send svg) { display: none; }
+    & .ask-ai { margin-top: 0; }
+    & .agent-launch { bottom: calc(var(--tm-h, 8rem) + 12px); }
+    & .agent__close::after { content: "Close"; }
+    & :is(.agent__close, .agent__send) { width: auto; height: auto; }
+    & .agent__send::after { content: "Submit"; }
+
+    & .agent {
+      padding: 8px; gap: 6px; border: 1px solid #000; border-radius: 0; box-shadow: none;
+      background: #fff; color: #000; font: 16px/1.3 "Times New Roman", Times, serif;
+    }
+    & .agent__title { font-weight: bold; }
+    & .agent__wait::before { content: " ("; font-weight: normal; }
+    & .agent__wait::after { content: ")"; }
+    & .agent__wait { font-weight: normal; }
+    & .agent__log { gap: 10px; padding-right: 4px; }
+    & .agent__msg--me {
+      align-self: stretch; max-width: none; font: 14px/1.35 "Courier New", Courier, monospace; white-space: pre-wrap;
+    }
+    & .agent__msg--me::before { content: "> "; }
+    & .agent__msg--bot { gap: 4px; max-width: none; }
+    & .agent a { color: #00e; }
+    & .agent a:visited { color: #551a8b; }
+    & :is(.agent__trace, .agent__status, .agent__note) { font-size: 13px; color: #555; }
+    & .agent__status::before { content: " "; }
+    & .agent__signal { margin: 0 0 0 .3em; padding: 0; color: #000; opacity: .6; font-size: 12px; }
+    & .agent__typing { color: #000; }
+    & .agent__next { gap: 4px; }
+    & .agent__form { gap: 6px; }
+    & .agent__form::before { content: "Ask:"; font-weight: bold; align-self: center; }
+    & .agent__form textarea {
+      padding: 2px 4px; border: 1px solid #767676; background: #fff; color: #000;
+      font: 15px/1.4 "Courier New", Courier, monospace;
+    }
+    & .agent__note { text-align: left; margin: 0; }
+
+    /* The job-fit check, as a plain list. */
+    & .agent__post-head { font-weight: bold; }
+    & .agent__post-text { font-size: 14px; }
+    & .fit { gap: 6px; padding: 0; }
+    & .fit__head { font-weight: bold; }
+    & .fit__list { gap: 4px; }
+    & .fit__row::before { content: "*"; position: absolute; left: .2em; }
+    & .fit__list--gap .fit__row::before { content: "-"; }
+    & .fit__need { display: block; font-weight: bold; }
+    & .fit__link { margin-left: .4em; }
+    & .fit__ask { gap: 2px; padding-top: 4px; border-top: 1px solid #000; }
+
+    /* The part of the page an answer points to: underlined in a rule, no light shows yet. */
+    & .agent-spot { border: 1px dashed #000; }
+
     /* A phone has no room for the note, and no keyboard to type link numbers with. */
     @media (max-width: 560px) {
       & .tm__note { display: none; }

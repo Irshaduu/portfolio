@@ -9,7 +9,7 @@
       --agent-accent  the glow (2026 cyan, 2023 indigo)     --agent-warm   resting: the amber dot
       --agent-mono    the small labels' font                --agent-panel  the panel's fill
                                                             (--agent-panel-phone: on a phone, more solid)
-    An older era keeps the layout and dresses the rest itself (1997: a Windows 95 window).
+    An older era keeps the layout and dresses the rest itself (1992: plain hypertext; 1997: a Windows 95 window).
 
   The eras the agent visits are listed here (and in js/eras.js, `agent: true`); elsewhere its
   buttons stay hidden, as ornaments of other eras do.
@@ -17,7 +17,7 @@
 
 @layer agent {
   /* ---- the layout, every era the agent visits ---- */
-  :root:is([data-era="1997"], [data-era="2023"], [data-era="2026"]) {
+  :root:is([data-era="1992"], [data-era="1997"], [data-era="2023"], [data-era="2026"]) {
     & .agent-launch {
       position: fixed; z-index: 97; right: max(16px, env(safe-area-inset-right)); bottom: calc(var(--tm-h, 6rem) + 22px);
       align-items: center; gap: .65em;
@@ -220,7 +220,7 @@
    (`display: revert`), which would otherwise win over the layer above and turn them back into
    plain inline buttons, the robot face on top of its words. */
 @layer era {
-  :root:is([data-era="1997"], [data-era="2023"], [data-era="2026"]) {
+  :root:is([data-era="1992"], [data-era="1997"], [data-era="2023"], [data-era="2026"]) {
     & :is(.agent-launch:not([aria-expanded="true"]), .ask-ai) { display: inline-flex; }
   }
 }

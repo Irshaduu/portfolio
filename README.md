@@ -427,7 +427,10 @@ eras share a glass look in their own colours (2026 cyan; 2023 indigo, like that 
 apps), and each era adds its habits. In 1997 it's a desktop helper: a little beige computer with a
 face (its own character, nobody's paperclip) beside a yellow help balloon, and a Windows 95
 window: "It looks like you're visiting a homepage! Would you like help?" It stays open through a
-trip in time, changing clothes and greeting with the page. So far it visits 1997, 2023 and 2026
+trip in time, changing clothes and greeting with the page. In 1992 it's plain hypertext: browser
+buttons, a box with a thin black rule, the visitor's words as typed lines ("> …"), "Ask:" and
+Submit: "Welcome. This is Irshad's agent, an experimental hypertext service." So far it visits
+1992, 1997, 2023 and 2026
 (`agent: true` in `js/eras.js`); in other eras its buttons hide and the panel closes, and the
 conversation waits for the way back.
 
