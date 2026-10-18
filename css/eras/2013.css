@@ -232,17 +232,35 @@
        flat round send button, and Siri's question to open with. On the turquoise band, "Ask my
        AI" is a white ghost button. Where it floats and how it fits a phone come from css/agent.css. */
     & .agent-launch {
-      gap: .6em; padding: .7rem 1.2rem .7rem 1rem; border: 0; border-radius: 4px; color: #fff;
+      gap: .6em; padding: .45rem 1.2rem .45rem .45rem; border: 0; border-radius: 4px; color: #fff;
       font: 700 .82rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; background: var(--carrot);
     }
     & .agent-launch:hover { background: var(--pumpkin); }
-    & .agent-launch__dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
     & .ask-ai {
-      justify-self: center; gap: .5em; padding: .5rem 1.1rem .5rem .8rem; border: 2px solid #fff; border-radius: 4px; background: transparent; color: #fff;
+      justify-self: center; gap: .5em; padding: .35rem 1.1rem .35rem .4rem; border: 2px solid #fff; border-radius: 4px; background: transparent; color: #fff;
       font: 700 .8rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; transition: background .2s, color .2s;
     }
     & .ask-ai:hover { background: #fff; color: var(--green-sea); }
-    & .ask-ai__bot { color: currentColor; }
+
+    /* Its face, an iOS 7 icon: a flat squircle tile, a white head with thin eyes and a thin smile,
+       and the long shadow every flat icon cast that year. It blinks and glances. */
+    & .agent-face {
+      --eye: var(--midnight); --eye-w: 6%; --eye-h: 13%; --eye-gap: 17%; --eye-y: 33%; --look: 6%;
+      overflow: hidden; isolation: isolate; border-radius: 30%; background: var(--amethyst);
+    }
+    & .agent-face::before {
+      content: ""; position: absolute; z-index: 1; left: 21%; top: 19%; width: 58%; height: 58%; border-radius: 50%;
+      background:
+        linear-gradient(#fff 0 56%, transparent 0),
+        radial-gradient(circle at 50% 56%, transparent calc(var(--face) * .1), var(--midnight) 0 calc(var(--face) * .1 + 1.2px), transparent 0),
+        #fff;
+    }
+    & .agent-face::after {
+      content: ""; position: absolute; left: 21%; top: 48%; width: 58%; height: 110%;
+      transform-origin: 50% 0; rotate: -45deg; background: rgb(0 0 0 / .2);
+    }
+    & .agent-face i { z-index: 2; }
+    & .agent[data-resting] .agent-face { background: var(--concrete); }
 
     & .agent {
       padding: 0; gap: 0; overflow: hidden; border: 0; border-radius: 6px;
@@ -252,10 +270,8 @@
     }
     & .agent__head { padding: .75rem .75rem .75rem 1rem; background: var(--midnight); }
     & .agent__title { gap: .6em; font: 300 1.05rem/1 var(--sans); letter-spacing: .02em; color: #fff; }
-    & .agent__dot { width: 9px; height: 9px; border-radius: 50%; background: var(--emerald); }
     & .agent__wait { font: 400 .78rem var(--sans); color: var(--concrete); }
     & .agent__wait::before { content: "· "; }
-    & .agent[data-resting] .agent__dot { background: var(--carrot); }
     & .agent[data-resting] .agent__wait { color: var(--carrot); }
     & .agent__close { width: 30px; height: 30px; border: 0; border-radius: 4px; background: var(--asphalt); color: #fff; }
     & .agent__close:hover { background: var(--alizarin); }

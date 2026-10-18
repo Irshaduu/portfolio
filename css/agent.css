@@ -1,16 +1,17 @@
 /*
   Irshad's Agent, dressed (js/agent.js fills it). One brain in every era; each era its own clothes.
 
-  Two parts, in their own layer between the shared mechanics and the eras, so an era can still
+  Three parts, in their own layer between the shared mechanics and the eras, so an era can still
   change anything:
   - The layout, for every era the agent visits: the button and the panel float just above the time
     machine, fit a phone and its keyboard, and the box grows with what's typed.
   - The glass look the modern eras share (2023, 2026, 2030), drawn from a few colours the era sets:
-      --agent-accent  the glow (2026 cyan, 2023 indigo, 2030 ice)   --agent-warm   resting: the amber dot
+      --agent-accent  the glow (2026 cyan, 2023 indigo, 2030 ice)   --agent-warm   resting: the countdown
       --agent-mono    the small labels' font                --agent-panel  the panel's fill
                                                             (--agent-panel-phone: on a phone, more solid)
     An older era keeps the layout and dresses the rest itself (1992: plain hypertext; 1997: a Windows 95 window; 2001: a Flash instant messenger;
     2007: a glossy live-chat widget; 2013: flat, like iOS 7).
+  - The face's eyes, for every era: each era draws its own head around them.
 
   The eras the agent visits are listed here (and in js/eras.js, `agent: true`); elsewhere its
   buttons stay hidden, as ornaments of other eras do.
@@ -24,7 +25,25 @@
       align-items: center; gap: .65em;
     }
     & .ask-ai { align-items: center; gap: .5em; justify-self: start; }
-    & .ask-ai__bot { flex: none; }
+
+    /* The face: each era draws the head (.agent-face, its ::before and ::after) and places the two
+       eyes with a few shares of the face: --eye-w and --eye-h (each eye), --eye-gap (between
+       them), --eye-x (how far right of centre they sit), --eye-y (their top), --eye (colour), and
+       --look (how far they turn). Now and then they blink and look around; while the AI thinks
+       they look up and wander; while it rests they close. */
+    & .agent-launch .agent-face { --face: 24px; }
+    & .ask-ai .agent-face { --face: 20px; }
+    & .agent__title .agent-face { --face: 22px; }
+    & .agent-face i { transform-origin: 50% calc(var(--eye-y, 30%) + var(--eye-h, 22%) / 2); animation: agent-look 11s ease-in-out infinite; }
+    & .agent-face i::before, & .agent-face i::after {
+      content: ""; position: absolute; top: var(--eye-y, 30%); width: var(--eye-w, 9%); height: var(--eye-h, 22%);
+      border-radius: 999px; background: var(--eye, #fff);
+    }
+    & .agent-face i::before { left: calc(50% + var(--eye-x, 0%) - var(--eye-gap, 22%) / 2 - var(--eye-w, 9%) / 2); }
+    & .agent-face i::after { left: calc(50% + var(--eye-x, 0%) + var(--eye-gap, 22%) / 2 - var(--eye-w, 9%) / 2); }
+    & .ask-ai .agent-face i { animation-delay: -5.5s; } /* the two on screen together don't blink as one */
+    & .agent:has(.agent__form.is-busy) .agent-face i { animation: agent-think 2.4s ease-in-out infinite; }
+    & .agent[data-resting] .agent-face i { animation: none; scale: 1 .14; }
     /* The panel is only as tall as the conversation, up to its max-height: a new chat opens as a
        small card, not a tall empty one, and grows as the visitor talks. */
     & .agent {
@@ -73,7 +92,7 @@
     --agent-tint: color-mix(in srgb, var(--agent-accent) 10%, transparent);
 
     & .agent-launch {
-      padding: .72rem 1.15rem .72rem 1rem; border-radius: 999px; border: 1px solid var(--line-2);
+      padding: .5rem 1.15rem .5rem .5rem; border-radius: 999px; border: 1px solid var(--line-2);
       background: color-mix(in srgb, var(--agent-panel) 90%, transparent); color: var(--ink);
       font: 500 .84rem/1 var(--sans); letter-spacing: .01em;
       backdrop-filter: blur(16px) saturate(1.4); -webkit-backdrop-filter: blur(16px) saturate(1.4);
@@ -84,19 +103,13 @@
       border-color: var(--agent-accent); transform: translateY(-1px);
       box-shadow: 0 0 0 4px var(--agent-tint), 0 0 32px var(--agent-glow), 0 18px 50px -18px rgb(0 0 0 / .9);
     }
-    & :is(.agent-launch__dot, .agent__dot) {
-      width: 8px; height: 8px; border-radius: 50%; flex: none;
-      background: var(--agent-accent); box-shadow: 0 0 12px var(--agent-accent); animation: agent-pulse 2.4s ease-in-out infinite;
-    }
-
     /* "Ask my AI", right under the name: small, a friendly face, the same agent as the floating button. */
     & .ask-ai {
-      margin-top: -.5rem; padding: .36rem .95rem .36rem .5rem; border-radius: 999px;
+      margin-top: -.5rem; padding: .36rem .95rem .36rem .36rem; border-radius: 999px;
       border: 1px solid var(--line-2); background: color-mix(in srgb, var(--agent-panel) 80%, transparent); color: var(--ink);
       font: 500 .86rem/1 var(--sans); letter-spacing: .01em;
       transition: border-color .25s, box-shadow .25s, transform .25s;
     }
-    & .ask-ai__bot { color: var(--agent-accent); filter: drop-shadow(0 0 6px var(--agent-glow)); }
     & .ask-ai:hover {
       border-color: var(--agent-accent); transform: translateY(-1px);
       box-shadow: 0 0 0 4px var(--agent-tint), 0 0 24px var(--agent-glow);
@@ -111,14 +124,11 @@
     }
     & .agent__head { padding: .15rem .1rem .1rem .3rem; }
     & .agent__title { font: 500 .7rem/1 var(--agent-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--ink-2); }
-    /* While the AI rests, the dot turns amber and stops breathing, and a small countdown sits beside
-       the name. Near the day's end, just a faint "5 left today". */
+    /* While the AI rests, the face closes its eyes and a small countdown sits beside the name, in
+       amber. Near the day's end, just a faint "5 left today". */
     & .agent__wait { text-transform: none; letter-spacing: .06em; font-size: .64rem; color: var(--ink-3); }
     & .agent__wait::before { content: "· "; }
     & .agent[data-resting] .agent__wait { color: var(--agent-warm); font-variant-numeric: tabular-nums; }
-    & .agent[data-resting] .agent__dot {
-      background: var(--agent-warm); box-shadow: 0 0 10px color-mix(in srgb, var(--agent-warm) 55%, transparent); animation: none;
-    }
     & .agent__close { border-radius: 999px; border: 1px solid var(--line-2); background: transparent; color: var(--ink-2); }
     & .agent__close:hover { border-color: var(--agent-accent); color: var(--ink); }
     & .agent__log { padding: .2rem .35rem .2rem .3rem; scrollbar-width: thin; scrollbar-color: var(--line-2) transparent; }
@@ -193,19 +203,37 @@
     & .agent-spot { border: 2px solid var(--agent-accent); animation: agent-spot 2.8s ease-out forwards; }
 
     @media (max-width: 760px) {
-      & .agent-launch { padding: .62rem 1rem .62rem .9rem; font-size: .8rem; }
+      & .agent-launch { padding: .42rem 1rem .42rem .42rem; font-size: .8rem; }
       & .agent {
         border-radius: 22px; background: var(--agent-panel-phone, var(--agent-panel));
         box-shadow: 0 24px 70px -10px rgb(0 0 0 / .95), 0 0 0 1px rgb(0 0 0 / .5), inset 0 1px 0 rgb(255 255 255 / .08);
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      & .agent-launch__dot, & .agent__dot, & .agent { animation: none; }
+      & .agent { animation: none; }
       & .agent-spot { animation: agent-spot-still 2.8s step-end forwards; }
     }
   }
 
-  @keyframes agent-pulse { 50% { opacity: .35; } }
+  /* Mostly still: a blink, a look to one side, then up to the other, another blink. */
+  @keyframes agent-look {
+    0%, 27%, 100% { translate: 0 0; scale: 1 1; rotate: 0deg; }
+    27.8% { scale: 1 .1; }
+    28.6% { scale: 1 1; }
+    40% { translate: 0 0; rotate: 0deg; }
+    45%, 54% { translate: calc(var(--look, 20%) * -1) 3%; scale: .8 1; rotate: -5deg; }
+    60% { translate: 0 0; scale: 1 1; rotate: 0deg; }
+    66%, 73% { translate: calc(var(--look, 20%) * .7) -4%; scale: .88 1; rotate: 4deg; }
+    79% { translate: 0 0; scale: 1 1; rotate: 0deg; }
+    88% { scale: 1 1; }
+    88.8% { scale: 1 .1; }
+    89.6% { scale: 1 1; }
+  }
+  /* Thinking: eyes up, wandering from side to side. */
+  @keyframes agent-think {
+    0%, 100% { translate: calc(var(--look, 20%) * -.6) -9%; }
+    50% { translate: calc(var(--look, 20%) * .6) -9%; }
+  }
   @keyframes agent-in { from { opacity: 0; translate: 0 18px; scale: .97; } }
   @keyframes agent-spot {
     0% { opacity: 0; box-shadow: 0 0 0 0 transparent; }
@@ -219,7 +247,7 @@
 
 /* The two buttons' display lives in the era layer, beside each era's own rule for its ornaments
    (`display: revert`), which would otherwise win over the layer above and turn them back into
-   plain inline buttons, the robot face on top of its words. */
+   plain inline buttons, the face on top of its words. */
 @layer era {
   :root:is([data-era="1992"], [data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"], [data-era="2030"]) {
     & :is(.agent-launch:not([aria-expanded="true"]), .ask-ai) { display: inline-flex; }
@@ -229,5 +257,9 @@
      underline lights up); 1992 keeps the browser's own ring, and 1997 draws a dotted one. */
   :root:is([data-era="1997"], [data-era="2001"], [data-era="2007"], [data-era="2013"], [data-era="2023"], [data-era="2026"], [data-era="2030"]) {
     & .agent__form textarea { outline: none; }
+  }
+  /* With reduced motion every face holds still, whatever its era animates. */
+  @media (prefers-reduced-motion: reduce) {
+    .agent-face, .agent-face i, .agent-face::before, .agent-face::after, .agent-face i::before, .agent-face i::after { animation: none !important; }
   }
 }

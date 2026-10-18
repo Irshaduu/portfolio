@@ -343,13 +343,26 @@
     & :is(.agent-launch, .ask-ai, .agent__next button, .agent__send):hover {
       color: #000; background: linear-gradient(#ffe0a3, var(--orange) 50%, #d97f00 51%, #ffb340); box-shadow: 0 0 12px rgb(255 153 0 / .6);
     }
-    & .agent-launch { gap: 8px; padding: 8px 16px 8px 12px; }
-    & .ask-ai { gap: 6px; padding: 6px 14px 6px 8px; }
-    & .ask-ai__bot { color: #1d2228; }
-    & :is(.agent-launch__dot, .agent__dot) {
-      width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--led); box-shadow: 0 0 8px var(--led);
-      animation: tt01-blink 1.6s steps(1) infinite;
+    & .agent-launch { gap: 8px; padding: 5px 16px 5px 6px; }
+    & .ask-ai { gap: 6px; padding: 3px 14px 3px 4px; }
+
+    /* Its face: the yellow smiley every messenger sent that year, drawn like Flash drew, with a
+       black outline. It winks now and then; while it's away, it sleeps. */
+    & .agent-face {
+      --eye: #111; --eye-w: 12%; --eye-h: 25%; --eye-gap: 26%; --eye-y: 22%; --look: 9%;
+      border-radius: 50%; border: 1px solid #000;
+      background: radial-gradient(circle at 34% 28%, #fffbd0, #ffe24d 30%, #ffc400 62%, #e69500);
+      box-shadow: inset 0 -2px 3px rgb(160 80 0 / .35);
     }
+    & .agent-face::after {
+      content: ""; position: absolute; left: 23%; top: 49%; width: 54%; height: 25%;
+      border: max(1.5px, calc(var(--face) * .07)) solid #111; border-top: 0; border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    }
+    & .agent-face i::after { animation: tt01-wink 9s ease-in-out infinite; }
+    & .ask-ai .agent-face i::after { animation-delay: -4.5s; }
+    & .agent[data-resting] .agent-face { filter: grayscale(.7); }
+    & .agent[data-resting] .agent-face::after { top: 60%; height: 0; border-radius: 0; }
+    & .agent[data-resting] .agent-face i::after { animation: none; }
 
     & .agent {
       padding: 0; gap: 0; border: 1px solid #000; border-radius: 0;
@@ -363,7 +376,6 @@
     & .agent__wait { order: 3; color: #4a525c; }
     & .agent__wait::before { content: "· "; }
     & .agent[data-resting] .agent__wait { color: #b35f00; }
-    & .agent[data-resting] .agent__dot { background: var(--orange); box-shadow: 0 0 8px var(--orange); animation: none; }
     & .agent__close {
       width: 22px; height: 18px; border: 1px solid #000; border-radius: 9px; color: var(--white);
       background: linear-gradient(#4a525c, #23282e); box-shadow: inset 0 1px 0 rgb(255 255 255 / .25);
@@ -438,12 +450,14 @@
     }
     @media (prefers-reduced-motion: reduce) {
       & .masthead__inner::after, & .blink, & .timeline::after, & .intro *, & .intro__stage::after { animation: none !important; }
-      & :is(.agent-launch__dot, .agent__dot, .agent, .agent-spot) { animation: none; }
+      & :is(.agent, .agent-spot) { animation: none; }
     }
   }
 
   @keyframes tt01-spin { to { rotate: 1turn; } }
   @keyframes tt01-blink { 50% { visibility: hidden; } }
+  /* Irshad's Agent's smiley winks: one eye shut for a moment. */
+  @keyframes tt01-wink { 0%, 60%, 70%, 100% { scale: 1 1; } 62.5%, 67.5% { scale: 1 .12; } }
   @keyframes tt01-playhead { from { left: 0; } to { left: 100%; } }
   @keyframes tt01-letter { from { opacity: 0; transform: translateY(-24px) scale(2.6); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
   @keyframes tt01-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }

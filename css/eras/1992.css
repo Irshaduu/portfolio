@@ -70,9 +70,21 @@
       appearance: auto; padding: revert; border: revert; border-radius: revert; background: revert;
       color: revert; font: revert; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none;
     }
-    & :is(.agent-launch__dot, .ask-ai__bot, .agent__dot, .agent__close svg, .agent__send svg) { display: none; }
+    & :is(.agent__close svg, .agent__send svg) { display: none; }
     & .ask-ai { margin-top: 0; }
     & .agent-launch { bottom: calc(var(--tm-h, 8rem) + 12px); }
+
+    /* Its face is typed, as faces were then: [o_o], blinking to [-_-] now and then, [o_O] while
+       it thinks and [-_-]zZ while it rests. */
+    & .agent-face { position: relative; width: auto; height: auto; font: .9em/1 "Courier New", Courier, monospace; white-space: pre; }
+    & .agent-face::before { content: "[o_o]"; animation: tt92-open 7s step-end infinite; }
+    & .agent-face i { position: absolute; inset: 0; opacity: 0; animation: tt92-shut 7s step-end infinite; } /* the page's `all: revert` takes these back under the name */
+    & .agent-face i::before { content: "[-_-]"; position: static; width: auto; height: auto; border-radius: 0; background: none; box-shadow: none; }
+    & .agent-face i::after { content: none; }
+    & .ask-ai .agent-face i, & .ask-ai .agent-face::before { animation-delay: -3.5s; }
+    & .agent:has(.agent__form.is-busy) .agent-face::before { content: "[o_O]"; animation: none; }
+    & .agent[data-resting] .agent-face::before { content: "[-_-]zZ"; animation: none; }
+    & :is(.agent:has(.agent__form.is-busy), .agent[data-resting]) .agent-face i { animation: none; scale: none; }
     & .agent__close::after { content: "Close"; }
     & :is(.agent__close, .agent__send) { width: auto; height: auto; }
     & .agent__send::after { content: "Submit"; }
@@ -139,4 +151,7 @@
   }
 
   @keyframes tt92-cursor { 50% { visibility: hidden; } }
+  /* Irshad's Agent blinks: its open eyes give way to shut ones for a moment. */
+  @keyframes tt92-open { 0% { opacity: 1; } 90% { opacity: 0; } 92% { opacity: 1; } }
+  @keyframes tt92-shut { 0% { opacity: 0; } 90% { opacity: 1; } 92% { opacity: 0; } }
 }

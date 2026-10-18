@@ -292,10 +292,20 @@
     & :is(.agent-launch, .ask-ai):hover {
       border-color: var(--orange-dark); background: var(--gloss), linear-gradient(#ffc266, var(--orange) 55%, var(--orange-dark));
     }
-    & .agent-launch { gap: 8px; padding: 10px 18px 10px 14px; }
-    & .agent-launch__dot { width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px rgb(255 255 255 / .35); }
-    & .ask-ai { gap: 6px; margin-top: 10px; padding: 6px 14px 6px 8px; } /* clear of the name's reflection */
-    & .ask-ai__bot { color: #fff; }
+    & .agent-launch { gap: 8px; padding: 6px 18px 6px 8px; }
+    & .ask-ai { gap: 6px; margin-top: 10px; padding: 4px 14px 4px 6px; } /* clear of the name's reflection */
+
+    /* Its face, a Web 2.0 mascot: a glossy blue speech bubble with a white rim, a shine across
+       its top and big cartoon eyes. Now and then it hops, the way that year's mascots bounced. */
+    & .agent-face {
+      --eye: radial-gradient(circle at 50% 62%, #0d2a45 0 38%, transparent 40%), #fff;
+      --eye-w: 17%; --eye-h: 24%; --eye-gap: 21%; --eye-y: 21%; --look: 7%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3ClinearGradient id='g' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%239ad6ff'/%3E%3Cstop offset='.55' stop-color='%232f80c9'/%3E%3Cstop offset='1' stop-color='%231f5f99'/%3E%3C/linearGradient%3E%3Cpath d='M9.5 2H14.5A8 8 0 0 1 14.5 18H10L5 22.4 6.2 17.29A8 8 0 0 1 9.5 2Z' fill='url(%23g)' stroke='%23fff' stroke-width='1.4' stroke-linejoin='round'/%3E%3Cellipse cx='12' cy='6.3' rx='8' ry='3.6' fill='%23fff' fill-opacity='.45'/%3E%3C/svg%3E") center / contain no-repeat;
+      filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / .35));
+      transform-origin: 50% 90%; animation: tt07-hop 7s ease-out infinite;
+    }
+    & .ask-ai .agent-face { animation-delay: -3.5s; }
+    & .agent[data-resting] .agent-face { animation: none; filter: grayscale(.85) drop-shadow(0 1px 1.5px rgb(0 0 0 / .3)); }
 
     & .agent {
       padding: 0; gap: 0; overflow: hidden; border: 1px solid #1a5f9e; border-radius: 14px;
@@ -312,10 +322,8 @@
       content: "beta"; order: 2; padding: 2px 6px 3px; border-radius: 5px; font: bold 10px/1 var(--sans); color: #fff;
       background: var(--gloss), linear-gradient(#ffb04a, var(--orange) 55%, var(--orange-dark)); text-shadow: 0 -1px 0 rgb(0 0 0 / .3);
     }
-    & .agent__dot { width: 9px; height: 9px; border-radius: 50%; background: #9ef04b; box-shadow: 0 0 6px #9ef04b, inset 0 1px 0 rgb(255 255 255 / .7); }
     & .agent__wait { order: 3; font: 11px var(--sans); color: rgb(255 255 255 / .85); text-shadow: none; }
     & .agent__wait::before { content: "· "; }
-    & .agent[data-resting] .agent__dot { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
     & .agent[data-resting] .agent__wait { color: #ffe2a8; }
     & .agent__close {
       width: 24px; height: 24px; border: 1px solid #1a5f9e; border-radius: 50%; color: #fff;
@@ -408,6 +416,13 @@
   }
 
   @keyframes tt07-wobble { 50% { transform: rotate(4deg) scale(1.06); } }
+  /* Irshad's Agent's bubble hops: up, a squash as it lands, still again. */
+  @keyframes tt07-hop {
+    0%, 80%, 100% { translate: 0 0; scale: 1 1; }
+    84% { translate: 0 -24%; scale: .94 1.06; }
+    88% { translate: 0 0; scale: 1.08 .92; }
+    91% { scale: 1 1; }
+  }
   /* Irshad's Agent's widget slides up as it opens; the yellow fade fades. */
   @keyframes tt07-slide { from { opacity: 0; transform: translateY(16px); } }
   @keyframes tt07-fade { from { opacity: 1; } to { opacity: 0; } }

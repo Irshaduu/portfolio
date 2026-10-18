@@ -534,23 +534,20 @@
       font: 500 .6rem/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--mint);
     }
 
-    /* ---- small screens ---- */
-    /* ---- Irshad's Agent, 2030: an orb of light over the stars ----
+    /* ---- Irshad's Agent, 2030: a globe of light over the stars ----
        The shared glass (css/agent.css) in ice, thinner so the stars show through, with this
-       year's face: a holographic orb that breathes beside its name, speaks faster while it
-       answers and dims to gold while it rests, and holographic edges like the time machine's. */
-    & :is(.agent-launch__dot, .agent__dot) {
-      width: 16px; height: 16px;
-      background: radial-gradient(circle at 35% 30%, #fff 0 12%, var(--ice) 32%, var(--mint) 56%, var(--rose) 88%);
-      box-shadow: 0 0 14px rgb(159 232 255 / .7), 0 0 30px rgb(255 143 184 / .35);
-      animation: tt30-orb 3.2s ease-in-out infinite;
+       year's face: 2026's glass ball, now only light, and past needing eyes. Points of light on
+       its lines of latitude turn like a globe (js/eras/2030/face.js draws them), faster while it
+       answers and gold while it rests. Until the globe arrives (or if it can't), a soft orb. And
+       holographic edges like the time machine's. */
+    & .agent-face {
+      border-radius: 50%;
+      background: radial-gradient(circle at 40% 35%, rgb(255 255 255 / .55), var(--ice) 30%, rgb(157 255 214 / .45) 60%, transparent 72%);
     }
-    & .agent__dot { width: 22px; height: 22px; }
-    & .agent:has(.agent__form.is-busy) .agent__dot { animation-duration: .9s; } /* it speaks */
-    & .agent[data-resting] .agent__dot {
-      background: radial-gradient(circle at 35% 30%, #fff 0 10%, var(--gold) 42%, #8a5a20 92%);
-      box-shadow: 0 0 12px rgb(255 210 138 / .5); animation: none;
-    }
+    & .agent-face:has(canvas) { background: radial-gradient(circle, rgb(159 232 255 / .2), transparent 68%); }
+    & .agent-face i { display: none; }
+    & .agent-launch .agent-face { --face: 28px; }
+    & .agent__title .agent-face { --face: 26px; }
     & :is(.agent-launch, .ask-ai, .agent__next button) {
       border: 1px solid transparent;
       background: linear-gradient(rgb(5 6 15 / .72), rgb(5 6 15 / .72)) padding-box, var(--agent-holo) border-box;
@@ -565,6 +562,7 @@
     & .agent__title { font-family: var(--display); font-weight: 400; letter-spacing: .14em; }
     & .agent__send { box-shadow: 0 0 18px rgb(159 232 255 / .35); }
 
+    /* ---- small screens ---- */
     @media (max-width: 900px) {
       & .project, & .project:nth-child(even) { grid-template-columns: minmax(0, 1fr); }
       & .orb, & .project:nth-child(even) .orb {
@@ -624,7 +622,6 @@
       & .fly-cue::before { animation: none; }
       & .moment::before, & .sky-line { transition: none; }
       & .chip::before { animation: none; }
-      & :is(.agent-launch__dot, .agent__dot) { animation: none; }
     }
   }
 
@@ -638,8 +635,6 @@
     100% { transform: scaleY(0); transform-origin: bottom; }
   }
   @keyframes tt30-twinkle { 50% { opacity: .45; scale: .8; } }
-  /* Irshad's Agent's orb breathes, shifting through the holographic colours. */
-  @keyframes tt30-orb { 50% { scale: 1.12; filter: hue-rotate(40deg) brightness(1.15); } }
   @keyframes tt30-emerge { from { opacity: 0; scale: .94; filter: blur(8px); } to { opacity: 1; scale: 1; filter: none; } }
   /* The project symbols: drawing on, the hand's sweep, the centre dot, and each one's own move. */
   @keyframes tt30-mk-draw { 0% { stroke-dashoffset: 1; opacity: 0; } 6% { opacity: 1; } 100% { stroke-dashoffset: 0; opacity: 1; } }

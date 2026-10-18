@@ -364,6 +364,21 @@
       animation: tt26-pulse 2.4s ease-in-out infinite;
     }
 
+    /* ---- Irshad's Agent's face: a ball of blue glass with two white eyes ----
+       Now and then it turns its head to look around, and blinks (css/agent.css moves the eyes). */
+    & .agent-face {
+      --eye-w: 9%; --eye-h: 20%; --eye-gap: 24%; --eye-x: 11%; --eye-y: 26%; --look: 26%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 28%, rgb(255 255 255 / .3), transparent 46%),
+        radial-gradient(circle, #5aabff 0 34%, #3286ff 68%, #2a72ee 88%, #74b6ff 100%);
+      box-shadow:
+        0 0 0 calc(var(--face) * .07) rgb(38 44 56 / .95), 0 0 calc(var(--face) * .6) rgb(60 140 255 / .3),
+        inset 0 calc(var(--face) * -.07) calc(var(--face) * .14) rgb(10 40 120 / .45);
+    }
+    & .agent-face i::before, & .agent-face i::after { box-shadow: 0 0 calc(var(--face) * .12) rgb(255 255 255 / .55); }
+    & .agent[data-resting] .agent-face { filter: saturate(.45) brightness(.8); }
+
     /* ---- small screens ---- */
     @media (max-width: 1100px) {
       & .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }

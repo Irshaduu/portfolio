@@ -3,6 +3,7 @@
 //   2030/sky.js            a sky that follows the visitor's clock
 //   2030/constellation.js  the Stack as a night sky
 //   2030/marks.js          the moment each project's symbol makes its move
+//   2030/face.js           Irshad's Agent's face, a globe of light
 // Each part loads and starts on its own, so one that fails (a dropped file, a graphics card
 // without WebGL2) never stops the others. Without the scene, the name simply stays as text.
 
@@ -28,6 +29,7 @@ const PARTS = [
   }), (m) => m.stopSky()),
   part('./2030/constellation.js', (m) => m.startConstellation(), (m) => m.stopConstellation()),
   part('./2030/marks.js', (m) => m.startMarks(), (m) => m.stopMarks()),
+  part('./2030/face.js', (m) => m.startFace(), (m) => m.stopFace()),
 ];
 
 let visit = 0;

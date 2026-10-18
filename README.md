@@ -404,9 +404,12 @@ offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant
 keys, so the page never sees them. `assistant/README.md` has how it talks, the setup step by step,
 and how it's built; `tools/assistant.html` is its test bench.
 
-**On the page** (`js/agent.js`, loaded by `js/main.js`): a small "Ask my AI" button with a robot
-face sits right under the name, a glowing *Irshad's Agent* button floats just above the time
-machine, and the 2026 intent hint ends with "Or ask my agent". None opens by itself. The chat is a glass panel beside the page (a sheet rising from the time machine on a
+**On the page** (`js/agent.js`, loaded by `js/main.js`): a small "Ask my AI" button sits right
+under the name, the agent itself says "Ask me" from a button floating just above the time machine,
+and the 2026 intent hint ends with "Or ask my agent". None opens by itself. Both buttons and the
+chat's header wear the agent's face (`.agent-face`), a different one in every era (below). Where
+it has eyes, it blinks and looks around now and then, looks up and wanders while the AI thinks,
+and shuts its eyes while the AI rests; 2023's mark and 2030's globe have no eyes, and spin instead. The chat is a glass panel beside the page (a sheet rising from the time machine on a
 phone), loaded only when first opened. It greets the visitor with three questions to start from,
 chosen by why they came, and every answer ends with what to ask next. Answers act on the page: on
 a wide screen an answer about Word Hunt scrolls there and lays a ring of light over the card
@@ -424,21 +427,27 @@ every AI rests, the page checks the post's words itself. `assistant/README.md` h
 **In every era, its own clothes** (`css/agent.css`): one brain, and a costume for each era it
 visits. The layout (floating above the time machine, phone and keyboard) is shared; the modern
 eras share a glass look in their own colours (2026 cyan; 2023 indigo, like that year's chat
-apps), and each era adds its habits. In 1997 it's a desktop helper: a little beige computer with a
-face (its own character, nobody's paperclip) beside a yellow help balloon, and a Windows 95
-window: "It looks like you're visiting a homepage! Would you like help?" It stays open through a
-trip in time, changing clothes and greeting with the page. In 1992 it's plain hypertext: browser
-buttons, a box with a thin black rule, the visitor's words as typed lines ("> …"), "Ask:" and
-Submit: "Welcome. This is Irshad's agent, an experimental hypertext service." In 2001 it's an
-instant messenger in Flash chrome: a gunmetal IM window, "IrshadsAgent signed on.", the chat as a
-transcript of screen names, chrome capsule buttons. In 2007 it's a glossy live-chat widget, in
-beta of course: a blue gloss title bar with a "beta" badge, shiny speech bubbles with tails, green
-ticks, an orange Send, and the yellow fade on the part of the page an answer points to. In 2013
-it's flat, the way iOS 7 drew a conversation: a midnight bar with thin type, flat blue and grey
-bubbles, ghost buttons, and Siri's "What can I help you with?". In 2030 it's an orb of light
-over the stars: the glass in ice with a holographic edge, an orb that breathes beside its name,
-speaks faster while it answers and dims to gold while it rests: "Hello from 2030. Here the page is
-a place, and I'm its guide." It visits every era
+apps), and each era adds its habits. In 2026 its face is a ball of blue glass with two white eyes
+that turns its head to look around. In 1997 it's a desktop helper: a little beige computer with a
+face (its own character, nobody's paperclip) that blinks beside a yellow help balloon, and a
+Windows 95 window: "It looks like you're visiting a homepage! Would you like help?" It stays open
+through a trip in time, changing clothes and greeting with the page. In 1992 it's plain
+hypertext: a typed face, `[o_o]`, that blinks to `[-_-]`, browser buttons, a box with a thin black
+rule, the visitor's words as typed lines ("> …"), "Ask:" and Submit: "Welcome. This is Irshad's
+agent, an experimental hypertext service." In 2001 it's an instant messenger in Flash chrome: a
+yellow smiley with a Flash outline that winks, a gunmetal IM window, "IrshadsAgent signed on.",
+the chat as a transcript of screen names, chrome capsule buttons. In 2007 it's a glossy live-chat
+widget, in beta of course: its face a glossy blue speech bubble with cartoon eyes that hops, a
+blue gloss title bar with a "beta" badge, shiny speech bubbles with tails, green ticks, an orange
+Send, and the yellow fade on the part of the page an answer points to. In 2013 it's flat, the way
+iOS 7 drew a conversation: its face a flat squircle icon with a long shadow, a midnight bar with
+thin type, flat blue and grey bubbles, ghost buttons, and Siri's "What can I help you with?". In
+2023 its face is a rosette knotted round a hexagon, like that year's best-known AI mark but its
+own, in the year's gradient, with no eyes, turning slowly and spinning while it answers. In 2030
+it's a globe of light over the stars: 2026's glass ball turned to points of light on lines of latitude, past needing eyes
+(`js/eras/2030/face.js`), turning faster while it answers and slowly, in gold, while it rests,
+and the glass in ice with a holographic edge: "Hello from 2030. Here the page is a place, and I'm
+its guide." It visits every era
 (`agent: true` in `js/eras.js`); in other eras its buttons hide and the panel closes, and the
 conversation waits for the way back.
 

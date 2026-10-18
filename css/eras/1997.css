@@ -10,7 +10,9 @@
     --bevel-out: inset -1px -1px #0a0a0a, inset 1px 1px #fff, inset -2px -2px #808080, inset 2px 2px #dfdfdf;
     --bevel-in: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px #808080;
     /* Irshad's Agent's 1997 helper: a little beige computer with a face (see the agent's block below). */
-    --agent-face: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='5' y='4' width='38' height='30' rx='3' fill='%23d6d0bd' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='10' y='8' width='28' height='20' fill='%23008080' stroke='%23585858'/%3E%3Cpath d='M15 12.2l5 .9M33 12.2l-5 .9' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='16.5' r='3.2' fill='%23fff'/%3E%3Ccircle cx='29' cy='16.5' r='3.2' fill='%23fff'/%3E%3Ccircle cx='19.7' cy='17.1' r='1.5' fill='%23000'/%3E%3Ccircle cx='29.7' cy='17.1' r='1.5' fill='%23000'/%3E%3Cpath d='M18.5 22.3q5.5 3.6 11 0' stroke='%23fff' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3Crect x='18' y='34' width='12' height='4' fill='%23bdb6a0' stroke='%23000' stroke-width='1.2'/%3E%3Crect x='11' y='38' width='26' height='6' rx='1' fill='%23d6d0bd' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='31' y='40' width='3' height='1.5' fill='%2300a000'/%3E%3C/svg%3E");
+    --agent-face: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='5' y='4' width='38' height='30' rx='3' fill='%23d6d0bd' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='10' y='8' width='28' height='20' fill='%23008080' stroke='%23585858'/%3E%3Cpath d='M16 12.4q3-1.8 6 0M26 12.4q3-1.8 6 0' stroke='%23fff' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='19' cy='16.5' r='3.2' fill='%23fff'/%3E%3Ccircle cx='29' cy='16.5' r='3.2' fill='%23fff'/%3E%3Ccircle cx='19.7' cy='17.1' r='1.5' fill='%23000'/%3E%3Ccircle cx='29.7' cy='17.1' r='1.5' fill='%23000'/%3E%3Cpath d='M18.5 22.3q5.5 3.6 11 0' stroke='%23fff' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3Crect x='18' y='34' width='12' height='4' fill='%23bdb6a0' stroke='%23000' stroke-width='1.2'/%3E%3Crect x='11' y='38' width='26' height='6' rx='1' fill='%23d6d0bd' stroke='%23000' stroke-width='1.5'/%3E%3Crect x='31' y='40' width='3' height='1.5' fill='%2300a000'/%3E%3C/svg%3E");
+    /* …and the same face with its eyes shut, laid over it to blink. */
+    --agent-face-shut: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='15.3' y='13.2' width='17.4' height='6.8' fill='%23008080'/%3E%3Cpath d='M16 16.4q3 2.2 6 0M26 16.4q3 2.2 6 0' stroke='%23fff' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
     color-scheme: dark;
 
     & :where(.orn[data-orn~="1997"]) { display: revert; }
@@ -248,12 +250,10 @@
 
     /* The floating helper: the character, with its name in a help balloon. */
     & .agent-launch { gap: 4px; align-items: flex-end; padding: 0; border: 0; background: none; color: #000; font: 12px/1.2 var(--win); }
-    & .agent-launch::before {
-      content: ""; order: 2; width: 56px; height: 56px; flex: none;
-      background: var(--agent-face) center / contain no-repeat; filter: drop-shadow(2px 2px 0 rgb(0 0 0 / .45));
+    & .agent-launch .agent-face {
+      --face: 56px; order: 2; filter: drop-shadow(2px 2px 0 rgb(0 0 0 / .45));
       animation: tt97-helper 5s ease-in-out infinite;
     }
-    & .agent-launch__dot { display: none; }
     & .agent-launch__label {
       position: relative; margin-bottom: 34px; padding: 6px 10px;
       background: #ffffe1; border: 1px solid #000; border-radius: 8px; box-shadow: 2px 2px 0 rgb(0 0 0 / .45);
@@ -271,7 +271,15 @@
       background: var(--silver); color: #000; font: 12px/1.2 var(--win); box-shadow: var(--bevel-out);
     }
     & .ask-ai:active { box-shadow: var(--bevel-in); }
-    & .ask-ai__bot { color: #000080; }
+
+    /* The helper's face, wherever it shows: it blinks now and then, and shuts its eyes (and loses
+       its colour) while it rests. */
+    & .agent-face { background: var(--agent-face) center / contain no-repeat; }
+    & .agent-face i { opacity: 0; background: var(--agent-face-shut) center / contain no-repeat; animation: tt97-shut 6s step-end infinite; }
+    & .agent-face i::before, & .agent-face i::after { content: none; }
+    & .ask-ai .agent-face i { animation-delay: -3s; }
+    & .agent[data-resting] .agent-face { filter: grayscale(1); }
+    & .agent[data-resting] .agent-face i { animation: none; opacity: 1; scale: none; }
 
     /* The window. */
     & .agent {
@@ -283,11 +291,10 @@
     & .agent a:visited { color: #800080; }
     & .agent__head { padding: 3px 3px 3px 4px; background: linear-gradient(90deg, #000080, #1084d0); }
     & .agent__title { gap: 5px; font: bold 12px/1 var(--win); color: #fff; }
-    & .agent__dot { width: 16px; height: 16px; flex: none; background: var(--agent-face) center / contain no-repeat; }
+    & .agent__title .agent-face { --face: 16px; }
     & .agent__wait { font: 11px var(--win); color: #c0c0c0; }
     & .agent__wait::before { content: "- "; }
     & .agent[data-resting] .agent__wait { color: #ff0; }
-    & .agent[data-resting] .agent__dot { filter: grayscale(1); }
     & .agent__close { width: 18px; height: 16px; border: 0; border-radius: 0; background: var(--silver); color: #000; box-shadow: var(--bevel-out); }
     & .agent__close svg { width: 9px; height: 9px; }
     & .agent__close:active { box-shadow: var(--bevel-in); }
@@ -347,7 +354,7 @@
     @media (prefers-reduced-motion: reduce) {
       & .marquee span { animation: none; padding-left: 0; }
       & .blink, & .guestbook a { animation: none; }
-      & .agent-launch::before, & .agent-spot { animation: none; }
+      & .agent-spot { animation: none; }
     }
   }
 
@@ -358,6 +365,8 @@
     90% { translate: 0 0; rotate: 0deg; }
     94% { translate: 0 -3px; rotate: 3deg; }
   }
+  /* …and blinks: its shut eyes show for a moment. */
+  @keyframes tt97-shut { 0% { opacity: 0; } 93% { opacity: 1; } 95% { opacity: 0; } }
 
   @keyframes tt97-marquee { to { transform: translateX(-100%); } }
   @keyframes tt97-blink { 50% { visibility: hidden; } }

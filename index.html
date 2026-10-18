@@ -42,16 +42,16 @@
   <link rel="stylesheet" data-font="2026-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
   <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="css/base.css?v=2c450ec88c">
-  <link rel="stylesheet" href="css/agent.css?v=d71ea10c4d">
-  <link rel="stylesheet" href="css/eras/1992.css?v=4e93f04d28">
-  <link rel="stylesheet" href="css/eras/1997.css?v=ec09ecf2e3">
-  <link rel="stylesheet" href="css/eras/2001.css?v=be3c40dce2">
-  <link rel="stylesheet" href="css/eras/2007.css?v=8c25c1bc94">
-  <link rel="stylesheet" href="css/eras/2013.css?v=fe2f0b6e76">
-  <link rel="stylesheet" href="css/eras/2023.css?v=904a1c7054">
-  <link rel="stylesheet" href="css/eras/2026.css?v=9f2bbda714">
-  <link rel="stylesheet" href="css/eras/2030.css?v=24f9b80bf9">
+  <link rel="stylesheet" href="css/base.css?v=84a624ec7c">
+  <link rel="stylesheet" href="css/agent.css?v=78dbbc8f6d">
+  <link rel="stylesheet" href="css/eras/1992.css?v=16f462f5eb">
+  <link rel="stylesheet" href="css/eras/1997.css?v=94995a401a">
+  <link rel="stylesheet" href="css/eras/2001.css?v=1097583cfb">
+  <link rel="stylesheet" href="css/eras/2007.css?v=5485fffe41">
+  <link rel="stylesheet" href="css/eras/2013.css?v=d61dda8ca1">
+  <link rel="stylesheet" href="css/eras/2023.css?v=71ff5059a0">
+  <link rel="stylesheet" href="css/eras/2026.css?v=f773c4b091">
+  <link rel="stylesheet" href="css/eras/2030.css?v=73f363248d">
   <link rel="stylesheet" href="css/print.css?v=5816515284" media="print">
   <script type="importmap">
     {
@@ -67,11 +67,12 @@
       "./js/eras/2026.js": "./js/eras/2026.js?v=f1493ac7c3",
       "./js/eras/2030/audio.js": "./js/eras/2030/audio.js?v=c35675254d",
       "./js/eras/2030/constellation.js": "./js/eras/2030/constellation.js?v=86cfd87f23",
+      "./js/eras/2030/face.js": "./js/eras/2030/face.js?v=bb5c0b7234",
       "./js/eras/2030/marks.js": "./js/eras/2030/marks.js?v=c64d936760",
       "./js/eras/2030/scene.js": "./js/eras/2030/scene.js?v=46a7e0337a",
       "./js/eras/2030/shapes.js": "./js/eras/2030/shapes.js?v=2abbedbeaa",
       "./js/eras/2030/sky.js": "./js/eras/2030/sky.js?v=b6e16cbf7a",
-      "./js/eras/2030.js": "./js/eras/2030.js?v=ab2e922747",
+      "./js/eras/2030.js": "./js/eras/2030.js?v=b53081f45f",
       "./js/eras.js": "./js/eras.js?v=91ad3a1054",
       "./js/load.js": "./js/load.js?v=64778aca5c",
       "./js/main.js": "./js/main.js?v=23b39ecfc5",
@@ -122,18 +123,10 @@
         <span class="name__first">Mohammed</span>
         <span class="name__last">Irshad C<sup class="orn beta" data-orn="2007" aria-hidden="true">beta</sup></span>
       </h1>
-      <!-- Irshad's Agent, right under the name: where every visitor looks first. -->
+      <!-- Irshad's Agent, right under the name: where every visitor looks first. Its face is each
+           era's own (.agent-face, drawn by the era's CSS). -->
       <button type="button" class="orn ask-ai" data-orn="1992 1997 2001 2007 2013 2023 2026 2030" data-agent-open aria-controls="agent">
-        <svg class="ask-ai__bot" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="2.6" r="1.4" fill="currentColor"/>
-          <path d="M12 4v2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          <rect x="3.4" y="6.6" width="17.2" height="14.2" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
-          <circle cx="9.1" cy="12.4" r="1.45" fill="currentColor"/>
-          <circle cx="14.9" cy="12.4" r="1.45" fill="currentColor"/>
-          <path d="M9.2 15.9q2.8 2.1 5.6 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-          <circle cx="6.3" cy="15" r=".9" fill="currentColor" opacity=".45"/>
-          <circle cx="17.7" cy="15" r=".9" fill="currentColor" opacity=".45"/>
-        </svg>
+        <span class="agent-face" aria-hidden="true"><i></i></span>
         Ask my AI
       </button>
       <p class="role">Python Developer · Django, backend &amp; full-stack systems</p>
@@ -518,12 +511,12 @@
 
   <!-- Irshad's Agent: ask about my work (js/agent.js, assistant/README.md). It opens only when asked.
        It visits the eras css/agent.css dresses (every era); each wears its own clothes. -->
-  <button type="button" class="orn agent-launch" data-orn="1992 1997 2001 2007 2013 2023 2026 2030" data-agent-open aria-controls="agent" aria-expanded="false">
-    <span class="agent-launch__dot" aria-hidden="true"></span><span class="agent-launch__label">Irshad's Agent</span>
+  <button type="button" class="orn agent-launch" data-orn="1992 1997 2001 2007 2013 2023 2026 2030" data-agent-open aria-controls="agent" aria-expanded="false" aria-label="Ask me: Irshad's Agent">
+    <span class="agent-face" aria-hidden="true"><i></i></span><span class="agent-launch__label">Ask me</span>
   </button>
   <aside class="agent" id="agent" aria-labelledby="agent-title" hidden>
     <header class="agent__head">
-      <p class="agent__title" id="agent-title"><span class="agent__dot" aria-hidden="true"></span>Irshad's Agent</p>
+      <p class="agent__title" id="agent-title"><span class="agent-face" aria-hidden="true"><i></i></span>Irshad's Agent</p>
       <button type="button" class="agent__close" data-agent-close aria-label="Close">
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
