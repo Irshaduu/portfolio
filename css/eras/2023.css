@@ -123,6 +123,19 @@
     }
     & .project__main, & .project__data { position: relative; display: flex; flex-direction: column; gap: 1.2rem; }
     & .project__data { flex: 1; }
+    /* The last card spans the row like the feature, but its picture sits with its words: its name
+       with the picture under it on the left, its story, numbers and links down the right, so
+       neither side is left half empty. Narrower than that, it reads top to bottom in one column. */
+    @media (min-width: 721px) and (max-width: 900px) {
+      & .project:last-child:not(.project--feature) { grid-template-columns: minmax(0, 1fr); }
+    }
+    @media (min-width: 901px) {
+      & .project:last-child:not(.project--feature) { grid-template-rows: repeat(4, auto) 1fr; row-gap: 1.2rem; align-items: start; }
+      & .project:last-child:not(.project--feature) :is(.project__main, .project__data) { display: contents; }
+      & .project:last-child:not(.project--feature) :is(.project__head, .shot) { grid-column: 1; }
+      & .project:last-child:not(.project--feature) .shot { grid-row: 2 / span 4; }
+      & .project:last-child:not(.project--feature) :is(.project__summary, .points, .stats, .tags, .project__foot) { grid-column: 2; }
+    }
     & .project__head { display: grid; gap: .6rem; }
     & .shot a { overflow: hidden; border-radius: 16px; border: 1px solid var(--line); background: rgb(255 255 255 / .02); transition: border-color .25s; }
     & .shot a:hover { border-color: var(--line-2); }
