@@ -1,4 +1,4 @@
-// Prints the document pages to their PDFs: node tools/pdf.mjs
+// Prints the document pages to their PDFs: node tools/pdf.mjs (one only: node tools/pdf.mjs resume)
 // Each page is the only source of its PDF, so the two can never drift apart. It starts its own
 // copy of tools/serve.mjs, prints with headless Edge or Chrome (set BROWSER to use another
 // one), and stops the server again.
@@ -16,6 +16,9 @@ const DOCS = [
   { page: 'work/workshopos/', pdf: 'assets/docs/WorkshopOS_Technical_Overview.pdf' },
   { page: 'work/catering/', pdf: 'assets/docs/Catering_Staff_System_Overview.pdf' },
 ];
+// Name pages to print only those ("resume", "work/catering"); name none to print them all.
+const only = process.argv.slice(2);
+const chosen = DOCS.filter(({ page }) => !only.length || only.some((name) => page.startsWith(name)));
 
 const browser = [
   process.env.BROWSER,
@@ -48,7 +51,7 @@ const print = (url, out) =>
   });
 
 try {
-  for (const { page, pdf } of DOCS) {
+  for (const { page, pdf } of chosen) {
     await print(`http://localhost:${port}/${page}`, join(root, pdf));
     console.log(`${pdf}  <-  ${page}`);
   }

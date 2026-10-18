@@ -98,8 +98,8 @@ optimisation (N+1 removal, composite indexes), technical specs, one rule in one 
   family. Four years of P&L, staffing and suppliers: the problems he now builds software for.
 - 2023 to 2024: algorithmic trading. Deployed and managed automated trading systems, with hands-on
   risk management.
-- 2025: Python and Django. Full-stack development at Entri Elevate, Grade A+ (98%). Python
-  certificates from Illinois Institute of Technology (Certified User) and Skill India NSDC (Grade A+).
+- 2025: Python and Django. Full-stack development at Entri Elevate, Grade A+ (98%). A Python
+  certificate from Illinois Institute of Technology (Certified User).
 - 2026: freelance developer. WorkshopOS for Formula D, the catering architecture for Badusha Event
   Management, and two live apps of his own.
 

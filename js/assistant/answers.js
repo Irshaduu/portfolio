@@ -147,7 +147,7 @@ export const ANSWERS = [
   {
     id: 'education',
     words: ['education', 'degree', 'certific', 'course', 'study', 'studied', 'qualific', 'college', 'entri'],
-    text: 'He did a Python and Django full-stack course at Entri Elevate in 2025, with Grade A+ (98%). He also has Python certificates from Illinois Institute of Technology and Skill India NSDC.',
+    text: 'He did a Python and Django full-stack course at Entri Elevate in 2025, with Grade A+ (98%). He also has a Python certificate from Illinois Institute of Technology (Certified User).',
     link: '#story',
     next: ['What has he built since?', 'What are his skills?', 'Is he free to hire?'],
   },
