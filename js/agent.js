@@ -36,6 +36,7 @@ const GREETING = "Hi! I know Irshad's work inside out. Ask me anything, or pick 
 const GREETINGS = {
   1992: "Welcome. This is Irshad's agent, an experimental hypertext service. Type a question and press Return, or select a topic below.",
   1997: "It looks like you're visiting a homepage! Would you like help? Ask me anything about Irshad, or pick one below.",
+  2001: "IrshadsAgent signed on. Hey! I know Irshad's work inside out. Ask me anything, or pick one below.",
 };
 
 // "(#word-hunt)" at the end of an AI answer: the page shows it as "See Word Hunt" instead.

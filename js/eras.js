@@ -43,6 +43,7 @@ export const ERAS = [
     fonts: [gf('family=Orbitron:wght@500;700;900'), gf('family=Silkscreen')],
     fontProbe: '700 1em Orbitron',
     module: true,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<rect width="32" height="32" rx="6" fill="#15181d"/><circle cx="16" cy="16" r="10" fill="none" stroke="#ff9900" stroke-width="3" stroke-dasharray="44 20"/><circle cx="16" cy="16" r="4" fill="#3fa9f5"/>`),
   },
   {

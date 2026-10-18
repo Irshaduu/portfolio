@@ -330,6 +330,93 @@
     & .intro[data-phase="movie"] .intro__enter { visibility: hidden; }
     & .intro[data-phase="ready"] .intro__enter { animation: tt01-pulse 1s ease-in-out infinite; }
 
+    /* ---- Irshad's Agent, 2001: an instant messenger, in Flash chrome ----
+       A gunmetal IM window with corner brackets and a chrome title bar, a blue LED for "online",
+       the chat as a transcript of screen names (IrshadsAgent in blue, You in orange), chrome
+       capsule buttons, and an LED-blue box to type in. It signs on like a buddy did.
+       Where it floats and how it fits a phone come from css/agent.css. */
+    & :is(.agent-launch, .ask-ai, .agent__next button, .agent__send) {
+      border: 1px solid #000; border-radius: 14px; color: #11151a;
+      font: 10px/1 var(--pixel); letter-spacing: .12em; text-transform: uppercase;
+      background: linear-gradient(#ffffff, #c9d0d7 50%, #9aa4af 51%, #d9dfe5); box-shadow: 0 1px 0 rgb(255 255 255 / .1);
+    }
+    & :is(.agent-launch, .ask-ai, .agent__next button, .agent__send):hover {
+      color: #000; background: linear-gradient(#ffe0a3, var(--orange) 50%, #d97f00 51%, #ffb340); box-shadow: 0 0 12px rgb(255 153 0 / .6);
+    }
+    & .agent-launch { gap: 8px; padding: 8px 16px 8px 12px; }
+    & .ask-ai { gap: 6px; padding: 6px 14px 6px 8px; }
+    & .ask-ai__bot { color: #1d2228; }
+    & :is(.agent-launch__dot, .agent__dot) {
+      width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--led); box-shadow: 0 0 8px var(--led);
+      animation: tt01-blink 1.6s steps(1) infinite;
+    }
+
+    & .agent {
+      padding: 0; gap: 0; border: 1px solid #000; border-radius: 0;
+      background: var(--brackets), var(--panel); color: var(--ink); font: 12px/1.55 var(--body);
+      box-shadow: 0 0 0 1px var(--line), 0 20px 60px rgb(0 0 0 / .7);
+      animation: tt01-window .22s ease-out both;
+    }
+    & .agent__head { padding: 4px 4px 4px 10px; background: linear-gradient(#e6eaee, #b7c0c9 50%, #9ca6b1 51%, #c6ced6); border-bottom: 1px solid #000; }
+    & .agent__title { gap: 7px; font: 10px/1 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: #1d2228; }
+    & .agent__title::after { content: "- instant message"; color: #4a525c; }
+    & .agent__wait { order: 3; color: #4a525c; }
+    & .agent__wait::before { content: "· "; }
+    & .agent[data-resting] .agent__wait { color: #b35f00; }
+    & .agent[data-resting] .agent__dot { background: var(--orange); box-shadow: 0 0 8px var(--orange); animation: none; }
+    & .agent__close {
+      width: 22px; height: 18px; border: 1px solid #000; border-radius: 9px; color: var(--white);
+      background: linear-gradient(#4a525c, #23282e); box-shadow: inset 0 1px 0 rgb(255 255 255 / .25);
+    }
+    & .agent__close svg { width: 10px; height: 10px; }
+    & .agent__close:hover { color: #000; background: linear-gradient(#ffd27a, var(--orange) 50%, #d97f00 51%, #ffb340); }
+    & .agent__log { margin: 10px 10px 0; padding: 8px 10px; gap: 8px; background: #0d1014; border: 1px solid #000; box-shadow: inset 0 0 0 1px var(--line); scrollbar-color: var(--line) transparent; }
+    & .agent__msg--me { align-self: stretch; max-width: none; padding: 0; background: none; border: 0; color: var(--white); }
+    & .agent__msg--me::before { content: "You: "; font-weight: bold; color: var(--orange); }
+    & .agent__msg--bot { gap: 5px; max-width: none; }
+    & .agent__msg--bot > .agent__text::before { content: "IrshadsAgent: "; font-weight: bold; color: var(--blue); }
+    & .agent__msg--bot:first-child > .agent__text::before { content: none; } /* the greeting signs on by itself */
+    & .agent__see a, & .fit__link { font: 10px/1.4 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--led); }
+    & .agent__see a::before, & .fit__link::before { content: "\00bb\00a0"; color: var(--orange); }
+    & :is(.agent__trace, .agent__status, .agent__note) { font: 10px/1.4 var(--pixel); letter-spacing: .06em; color: var(--steel); }
+    & .agent__status { margin-left: .6em; }
+    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--led); opacity: .6; font: 10px var(--pixel); }
+    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    & .agent__typing { color: var(--led); }
+    & .agent__next { gap: 5px; }
+    & .agent__next button { padding: 6px 12px; text-align: left; }
+    & .agent__more { border-style: dashed; }
+    & .agent__form { margin: 10px; gap: 6px; }
+    & .agent__form textarea {
+      padding: 6px 8px; border: 1px solid #000; background: #0d1014; color: var(--led);
+      font: 12px/1.45 var(--body); box-shadow: inset 0 0 0 1px var(--line);
+    }
+    & .agent__form textarea::placeholder { color: #55606c; }
+    & .agent__form:focus-within textarea { box-shadow: inset 0 0 0 1px var(--orange); }
+    & .agent__send { width: auto; height: auto; padding: 8px 12px; }
+    & .agent__send svg { display: none; }
+    & .agent__send::after { content: "Send"; }
+    & .agent__send:disabled { opacity: .5; }
+    & .agent__note { margin: 0 10px 8px; text-align: center; }
+
+    /* The job-fit check, as an LED readout. */
+    & .agent__post-head, & .fit__head { font: 10px/1.4 var(--pixel); letter-spacing: .1em; text-transform: uppercase; color: var(--orange); }
+    & .agent__post-text { color: var(--ink); }
+    & .fit { gap: 8px; padding: 10px; background: var(--brackets), var(--panel-2); border: 1px solid #000; }
+    & .fit__list { gap: 6px; }
+    & .fit__row::before { content: ""; position: absolute; left: 0; top: .5em; width: 6px; height: 6px; border-radius: 50%; background: var(--led); box-shadow: 0 0 6px var(--led); }
+    & .fit__list--gap .fit__row::before { background: transparent; border: 1px solid var(--steel); box-shadow: none; }
+    & .fit__need { display: block; font-weight: bold; color: var(--white); }
+    & .fit__proof { color: var(--ink); }
+    & .fit__ask { gap: 3px; padding-top: 8px; border-top: 1px solid var(--line); }
+    & .fit__mail {
+      justify-self: start; padding: 6px 12px; border: 1px solid #000; border-radius: 14px; color: #11151a; text-decoration: none;
+      font: 10px/1 var(--pixel); letter-spacing: .1em; text-transform: uppercase; background: linear-gradient(#ffffff, #c9d0d7 50%, #9aa4af 51%, #d9dfe5);
+    }
+
+    /* The part of the page an answer points to: an orange frame that pulses like a Flash button. */
+    & .agent-spot { border: 2px solid var(--orange); animation: tt01-pulse .7s ease-in-out 4; }
+
     /* Leave the top right corner to the sound switch. */
     @media (max-width: 900px) {
       & .flashbar { padding-right: 46px; }
@@ -347,9 +434,11 @@
       & .moment::before { top: 14px; left: 10px; }
       & .timemachine { grid-template-columns: 1fr; }
       & .tm__note { display: none; }
+      & .agent__title::after { content: none; } /* no room for "- instant message" */
     }
     @media (prefers-reduced-motion: reduce) {
       & .masthead__inner::after, & .blink, & .timeline::after, & .intro *, & .intro__stage::after { animation: none !important; }
+      & :is(.agent-launch__dot, .agent__dot, .agent, .agent-spot) { animation: none; }
     }
   }
 
@@ -360,4 +449,6 @@
   @keyframes tt01-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
   @keyframes tt01-flash { 0% { opacity: 0; } 15% { opacity: .85; } 100% { opacity: 0; } }
   @keyframes tt01-pulse { 50% { box-shadow: 0 0 22px rgb(255 153 0 / .9); } }
+  /* Irshad's Agent's window opens with a quick Flash tween. */
+  @keyframes tt01-window { from { opacity: 0; transform: scale(.92); } }
 }
