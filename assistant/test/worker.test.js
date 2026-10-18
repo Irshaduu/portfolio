@@ -5,7 +5,7 @@ import { handle, readContext, readHistory, readPost } from '../worker/index.js';
 import { makeLimiter } from '../worker/limits.js';
 import { buildMessages, keralaTime, NAME, SECTIONS } from '../worker/prompt.js';
 import { NAME as PAGE_NAME } from '../../js/assistant/answers.js';
-import { DJANGO_POST, ENV, GEMINI, GEMINI_LITE, GROQ, answer, failure, fakeFetch } from './helpers.js';
+import { DJANGO_POST, ENV, GEMINI, GEMINI_LITE, GEMINI_RESERVE, GROQ, answer, failure, fakeFetch } from './helpers.js';
 
 const SITE = 'https://irshaduu.github.io';
 const deps = (byHost, allow = () => true) => ({ ...fakeFetch(byHost), cooling: new Map(), allow });
@@ -30,7 +30,12 @@ test('the health check says which services have their keys, and the portfolio\'s
   assert.equal(res.headers.get('access-control-allow-origin'), SITE);
   assert.deepEqual(await res.json(), {
     ok: true,
-    services: [{ name: 'Gemini', model: 'gemini-test', ready: false }, { name: 'Gemini Lite', model: 'gemini-lite-test', ready: false }, { name: 'Groq', model: 'groq-test', ready: true }],
+    services: [
+      { name: 'Gemini', model: 'gemini-test', ready: false },
+      { name: 'Gemini Reserve', model: 'gemini-reserve-test', ready: false },
+      { name: 'Gemini Lite', model: 'gemini-lite-test', ready: false },
+      { name: 'Groq', model: 'groq-test', ready: true },
+    ],
   });
 });
 
@@ -47,17 +52,20 @@ test('streams the answer, saying which service gave it', async () => {
   ]);
 });
 
-test('when Gemini is at its limit, Gemini Lite answers and the trace shows both', async () => {
-  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_LITE]: answer('Python.') }));
+test('when Gemini is at its limit, the reserve Flash answers and the trace shows both', async () => {
+  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_RESERVE]: answer('Python.') }));
   const [meta] = await events(res);
-  assert.deepEqual(meta, ['meta', { by: 'Gemini Lite', tried: ['Gemini: HTTP 429', 'Gemini Lite: answered'] }]);
+  assert.deepEqual(meta, ['meta', { by: 'Gemini Reserve', tried: ['Gemini: HTTP 429', 'Gemini Reserve: answered'] }]);
 });
 
 test('when no service answers, the page is told to use its ready answers, and when the first is free again', async () => {
-  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_LITE]: failure(429), [GROQ]: failure(500) }));
+  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_RESERVE]: failure(429), [GEMINI_LITE]: failure(429), [GROQ]: failure(500) }));
   assert.equal(res.status, 503);
-  // Gemini and Lite rest a minute after a 429, Groq 30 seconds after a 500: the first is back in 30.
-  assert.deepEqual(await res.json(), { error: 'No AI service is free right now.', fallback: true, tried: ['Gemini: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500'], wait: 30 });
+  // The Geminis rest a minute after a 429, Groq 30 seconds after a 500: the first is back in 30.
+  assert.deepEqual(await res.json(), {
+    error: 'No AI service is free right now.', fallback: true, wait: 30,
+    tried: ['Gemini: HTTP 429', 'Gemini Reserve: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500'],
+  });
   assert.equal(res.headers.get('retry-after'), '30');
 });
 

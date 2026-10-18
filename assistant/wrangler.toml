@@ -16,7 +16,10 @@ ALLOWED_ORIGINS = "https://irshaduu.github.io,http://localhost:4173,http://127.0
 # Google AI Studio and the Groq console; change a name here and deploy again to switch.
 # GEMINI_THINKING: how much the first Gemini model thinks before answering. "minimal" is fastest,
 # where the model allows it (gemini-3.8-flash refuses it: use "low" there).
+# GEMINI_RESERVE_MODEL: a second full Flash, asked when the first is busy or out for the day. Each
+# model has its own free allowance, so it doubles the full-power answers. It thinks "low".
 GEMINI_MODEL = "gemini-3.6-flash"
 GEMINI_THINKING = "minimal"
+GEMINI_RESERVE_MODEL = "gemini-3.8-flash"
 GEMINI_LITE_MODEL = "gemini-3.5-flash-lite"
 GROQ_MODEL = "openai/gpt-oss-120b"

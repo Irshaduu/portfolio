@@ -11,6 +11,7 @@ a question
    ├─ A suggestion button, tapped?                  ──>  its ready-made answer, at once
    │
    ├─ Typed: Gemini Flash          ── at its limit, slow, or down ──┐
+   ├─        a second Gemini Flash ── at its limit, slow, or down ──┤
    ├─        Gemini Flash-Lite     ── at its limit, slow, or down ──┤
    ├─        Groq                  ── at its limit, slow, or down ──┤
    │                                                                ▼
@@ -31,10 +32,19 @@ suggestion buttons, which are the page's own questions, and they stand in when t
 **Why Gemini first:** it understands people best, Kerala's Manglish and slang included
 ("Enthokke und vishesham" → "Ellam sugam! Just helping people explore Irshad's work here…"), and
 talks most naturally. Its full Flash model leads (`gemini-3.6-flash`, thinking "minimal"): measured
-on real questions, the first word comes in 1.6 to 2.6 seconds. The newest Flash (3.8) took about five
-seconds and was sometimes overloaded, and refuses "minimal". When Flash is busy or out of its free
-share for the day, **Flash-Lite** answers (smaller, a bigger daily share), and only then **Groq**: very
-fast, but stiffer, and it misreads slang. On Gemini's free tier Google may read and learn from the
+on real questions, the first word comes in 1.6 to 2.6 seconds. When it is busy or out of its free
+share for the day, the newest Flash (`gemini-3.8-flash`, thinking "low") answers as a **reserve**:
+just as good, but it takes about five seconds, is sometimes overloaded, and refuses "minimal", so it
+isn't first. Google gives each model its own free allowance, so the reserve doubles the full-power
+answers. Those allowances are small: on 2026-10-18 the reserve's ran out after about 20 questions
+in a day (it still said "429" after a minute's rest, so it was the daily one, not the minute's). Only when both Flash models are out does **Flash-Lite** answer (smaller, a bigger daily
+share), and only then **Groq**: very fast, but stiffer, and it misreads slang.
+
+**Why not more Gemini keys:** Google counts limits per project, so keys in one project share one
+allowance. Extra projects or accounts to pool allowances break Google's terms ("don't get around
+the limits"), and projects have been restricted for it. For more full-power answers, add billing:
+the project then pays for every question (about $0.004 each on Flash at 2026 prices, double from
+2027) and Google stops using the messages to train its models. On Gemini's free tier Google may read and learn from the
 messages, which is why the chat asks visitors not to share personal or sensitive data.
 
 **Visitors never see which AI answered.** They meet Irshad's Agent, not a brand they use every day.
@@ -42,7 +52,7 @@ Under an answer the page knew without asking the AI (a tapped suggestion) they s
 answer"**: it shows the care taken over speed and cost, and if a ready answer ever fits a little
 loosely, it explains why. When one stands in for a resting AI, it says "Quick answer · the AI is
 resting". At the end of an AI answer, right after its last word like the ticks on a chat message,
-they see faint **signal bars**, like a phone's: three for Gemini Flash,
+they see faint **signal bars**, like a phone's: three for either Gemini Flash,
 two for Flash-Lite, one for Groq. A tap (or hover) says "Full power", "Busy hour: a lighter model"
 or "Backup model". When a long chat slides to a backup and the answers get plainer, the visitor
 knows why, the way a weak signal explains a bad call, and no screenshot ever says "Low". Nothing
@@ -54,7 +64,7 @@ resting (the server says when the first is free again). "back tomorrow" for the 
 faint "5 left today" near its end. Nothing more the rest of the time: a number only when it matters.
 To see it yourself, open the site once with `?trace` at the end of the address
 (`https://irshaduu.github.io/portfolio/?trace`) and open the agent: from then on, in that browser,
-a small line under each answer says "Gemini · 1.9 s", "Gemini Lite", "Groq" or "Quick answer", and
+a small line under each answer says "Gemini · 1.9 s", "Gemini Reserve", "Gemini Lite", "Groq" or "Quick answer", and
 which was busy. `?trace=off` (then open the agent) hides it again. Cloudflare's logs record it for every question too.
 
 **Why a Worker and not Render:** it never sleeps, so it needs no uptime bot; it's free for 100,000
@@ -149,7 +159,7 @@ it 47 tricky questions and 7 job posts after every change, including the first r
 | File | What it does |
 |---|---|
 | `worker/index.js` | The server: checks each question, keeps each visitor to a fair share, streams the answer |
-| `worker/chain.js` | Asks Gemini Flash, then Flash-Lite, then Groq. A service that fails rests for a while, so the next visitor skips it |
+| `worker/chain.js` | Asks Gemini Flash, then a second Flash, then Flash-Lite, then Groq. A service that fails rests for a while, so the next visitor skips it |
 | `worker/prompt.js` | Who the assistant is, how it talks, and where the visitor is |
 | `worker/facts.js` | Everything the AI may say about Irshad: only what the public pages say |
 | `worker/limits.js` | 10 questions a minute and 50 a day per visitor, and which limit was reached |
@@ -257,10 +267,10 @@ The keys are stored encrypted at Cloudflare, work at once, and never touch GitHu
 
 ### Step 7. Check it
 
-Open the server's address in your browser. You should see all three services `"ready": true`:
+Open the server's address in your browser. You should see all four services `"ready": true`:
 
 ```
-{"ok":true,"services":[{"name":"Gemini","model":"gemini-3.6-flash","ready":true},{"name":"Gemini Lite","model":"gemini-3.5-flash-lite","ready":true},{"name":"Groq","model":"openai/gpt-oss-120b","ready":true}]}
+{"ok":true,"services":[{"name":"Gemini","model":"gemini-3.6-flash","ready":true},{"name":"Gemini Reserve","model":"gemini-3.8-flash","ready":true},{"name":"Gemini Lite","model":"gemini-3.5-flash-lite","ready":true},{"name":"Groq","model":"openai/gpt-oss-120b","ready":true}]}
 ```
 
 `"ready": false` means that key is missing: repeat step 6 for it.
@@ -315,9 +325,9 @@ the assistant can be built into the real page.
 
 | What happens | What the visitor gets |
 |---|---|
-| Gemini Flash hits its per-minute limit | Flash-Lite answers. Flash rests as long as Google asks (usually under a minute) |
-| Flash's daily allowance is used up | Flash-Lite answers until it resets, then Groq if Flash-Lite runs out too |
-| All three are at their limit or down | The closest ready-made answer, or "My AI brain is catching its breath. Ask me again in a minute…"; the header's dot turns amber with "back in 0:52" |
+| Gemini Flash hits its per-minute limit | The reserve Flash answers, at full power. Flash rests as long as Google asks (usually under a minute) |
+| Flash's daily allowance is used up | The reserve Flash answers, then Flash-Lite when the reserve runs out too, then Groq |
+| All four are at their limit or down | The closest ready-made answer, or "My AI brain is catching its breath. Ask me again in a minute…"; the header's dot turns amber with "back in 0:52" |
 | One visitor asks more than 10 a minute or 50 a day | The agent says so in its own voice ("You're quick! Give me a minute…" or "We've talked a lot today!…"); the dot turns amber with "back in 0:38" or "back tomorrow"; the suggestion buttons still answer |
 | A key or a model name is wrong | That service rests 10 minutes at a time. Check the server's address (step 7) |
 
@@ -326,7 +336,7 @@ Gemini's daily allowance resets at midnight Pacific time (early afternoon in Ind
 **See which AI answered:** the Logs (step 8) show, for each question, who answered, what was
 tried first, and how long it took. They never keep the question itself.
 
-**Change a model or the order:** models are `GEMINI_MODEL` (with `GEMINI_THINKING`), `GEMINI_LITE_MODEL` and `GROQ_MODEL` in `wrangler.toml`; the
+**Change a model or the order:** models are `GEMINI_MODEL` (with `GEMINI_THINKING`), `GEMINI_RESERVE_MODEL`, `GEMINI_LITE_MODEL` and `GROQ_MODEL` in `wrangler.toml`; the
 order is `routes()` in `worker/chain.js`. Then `npm run deploy`.
 
 **Change how it talks:** `worker/prompt.js`. Then `npm test`, `npm run deploy` and `npm run exam`.

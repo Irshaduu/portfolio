@@ -11,10 +11,12 @@ import { textDeltas } from './sse.js';
 //
 // Gemini first: it understands people, Kerala's Manglish and slang included, and talks most
 // naturally. Its full Flash model leads, thinking as little as it can, which measured one to five
-// seconds to the first word (the newest Flash took five, and was sometimes overloaded). When Flash
-// is busy or out of its free share for the day, Gemini Flash-Lite answers (smaller, two or three
-// seconds, a bigger daily share), and only then Groq: very fast, but stiffer, and it misreads
-// slang. On Gemini's free tier Google may read and learn from the messages, which is why the chat
+// seconds to the first word. When it is busy or out of its free share for the day, the newest Flash
+// answers as a reserve: just as good, but about five seconds to the first word and sometimes
+// overloaded, which is why it isn't first. Each model has its own free share, so the reserve
+// doubles the full-power answers. Only when both are out does Gemini Flash-Lite answer (smaller,
+// two or three seconds, a bigger daily share), and only then Groq: very fast, but stiffer, and it
+// misreads slang. On Gemini's free tier Google may read and learn from the messages, which is why the chat
 // asks visitors not to share personal or sensitive data. The trace (?trace on the page) and
 // Cloudflare's logs say which one answered.
 const GEMINI = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
@@ -23,6 +25,7 @@ export function routes(env) {
   return [
     // Gemini 3 always thinks a little before it answers: as little as each model allows.
     { name: 'Gemini', url: GEMINI, key: env.GEMINI_API_KEY, model: env.GEMINI_MODEL, extra: { reasoning_effort: env.GEMINI_THINKING || 'low' } },
+    { name: 'Gemini Reserve', url: GEMINI, key: env.GEMINI_API_KEY, model: env.GEMINI_RESERVE_MODEL, extra: { reasoning_effort: 'low' } },
     { name: 'Gemini Lite', url: GEMINI, key: env.GEMINI_API_KEY, model: env.GEMINI_LITE_MODEL, extra: { reasoning_effort: 'low' } },
     {
       name: 'Groq',
