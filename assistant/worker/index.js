@@ -20,7 +20,7 @@ import { buildFitMessages, buildMessages, ERAS, INTENTS, SECTIONS } from './prom
 const MAX_BODY = 16 * 1024; // bytes in one request
 const MAX_TURNS = 8; // messages of the conversation sent on to the AI
 const MAX_QUESTION = 600; // characters in one question
-const MAX_ANSWER = 4000; // characters in one earlier answer sent back as context
+const MAX_ANSWER = 4000; // characters kept of one earlier turn sent back as context
 const MAX_POST = 6000; // characters in one job post
 
 // Shared by every request this Worker handles (see chain.js and limits.js for why memory is enough).
@@ -106,25 +106,26 @@ export async function handle(request, env, deps) {
   });
 }
 
-// The visitor's conversation, checked and trimmed, or null if it isn't one.
+// The visitor's conversation, checked and trimmed, or null if it isn't one. Only the new question
+// has to fit the limit; an earlier turn that ran long is shortened, never a reason to refuse (one
+// long answer used to make every later question in that chat fail).
 // Two turns from the same side in a row are joined: some services refuse them.
 export function readHistory(body) {
   const messages = body?.messages;
   if (!Array.isArray(messages) || !messages.length) return null;
+  const newest = messages.at(-1);
+  if (newest?.role !== 'user' || typeof newest.content !== 'string' || newest.content.trim().length > MAX_QUESTION) return null;
   const turns = [];
   for (const m of messages.slice(-MAX_TURNS)) {
     if (!m || (m.role !== 'user' && m.role !== 'assistant') || typeof m.content !== 'string') return null;
-    const content = m.content.trim();
+    const content = (m === newest ? m.content : m.content.slice(0, MAX_ANSWER)).trim();
     if (!content) continue;
     const last = turns.at(-1);
     if (last?.role === m.role) last.content += `\n\n${content}`;
     else turns.push({ role: m.role, content });
   }
   while (turns[0]?.role === 'assistant') turns.shift();
-  const question = turns.at(-1);
-  if (!question || question.role !== 'user' || question.content.length > MAX_QUESTION) return null;
-  if (turns.some(({ role, content }) => role === 'assistant' && content.length > MAX_ANSWER)) return null;
-  return turns;
+  return turns.at(-1)?.role === 'user' ? turns : null;
 }
 
 // The job post a visitor pasted, trimmed, or null if it isn't text of a sensible length.

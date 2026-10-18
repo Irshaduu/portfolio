@@ -86,6 +86,19 @@
       -webkit-background-clip: text; background-clip: text; color: transparent;
       padding-bottom: .08em;
     }
+    /* "Ask my AI", right under the name: small, a friendly face, the same agent as the floating button. */
+    & .ask-ai {
+      justify-self: start; display: inline-flex; align-items: center; gap: .5em; margin-top: -.5rem;
+      padding: .36rem .95rem .36rem .5rem; border-radius: 999px;
+      border: 1px solid var(--line-2); background: rgb(9 11 20 / .7); color: var(--ink);
+      font: 500 .86rem/1 var(--sans); letter-spacing: .01em;
+      transition: border-color .25s, box-shadow .25s, transform .25s;
+    }
+    & .ask-ai__bot { flex: none; color: var(--c1); filter: drop-shadow(0 0 6px rgb(125 243 255 / .45)); }
+    & .ask-ai:hover {
+      border-color: var(--c1); transform: translateY(-1px);
+      box-shadow: 0 0 0 4px rgb(125 243 255 / .08), 0 0 24px rgb(125 243 255 / .2);
+    }
     & .role { font: 400 .82rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
     & .lede { max-width: 44ch; font-size: clamp(1.1rem, 1.7vw, 1.38rem); line-height: 1.55; color: var(--ink-2); }
     & .lede strong { color: var(--ink); font-weight: 500; }

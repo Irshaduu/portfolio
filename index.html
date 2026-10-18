@@ -49,21 +49,21 @@
   <link rel="stylesheet" href="css/eras/2007.css?v=9a83f758d5">
   <link rel="stylesheet" href="css/eras/2013.css?v=75d82c5e45">
   <link rel="stylesheet" href="css/eras/2023.css?v=757b195113">
-  <link rel="stylesheet" href="css/eras/2026.css?v=cc5d7de9c6">
+  <link rel="stylesheet" href="css/eras/2026.css?v=ab995409f3">
   <link rel="stylesheet" href="css/eras/2030.css?v=092792d87e">
   <link rel="stylesheet" href="css/print.css?v=5816515284" media="print">
   <script type="importmap">
     {
     "imports": {
-      "./js/agent.js": "./js/agent.js?v=3ccf7bd599",
+      "./js/agent.js": "./js/agent.js?v=b03d58b017",
       "./js/assistant/answers.js": "./js/assistant/answers.js?v=669b99a2ae",
-      "./js/assistant/client.js": "./js/assistant/client.js?v=ef01ff1d84",
+      "./js/assistant/client.js": "./js/assistant/client.js?v=ac03c313bb",
       "./js/assistant/fit.js": "./js/assistant/fit.js?v=d1b512e7aa",
       "./js/clips.js": "./js/clips.js?v=72563df695",
       "./js/eras/1992.js": "./js/eras/1992.js?v=a3e5c09305",
       "./js/eras/1997.js": "./js/eras/1997.js?v=facf1fe254",
       "./js/eras/2001.js": "./js/eras/2001.js?v=78b241fe94",
-      "./js/eras/2026.js": "./js/eras/2026.js?v=971622f84e",
+      "./js/eras/2026.js": "./js/eras/2026.js?v=684ad701c5",
       "./js/eras/2030/audio.js": "./js/eras/2030/audio.js?v=c35675254d",
       "./js/eras/2030/constellation.js": "./js/eras/2030/constellation.js?v=86cfd87f23",
       "./js/eras/2030/marks.js": "./js/eras/2030/marks.js?v=c64d936760",
@@ -121,6 +121,20 @@
         <span class="name__first">Mohammed</span>
         <span class="name__last">Irshad C<sup class="orn beta" data-orn="2007" aria-hidden="true">beta</sup></span>
       </h1>
+      <!-- Irshad's Agent, right under the name: where every visitor looks first. -->
+      <button type="button" class="orn ask-ai" data-orn="2026" data-agent-open aria-controls="agent">
+        <svg class="ask-ai__bot" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+          <circle cx="12" cy="2.6" r="1.4" fill="currentColor"/>
+          <path d="M12 4v2.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <rect x="3.4" y="6.6" width="17.2" height="14.2" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/>
+          <circle cx="9.1" cy="12.4" r="1.45" fill="currentColor"/>
+          <circle cx="14.9" cy="12.4" r="1.45" fill="currentColor"/>
+          <path d="M9.2 15.9q2.8 2.1 5.6 0" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          <circle cx="6.3" cy="15" r=".9" fill="currentColor" opacity=".45"/>
+          <circle cx="17.7" cy="15" r=".9" fill="currentColor" opacity=".45"/>
+        </svg>
+        Ask my AI
+      </button>
       <p class="role">Python Developer · Django, backend &amp; full-stack systems</p>
       <p class="lede">
         I build the software a business runs on, from the job card to the profit page. Having run

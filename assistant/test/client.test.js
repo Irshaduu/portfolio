@@ -72,11 +72,11 @@ test('anything else goes to the AI, with where the visitor is, and arrives piece
   assert.deepEqual(seen.filter((e) => e.type === 'text').map((e) => e.t), ['Yes, ', 'it does. (#word-hunt)']);
 });
 
-test('"tell me more" skips the ready answer and asks the AI', async () => {
-  let asked = false;
-  globalThis.fetch = async () => { asked = true; return sse(['meta', { by: 'Groq', tried: [] }], ['text', { t: 'More.' }], ['done', {}]); };
+test('"tell me more" skips the ready answer and asks the AI, saying it wants more', async () => {
+  let asked = null;
+  globalThis.fetch = async (url, init) => { asked = JSON.parse(init.body).messages.at(-1).content; return sse(['meta', { by: 'Groq', tried: [] }], ['text', { t: 'More.' }], ['done', {}]); };
   const result = await ask('What are his skills?', [], { server: SERVER, deep: true, tapped: true });
-  assert.equal(asked, true);
+  assert.equal(asked, 'Tell me more: What are his skills?');
   assert.equal(result.by, 'Groq');
 });
 

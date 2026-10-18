@@ -153,6 +153,19 @@ test('the conversation is cleaned up: same-side turns joined, a leading answer d
   assert.equal(readHistory({ messages: [{ role: 'user', content: 'Hi' }, { role: 'assistant', content: 'Hello' }] }), null);
 });
 
+test('a long earlier answer is shortened, never a reason to refuse the next question', () => {
+  const turns = readHistory({ messages: [
+    { role: 'user', content: 'Write a long poem' },
+    { role: 'assistant', content: 'la '.repeat(3000) },
+    { role: 'user', content: 'x'.repeat(500) }, // unanswered (the AI was resting), then asked again
+    { role: 'user', content: 'y'.repeat(500) },
+  ] });
+  assert.equal(turns.length, 3);
+  assert.ok(turns[1].content.length <= 4000);
+  assert.equal(turns[2].content.length, 1002); // the two questions joined: only the newest must fit 600
+  assert.equal(readHistory({ messages: [{ role: 'user', content: 'z'.repeat(601) }] }), null);
+});
+
 test('only the last eight turns go to the AI', () => {
   const long = Array.from({ length: 19 }, (_, i) => ({ role: i % 2 ? 'assistant' : 'user', content: `turn ${i}` }));
   const kept = readHistory({ messages: long });

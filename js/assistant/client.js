@@ -43,7 +43,9 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
     const guess = ready && ready.score >= 2 ? ready : null;
     return reply(on, guess ?? { text: DONT_KNOW, link: '#contact', next: DONT_KNOW_NEXT }, guess ? 'ready' : 'none');
   };
-  const got = await stream(server, '/chat', { messages: [...history, { role: 'user', content: question }], context }, on, signal);
+  // "Tell me more" says so to the AI, so it goes deeper instead of repeating itself.
+  const content = deep ? `Tell me more: ${question}` : question;
+  const got = await stream(server, '/chat', { messages: [...history, { role: 'user', content }], context }, on, signal);
   // The visitor's own share is used up: the agent says so, rather than a stand-in that may not fit.
   if (got.limit) {
     on({ type: 'step', text: got.why });
@@ -193,11 +195,26 @@ export function plain(text) {
 }
 
 // The Worker's server-sent events, one { name, data } at a time.
+// If nothing more arrives for IDLE, the AI has stalled mid-answer: stop waiting, so the panel isn't
+// stuck busy, and keep what arrived (it's marked "cut short").
+const IDLE = 20_000;
+
 async function* events(body) {
   const reader = body.pipeThrough(new TextDecoderStream()).getReader();
   let buffer = '';
   for (;;) {
-    const { value, done } = await reader.read();
+    let timer;
+    const stalled = new Promise((_, fail) => { timer = setTimeout(() => fail(new Error('stalled')), IDLE); });
+    let read;
+    try {
+      read = await Promise.race([reader.read(), stalled]);
+    } catch (error) {
+      reader.cancel().catch(() => {});
+      throw error;
+    } finally {
+      clearTimeout(timer);
+    }
+    const { value, done } = read;
     if (done) return;
     buffer += value;
     let end;

@@ -181,7 +181,6 @@ export function mount(ctx) {
     return a;
   }
 
-  // `seen`: the answer just before pointed to the same part, so its "See …" isn't repeated.
   // The signal bars, as a button: a tap (or a hover) says what they mean.
   function signal([level, note]) {
     const b = el('button', 'agent__signal');
@@ -193,6 +192,7 @@ export function mount(ctx) {
     return b;
   }
 
+  // `seen`: the answer just before pointed to the same part, so its "See …" isn't repeated.
   function finish(li, { text, fit, post, link, seen, next, by, trace, label, more }) {
     if (fit) {
       drawFit(li, fit);
@@ -283,8 +283,7 @@ export function mount(ctx) {
   function labelOf({ by, id, travel }, rested) {
     if (id === 'crisis' || id === 'fit' || id === 'fit-check' || travel) return null;
     if (by === 'ready') return rested ? 'Quick answer · the AI is resting' : 'Quick answer';
-    if (by === 'none') return null; // the answer says it's resting, and the header's dot says how long
-    return null;
+    return null; // AI answers have their bars; a resting answer says so, and the header's dot says how long
   }
 
   // The box grows with what's typed or pasted, up to a few lines (its max-height), then scrolls.
@@ -327,8 +326,13 @@ export function mount(ctx) {
     blip(520, 0.05);
 
     const started = performance.now();
-    // An earlier job post goes to the AI shortened: its check, the answer after it, says the rest.
-    const history = messages.map(({ role, text, post: pasted }) => ({ role, content: pasted ? `A job post (the start of it): ${text.slice(0, 1200)}` : text }));
+    // What the AI reads of the conversation: the last few real turns (the server reads eight). The
+    // agent's own stand-ins ("catching its breath", "You're quick!") were never the AI's words, so
+    // they're left out. An earlier job post goes shortened: its check, the answer after it, says the rest.
+    const history = messages
+      .filter((m) => !(m.role === 'assistant' && (m.by === 'none' || m.by === 'limit')))
+      .slice(-8)
+      .map(({ role, text, post: pasted }) => ({ role, content: pasted ? `A job post (the start of it): ${text.slice(0, 1200)}` : text.slice(0, 2000) }));
     let raw = '';
     let tried = [];
     let rested = null; // why the AI couldn't answer, if it couldn't
@@ -349,7 +353,7 @@ export function mount(ctx) {
       const answer = { role: 'assistant', id: result.id, text: result.text, by: result.by, link: result.link, next: result.next, more, fit: result.fit, trace: traceOf(result, tried, performance.now() - started, rested), label: labelOf(result, rested) };
       const before = messages.findLast((m) => m.role === 'assistant')?.link;
       finish(li, { ...answer, post: post ? question : null, seen: answer.link === before });
-      messages.push(post ? { role: 'user', text: question, post: true } : { role: 'user', text: question }, answer);
+      messages.push(post ? { role: 'user', text: question, post: true } : { role: 'user', text: deep ? `Tell me more: ${question}` : question }, answer);
       write(messages);
       live.textContent = words(result.text);
       blip(880, 0.08);
@@ -468,7 +472,9 @@ export function mount(ctx) {
   function noteStatus({ by, wait, left }) {
     if (wait) rest = { ...rest, until: Date.now() + wait.seconds * 1000, reason: wait.reason };
     else if (POWER[by]) rest = { ...rest, until: 0, reason: null };
+    // The server says how many are left only when 5 or fewer: an AI answer without it means plenty.
     if (Number.isInteger(left)) rest.left = left;
+    else if (POWER[by]) rest.left = null;
     try {
       sessionStorage.setItem(WAIT_KEY, JSON.stringify(rest));
     } catch {
@@ -508,9 +514,19 @@ export function mount(ctx) {
     send(input.value);
   });
   input.addEventListener('input', grow);
+  // Enter sends, as in any chat; Shift+Enter starts a new line. A phone's Send key often arrives
+  // while the last word is still being composed (Android), when keydown can't tell: the line break
+  // it is about to insert (beforeinput) sends instead. A paste with line breaks stays a paste.
+  let shift = false;
   input.addEventListener('keydown', (event) => {
-    // Enter sends, as in any chat; Shift+Enter starts a new line.
+    shift = event.shiftKey;
     if (event.key === 'Enter' && !event.shiftKey && !event.isComposing) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
+  input.addEventListener('beforeinput', (event) => {
+    if ((event.inputType === 'insertParagraph' || event.inputType === 'insertLineBreak') && !shift) {
       event.preventDefault();
       form.requestSubmit();
     }
