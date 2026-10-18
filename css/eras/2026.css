@@ -411,6 +411,14 @@
       & .tm__range::-webkit-slider-thumb { width: 24px; height: 24px; margin-top: -10.5px; }
       & .tm__range::-moz-range-thumb { width: 20px; height: 20px; }
     }
+    @media (max-width: 480px) {
+      /* The three intent pills share one row; on the narrowest phones a label wraps inside its pill. */
+      & .intent__options { flex-wrap: nowrap; gap: .4rem; }
+      & .intent__btn {
+        flex: 1 1 auto; min-width: 0; padding: .65rem .5rem;
+        font-size: clamp(.75rem, 3.4vw, .93rem); line-height: 1.2; text-align: center;
+      }
+    }
     @media (max-width: 359px) {
       & .project--feature .project__title { font-size: 1.75rem; } /* "WorkshopOS" fits the smallest phones */
     }
