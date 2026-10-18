@@ -55,6 +55,7 @@ export const ERAS = [
     fonts: [gf('family=Nunito:wght@400;800;900')],
     fontProbe: '900 1em Nunito',
     module: false,
+    agent: true, // Irshad's Agent visits (css/agent.css dresses it here)
     favicon: svg(`<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc0f2"/><stop offset=".5" stop-color="#2f80c9"/><stop offset=".5" stop-color="#1f6fb8"/><stop offset="1" stop-color="#3a8fd8"/></linearGradient></defs><rect x="2" y="2" width="28" height="28" rx="7" fill="url(#g)"/><text x="16" y="23" font-family="Arial,sans-serif" font-weight="bold" font-size="18" text-anchor="middle" fill="#fff">i</text>`),
   },
   {

@@ -278,6 +278,115 @@
     & .tm__ticks button[aria-current] { font-weight: bold; color: var(--blue-dark); }
     & .tm__hint { grid-column: 1 / -1; text-align: center; font-size: 10px; color: #8a4a00; }
 
+    /* ---- Irshad's Agent, 2007: a glossy live-chat widget (in beta, of course) ----
+       Every site had one in its corner that year: a rounded white box under a glossy blue title
+       bar with an orange "beta" badge, speech bubbles with a shine and a tail, aqua buttons, a
+       lime launcher, an orange Send, and the yellow fade that showed what had just changed on
+       the page. Where it floats and how it fits a phone come from css/agent.css. */
+    & :is(.agent-launch, .ask-ai) {
+      border: 1px solid var(--lime-dark); border-radius: 999px; color: #fff;
+      font: bold 13px/1 var(--sans); text-shadow: 0 -1px 0 rgb(0 0 0 / .25);
+      background: var(--gloss), linear-gradient(#a9db5c, var(--lime) 55%, #79b52c);
+      box-shadow: 0 2px 6px rgb(0 0 0 / .25), inset 0 1px 0 rgb(255 255 255 / .6);
+    }
+    & :is(.agent-launch, .ask-ai):hover {
+      border-color: var(--orange-dark); background: var(--gloss), linear-gradient(#ffc266, var(--orange) 55%, var(--orange-dark));
+    }
+    & .agent-launch { gap: 8px; padding: 10px 18px 10px 14px; }
+    & .agent-launch__dot { width: 9px; height: 9px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px rgb(255 255 255 / .35); }
+    & .ask-ai { gap: 6px; margin-top: 10px; padding: 6px 14px 6px 8px; } /* clear of the name's reflection */
+    & .ask-ai__bot { color: #fff; }
+
+    & .agent {
+      padding: 0; gap: 0; overflow: hidden; border: 1px solid #1a5f9e; border-radius: 14px;
+      background: #fff; color: var(--ink); font: 13px/1.5 var(--sans);
+      box-shadow: 0 10px 30px rgb(31 95 153 / .35);
+      animation: tt07-slide .35s ease-out both;
+    }
+    & .agent__head {
+      padding: 9px 10px 9px 14px; box-shadow: inset 0 1px 0 rgb(255 255 255 / .6);
+      background: var(--gloss), linear-gradient(#5aa9e6, #2a78c4 55%, #2f86d6);
+    }
+    & .agent__title { gap: 8px; font: bold 14px/1 var(--sans); color: #fff; text-shadow: 0 1px 0 rgb(0 0 0 / .25); }
+    & .agent__title::after {
+      content: "beta"; order: 2; padding: 2px 6px 3px; border-radius: 5px; font: bold 10px/1 var(--sans); color: #fff;
+      background: var(--gloss), linear-gradient(#ffb04a, var(--orange) 55%, var(--orange-dark)); text-shadow: 0 -1px 0 rgb(0 0 0 / .3);
+    }
+    & .agent__dot { width: 9px; height: 9px; border-radius: 50%; background: #9ef04b; box-shadow: 0 0 6px #9ef04b, inset 0 1px 0 rgb(255 255 255 / .7); }
+    & .agent__wait { order: 3; font: 11px var(--sans); color: rgb(255 255 255 / .85); text-shadow: none; }
+    & .agent__wait::before { content: "· "; }
+    & .agent[data-resting] .agent__dot { background: var(--orange); box-shadow: 0 0 6px var(--orange); }
+    & .agent[data-resting] .agent__wait { color: #ffe2a8; }
+    & .agent__close {
+      width: 24px; height: 24px; border: 1px solid #1a5f9e; border-radius: 50%; color: #fff;
+      background: var(--gloss), linear-gradient(#7cc0f2, #2a78c4);
+    }
+    & .agent__close svg { width: 11px; height: 11px; }
+    & .agent__close:hover { border-color: var(--orange-dark); background: var(--gloss), linear-gradient(#ffb04a, var(--orange-dark)); }
+    & .agent__log { padding: 12px 12px 6px; gap: 12px; background: linear-gradient(#f2f8fd, #fff 140px); scrollbar-color: var(--rule) transparent; }
+    /* Speech bubbles with a shine and a little tail. */
+    & .agent__msg--me {
+      position: relative; padding: 7px 12px; border-radius: 14px; color: #2f4a10;
+      background: var(--gloss), linear-gradient(#e4f7c9, #c4ea8e); border: 1px solid #a6cf6b;
+    }
+    & .agent__msg--bot { gap: 8px; }
+    & .agent__msg--bot > .agent__text {
+      position: relative; justify-self: start; padding: 8px 12px; border-radius: 14px;
+      background: var(--gloss), linear-gradient(#f2f8fd, #dcebf7); border: 1px solid #b9d3ea;
+    }
+    & :is(.agent__msg--me, .agent__msg--bot > .agent__text)::after {
+      content: ""; position: absolute; bottom: -6px; width: 10px; height: 10px; transform: rotate(45deg);
+      border: solid; border-width: 0 1px 1px 0;
+    }
+    & .agent__msg--me::after { right: 16px; background: #c4ea8e; border-color: #a6cf6b; }
+    & .agent__msg--bot > .agent__text::after { left: 16px; background: #dcebf7; border-color: #b9d3ea; }
+    & .agent__see a, & .fit__link { font: bold 12px var(--sans); color: var(--blue-dark); text-decoration: none; }
+    & .agent__see a::before, & .fit__link::before { content: "\00bb\00a0"; color: var(--orange); }
+    & :is(.agent__trace, .agent__status) { font: 11px var(--sans); color: var(--ink-2); }
+    & .agent__status { margin-left: .5em; }
+    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--blue); opacity: .55; font: 11px var(--sans); }
+    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    & .agent__typing { color: var(--blue); }
+    & .agent__next { gap: 5px; }
+    & .agent__next button {
+      padding: 5px 11px; border: 1px solid #8fb6d8; border-radius: 999px; color: var(--blue-dark); text-align: left;
+      font: bold 12px/1.2 var(--sans); background: var(--gloss), linear-gradient(#ffffff, #d6e8f7);
+    }
+    & .agent__next button:hover { color: #8a4a00; border-color: #e0b060; background: var(--gloss), linear-gradient(#fff9e8, #ffe2a8); }
+    & .agent__form { margin: 6px 10px 0; gap: 6px; }
+    & .agent__form textarea {
+      padding: 6px 10px; border: 1px solid #9fb8cc; border-radius: 14px; background: #fff; color: var(--ink);
+      font: 13px/1.4 var(--sans); box-shadow: inset 0 1px 3px rgb(0 0 0 / .15);
+    }
+    & .agent__form:focus-within textarea { border-color: var(--blue); box-shadow: inset 0 1px 3px rgb(0 0 0 / .15), 0 0 0 3px rgb(124 192 242 / .4); }
+    & .agent__send {
+      width: auto; height: auto; padding: 7px 14px; border: 1px solid var(--orange-dark); border-radius: 999px; color: #fff;
+      font: bold 13px/1 var(--sans); text-shadow: 0 -1px 0 rgb(0 0 0 / .25);
+      background: var(--gloss), linear-gradient(#ffb04a, var(--orange) 55%, var(--orange-dark));
+    }
+    & .agent__send svg { display: none; }
+    & .agent__send::after { content: "Send"; }
+    & .agent__send:disabled { opacity: .55; }
+    & .agent__note { margin: 6px 10px 8px; font-size: 10px; color: var(--ink-2); text-align: center; }
+
+    /* The job-fit check, with the year's favourite mark: a green tick. */
+    & .agent__post-head, & .fit__head { font: bold 11px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--blue-dark); }
+    & .agent__msg--post .agent__post-text { color: #2f4a10; }
+    & .fit { gap: 8px; padding: 10px 12px; border: 1px solid #b9d3ea; border-radius: 12px; background: var(--gloss), linear-gradient(#ffffff, #eef5fb); }
+    & .fit__list { gap: 6px; }
+    & .fit__row::before { content: "\2713"; position: absolute; left: 0; top: 0; font-weight: bold; color: var(--lime-dark); }
+    & .fit__list--gap .fit__row::before { content: "\2013"; color: var(--ink-2); }
+    & .fit__need { display: block; font-weight: bold; }
+    & .fit__proof { font-size: 12px; color: var(--ink-2); }
+    & .fit__ask { gap: 3px; padding-top: 8px; border-top: 1px dashed var(--rule); }
+    & .fit__mail {
+      padding: 6px 14px; border: 1px solid var(--lime-dark); border-radius: 999px; color: #fff; text-decoration: none;
+      font: bold 12px/1 var(--sans); text-shadow: 0 -1px 0 rgb(0 0 0 / .25); background: var(--gloss), linear-gradient(#a9db5c, var(--lime) 55%, #79b52c);
+    }
+
+    /* The part of the page an answer points to gets the yellow fade. */
+    & .agent-spot { border-radius: 10px; background: rgb(255 236 110 / .55); animation: tt07-fade 2.6s ease-out forwards; }
+
     @media (max-width: 760px) {
       & .masthead { padding: 24px 18px 0; }
       & .starburst { right: 48px; top: -18px; width: 92px; height: 92px; } /* clear of the sound switch */
@@ -294,8 +403,12 @@
     }
     @media (prefers-reduced-motion: reduce) {
       & .starburst { animation: none; }
+      & .agent { animation: none; }
     }
   }
 
   @keyframes tt07-wobble { 50% { transform: rotate(4deg) scale(1.06); } }
+  /* Irshad's Agent's widget slides up as it opens; the yellow fade fades. */
+  @keyframes tt07-slide { from { opacity: 0; transform: translateY(16px); } }
+  @keyframes tt07-fade { from { opacity: 1; } to { opacity: 0; } }
 }
