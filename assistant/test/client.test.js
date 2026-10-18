@@ -24,7 +24,7 @@ test('a tapped suggestion gets its ready answer at once, without asking the AI, 
   const { seen, on } = recorder();
   const result = await ask('What are his skills?', [], { on, server: SERVER, tapped: true });
   const skills = match('What are his skills?');
-  assert.deepEqual(result, { text: skills.text, by: 'ready', link: '#stack', next: skills.next, travel: null });
+  assert.deepEqual(result, { text: skills.text, by: 'ready', link: '#stack', next: skills.next, travel: null, id: 'skills' });
   assert.deepEqual(seen.map((e) => e.type), ['step', 'source', 'text', 'done']);
 });
 
@@ -96,7 +96,7 @@ test('when both AIs rest, the closest ready answer stands in', async () => {
 test('when nothing fits and the AI is out of reach, it says so and offers where to go', async () => {
   globalThis.fetch = async () => { throw new TypeError('offline'); };
   const result = await ask('What is the weather in Kochi?', [], { server: SERVER });
-  assert.deepEqual(result, { text: DONT_KNOW, by: 'none', link: '#contact', next: DONT_KNOW_NEXT, travel: null });
+  assert.deepEqual(result, { text: DONT_KNOW, by: 'none', link: '#contact', next: DONT_KNOW_NEXT, travel: null, id: null });
 });
 
 test('before the server is set up, only ready answers are given', async () => {

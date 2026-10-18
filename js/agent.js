@@ -31,6 +31,22 @@ const GREETING = "Hi! I know Irshad's work inside out. Ask me anything, or pick 
 // "(#word-hunt)" at the end of an AI answer: the page shows it as "See Word Hunt" instead.
 const CITE = /\s*\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/g;
 
+// Under an answer, visitors see only "Quick answer", for one the page knew without asking the AI:
+// it shows the care taken over speed and cost, and explains an answer that fits a little loosely.
+// Never under the helpline or a trip in time; AI answers carry no label. Which AI answered
+// ("Gemini · 1.9 s", "Groq") is for Irshad, not visitors: they should meet Irshad's Agent, not a
+// brand they use every day. ?trace in the address shows it, and it stays on in that browser;
+// ?trace=off turns it off. Cloudflare's logs record which AI answered every question too.
+const showTrace = (() => {
+  const asked = new URLSearchParams(location.search).get('trace');
+  try {
+    if (asked !== null) localStorage.setItem('tt-agent-trace', asked === 'off' ? '0' : '1');
+    return localStorage.getItem('tt-agent-trace') === '1';
+  } catch {
+    return asked !== null && asked !== 'off';
+  }
+})();
+
 const read = () => {
   try {
     return JSON.parse(sessionStorage.getItem(KEY)) ?? [];
@@ -95,7 +111,7 @@ export function mount(ctx) {
   // The answer's words, without the "(#section)" the AI adds for the page.
   const words = (raw) => plain(raw).replace(CITE, '').trim();
 
-  function finish(li, { text, link, next, trace, more }) {
+  function finish(li, { text, link, next, trace, label, more }) {
     li.querySelector('.agent__text').textContent = words(text);
     if (link && PLACES[link]) {
       const see = el('p', 'agent__see');
@@ -105,7 +121,12 @@ export function mount(ctx) {
       see.append(a);
       li.append(see);
     }
-    if (trace) li.append(el('p', 'agent__trace', trace));
+    const line = showTrace ? trace : label;
+    if (line) {
+      const p = el('p', 'agent__trace', line);
+      if (!showTrace && line.startsWith('Quick answer')) p.title = 'Answered instantly, without asking the AI.';
+      li.append(p);
+    }
     if (next?.length || more) {
       const row = el('div', 'agent__next');
       for (const q of next ?? []) {
@@ -156,11 +177,20 @@ export function mount(ctx) {
     return undefined;
   }
 
-  function traceOf(by, tried, ms) {
-    if (by === 'ready') return 'Quick answer';
-    if (by === 'none') return 'No answer found';
+  // For Irshad (?trace): where the answer came from, how long it took, and what was busy.
+  function traceOf(by, tried, ms, rested) {
+    if (by === 'ready') return ['Quick answer', rested].filter(Boolean).join(' · ');
+    if (by === 'none') return ['No answer found', rested].filter(Boolean).join(' · ');
     const busyOnes = tried.filter((t) => !t.endsWith('answered')).map((t) => t.split(':')[0]);
     return [`${by} · ${(ms / 1000).toFixed(1)} s`, ...busyOnes.map((name) => `${name} was busy`)].join(' · ');
+  }
+
+  // For visitors: "Quick answer" under a ready answer, saying so when it stood in for a resting AI.
+  function labelOf({ by, id, travel }, rested) {
+    if (id === 'crisis' || travel) return null;
+    if (by === 'ready') return rested ? 'Quick answer · the AI is resting' : 'Quick answer';
+    if (by === 'none') return 'The AI is resting';
+    return null;
   }
 
   // `tapped`: a suggestion button, whose ready answer comes at once. Typed questions go to the AI.
@@ -184,12 +214,14 @@ export function mount(ctx) {
     let raw = '';
     let by = null;
     let tried = [];
+    let rested = null; // why the AI couldn't answer, if it couldn't
     try {
       const result = await ask(question, history, {
         deep,
         tapped,
         context: { era: ctx.root.dataset.era, section: onScreen(), intent: ctx.root.dataset.intent },
         on(e) {
+          if (e.type === 'step' && !/^(Looking for|Asking)/.test(e.text)) rested = e.text;
           if (e.type === 'source') { by = e.by; tried = e.tried ?? []; }
           if (e.type === 'text') {
             raw += e.t;
@@ -198,7 +230,7 @@ export function mount(ctx) {
         },
       });
       const more = result.by === 'ready' && result.next?.length && !result.travel && !deep ? question : null;
-      const answer = { role: 'assistant', text: result.text, by: result.by, link: result.link, next: result.next, more, trace: traceOf(result.by, tried, performance.now() - started) };
+      const answer = { role: 'assistant', text: result.text, by: result.by, link: result.link, next: result.next, more, trace: traceOf(result.by, tried, performance.now() - started, rested), label: labelOf(result, rested) };
       finish(li, answer);
       messages.push({ role: 'user', text: question }, answer);
       write(messages);

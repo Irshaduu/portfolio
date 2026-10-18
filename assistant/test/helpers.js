@@ -38,12 +38,14 @@ export function fakeFetch(byService) {
 }
 
 export const GEMINI = 'gemini-test'; // the models, which fakeFetch answers by
+export const GEMINI_LITE = 'gemini-lite-test';
 export const GROQ = 'groq-test';
 
 export const ENV = {
   ALLOWED_ORIGINS: 'https://irshaduu.github.io,http://localhost:4173',
   GEMINI_API_KEY: 'test-gemini',
   GEMINI_MODEL: 'gemini-test',
+  GEMINI_LITE_MODEL: 'gemini-lite-test',
   GROQ_API_KEY: 'test-groq',
   GROQ_MODEL: 'groq-test',
 };

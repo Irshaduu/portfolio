@@ -12,7 +12,11 @@ enabled = true
 [vars]
 # The pages allowed to ask: the live portfolio, and the local servers (node tools/serve.mjs, on 4173 or 4174).
 ALLOWED_ORIGINS = "https://irshaduu.github.io,http://localhost:4173,http://127.0.0.1:4173,http://localhost:4174,http://127.0.0.1:4174"
-# The models, one per service. Check your free limits for each in Google AI Studio and the Groq
-# console; change a name here and deploy again to switch.
-GEMINI_MODEL = "gemini-3.5-flash-lite"
+# The models, in the order they're asked (worker/chain.js). Check your free limits for each in
+# Google AI Studio and the Groq console; change a name here and deploy again to switch.
+# GEMINI_THINKING: how much the first Gemini model thinks before answering. "minimal" is fastest,
+# where the model allows it (gemini-3.8-flash refuses it: use "low" there).
+GEMINI_MODEL = "gemini-3.6-flash"
+GEMINI_THINKING = "minimal"
+GEMINI_LITE_MODEL = "gemini-3.5-flash-lite"
 GROQ_MODEL = "openai/gpt-oss-120b"

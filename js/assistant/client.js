@@ -10,7 +10,8 @@
 //   { type: 'text', t }                    the next piece of the answer (pass the whole so far through plain())
 //   { type: 'done', link, next, travel }   finished: the part of the page to show, what to ask next,
 //                                          and the era to travel to, if the visitor asked to
-// and resolves to { text, by, link, next, travel }, to keep in the conversation's history.
+// and resolves to { text, by, link, next, travel, id }, to keep in the conversation's history (id:
+// which ready answer, if one was given).
 //
 // Options: context { era, section, intent } tells the AI where the visitor is; tapped: true for a
 // suggestion button's question; deep: true for "tell me more", which always asks the AI.
@@ -87,9 +88,8 @@ export async function ask(question, history = [], { on = () => {}, server = SERV
   const link = text.match(/\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/)?.[1] ?? null;
   const next = nextFor(link);
   on({ type: 'done', link, next, travel: null });
-  return { text, by, link, next, travel: null };
+  return { text, by, link, next, travel: null, id: null };
 }
-
 
 const REASONS = {
   403: 'This page may not ask the AI',
@@ -97,12 +97,12 @@ const REASONS = {
   503: 'Both AIs are resting',
 };
 
-function reply(on, { text, link = null, next = null, era = null }, by) {
+function reply(on, { id = null, text, link = null, next = null, era = null }, by) {
   const after = next ?? START;
   on({ type: 'source', by, tried: [] });
   on({ type: 'text', t: text });
   on({ type: 'done', link, next: after, travel: era });
-  return { text, by, link, next: after, travel: era };
+  return { text, by, link, next: after, travel: era, id };
 }
 
 // AI services like to format: **bold**, # headings, - lists. The assistant speaks in plain sentences,

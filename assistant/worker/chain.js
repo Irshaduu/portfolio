@@ -10,20 +10,20 @@ import { textDeltas } from './sse.js';
 // A service with no key or model is skipped, so the chain works with whatever is set up.
 //
 // Gemini first: it understands people, Kerala's Manglish and slang included, and talks most
-// naturally. The Flash-Lite model, because on the free tier it answers in two or three seconds and
-// has a big daily share, where Flash was often too slow to start or overloaded. When Gemini is busy
-// or out for the day, Groq takes over: very fast, but stiffer. On Gemini's free tier Google may read
-// and learn from the messages, which is why the chat asks visitors not to type personal details.
+// naturally. Its full Flash model leads, thinking as little as it can, which measured one to five
+// seconds to the first word (the newest Flash took five, and was sometimes overloaded). When Flash
+// is busy or out of its free share for the day, Gemini Flash-Lite answers (smaller, two or three
+// seconds, a bigger daily share), and only then Groq: very fast, but stiffer, and it misreads
+// slang. On Gemini's free tier Google may read and learn from the messages, which is why the chat
+// asks visitors not to share personal or sensitive data. The trace (?trace on the page) and
+// Cloudflare's logs say which one answered.
+const GEMINI = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
+
 export function routes(env) {
   return [
-    // Gemini 3 always thinks a little before it answers; "low" keeps that quick.
-    {
-      name: 'Gemini',
-      url: 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions',
-      key: env.GEMINI_API_KEY,
-      model: env.GEMINI_MODEL,
-      extra: { reasoning_effort: 'low' },
-    },
+    // Gemini 3 always thinks a little before it answers: as little as each model allows.
+    { name: 'Gemini', url: GEMINI, key: env.GEMINI_API_KEY, model: env.GEMINI_MODEL, extra: { reasoning_effort: env.GEMINI_THINKING || 'low' } },
+    { name: 'Gemini Lite', url: GEMINI, key: env.GEMINI_API_KEY, model: env.GEMINI_LITE_MODEL, extra: { reasoning_effort: 'low' } },
     {
       name: 'Groq',
       url: 'https://api.groq.com/openai/v1/chat/completions',

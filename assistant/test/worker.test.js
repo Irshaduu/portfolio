@@ -5,7 +5,7 @@ import { handle, readContext, readHistory } from '../worker/index.js';
 import { makeLimiter } from '../worker/limits.js';
 import { buildMessages, keralaTime, NAME, SECTIONS } from '../worker/prompt.js';
 import { NAME as PAGE_NAME } from '../../js/assistant/answers.js';
-import { ENV, GEMINI, GROQ, answer, failure, fakeFetch } from './helpers.js';
+import { ENV, GEMINI, GEMINI_LITE, GROQ, answer, failure, fakeFetch } from './helpers.js';
 
 const SITE = 'https://irshaduu.github.io';
 const deps = (byHost, allow = () => true) => ({ ...fakeFetch(byHost), cooling: new Map(), allow });
@@ -30,7 +30,7 @@ test('the health check says which services have their keys, and the portfolio\'s
   assert.equal(res.headers.get('access-control-allow-origin'), SITE);
   assert.deepEqual(await res.json(), {
     ok: true,
-    services: [{ name: 'Gemini', model: 'gemini-test', ready: false }, { name: 'Groq', model: 'groq-test', ready: true }],
+    services: [{ name: 'Gemini', model: 'gemini-test', ready: false }, { name: 'Gemini Lite', model: 'gemini-lite-test', ready: false }, { name: 'Groq', model: 'groq-test', ready: true }],
   });
 });
 
@@ -47,16 +47,16 @@ test('streams the answer, saying which service gave it', async () => {
   ]);
 });
 
-test('when Gemini is at its limit, Groq answers and the trace shows both', async () => {
-  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GROQ]: answer('Python.') }));
+test('when Gemini is at its limit, Gemini Lite answers and the trace shows both', async () => {
+  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_LITE]: answer('Python.') }));
   const [meta] = await events(res);
-  assert.deepEqual(meta, ['meta', { by: 'Groq', tried: ['Gemini: HTTP 429', 'Groq: answered'] }]);
+  assert.deepEqual(meta, ['meta', { by: 'Gemini Lite', tried: ['Gemini: HTTP 429', 'Gemini Lite: answered'] }]);
 });
 
 test('when no service answers, the page is told to use its ready answers', async () => {
-  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GROQ]: failure(500) }));
+  const res = await handle(ask(question('Skills?')), ENV, deps({ [GEMINI]: failure(429), [GEMINI_LITE]: failure(429), [GROQ]: failure(500) }));
   assert.equal(res.status, 503);
-  assert.deepEqual(await res.json(), { error: 'No AI service is free right now.', fallback: true, tried: ['Gemini: HTTP 429', 'Groq: HTTP 500'] });
+  assert.deepEqual(await res.json(), { error: 'No AI service is free right now.', fallback: true, tried: ['Gemini: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500'] });
 });
 
 test('the AI gets who it is, the facts and where the visitor is, before the conversation', async () => {

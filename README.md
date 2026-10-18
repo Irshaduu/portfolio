@@ -396,8 +396,8 @@ The project cards' documents are pages in the same design, under `work/`, each p
 ## The assistant
 
 Irshad's Agent, his own assistant, in short, plain English. A typed question goes to an AI, which
-reads the whole conversation and answers from the portfolio's public facts: Google Gemini first
-(Flash-Lite), Groq when Gemini is at its limit, and the closest ready-made answer
+reads the whole conversation and answers from the portfolio's public facts: Google Gemini Flash
+first, then Flash-Lite, then Groq, and the closest ready-made answer
 (`js/assistant/answers.js`) when both rest. A tapped suggestion gets its ready-made answer at once.
 Someone saying they want to end their life gets the helpline from the page itself, never from an AI. Every answer
 offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant/`) that holds the
@@ -411,8 +411,9 @@ phone), loaded only when first opened. It greets the visitor with three question
 chosen by why they came, and every answer ends with what to ask next. Answers act on the page: on
 a wide screen an answer about Word Hunt scrolls there and lays a ring of light over the card
 (`.agent-spot`, never touching the card's own styles); "See Word Hunt" does it on a phone; "take me
-to 1997" travels. Under each answer a small line says where it came from ("Quick answer", or
-"Groq · 0.8 s"). The conversation is kept for the visit (sessionStorage), across eras and reloads.
+to 1997" travels. Visitors never see which AI answered: the only label they see is "Quick answer", under an answer
+the page knew without asking the AI. Open the page once with `?trace` and a small line under every
+answer says where it came from ("Gemini · 1.9 s", "Groq", what was busy). The conversation is kept for the visit (sessionStorage), across eras and reloads.
 For now the agent lives in 2026 only: travelling away closes it, and it's there again on the way
 back. Each era gets its own costume next.
 
