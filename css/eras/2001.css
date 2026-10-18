@@ -436,7 +436,7 @@
       & .masthead__inner::after { width: 70px; height: 70px; right: 14px; top: 14px; }
       & .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       & .section { padding: 18px 14px 20px; }
-      & .projects, & .project--feature { grid-template-columns: 1fr; }
+      & .projects, & .project--feature { grid-template-columns: minmax(0, 1fr); }
       & .project--feature .project__data { border-left: 0; border-top: 1px solid #000; }
       & .timeline { grid-template-columns: 1fr; }
       /* Stacked, each moment is a layer row with its keyframe at the left. */
@@ -445,6 +445,13 @@
       & .timemachine { grid-template-columns: 1fr; }
       & .tm__note { display: none; }
       & .agent__title::after { content: none; } /* no room for "- instant message" */
+    }
+    /* "WORKSHOPOS" at 26px needs a screen 431px wide. */
+    @media (max-width: 440px) {
+      & .project--feature .project__title { font-size: 21px; }
+    }
+    @media (max-width: 359px) {
+      & .project--feature .project__title { font-size: 18px; }
     }
     @media (prefers-reduced-motion: reduce) {
       & .masthead__inner::after, & .blink, & .timeline::after, & .intro *, & .intro__stage::after { animation: none !important; }

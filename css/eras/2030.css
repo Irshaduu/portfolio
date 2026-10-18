@@ -607,6 +607,9 @@
       & .tm__range::-moz-range-thumb { width: 20px; height: 20px; }
       & .agent { background: linear-gradient(var(--agent-panel-phone), var(--agent-panel-phone)) padding-box, var(--agent-holo) border-box; }
     }
+    @media (max-width: 359px) {
+      & .project--feature .project__title { font-size: 2rem; } /* "WorkshopOS" fits the smallest phones */
+    }
 
     /* Panels come out of the dark as they scroll in, where the browser can tie it to scroll. */
     @supports (animation-timeline: view()) {

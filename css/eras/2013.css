@@ -325,6 +325,13 @@
       & .timemachine { grid-template-columns: 1fr; gap: .2rem; }
       & .tm__note { display: none; }
     }
+    /* "WORKSHOPOS" in thin capitals is wider than its tile on phones under 375px. */
+    @media (max-width: 374px) {
+      & .project--feature .project__title { font-size: 1.6rem; }
+    }
+    @media (max-width: 339px) {
+      & .project--feature .project__title { font-size: 1.4rem; }
+    }
     @media (prefers-reduced-motion: reduce) {
       & .scroll-cue, & .agent { animation: none; }
     }

@@ -151,7 +151,7 @@ async function stream(server, path, body, on, signal) {
 const REASONS = {
   403: 'This page may not ask the AI',
   429: 'This visitor reached their share of AI questions',
-  503: 'Both AIs are resting',
+  503: 'Every AI is resting',
 };
 
 function reply(on, { id = null, text, link = null, next = null, era = null }, by) {

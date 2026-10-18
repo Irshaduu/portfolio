@@ -86,13 +86,13 @@ test('help for someone in danger never waits for the AI, typed or tapped', async
   assert.match((await ask('I want to die', [], { server: SERVER, deep: true })).text, /14416/);
 });
 
-test('when both AIs rest, the closest ready answer stands in', async () => {
+test('when every AI rests, the closest ready answer stands in', async () => {
   globalThis.fetch = async () => new Response(JSON.stringify({ fallback: true }), { status: 503 });
   const { seen, on } = recorder();
   const result = await ask(DEEP_QUESTION, [], { on, server: SERVER });
   assert.equal(result.by, 'ready');
   assert.equal(result.link, '#word-hunt');
-  assert.ok(seen.some((e) => e.type === 'step' && e.text === 'Both AIs are resting'));
+  assert.ok(seen.some((e) => e.type === 'step' && e.text === 'Every AI is resting'));
 });
 
 test('a visitor who used up their share is told so in the agent\'s voice, not given a stand-in', async () => {
@@ -206,7 +206,7 @@ test('when the AIs rest, the word check stands in for the job-fit check', async 
   const result = await checkFit(DJANGO_POST, { on, server: SERVER });
   assert.equal(result.by, 'ready');
   assert.deepEqual(result.fit, wordCheck(DJANGO_POST));
-  assert.ok(seen.some((e) => e.type === 'step' && e.text === 'Both AIs are resting'));
+  assert.ok(seen.some((e) => e.type === 'step' && e.text === 'Every AI is resting'));
 });
 
 test('a job-fit check that breaks off keeps what arrived and says so', async () => {

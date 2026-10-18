@@ -398,7 +398,7 @@ The project cards' documents are pages in the same design, under `work/`, each p
 Irshad's Agent, his own assistant, in short, plain English. A typed question goes to an AI, which
 reads the whole conversation and answers from the portfolio's public facts: Google Gemini Flash
 first, then Flash-Lite, then Groq, and the closest ready-made answer
-(`js/assistant/answers.js`) when both rest. A tapped suggestion gets its ready-made answer at once.
+(`js/assistant/answers.js`) when all three rest. A tapped suggestion gets its ready-made answer at once.
 Someone saying they want to end their life gets the helpline from the page itself, never from an AI. Every answer
 offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant/`) that holds the
 keys, so the page never sees them. `assistant/README.md` has how it talks, the setup step by step,

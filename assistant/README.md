@@ -144,7 +144,7 @@ and things it does on the page.
 **Can it be broken?** No chatbot is perfect, so this one is built so its mistakes can't hurt:
 it has nothing secret to leak (these files are public on GitHub), no way to act except text, no
 money to spend, and the help answer doesn't depend on the AI at all. The exam (`npm run exam`) asks
-it 41 tricky questions and 7 job posts after every change, including the first real messages from a phone.
+it 47 tricky questions and 7 job posts after every change, including the first real messages from a phone.
 
 | File | What it does |
 |---|---|
@@ -154,12 +154,12 @@ it 41 tricky questions and 7 job posts after every change, including the first r
 | `worker/facts.js` | Everything the AI may say about Irshad: only what the public pages say |
 | `worker/limits.js` | 10 questions a minute and 50 a day per visitor, and which limit was reached |
 | `worker/sse.js` | Reads an AI's answer as it streams in |
-| `exam.mjs` | The exam: 33 tricky questions for the live AI, each answer checked |
+| `exam.mjs` | The exam: 47 tricky questions and 7 job posts for the live AI, each answer checked |
 | `exam-key.mjs` | Makes the exam's key and saves it on the server and in `.dev.vars` |
 | `../js/assistant/answers.js` | The ready-made answers, the helpline, what to ask next, and "take me to 1997" |
 | `../js/assistant/client.js` | The page's side: help or travel, a tapped suggestion, the AI, then a stand-in |
 | `../tools/assistant.html` | A test bench: ask questions, follow the suggestions, see where each answer came from |
-| `test/` | 101 tests: `npm test` |
+| `test/` | 131 tests: `npm test` |
 
 ---
 
@@ -191,8 +191,7 @@ chat (including with Claude), into code, a commit or a screenshot. If one ever l
    daily allowance.
 
 Good to know: on the free tier, Google may use the messages to improve its products, and people
-at Google may read them. That's why the chat tells visitors not to type personal details, and why
-Gemini is second.
+at Google may read them. That's why the chat tells visitors not to type personal details.
 
 ### Step 3. A Cloudflare account
 
@@ -258,7 +257,7 @@ The keys are stored encrypted at Cloudflare, work at once, and never touch GitHu
 
 ### Step 7. Check it
 
-Open the server's address in your browser. You should see both services `"ready": true`:
+Open the server's address in your browser. You should see all three services `"ready": true`:
 
 ```
 {"ok":true,"services":[{"name":"Gemini","model":"gemini-3.6-flash","ready":true},{"name":"Gemini Lite","model":"gemini-3.5-flash-lite","ready":true},{"name":"Groq","model":"openai/gpt-oss-120b","ready":true}]}
@@ -290,13 +289,13 @@ In this folder (`assistant`):
 npm run exam -- https://portfolio-assistant.irshad.workers.dev
 ```
 
-(Use your own address.) It takes about sixteen minutes: it waits 20 seconds between questions, so
+(Use your own address.) It takes about eighteen minutes: it waits 20 seconds between questions, so
 the free per-minute limits don't decide the result. It goes straight to the AI, past the page's
 ready answers, and checks each answer as the page would show it (after `plain()`). Then it pastes
 seven job posts into the job-fit check (a close fit, a far one, a front-end job, a nurse's job, a
 trick, a poem, one asking for salary) and checks each card is honest. It prints every answer, marks
 the ones that broke a rule with **CHECK**, and saves them all to `exam-report.txt`. It uses about
-48 of the day's free AI questions. Add `chat` or `fit` after the address to run only one half, or
+54 of the day's free AI questions. Add `chat` or `fit` after the address to run only one half, or
 a list of kinds such as `character,slang`.
 
 Then read every answer yourself and ask: **would a person say this?** You know how people in
