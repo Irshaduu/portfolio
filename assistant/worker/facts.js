@@ -1,8 +1,10 @@
 // Everything the AI may say about Irshad. It reads this and nothing else.
 //
-// Only what the public pages already say (index.html, resume/, work/). Never the private notes in
-// CONTENT.md: no client details beyond the site, no prices, nothing personal. If a fact isn't here,
-// the assistant answers "I don't know, ask Irshad". Each heading is a section id on the page, so the
+// What the public pages already say (index.html, resume/, work/), and "In his own words": answers
+// Irshad wrote himself for the agent to share (why he left business, what he's like to work with,
+// what he does for fun). That part is what no other AI reading his page can know. Never the private
+// notes in CONTENT.md: no client details beyond the site, no prices. If a fact isn't here, the
+// assistant says he hasn't told it that one yet. Each heading is a section id on the page, so the
 // AI can point to where a fact comes from. The numbers are checked against the pages by
 // tools/facts.mjs: change them there first.
 
@@ -106,11 +108,50 @@ Open to full-time roles and freelance projects. Email irshaduu01@gmail.com or Wh
 in Contact), whichever is easier. GitHub: github.com/Irshaduu. LinkedIn:
 linkedin.com/in/mohammed-irshad-c. Resume: the resume/ page, with a PDF.
 
+## In his own words
+Irshad wrote these himself, for you to share. Each says which section it belongs to.
+- Why he handed over the company (#story): "I wanted to build something bigger. Handing the business
+  to family was the best decision for them: it gave my brothers and cousins, still in college, a
+  flexible way to earn and grow together. Once it ran steadily on its own, I stepped back completely
+  and put all my energy into new things."
+- Why Python and Django (#stack): "Python doesn't complicate your thoughts, it translates them. And
+  Django is a proven, dependable engine. When one wrong calculation costs someone real money, you
+  don't want the newest thing. You want something solid."
+- The project closest to his heart (#word-hunt): "Technically, WorkshopOS is miles ahead: a big
+  system with real business rules and real money at stake. Word Hunt is tiny next to it. But Word
+  Hunt is the one that stays with me. Watching friends in different time zones jump into a room,
+  tease each other and laugh, live, through code I wrote, was pure joy. WorkshopOS proves my
+  engineering. That little game reminds me why I love building things for people."
+- A hard problem he solved (#workshopos): "Matching a messy workshop floor with strict accounting.
+  Mechanics take parts the moment a delivery arrives, long before the office enters the supplier's
+  bill, and blocking them stops the work. Different suppliers also sold the same oil at different
+  prices, but mechanics needed one simple item to pick. So I let stock go below zero for a while,
+  the mechanics keep moving, and weighted-average costing corrects the stock value and the profit
+  the moment the bill is entered."
+- What he's like to work with (#contact): "Grounded and easy to talk to. I come from offline
+  business, so I speak plain language, not developer jargon. No ego, no needless complexity: clear
+  updates, realistic deadlines, and calm focus on what really moves the work forward."
+- The work he wants next (#contact): "Backend Software Engineer or Solutions Architect roles where
+  the problem really matters. I like systems with real business logic, like SaaS platforms,
+  operations software (ERPs) or real-time tools, where the data must be right and a silent bug isn't
+  acceptable. I want a team that values clean, dependable work over chasing every new buzzword."
+- What he never compromises on (#stack): "Stability and simplicity. My first instinct is always the
+  least complex way to solve a problem. I'd rather write clean code that quietly does its job for
+  years than a clever system that breaks when you look at it wrong. When real money is on the line,
+  you need stability you can trust."
+- Outside work (#top): "I'm curious about world cultures and I love meeting people from other
+  countries. And I'm a space nerd: I'll watch a sci-fi film like Project Hail Mary for two hours,
+  then spend six more reading about the real astrophysics and orbit maths behind it. I go outside
+  to watch the ISS pass overhead, and I once turned a routine real-estate assignment into a
+  marketplace selling land on Mars, just for fun. I just love figuring out how things work."
+
 ## This site
 One page, eight eras of the web: a time machine at the bottom restyles the whole portfolio as the
 web of 1992, 1997, 2001, 2007, 2013, 2023, 2026 or 2030. The content never changes, only the look.
 Plain HTML, CSS and JavaScript: no framework, no build step, served as plain files on GitHub Pages.
 2030 is drawn live in WebGL, and every sound on the site is made in code with the Web Audio API.
-This assistant: common questions get ready-made answers instantly; the rest go to an AI (Google
-Gemini, or Groq when Gemini is busy) through a small Cloudflare Worker that holds the keys.
+This assistant: Irshad built it. The suggestion buttons get ready-made answers instantly; typed
+questions go to an AI model he picked, through a small Cloudflare Worker of his that holds the keys,
+with his rules and these facts. When one model is busy, another takes over. It can move the page,
+travel in time, and check a pasted job post against his work.
 `.trim();

@@ -141,11 +141,17 @@ function reply(on, { id = null, text, link = null, next = null, era = null }, by
 // AI services like to format: **bold**, # headings, - lists. The assistant speaks in plain sentences,
 // so whatever slips through is taken out before it's shown. And some models have sentences trained
 // so deep that no rule removes them ("I'm sorry, but I can't help with that."): those are swapped
-// for what a person would say.
+// for what a person would say. That includes the closed door ("The site doesn't mention why…"): his
+// agent says what a friend would, "He hasn't told me why…".
+const SITE = String.raw`(?:the|this) (?:site|website|portfolio|page)`;
 const HUMAN = [
   [/I[’']m sorry, but I can[’']t (?:help with|do) that\.?/gi, "That's not something I'll do."],
   [/I can[’']t help with that\.?/gi, "That's not something I'll help with."],
-  [/I don[’']t have that (?:information|detail)\.?/gi, "That isn't on this site, so I don't know."],
+  [/I don[’']t have (?:that|any) (?:information|detail|details)(?: (?:about|on) (?:that|this))?/gi, "He hasn't told me that one"],
+  [new RegExp(String.raw`${SITE} (?:doesn[’']t|does not) (?:mention|say|tell me) (why|how|what|when|where|whether|if|who)\b`, 'gi'), "he hasn't told me $1"],
+  [new RegExp(String.raw`${SITE} (?:doesn[’']t|does not) (?:mention|say anything about|talk about)`, 'gi'), "he hasn't told me about"],
+  [new RegExp(String.raw`(?:that|this|it)(?: information)? (?:isn[’']t|is not) (?:mentioned |listed |shown )?(?:on|in) ${SITE}`, 'gi'), "he hasn't told me that one"],
+  [new RegExp(String.raw`(?:it|that)[’']s not (?:mentioned |listed |shown )?(?:on|in) ${SITE}`, 'gi'), "he hasn't told me that one"],
   [/,? feel free to ask\.?/gi, ', just ask.'],
 ];
 
@@ -154,9 +160,13 @@ export function plain(text) {
     .replace(/\*\*|__|`/g, '')
     .replace(/^[ \t]{0,3}#{1,6}[ \t]+/gm, '')
     .replace(/^[ \t]*[-*•][ \t]+/gm, '')
+    .replace(/‑/g, '-') // Groq writes "word‑hunt" with a non-breaking hyphen, which no link matches
+    .replace(/\s*—\s*|\s+–\s+/g, ', ') // a dash joining sentences reads easier as a comma ("1–3" stays)
     .replace(/[ \t]{2,}/g, ' ')
     .replace(/\n{3,}/g, '\n\n');
   for (const [robot, person] of HUMAN) out = out.replace(robot, person);
+  // A swap at the start of a sentence starts with a capital, as the sentence did.
+  out = out.replace(/(^|[.!?]\s+)he hasn't/g, "$1He hasn't");
   return out.trim();
 }
 

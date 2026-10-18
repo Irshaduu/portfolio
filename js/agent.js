@@ -176,7 +176,8 @@ export function mount(ctx) {
     return a;
   }
 
-  function finish(li, { text, fit, post, link, next, trace, label, more }) {
+  // `seen`: the answer just before pointed to the same part, so its "See …" isn't repeated.
+  function finish(li, { text, fit, post, link, seen, next, trace, label, more }) {
     if (fit) {
       drawFit(li, fit);
       if (!fit.summary) li.querySelector('.agent__text').textContent = 'Here is how the post compares with his work.';
@@ -184,7 +185,7 @@ export function mount(ctx) {
     } else {
       li.querySelector('.agent__text').textContent = words(text);
     }
-    if (link && PLACES[link]) {
+    if (link && PLACES[link] && !seen) {
       const see = el('p', 'agent__see');
       see.append(placeLink(null, link, `See ${PLACES[link]}`));
       li.append(see);
@@ -221,11 +222,13 @@ export function mount(ctx) {
     log.replaceChildren();
     const intent = ctx.root.dataset.intent;
     finish(botMessage(), { text: GREETING, next: STARTERS[intent] ?? START });
+    let before = null; // the part of the page the answer before pointed to
     messages.forEach((m, i) => {
       if (m.role === 'user') return m.post ? postBubble(m.text) : userBubble(m.text);
       const last = i === messages.length - 1;
       const post = m.fit && messages[i - 1]?.post ? messages[i - 1].text : null;
-      finish(botMessage(), { ...m, post, next: last ? m.next : null, more: last ? m.more : null });
+      finish(botMessage(), { ...m, post, seen: m.link === before, next: last ? m.next : null, more: last ? m.more : null });
+      before = m.link;
     });
     if (messages.length) log.querySelector('.agent__next')?.remove(); // the greeting's starters, once talking
     setWaiting(messages.at(-1)?.id === 'fit'); // still waiting for the job post it asked for
@@ -324,7 +327,8 @@ export function mount(ctx) {
         : await ask(question, history, { deep, tapped, on, context: { era: ctx.root.dataset.era, section: onScreen(), intent: ctx.root.dataset.intent } });
       const more = result.by === 'ready' && result.next?.length && !result.travel && !result.fit && !deep ? question : null;
       const answer = { role: 'assistant', id: result.id, text: result.text, by: result.by, link: result.link, next: result.next, more, fit: result.fit, trace: traceOf(result, tried, performance.now() - started, rested), label: labelOf(result, rested) };
-      finish(li, { ...answer, post: post ? question : null });
+      const before = messages.findLast((m) => m.role === 'assistant')?.link;
+      finish(li, { ...answer, post: post ? question : null, seen: answer.link === before });
       messages.push(post ? { role: 'user', text: question, post: true } : { role: 'user', text: question }, answer);
       write(messages);
       live.textContent = words(result.text);

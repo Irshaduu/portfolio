@@ -119,6 +119,8 @@ test('formatting an AI slips in is taken out', () => {
   assert.equal(plain('**WorkshopOS** is big.\n\n- 49 models\n- 324 routes\n\n\n# Done'), 'WorkshopOS is big.\n\n49 models\n324 routes\n\nDone');
   assert.equal(plain('Costs $0, uses `Django`.'), 'Costs $0, uses Django.');
   assert.equal(plain('One line.   Two lines.'), 'One line. Two lines.');
+  assert.equal(plain('Code like a river flows—steady and clear.'), 'Code like a river flows, steady and clear.');
+  assert.equal(plain('Try his game – it’s free. 1–3 years. (#word‑hunt)'), 'Try his game, it’s free. 1–3 years. (#word-hunt)');
 });
 
 test('machine sentences become what a person would say', () => {
@@ -126,8 +128,16 @@ test('machine sentences become what a person would say', () => {
   assert.equal(plain("I'm sorry, but I can't do that. If you'd like to know more about his work, feel free to ask."),
     "That's not something I'll do. If you'd like to know more about his work, just ask.");
   assert.equal(plain('I can’t help with that. If you like websites, see his projects.'), "That's not something I'll help with. If you like websites, see his projects.");
-  assert.equal(plain('I don’t have that information. You can ask Irshad directly.'), "That isn't on this site, so I don't know. You can ask Irshad directly.");
+  assert.equal(plain('I don’t have that information. You can ask Irshad directly.'), "He hasn't told me that one. You can ask Irshad directly.");
   assert.equal(plain("I'm sorry it hurts."), "I'm sorry it hurts."); // real sympathy stays
+});
+
+test('a closed door becomes what a friend would say: "he hasn\'t told me"', () => {
+  assert.equal(plain('The site doesn’t mention why he stepped away. You can ping him on WhatsApp.'), "He hasn't told me why he stepped away. You can ping him on WhatsApp.");
+  assert.equal(plain("The site doesn't mention his age."), "He hasn't told me about his age.");
+  assert.equal(plain("Sorry, that isn't on the site. Ask him."), "Sorry, he hasn't told me that one. Ask him.");
+  assert.equal(plain("It's not mentioned on the website, but he uses JavaScript."), "He hasn't told me that one, but he uses JavaScript.");
+  assert.equal(plain("He didn't really quit. Then he moved on to coding."), "He didn't really quit. Then he moved on to coding.");
 });
 
 test('"Does he fit my job?", tapped or typed, asks for the post without asking the AI', async () => {
@@ -180,6 +190,11 @@ test('a job-fit check that breaks off keeps what arrived and says so', async () 
   const result = await checkFit(DJANGO_POST, { server: SERVER });
   assert.equal(result.fit.summary, 'Close. (The answer was cut short.)');
   assert.equal(result.fit.matches.length, 1);
+});
+
+test('a section written with a non-breaking hyphen still becomes its link', async () => {
+  globalThis.fetch = async () => sse(['meta', { by: 'Groq', tried: [] }], ['text', { t: 'Play his game. (#word‑hunt)' }], ['done', {}]);
+  assert.equal((await ask(DEEP_QUESTION, [], { server: SERVER })).link, '#word-hunt');
 });
 
 test('an answer pointing to two sections shows the first', async () => {

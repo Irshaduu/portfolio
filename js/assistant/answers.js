@@ -50,7 +50,7 @@ export const ANSWERS = [
     words: ['introduc', 'summary', 'himself', 'yourself'],
     text: 'Irshad is a Python developer from Malappuram, in Kerala, India. He builds the software a business runs on, from the first job card to the profit page. Before coding, he ran an events company for four years.',
     link: '#top',
-    next: ['What has he built?', 'What are his skills?', 'Why did he move from business to code?'],
+    next: ['What has he built?', 'Why did he move from business to code?', 'What does he do for fun?'],
   },
   {
     id: 'skills',
@@ -167,7 +167,7 @@ export const ANSWERS = [
     words: ['hire', 'hiring', 'available', 'availability', 'freelance', 'job', 'role', 'position', 'opportunit', 'recruit'],
     text: "Yes. He's open to full-time roles and freelance projects. Message him on WhatsApp or email irshaduu01@gmail.com, whichever is easier for you.",
     link: '#contact',
-    next: ['Does he fit my job?', 'Where is he based?', 'Can I see his resume?'],
+    next: ['Does he fit my job?', 'What is he like to work with?', 'Can I see his resume?'],
   },
   {
     id: 'contact',
@@ -246,7 +246,7 @@ export const ANSWERS = [
 export const START = ['What has he built?', 'Can I play his game?', 'Is he free to hire?'];
 
 // What the assistant says when nothing fits and the AI is resting.
-export const DONT_KNOW = "I don't know that one, sorry. Irshad can answer it himself, on WhatsApp or email.";
+export const DONT_KNOW = "That one's beyond me right now. Irshad can answer it himself, on WhatsApp or email, and he might just enjoy it.";
 export const DONT_KNOW_NEXT = ['How can I contact him?', 'What has he built?'];
 
 // What to offer after an answer that points to `link` (an AI answer points with "(#word-hunt)"):

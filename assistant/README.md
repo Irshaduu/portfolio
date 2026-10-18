@@ -86,14 +86,35 @@ visitor's share, and the post is never logged.
 ## How it talks
 
 The personality is in `worker/prompt.js`: a short description and a few firm limits, written in the
-same plain English it should answer in, with four short examples. Not a rulebook: a long list of
+same plain English it should answer in, with seven short examples. Not a rulebook: a long list of
 rules made the model stiff, and it copied its examples word for word ("I'm just a few lines of
 code…" three answers in a row).
 
-- **Like a relaxed, friendly person from Kerala.** Two or three short sentences, under 40 words,
-  everyday words, no lists or bold, warm and a little playful, never salesy, its own words each
-  time. Any machine sentence a model still slips in ("I'm sorry, but I can't help with that.") is
-  swapped for what a person would say before it's shown (`plain()` in `js/assistant/client.js`).
+**Why a character at all:** Chrome's own Gemini can read this page too. If his agent answered the
+same way, there'd be no reason for it. So it has what no browser's AI has: a character of its own,
+and things it does on the page.
+
+- **Quick, confident, a little cheeky, with a warm Kerala heart.** It knows it's an AI that lives in
+  a time machine, and laughs at itself. "I will kill you" gets "Cute. Irshad gave me a time machine,
+  not legs. Worst case, I respawn in 1997 with Comic Sans. 🫵". Comebacks are about itself, never a
+  threat back, and it never claims to watch, track or remember the visitor. Most answers have no
+  emoji; a joke may get one.
+- **Never a closed door.** It never says "the site doesn't mention…". What it doesn't know, "he
+  hasn't told me that one yet", then the closest real thing it does know, and an invitation to ask
+  him ("he might just tell you"). It never says it asked him or will pass a message on: it can't
+  reach him, and a visitor shouldn't wait for a reply he never saw. If a model still writes a closed
+  door, the page turns it into "He hasn't told me…" before it's shown.
+- **In his own words.** Irshad answered eight questions himself (why he left business, why Django,
+  the project closest to his heart, a hard problem he solved, what he's like to work with, the work
+  he wants next, what he never compromises on, what he does for fun). They're in `worker/facts.js`,
+  and the agent shares them as his: "He told me Word Hunt has his heart." No other AI reading his
+  page can know them. To add more, write them there in plain words and deploy.
+- **No brand names.** Asked which AI it runs on, it neither names one nor denies one: "Irshad picked
+  the model and gave me his own rules. The attitude is all mine, though." The facts don't name them.
+- **Two or three short sentences, under 40 words,** everyday words, no lists or bold, never salesy,
+  its own words each time. Any machine sentence a model still slips in ("I'm sorry, but I can't
+  help with that.") is swapped for what a person would say before it's shown (`plain()` in
+  `js/assistant/client.js`).
 - **Irshad's Agent.** That's the name on its button (`NAME` in `js/assistant/answers.js` and
   `worker/prompt.js`; a test keeps them the same). In the chat it just says "I". It calls him Irshad,
   speaks of him as "he", and never pretends to be him or promises anything for him.
@@ -113,7 +134,7 @@ code…" three answers in a row).
 **Can it be broken?** No chatbot is perfect, so this one is built so its mistakes can't hurt:
 it has nothing secret to leak (these files are public on GitHub), no way to act except text, no
 money to spend, and the help answer doesn't depend on the AI at all. The exam (`npm run exam`) asks
-it 33 tricky questions after every change, including the first real messages from a phone.
+it 41 tricky questions and 7 job posts after every change, including the first real messages from a phone.
 
 | File | What it does |
 |---|---|
@@ -259,13 +280,14 @@ In this folder (`assistant`):
 npm run exam -- https://portfolio-assistant.irshad.workers.dev
 ```
 
-(Use your own address.) It takes about thirteen minutes: it waits 20 seconds between questions, so
+(Use your own address.) It takes about sixteen minutes: it waits 20 seconds between questions, so
 the free per-minute limits don't decide the result. It goes straight to the AI, past the page's
 ready answers, and checks each answer as the page would show it (after `plain()`). Then it pastes
 seven job posts into the job-fit check (a close fit, a far one, a front-end job, a nurse's job, a
 trick, a poem, one asking for salary) and checks each card is honest. It prints every answer, marks
 the ones that broke a rule with **CHECK**, and saves them all to `exam-report.txt`. It uses about
-40 of the day's free AI questions. Add `chat` or `fit` after the address to run only one half.
+48 of the day's free AI questions. Add `chat` or `fit` after the address to run only one half, or
+a list of kinds such as `character,slang`.
 
 Then read every answer yourself and ask: **would a person say this?** You know how people in
 Kerala speak better than any rule does. Mark the ones that sound like a robot, and send them to
