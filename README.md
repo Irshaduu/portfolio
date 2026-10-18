@@ -400,9 +400,20 @@ one fits (`js/assistant/answers.js`), otherwise an AI answers it from the portfo
 Groq first, Google Gemini when Groq is at its limit, and the closest ready-made answer when both
 rest. Someone in danger or in pain gets help from the page itself, never from an AI. Every answer
 offers what to ask next. The AI is asked through a Cloudflare Worker (`assistant/`) that holds the
-keys, so the page never sees them. It's not on the page yet: `tools/assistant.html` is its test
-bench, and each era will get its own costume for it next. `assistant/README.md` has how it talks,
-the setup step by step, and how it's built.
+keys, so the page never sees them. `assistant/README.md` has how it talks, the setup step by step,
+and how it's built; `tools/assistant.html` is its test bench.
+
+**On the page, in 2026** (`js/agent.js`): a small glowing button, *Irshad's Agent*, floats just
+above the time machine, and the 2026 intent hint ends with "Or ask my agent". Neither opens by
+itself. The chat is a glass panel beside the page (a sheet rising from the time machine on a
+phone), loaded only when first opened. It greets the visitor with three questions to start from,
+chosen by why they came, and every answer ends with what to ask next. Answers act on the page: on
+a wide screen an answer about Word Hunt scrolls there and lays a ring of light over the card
+(`.agent-spot`, never touching the card's own styles); "See Word Hunt" does it on a phone; "take me
+to 1997" travels. Under each answer a small line says where it came from ("Quick answer", or
+"Groq · 0.8 s"). The conversation is kept for the visit (sessionStorage), across eras and reloads.
+For now the agent lives in 2026 only: travelling away closes it, and it's there again on the way
+back. Each era gets its own costume next.
 
 ---
 
@@ -429,6 +440,7 @@ js/eras/*.js          era behaviour: 1992 line mode, 1997 sparkles/MIDI/counter,
 js/eras/2030/         the WebGL scene (scene.js), the shapes built from project numbers (shapes.js),
                       the Stack constellation (constellation.js), the sky clock (sky.js), the
                       2030 score (audio.js), and the moment each project symbol moves (marks.js)
+js/agent.js           Irshad's Agent on the page: the chat panel, and what its answers do to the page
 js/assistant/         the assistant's page side: ready-made answers (answers.js), asking (client.js)
 assistant/            the assistant's server, a Cloudflare Worker, with its tests and setup guide
 tools/serve.mjs       zero-dependency local server

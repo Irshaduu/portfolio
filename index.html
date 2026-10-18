@@ -42,26 +42,27 @@
   <link rel="stylesheet" data-font="2026-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
   <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="css/base.css?v=72c5e1be6c">
+  <link rel="stylesheet" href="css/base.css?v=38e1e71062">
   <link rel="stylesheet" href="css/eras/1992.css?v=8496562c20">
   <link rel="stylesheet" href="css/eras/1997.css?v=76487bfc65">
   <link rel="stylesheet" href="css/eras/2001.css?v=248a02f042">
   <link rel="stylesheet" href="css/eras/2007.css?v=9a83f758d5">
   <link rel="stylesheet" href="css/eras/2013.css?v=75d82c5e45">
   <link rel="stylesheet" href="css/eras/2023.css?v=757b195113">
-  <link rel="stylesheet" href="css/eras/2026.css?v=fd2a1280d1">
+  <link rel="stylesheet" href="css/eras/2026.css?v=304d51bdee">
   <link rel="stylesheet" href="css/eras/2030.css?v=092792d87e">
-  <link rel="stylesheet" href="css/print.css?v=23c877acf7" media="print">
+  <link rel="stylesheet" href="css/print.css?v=5816515284" media="print">
   <script type="importmap">
     {
     "imports": {
+      "./js/agent.js": "./js/agent.js?v=70c6be5240",
       "./js/assistant/answers.js": "./js/assistant/answers.js?v=c54ce0f916",
       "./js/assistant/client.js": "./js/assistant/client.js?v=6bae0bd54a",
       "./js/clips.js": "./js/clips.js?v=72563df695",
       "./js/eras/1992.js": "./js/eras/1992.js?v=a3e5c09305",
       "./js/eras/1997.js": "./js/eras/1997.js?v=facf1fe254",
       "./js/eras/2001.js": "./js/eras/2001.js?v=78b241fe94",
-      "./js/eras/2026.js": "./js/eras/2026.js?v=6fffd58967",
+      "./js/eras/2026.js": "./js/eras/2026.js?v=971622f84e",
       "./js/eras/2030/audio.js": "./js/eras/2030/audio.js?v=c35675254d",
       "./js/eras/2030/constellation.js": "./js/eras/2030/constellation.js?v=86cfd87f23",
       "./js/eras/2030/marks.js": "./js/eras/2030/marks.js?v=c64d936760",
@@ -498,6 +499,30 @@
       <path class="sound-switch__off" d="M15.5 9.5l5 5M20.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
     </svg>
     <span class="sound-switch__label">Sound</span><span class="sound-switch__hint" aria-hidden="true">Turn on sound</span></button>
+
+  <!-- Irshad's Agent: ask about my work (js/agent.js, assistant/README.md). It opens only when asked.
+       Only 2026 has it so far; each era will get its own. -->
+  <button type="button" class="orn agent-launch" data-orn="2026" data-agent-open aria-controls="agent" aria-expanded="false">
+    <span class="agent-launch__dot" aria-hidden="true"></span>Irshad's Agent
+  </button>
+  <aside class="agent" id="agent" aria-labelledby="agent-title" hidden>
+    <header class="agent__head">
+      <p class="agent__title" id="agent-title"><span class="agent__dot" aria-hidden="true"></span>Irshad's Agent</p>
+      <button type="button" class="agent__close" data-agent-close aria-label="Close">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </header>
+    <ol class="agent__log"></ol>
+    <p class="sr-only agent__live" aria-live="polite"></p>
+    <form class="agent__form">
+      <label class="sr-only" for="agent-q">Your question</label>
+      <input id="agent-q" name="q" maxlength="600" autocomplete="off" enterkeyhint="send" placeholder="Ask about Irshad's work">
+      <button type="submit" class="agent__send" aria-label="Send">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </form>
+    <p class="agent__note">Some answers come from AI (Groq or Google Gemini). Please don't type personal details.</p>
+  </aside>
 
   <aside class="timemachine" id="timemachine" aria-label="Time machine">
     <div class="tm__readout">

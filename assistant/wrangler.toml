@@ -10,8 +10,8 @@ compatibility_date = "2026-09-20"
 enabled = true
 
 [vars]
-# The pages allowed to ask: the live portfolio, and the local server (node tools/serve.mjs).
-ALLOWED_ORIGINS = "https://irshaduu.github.io,http://localhost:4173,http://127.0.0.1:4173"
+# The pages allowed to ask: the live portfolio, and the local servers (node tools/serve.mjs, on 4173 or 4174).
+ALLOWED_ORIGINS = "https://irshaduu.github.io,http://localhost:4173,http://127.0.0.1:4173,http://localhost:4174,http://127.0.0.1:4174"
 # The models, one per service. Check your free limits for each in Google AI Studio and the Groq
 # console; change a name here and deploy again to switch.
 GEMINI_MODEL = "gemini-3.5-flash-lite"
