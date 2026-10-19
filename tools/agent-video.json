@@ -1,7 +1,7 @@
 {
  "recorded": "2026-10-19T10:39:10.176Z",
  "server": "https://portfolio-assistant.irshaduu.workers.dev",
- "note": "Every answer is word for word what the live agent said on 19 Oct 2026, all from the full Flash model. Two runs each had one request where Gemini failed (HTTP 400) and Groq stood in, and the first answer was asked again after its new example went in, so the answers come from four runs: the first from the last run, the next two from the first run, the job post from a third run.",
+ "note": "Every answer is word for word what the live agent said on 19 Oct 2026. The three chat answers are from the full Flash model: two runs each had one request where Gemini failed (HTTP 400) and Groq stood in, and the first answer was asked again after its new example went in, so they come from three runs: the first from the last run, the next two from the first run. The job post was asked again that evening, after the fix that makes \"Worth asking him\" always ask about him; full Flash had used its day's share, so the lighter model (Flash-Lite) answered, and the video shows its two amber bars. Picked from three tries: one said he \"has not used\" PHP, which the rules forbid (a gap means not shown, never that he can't), and one repeated its question in the summary.",
  "chat": [
   {
    "q": "Is Irshad better than ChatGPT?",
@@ -131,80 +131,75 @@
   "post": "Python Developer (Django) – Kochi, Kerala\nFull-time · On-site (Infopark) · 1–3 years\n\nAbout us\nWe're a growing product company building billing and inventory software for retail and service businesses across Kerala. We're moving our older system to Django.\n\nWhat you'll do\n• Build and maintain backend features and REST APIs in Django\n• Design PostgreSQL schemas and write efficient queries\n• Write unit and integration tests for new and existing code\n• Work with our front-end and mobile teams\n• Fix production issues and keep the codebase clean\n\nWhat we're looking for\n• 1–3 years of experience with Python and Django\n• Good knowledge of REST APIs and PostgreSQL\n• Comfortable with Git and code reviews\n• Habit of writing automated tests\n\nNice to have\n• Exposure to PHP or Java, to help move the older system across\n• Experience integrating with SAP or Oracle ERP\n• Experience with billing, inventory or accounting systems",
   "events": [
    {
-    "at": 4340,
+    "at": 6361,
     "name": "meta",
     "data": {
-     "by": "Gemini",
+     "by": "Gemini Lite",
      "tried": [
-      "Gemini: answered"
+      "Gemini: HTTP 429",
+      "Gemini Reserve: HTTP 429",
+      "Gemini Lite: answered"
      ]
     }
    },
    {
-    "at": 4340,
+    "at": 6361,
     "name": "text",
     "data": {
      "t": "SUMMARY:"
     }
    },
    {
-    "at": 4341,
+    "at": 6362,
     "name": "text",
     "data": {
-     "t": " He matches this role closely, having built a full billing and inventory system in Django with"
+     "t": " He matches the Django, PostgreSQL, and testing requirements well from his work on WorkshopOS. PHP, Java, and SAP"
     }
    },
    {
-    "at": 4341,
+    "at": 6363,
     "name": "text",
     "data": {
-     "t": " heavy testing.\n\nMATCH: Django | Built a complete billing and inventory monolith in Django | #workshopos\nMATCH:"
+     "t": " or Oracle ERP aren't shown here.\nMATCH: Django and Python | Built a complex Django backend for WorkshopOS"
     }
    },
    {
-    "at": 4341,
+    "at": 6363,
     "name": "text",
     "data": {
-     "t": " PostgreSQL | Designed PostgreSQL schemas and 49 models for a live workshop system | #workshopos\nMATCH: REST APIs | REST and"
+     "t": " | #stack\nMATCH: PostgreSQL | Designed a 49-model PostgreSQL schema for WorkshopOS | #workshopos"
     }
    },
    {
-    "at": 4341,
+    "at": 6364,
     "name": "text",
     "data": {
-     "t": " JSON are core parts of his backend stack | #stack\nMATCH: Automated tests | Wrote 3,18"
+     "t": "\nMATCH: Automated tests | Wrote thousands of Django tests for his projects | #workshopos\nMATCH: Billing and"
     }
    },
    {
-    "at": 4341,
+    "at": 6364,
     "name": "text",
     "data": {
-     "t": "5 Django tests with 1.34 test lines per app line | #workshopos\nMATCH: Billing, inventory or"
+     "t": " inventory | Built stock ledgers and billing systems in WorkshopOS | #workshopos\nMATCH: REST APIs | REST and"
     }
    },
    {
-    "at": 4341,
+    "at": 6381,
     "name": "text",
     "data": {
-     "t": " accounting systems | Built stock costing, supplier ledgers and job card billing for a workshop | #workshopos\n\nGAP: PHP or Java ("
+     "t": " JSON are part of his stack | #stack\nGAP: PHP or Java\nGAP: SAP or Oracle ERP\nASK"
     }
    },
    {
-    "at": 4341,
+    "at": 6412,
     "name": "text",
     "data": {
-     "t": "to help move the older system across)\nGAP: Integration with SAP or Oracle ERP\n\nASK: Does your team need someone"
+     "t": ": Would he be open to working on-site in Kochi?"
     }
    },
    {
-    "at": 4341,
-    "name": "text",
-    "data": {
-     "t": " who already knows PHP or Java to read the older codebase?"
-    }
-   },
-   {
-    "at": 4341,
+    "at": 6454,
     "name": "done",
     "data": {}
    }
