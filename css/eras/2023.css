@@ -288,7 +288,12 @@
     & .tm__range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 50%; background: #fff; box-shadow: 0 2px 10px rgb(0 0 0 / .5), 0 0 0 4px rgb(167 139 250 / .25); }
     & .tm__ticks button { font-size: .66rem; font-weight: 500; color: var(--ink-3); }
     & .tm__ticks button:hover, & .tm__ticks button[aria-current] { color: var(--ink); }
-    & .tm__hint { grid-column: 1 / -1; text-align: center; font-size: .7rem; color: #c4b5fd; }
+    /* "Do Time Travel": a small frosted callout in the year's violet. */
+    & .tm__go {
+      --go-bg: #1c1a2b; --go-line: rgb(167 139 250 / .55); --go-ink: #c4b5fd; gap: 7px; padding: 8px 13px 8px 10px; border-radius: 12px;
+      font-size: .8rem; font-weight: 500; box-shadow: 0 12px 30px -10px rgb(0 0 0 / .8), 0 0 20px rgb(167 139 250 / .2);
+    }
+    & .tm__ticks button[data-go] { color: #c4b5fd; text-shadow: 0 0 10px rgb(167 139 250 / .7); }
 
     /* ---- Irshad's Agent, 2023: the chat box every product shipped that year ----
        The shared glass (css/agent.css) in indigo, with that year's habits: a soft glow behind

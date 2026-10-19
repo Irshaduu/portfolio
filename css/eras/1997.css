@@ -241,7 +241,10 @@
     & .tm__range::-moz-range-thumb { width: 12px; height: 22px; border: 0; border-radius: 0; background: var(--silver); box-shadow: var(--bevel-out); }
     & .tm__ticks button { font: 11px var(--win); color: #000; }
     & .tm__ticks button[aria-current] { font-weight: bold; text-decoration: underline; }
-    & .tm__hint { grid-column: 1 / -1; text-align: center; font: 11px var(--win); color: #000080; }
+    /* "Do Time Travel": a yellow tooltip over the taskbar, standing still, as they did. */
+    & .tm__go { --go-bg: #ffffe1; --go-line: #000; --go-ink: #000; gap: 5px; padding: 3px 7px 3px 5px; font: 11px var(--win); animation: none; box-shadow: 2px 2px 0 rgb(0 0 0 / .35); }
+    & .tm__go-icon { width: 13px; height: 13px; }
+    & .tm__ticks button[data-go] { font-weight: bold; color: #000080; }
 
     /* ---- Irshad's Agent, 1997: an office helper in a Windows 95 window ----
        A little beige computer with a face (its own character, nobody's paperclip) beside a

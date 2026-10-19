@@ -225,7 +225,9 @@
     & .tm__range::-moz-range-thumb { width: 12px; height: 12px; border-radius: 50%; background: #fff; border: 5px solid var(--turquoise); }
     & .tm__ticks button { font-size: .64rem; font-weight: 900; letter-spacing: .08em; color: var(--asbestos); }
     & .tm__ticks button:hover, & .tm__ticks button[aria-current] { color: var(--turquoise); }
-    & .tm__hint { grid-column: 1 / -1; text-align: center; font-size: .65rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; color: var(--sunflower, #f1c40f); }
+    /* "Do Time Travel": a flat sunflower tag, no shadow. */
+    & .tm__go { --go-bg: #f1c40f; --go-line: #f1c40f; --go-ink: var(--midnight); gap: 6px; padding: 8px 12px 8px 10px; border-radius: 4px; font-size: .78rem; font-weight: 900; letter-spacing: .04em; }
+    & .tm__ticks button[data-go] { color: #f1c40f; }
 
     /* ---- Irshad's Agent, 2013: flat, the way iOS 7 drew a conversation ----
        No gloss and no gradients: a white card under a solid midnight bar with thin type, flat

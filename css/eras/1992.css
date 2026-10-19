@@ -54,7 +54,13 @@
     & .tm__lmb { margin: 2px 0 0; font-family: "Courier New", Courier, monospace; font-size: 14px; }
     & .tm__lmb-cursor { animation: tt92-cursor 1s steps(1) infinite; }
     & .tm__live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-    & .tm__hint { display: none; }
+    & .tm__go {
+      position: absolute; bottom: calc(100% + 11px); left: var(--go-left, 12px); display: block; padding: 3px 8px;
+      border: 1px solid #000; background: #fff; color: #000; font: 15px/1.3 "Times New Roman", Times, serif; cursor: pointer; animation: none;
+    }
+    & .tm__go::after { content: ""; position: absolute; top: calc(100% - 5px); left: calc(var(--go-tail, 28px) - 5px); width: 10px; height: 10px; rotate: 45deg; background: #fff; border: solid #000; border-width: 0 1px 1px 0; }
+    & .tm__go-icon { display: none; }
+    & .tm__ticks button[data-go] { font-weight: bold; }
     /* No icons in 1992: the sound switch is a plain button that says what it is. */
     & .sound-switch, & .sound-switch__label { all: revert; }
     & .sound-switch__icon { display: none; }

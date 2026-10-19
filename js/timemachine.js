@@ -29,6 +29,22 @@ export function mountTimeMachine(el, { eras, onYear, onStep }) {
     )
     .join('');
 
+  // Until the first trip, a small "Do Time Travel" bubble sits above the bar with its tail on the
+  // year it goes to: 1997, the biggest change (from 1997 itself, 2030). Its own data-year makes it
+  // travel as that year's button does. js/main.js marks the first trip (data-traveled), and from
+  // then on it's gone. Each era dresses it; the tail is placed here, wherever the era puts the year.
+  const go = el.querySelector('.tm__go');
+  const placeGo = () => {
+    const to = ticks.querySelector('[data-go]');
+    if (!to || !go.offsetParent) return; // travelled, or hidden while the agent is open
+    const bar = el.getBoundingClientRect();
+    const t = to.getBoundingClientRect();
+    const x = t.left + t.width / 2 - bar.left - el.clientLeft;
+    const left = Math.max(8, Math.min(x - 28, el.clientWidth - go.offsetWidth - 8));
+    go.style.setProperty('--go-left', `${Math.round(left)}px`);
+    go.style.setProperty('--go-tail', `${Math.round(x - left)}px`);
+  };
+
   // Milestones three years apart collide on a narrow track. Use the longest labels that
   // fit this era's type at this width: 2026, then '26, then 26.
   const fitTicks = () => {
@@ -40,8 +56,9 @@ export function mountTimeMachine(el, { eras, onYear, onStep }) {
         const prev = boxes[i - 1];
         return !prev || b.top >= prev.bottom || b.left >= prev.right + 4; // a wrapped row is fine
       });
-      if (clear) return;
+      if (clear) break;
     }
+    placeGo();
   };
   new ResizeObserver(fitTicks).observe(ticks);
   document.fonts?.addEventListener('loadingdone', fitTicks);
@@ -63,7 +80,6 @@ export function mountTimeMachine(el, { eras, onYear, onStep }) {
   addEventListener('pointercancel', release);
 
   range.addEventListener('input', () => {
-    root.dataset.traveled = '';
     onYear(yearAt(Number(range.value)), { scrub: scrubbing });
   });
 
@@ -74,7 +90,6 @@ export function mountTimeMachine(el, { eras, onYear, onStep }) {
     const to = { Home: 0, End: last }[event.key];
     if (by === undefined && to === undefined) return;
     event.preventDefault();
-    root.dataset.traveled = '';
     if (by) onStep(by);
     else onYear(yearAt(to), { scrub: false });
   });
@@ -90,6 +105,7 @@ export function mountTimeMachine(el, { eras, onYear, onStep }) {
   // Reserve room at the bottom of the page for the bar, whatever height this era gives it.
   new ResizeObserver(([entry]) => {
     root.style.setProperty('--tm-h', `${Math.ceil(entry.borderBoxSize?.[0]?.blockSize ?? el.offsetHeight)}px`);
+    placeGo();
   }).observe(el);
 
   let lastEra = null;
@@ -109,8 +125,14 @@ export function mountTimeMachine(el, { eras, onYear, onStep }) {
         }
         if (lastEra) live.textContent = `${era.from}: ${era.name}`;
         lastEra = era;
-        fitTicks(); // every era sets its own type
       }
+      const to = root.hasAttribute('data-traveled') ? null : era.from === 1997 ? 2030 : 1997;
+      for (const b of ticks.querySelectorAll('button')) b.toggleAttribute('data-go', Number(b.dataset.year) === to);
+      if (to) {
+        go.dataset.year = to;
+        go.setAttribute('aria-label', `Do Time Travel: go to ${to}`);
+      }
+      fitTicks(); // every era sets its own type, and the bubble's tail follows its year
     },
   };
 }

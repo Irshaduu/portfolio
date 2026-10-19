@@ -277,7 +277,14 @@
     & .tm__range::-moz-range-thumb { width: 24px; height: 14px; border-radius: 8px; border: 1px solid #1d5d99; background: linear-gradient(#a6d6fb, #3487d4); }
     & .tm__ticks button { font: 10px/1 var(--sans); color: #555; }
     & .tm__ticks button[aria-current] { font-weight: bold; color: var(--blue-dark); }
-    & .tm__hint { grid-column: 1 / -1; text-align: center; font-size: 10px; color: #8a4a00; }
+    /* "Do Time Travel": a glossy orange callout, like the "beta" badge. */
+    & .tm__go {
+      --go-bg: #f07d00; --go-line: var(--orange-dark); --go-ink: #fff; gap: 6px; padding: 7px 12px 7px 9px; border-radius: 12px;
+      font: bold 12px/1 var(--sans); text-shadow: 0 -1px 0 rgb(0 0 0 / .25);
+      background: var(--gloss), linear-gradient(#ffb04a, var(--orange) 55%, var(--orange-dark)); box-shadow: 0 3px 8px rgb(0 0 0 / .25);
+    }
+    & .tm__go::after { background: var(--orange-dark); }
+    & .tm__ticks button[data-go] { font-weight: bold; color: var(--orange-dark); }
 
     /* ---- Irshad's Agent, 2007: a glossy live-chat widget (in beta, of course) ----
        Every site had one in its corner that year: a rounded white box under a glossy blue title

@@ -193,7 +193,23 @@
   .tm__ticks:is([data-size="short"], [data-size="tiny"]) .tm__tick-long { display: none; }
   .tm__ticks:is([data-size="short"], [data-size="tiny"]) .tm__tick-short { display: inline; }
   .tm__ticks[data-size="tiny"] .tm__tick-apos { display: none; }
-  [data-traveled] .tm__hint { display: none; }
+  /* "Do Time Travel": until the first trip, a small bubble above the bar, its tail on the year it
+     goes to (js/timemachine.js places both). Each era dresses it through --go-bg, --go-line and
+     --go-ink, and lights that year's label. Gone once the visitor has travelled, and while the
+     agent is open over the bar. */
+  .tm__go {
+    position: absolute; z-index: 1; bottom: calc(100% + 11px); left: var(--go-left, 12px);
+    display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px 8px 10px; white-space: nowrap; cursor: pointer;
+    border: 1px solid var(--go-line, #000); background: var(--go-bg, #fff); color: var(--go-ink, #000); font: inherit;
+  }
+  .tm__go::after {
+    content: ""; position: absolute; top: calc(100% - 5px); left: calc(var(--go-tail, 28px) - 5px); width: 10px; height: 10px;
+    rotate: 45deg; background: var(--go-bg, #fff); border: solid var(--go-line, #000); border-width: 0 1px 1px 0;
+  }
+  .tm__go-icon { flex: none; }
+  :is([data-traveled], :root:has(.agent:not([hidden]))) .tm__go { display: none; }
+  @media (prefers-reduced-motion: no-preference) { .tm__go { animation: tm-go 3.2s ease-in-out infinite; } }
+  @keyframes tm-go { 50% { translate: 0 -3px; } }
   /* 1997 presses its buttons in with a bevel; 1992 has the browser's own. */
   :root:not([data-era="1997"]) :is(.tm__step, .sound-switch):active { scale: .9; }
 

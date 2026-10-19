@@ -538,10 +538,13 @@
     & .tm__ticks button { font: 500 .6rem/1 var(--mono); letter-spacing: .08em; color: var(--ink-3); }
     & .tm__ticks button:hover { color: var(--ink); }
     & .tm__ticks button[aria-current] { color: var(--ice); }
-    & .tm__hint {
-      grid-column: 1 / -1; text-align: center; margin-top: -.15rem;
-      font: 500 .6rem/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--mint);
+    /* "Do Time Travel": a bubble of the bar's own glass, in mint. */
+    & .tm__go {
+      --go-bg: rgb(5 6 15 / .95); --go-line: rgb(157 255 214 / .5); --go-ink: var(--mint); padding: 8px 13px 8px 10px; border-radius: 999px;
+      font: 500 .84rem/1 var(--sans); letter-spacing: .01em; box-shadow: 0 12px 30px -10px rgb(0 0 0 / .9), 0 0 24px rgb(157 255 214 / .22);
     }
+    & .tm__go::after { background: rgb(8 12 22); }
+    & .tm__ticks button[data-go] { color: var(--mint); text-shadow: 0 0 10px rgb(157 255 214 / .8); }
 
     /* ---- Irshad's Agent, 2030: a globe of light over the stars ----
        The shared glass (css/agent.css) in ice, thinner so the stars show through, with this
@@ -605,8 +608,7 @@
 
     /* ---- wider screens ---- */
     @media (min-width: 761px) {
-      /* The bar as one calm row: the year, the era's name over its note (or, until the first trip,
-         the invitation to drag), then the slider. */
+      /* The bar as one calm row: the year, the era's name over its note, then the slider. */
       & .timemachine {
         grid-template-columns: auto minmax(10rem, 17rem) minmax(0, 1fr);
         grid-template-areas: "year name ctrl" "year note ctrl";
@@ -616,8 +618,6 @@
       & .tm__year { grid-area: year; align-self: center; }
       & .tm__era-name { grid-area: name; align-self: end; }
       & .tm__note { grid-area: note; align-self: start; }
-      & .tm__hint { grid-area: note; align-self: start; margin: 0; text-align: left; }
-      &:not([data-traveled]) .tm__note { display: none; }
       & .tm__control { grid-area: ctrl; }
     }
     @media (min-width: 1000px) {
@@ -675,13 +675,12 @@
       /* The name, larger and a weight heavier: the scene draws it in light from these letters, and
          at a phone's size the thinnest weight leaves too few points to read. */
       & .name { font-size: clamp(3rem, 16vw, 10.5rem); font-weight: 300; }
-      /* On a phone the bar docks to the bottom edge, solid and compact: the year, beside it the era's
-         name over the invitation to drag (until the first trip), then the slider, with a thumb big
-         enough for a thumb. */
+      /* On a phone the bar docks to the bottom edge, solid and compact: the year and the era's name
+         side by side, then the slider, with a thumb big enough for a thumb. */
       & .timemachine {
         --thumb: 24px;
         grid-template-columns: auto minmax(0, 1fr);
-        grid-template-areas: "year era" "year foot" "ctrl ctrl";
+        grid-template-areas: "year era" "ctrl ctrl";
         gap: .2rem .9rem; left: 0; right: 0; bottom: 0; width: auto; transform: none;
         padding: .7rem 14px calc(.3rem + env(safe-area-inset-bottom));
         border-radius: 22px 22px 0 0; border-width: 1px 0 0;
@@ -691,9 +690,8 @@
       }
       & .tm__readout { display: contents; }
       & .tm__year { grid-area: year; align-self: center; font-size: 1.6rem; }
-      & .tm__era { grid-area: era; align-self: end; }
+      & .tm__era { grid-area: era; align-self: center; }
       & .tm__control { grid-area: ctrl; }
-      & .tm__hint { grid-area: foot; align-self: start; margin-top: 0; text-align: left; font-size: .56rem; }
       & .tm__note { display: none; }
       & .tm__step { width: 38px; height: 38px; }
       & .tm__range { height: 30px; }

@@ -289,7 +289,13 @@
     & .tm__range::-moz-range-thumb { width: 12px; height: 20px; border: 1px solid #000; border-radius: 3px; background: linear-gradient(#ffffff, #c9d0d7 50%, #8d97a2 51%, #d0d7de); }
     & .tm__ticks button { font: 9px/1 var(--pixel); letter-spacing: .04em; color: var(--steel); }
     & .tm__ticks button:hover, & .tm__ticks button[aria-current] { color: var(--orange); }
-    & .tm__hint { grid-column: 1 / -1; text-align: center; font: 9px/1 var(--pixel); letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+    /* "Do Time Travel": an orange LED callout in the pixel font. */
+    & .tm__go {
+      --go-bg: #11151a; --go-line: var(--orange); --go-ink: var(--orange); gap: 6px; padding: 7px 10px 7px 8px;
+      font: 10px/1 var(--pixel); letter-spacing: .12em; text-transform: uppercase; box-shadow: 0 0 14px rgb(255 140 0 / .35);
+    }
+    & .tm__go-icon { width: 13px; height: 13px; }
+    & .tm__ticks button[data-go] { color: var(--orange); text-shadow: 0 0 6px var(--orange); }
 
     /* ---- the intro: loading bar, then the movie, then Enter ---- */
     & .intro {

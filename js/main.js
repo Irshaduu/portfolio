@@ -126,6 +126,15 @@ function setYear(year, { scrub = false } = {}) {
 
   if (prevEra === era) return render();
 
+  // The first trip: the time machine stops inviting, on this visit and the next ones (the page's
+  // first script reads it back before anything is drawn).
+  root.dataset.traveled = '';
+  try {
+    localStorage.setItem('tt-traveled', '1');
+  } catch {
+    // Storage blocked: the invitation comes back next visit.
+  }
+
   const direction = year < prevYear ? 'back' : 'forward';
   loadFonts(era);
   if (scrub) {

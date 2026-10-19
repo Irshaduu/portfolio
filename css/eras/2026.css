@@ -374,11 +374,13 @@
     & .tm__ticks button { font: 500 .6rem/1 var(--mono); letter-spacing: .08em; color: var(--ink-3); }
     & .tm__ticks button:hover { color: var(--ink); }
     & .tm__ticks button[aria-current] { color: var(--c1); }
-    & .tm__hint {
-      grid-column: 1 / -1; text-align: center; margin-top: -.15rem;
-      font: 500 .6rem/1 var(--mono); letter-spacing: .2em; text-transform: uppercase; color: var(--c3);
-      animation: tt26-pulse 2.4s ease-in-out infinite;
+    /* "Do Time Travel": a small glass bubble in the warm third colour. */
+    & .tm__go {
+      --go-bg: rgb(14 18 31 / .97); --go-line: rgb(255 179 138 / .55); --go-ink: var(--c3); padding: 8px 13px 8px 10px; border-radius: 999px;
+      font: 500 .84rem/1 var(--sans); letter-spacing: .01em; box-shadow: 0 12px 30px -10px rgb(0 0 0 / .9), 0 0 22px rgb(255 179 138 / .2);
     }
+    & .tm__go::after { background: rgb(22 22 30); }
+    & .tm__ticks button[data-go] { color: var(--c3); text-shadow: 0 0 10px rgb(255 179 138 / .8); }
 
     /* ---- Irshad's Agent's face: a ball of blue glass with two white eyes ----
        Now and then it turns its head to look around, and blinks (css/agent.css moves the eyes). */
@@ -428,8 +430,7 @@
 
     /* ---- wider screens ---- */
     @media (min-width: 761px) {
-      /* The bar as one calm row: the year, the era's name over its note (or, until the first trip,
-         the invitation to drag), then the slider. */
+      /* The bar as one calm row: the year, the era's name over its note, then the slider. */
       & .timemachine {
         grid-template-columns: auto minmax(10rem, 17rem) minmax(0, 1fr);
         grid-template-areas: "year name ctrl" "year note ctrl";
@@ -439,8 +440,6 @@
       & .tm__year { grid-area: year; align-self: center; }
       & .tm__era-name { grid-area: name; align-self: end; }
       & .tm__note { grid-area: note; align-self: start; }
-      & .tm__hint { grid-area: note; align-self: start; margin: 0; text-align: left; }
-      &:not([data-traveled]) .tm__note { display: none; }
       & .tm__control { grid-area: ctrl; }
     }
     @media (min-width: 1000px) {
@@ -525,18 +524,16 @@
       & .project--feature .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       & .stat { padding: .8rem; }
       /* On a phone the bar docks to the bottom edge, solid and compact: the year and the era on one
-         line (with the invitation to drag beside them, until the first trip), the slider below,
-         with a thumb big enough for a thumb. */
+         line, the slider below, with a thumb big enough for a thumb. */
       & .timemachine {
         --thumb: 24px;
-        grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "read hint" "ctrl ctrl";
+        grid-template-columns: minmax(0, 1fr); grid-template-areas: "read" "ctrl";
         gap: .3rem .75rem; left: 0; right: 0; bottom: 0; width: auto; transform: none;
         padding: .7rem 14px calc(.3rem + env(safe-area-inset-bottom));
         border-radius: 20px 20px 0 0; border-width: 1px 0 0; background: rgb(7 9 17 / .95);
       }
       & .tm__readout { grid-area: read; gap: .8rem; padding-left: 2px; }
       & .tm__control { grid-area: ctrl; }
-      & .tm__hint { grid-area: hint; align-self: center; margin: 0; text-align: right; font-size: .56rem; letter-spacing: .16em; }
       & .tm__year { font-size: 1.4rem; min-width: 0; }
       & .tm__era-name { font-size: .6rem; letter-spacing: .16em; white-space: nowrap; }
       & .tm__note { display: none; }
@@ -597,9 +594,6 @@
         font-size: clamp(.75rem, 3.4vw, .93rem); line-height: 1.2; text-align: center;
       }
     }
-    @media (max-width: 374px) {
-      &:not([data-traveled]) .tm__era-name { display: none; } /* the invitation to drag needs the room */
-    }
     @media (max-width: 359px) {
       & .project--feature .project__title { font-size: 1.75rem; } /* "WorkshopOS" fits the smallest phones */
     }
@@ -616,7 +610,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      & .hud__live::before, & .tm__hint { animation: none; }
+      & .hud__live::before { animation: none; }
       & .project { transition: none; }
       & :is(.timemachine, .agent-launch, .agent-launch__label) { transition: none; }
       & .project[data-open] .points { animation: none; }

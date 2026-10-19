@@ -178,7 +178,14 @@ motion (`js/clips.js`):
 - **On a phone it docks to the bottom edge** in every era, solid, with a thumb big enough to
   grab. 1992 keeps it to one line of text and one row of year buttons there, and drops the
   "type a link number" prompt on touch screens, which have no keyboard to type it with.
-- Until you first travel, it says **Drag to time travel**.
+- **Until you first travel, a small "Do Time Travel" bubble** floats above the bar, with a clock
+  turning back and its tail on 1997, which glows (from 1997 itself, on 2030). One tap goes there.
+  Family members skipped the bar: it read like a control panel, and dragging is a skill, so the
+  bubble invites a tap to the biggest change instead. Each era dresses it (a plain boxed line in
+  1992, a yellow tooltip in 1997, an orange LED callout in 2001, a glossy badge in 2007, a flat
+  tag in 2013, glass in the eras after). It hides while the agent is open, and once you have
+  travelled it's gone for good: the first trip is remembered (`localStorage`), and the page's
+  first script reads it back before anything is drawn, so it never flashes on a later visit.
 
 ### Sound
 
