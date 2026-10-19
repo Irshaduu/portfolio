@@ -60,6 +60,8 @@
     }
     & .tm__go::after { content: ""; position: absolute; top: calc(100% - 5px); left: calc(var(--go-tail, 28px) - 5px); width: 10px; height: 10px; rotate: 45deg; background: #fff; border: solid #000; border-width: 0 1px 1px 0; }
     & .tm__go-icon { display: none; }
+    /* The bar's `all: revert` takes back the shared rule that hides it, so it's said again here. */
+    &:is([data-traveled], :has(.agent:not([hidden]))) .tm__go { display: none; }
     & .tm__ticks button[data-go] { font-weight: bold; }
     /* No icons in 1992: the sound switch is a plain button that says what it is. */
     & .sound-switch, & .sound-switch__label { all: revert; }
