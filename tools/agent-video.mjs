@@ -53,9 +53,23 @@ Nice to have
 • Experience integrating with SAP or Oracle ERP
 • Experience with billing, inventory or accounting systems`;
 
+// On the film the agent fills the phone, its own window maximised in each era's clothes, with
+// the page and the time machine out of sight. (On the site it floats over the page as a card.)
+const FULL_SCREEN = `
+  #agent.agent {
+    position: fixed !important; inset: 0 !important; width: auto !important; height: 100% !important;
+    max-height: none !important; margin: 0 !important; border-radius: 0 !important;
+    translate: none !important; transform: none !important; z-index: 2147483647 !important;
+  }
+  #agent .agent__log { flex: 1 1 auto !important; }
+  .timemachine, .agent-launch { visibility: hidden !important; }
+`;
 const VIDEO_ERAS = ['2013', '2023', '2026', '2030'];
 const STILL_ERAS = ['1997', '2001', '2007'];
 const PHONE = { width: 390, height: 844 };
+// The film is a hair smaller: H.264 works in 16-pixel blocks, and some players show the padding
+// of a size that isn't a multiple of 16 as a green edge. 384 x 832 is the same shape to 0.1%.
+const FILM = { width: 384, height: 832 };
 const THINK = 700; // ms between sending and the first word, in the video
 const FPS = 30;
 const QUANTIZER = 30; // H.264 quality: lower is sharper and bigger
@@ -282,7 +296,7 @@ try {
       await page.evaluate(`window.add(${JSON.stringify(shots.slice(i, i + 20).map((s) => [s.at, s.jpeg]))})`);
     }
     const out = await page.evaluate(`(async () => {
-      const W = ${PHONE.width}, H = ${PHONE.height}, FPS = ${FPS};
+      const W = ${FILM.width}, H = ${FILM.height}, FPS = ${FPS};
       const shots = window.shots;
       const b64 = (bytes) => { let s = ''; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode(...bytes.subarray(i, i + 0x8000)); return btoa(s); };
       const chunks = [];
@@ -332,7 +346,7 @@ try {
     })()`);
     if (!out.byQuantizer) console.log('  (no fixed-quantizer H.264 in this browser: used 300 kbps instead)');
     return mp4({
-      width: PHONE.width, height: PHONE.height, fps: FPS,
+      width: FILM.width, height: FILM.height, fps: FPS,
       avcC: Buffer.from(out.description, 'base64'),
       samples: out.chunks.map(([key, data]) => ({ key, data: Buffer.from(data, 'base64') })),
     });
@@ -383,6 +397,7 @@ try {
     await go(`http://localhost:${port}/?y=${era}`);
     await sleep(1600);
     await page.evaluate(`document.getElementById('intro')?.close?.()`);
+    await page.evaluate(`document.head.append(Object.assign(document.createElement('style'), { textContent: ${JSON.stringify(FULL_SCREEN)} }))`);
     await page.evaluate(`document.querySelector('.agent-launch').click()`);
     for (let i = 0; i < 50 && (await page.evaluate(`document.getElementById('agent').hidden`)); i++) await sleep(100);
     await sleep(1800); // the panel's arrival, the greeting, the face settling
