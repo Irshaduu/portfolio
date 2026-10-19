@@ -58,7 +58,7 @@ tests: 1.34 lines of test for every line of app code.
 ## #word-hunt: Word Hunt (personal, live, 2026)
 A real-time multiplayer word game for voice calls with friends. Up to 10 players. One secretly picks
 a word from a board of 71, and everyone else hunts it while a 100-second time bank drains. Room
-codes are three letters, so you can say them out loud. 78 tests. Running cost $0.
+codes are three letters, so you can say them out loud. 104 tests. Running cost $0.
 - A six-state, server-authoritative state machine on Django Channels (WebSockets, ASGI).
 - A dropped connection marks a player disconnected, not removed, so a network blip never costs
   their time bank. Reconnects back off and resync the full state.

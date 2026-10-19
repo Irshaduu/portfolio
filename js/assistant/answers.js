@@ -96,7 +96,7 @@ export const ANSWERS = [
     id: 'word-hunt',
     phrases: ['word hunt', 'word game'],
     words: ['wordhunt', 'game', 'multiplayer', 'websocket', 'channels', 'realtime'],
-    text: "Word Hunt is a word game Irshad made for voice calls with friends. Up to 10 players hunt for one hidden word while their time runs out. It runs live on Django Channels and costs $0 a month to run. It has 78 tests. You can play the demo now, no sign-up.",
+    text: "Word Hunt is a word game Irshad made for voice calls with friends. Up to 10 players hunt for one hidden word while their time runs out. It runs live on Django Channels and costs $0 a month to run. It has 104 tests. You can play the demo now, no sign-up.",
     link: '#word-hunt',
     next: ['Can I play it now?', 'What happens if my internet drops?', 'Why is it free to run?'],
   },
