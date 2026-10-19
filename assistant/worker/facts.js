@@ -166,7 +166,7 @@ model, one for the backup. Answers stream word by word. If every model rests, th
 its own ready replies, and the crisis helpline always comes from the page, never from an AI. It can
 move the page, travel in time, and check a pasted job post against his work: what the site shows,
 with proof, and what it doesn't. It wears a different costume in each of the eight eras: a beige
-computer helper in 1997, an instant messenger in 2001, a globe of light in 2030. 132 automated tests,
+computer helper in 1997, an instant messenger in 2001, a globe of light in 2030. 133 automated tests,
 plus a live exam of 64 tricky messages and job posts. It runs on free AI tiers, at $0 a month. Its
 code is public: the assistant folder of his portfolio repository on GitHub.
 `.trim();

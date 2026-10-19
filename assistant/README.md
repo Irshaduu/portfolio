@@ -71,6 +71,16 @@ which was busy. `?trace=off` (then open the agent) hides it again. Cloudflare's 
 requests a day; and it doesn't share Render's 750 free hours a month with Word Hunt, which uses
 nearly all of them.
 
+**Why the AI calls go through a Relay:** on the free plan, Cloudflare answers a visitor from many
+places, and a Worker's own calls leave from that same place: a test from India landed in London,
+Frankfurt, Singapore, San Jose and Hong Kong. Gemini turns away every request from Hong Kong ("User
+location is not supported for the API use.", HTTP 400 from all three Gemini models at once), so on
+19 Oct 2026 about one question in six fell to Groq. Pinning the Worker to a US region
+(`[placement]`) didn't help: it ran in Omaha, but its calls still left from Hong Kong. Now the
+Worker hands each AI call to the **Relay**, a Durable Object Cloudflare keeps in western North
+America (`locationHint: 'wnam'`), whose calls always leave from the US (San Jose, when tested). Same
+speed, 1 to 3 seconds to the first word. If the Relay can't be reached, the call goes direct.
+
 ## The job-fit check
 
 A recruiter taps **Does he fit my job?** (the first suggestion for visitors who came to hire), or
@@ -330,11 +340,14 @@ the assistant can be built into the real page.
 | All four are at their limit or down | The closest ready-made answer, or "My AI brain is catching its breath. Ask me again in a minute…"; the header's dot turns amber with "back in 0:52" |
 | One visitor asks more than 10 a minute or 50 a day | The agent says so in its own voice ("You're quick! Give me a minute…" or "We've talked a lot today!…"); the dot turns amber with "back in 0:38" or "back tomorrow"; the suggestion buttons still answer |
 | A key or a model name is wrong | That service rests 10 minutes at a time. Check the server's address (step 7) |
+| Gemini says "User location is not supported" | The next AI answers; Gemini doesn't rest, since it's about where that one request came from. The Relay should keep this from happening at all |
 
 Gemini's daily allowance resets at midnight Pacific time (early afternoon in India).
 
 **See which AI answered:** the Logs (step 8) show, for each question, who answered, what was
-tried first, and how long it took. They never keep the question itself.
+tried first, and how long it took. They never keep the question itself. When a service refuses,
+its own reason is logged too ("You exceeded your current quota…", "This model is currently
+experiencing high demand…"), with the Cloudflare data centre the question came in at.
 
 **Change a model or the order:** models are `GEMINI_MODEL` (with `GEMINI_THINKING`), `GEMINI_RESERVE_MODEL`, `GEMINI_LITE_MODEL` and `GROQ_MODEL` in `wrangler.toml`; the
 order is `routes()` in `worker/chain.js`. Then `npm run deploy`.

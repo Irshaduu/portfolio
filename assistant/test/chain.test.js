@@ -127,6 +127,14 @@ test('when every service fails there is no answer, and each says why', async () 
   ]);
 });
 
+test('a refusal is logged with the service\'s own reason, and the next service answers', async () => {
+  const said = [];
+  const { fetch } = fakeFetch({ [GEMINI]: failure(400), [GEMINI_RESERVE]: answer('ok') });
+  const result = await firstAnswer(routes(ENV), REQUEST, { fetch, cooling: new Map(), log: (entry) => said.push(entry) });
+  assert.equal(result.route.name, 'Gemini Reserve');
+  assert.deepEqual(said, [{ service: 'Gemini', status: 400, said: 'nope' }]);
+});
+
 test('rest times: the service\'s own wait for limits, long for set-up mistakes, short for outages', () => {
   assert.equal(coolDown(429, '120'), 120_000);
   assert.equal(coolDown(429, null), 60_000);
@@ -135,4 +143,7 @@ test('rest times: the service\'s own wait for limits, long for set-up mistakes, 
   assert.equal(coolDown(401), 600_000);
   assert.equal(coolDown(404), 600_000);
   assert.equal(coolDown(503), 30_000);
+  // Turned away for where one request came from: no rest, the next request may be fine.
+  assert.equal(coolDown(400, null, 'User location is not supported for the API use.'), 0);
+  assert.equal(coolDown(400, null, 'API key not valid. Please pass a valid API key.'), 600_000);
 });

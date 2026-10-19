@@ -28,8 +28,37 @@ const cooling = new Map();
 const allow = makeLimiter();
 
 export default {
-  fetch: (request, env) => handle(request, env, { fetch: (...args) => fetch(...args), cooling, allow }),
+  fetch: (request, env) => handle(request, env, { fetch: relayed(env), cooling, allow }),
 };
+
+// The AI services are called from the Relay below, which Cloudflare keeps in western North America.
+// A Worker's own calls leave from wherever the visitor reached Cloudflare, and on the free plan a
+// visitor in India may reach it in Hong Kong, where Gemini turns every request away ("User location
+// is not supported for the API use."). The Relay's calls always leave from the US. If the Relay
+// can't be reached, the call goes direct, as it used to.
+const RELAY_HOSTS = ['generativelanguage.googleapis.com', 'api.groq.com'];
+function relayed(env) {
+  if (!env.RELAY) return (...args) => fetch(...args);
+  const relay = env.RELAY.get(env.RELAY.idFromName('ai'), { locationHint: 'wnam' });
+  return async (url, init = {}) => {
+    try {
+      return await relay.fetch('https://relay/', { method: 'POST', headers: { ...init.headers, 'x-relay-to': url }, body: init.body, signal: init.signal });
+    } catch (error) {
+      if (init.signal?.aborted) throw error;
+      return fetch(url, init);
+    }
+  };
+}
+
+export class Relay {
+  async fetch(request) {
+    const to = request.headers.get('x-relay-to') ?? '';
+    if (!RELAY_HOSTS.includes(URL.canParse(to) ? new URL(to).hostname : '')) return new Response('Not found.', { status: 404 });
+    const headers = new Headers(request.headers);
+    headers.delete('x-relay-to');
+    return fetch(to, { method: 'POST', headers, body: request.body, signal: request.signal });
+  }
+}
 
 export async function handle(request, env, deps) {
   const url = new URL(request.url);
@@ -87,7 +116,10 @@ export async function handle(request, env, deps) {
   const call = fit
     ? { messages: buildFitMessages(asked), temperature: 0.2, max_tokens: 4096 }
     : { messages: buildMessages(asked, readContext(body.context)), temperature: 0.5, max_tokens: 2048 };
-  const result = await firstAnswer(routes(env), call, deps);
+  // A refusal is logged with the service's own reason and the data centre this ran in: Gemini, for
+  // one, turns away requests from places it doesn't serve (see `placement` in wrangler.toml).
+  const log = (refused) => console.log(JSON.stringify({ ...refused, colo: request.cf?.colo ?? null }));
+  const result = await firstAnswer(routes(env), call, { log, ...deps });
   const tried = result.tried.map(({ name, why }) => `${name}: ${why}`);
   // What the logs keep: what was asked for, which service answered and how long it took. Never
   // the question or the job post.

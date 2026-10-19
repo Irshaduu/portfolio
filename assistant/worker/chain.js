@@ -42,8 +42,10 @@ export function routes(env) {
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
 
-// How long to rest a service after a failure.
-export function coolDown(status, retryAfter) {
+// How long to rest a service after a failure. `said` is the service's own reason.
+export function coolDown(status, retryAfter, said = '') {
+  // Turned away for where this one request came from, not for good: the next may be fine.
+  if (status === 400 && /location is not supported/i.test(said)) return 0;
   if (status === 429) {
     // Rate limited. Respect the service's own "try again after", within reason.
     const seconds = Number(retryAfter);
@@ -56,8 +58,9 @@ export function coolDown(status, retryAfter) {
 
 // Asks each service in turn until one starts answering. Returns the service and its answer as a
 // stream of text pieces, the first piece already in hand, or { route: null } if none would answer.
-// `tried` says what happened at each service, for the logs and the visitor's trace.
-export async function firstAnswer(list, request, { fetch, cooling, now = Date.now, waitMs = 8 * SECOND }) {
+// `tried` says what happened at each service, for the logs and the visitor's trace. A service that
+// refuses also says why, in its own words, to `log` (the Worker's logs only, never the page).
+export async function firstAnswer(list, request, { fetch, cooling, now = Date.now, waitMs = 8 * SECOND, log = () => {} }) {
   const tried = [];
   for (const route of list) {
     if (!route.key || !route.model) {
@@ -81,9 +84,11 @@ export async function firstAnswer(list, request, { fetch, cooling, now = Date.no
         signal: abort.signal,
       });
       if (!res.ok || !res.body) {
-        cooling.set(route.name, now() + coolDown(res.status, res.headers.get('retry-after')));
+        const body = await res.text().catch(() => '');
+        const said = body.match(/"message"\s*:\s*"([^"]{1,300})/)?.[1] ?? body.slice(0, 300);
+        cooling.set(route.name, now() + coolDown(res.status, res.headers.get('retry-after'), said));
         tried.push({ name: route.name, why: `HTTP ${res.status}` });
-        res.body?.cancel().catch(() => {});
+        log({ service: route.name, status: res.status, said });
         continue;
       }
       // A 200 can still be empty (a blocked answer, or one spent entirely on thinking).

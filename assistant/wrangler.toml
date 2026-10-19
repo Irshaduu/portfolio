@@ -29,3 +29,13 @@ GEMINI_THINKING = "minimal"
 GEMINI_RESERVE_MODEL = "gemini-3.8-flash"
 GEMINI_LITE_MODEL = "gemini-3.5-flash-lite"
 GROQ_MODEL = "openai/gpt-oss-120b"
+
+# The Relay (worker/index.js): the AI services are called from a Durable Object kept in western North
+# America, so Gemini never sees a request from a place it doesn't serve.
+[[durable_objects.bindings]]
+name = "RELAY"
+class_name = "Relay"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["Relay"]
