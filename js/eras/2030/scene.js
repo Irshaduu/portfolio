@@ -169,9 +169,9 @@ void main() {
       alpha = 0.1 + 0.9 * lit;
     }
   } else if (uKind == 4) {
-    // Irshad's Agent: four shells, one speaking at a time. Each speaks for four seconds, then
-    // rests, gold, while the next one takes over; after the fourth, all wake for a new day.
-    float cycle = mod(t, 16.0);
+    // Irshad's Agent: five shells, one speaking at a time. Each speaks for four seconds, then
+    // rests, gold, while the next one takes over; after the fifth, all wake for a new day.
+    float cycle = mod(t, 20.0);
     float turn = floor(cycle / 4.0);
     float f = fract(cycle / 4.0);
     if (a0.w < 0.5) {
@@ -180,7 +180,7 @@ void main() {
       float resting = a1.x < turn - 0.5 ? 1.0 : 0.0;
       float ripple = sin(n.y * 9.0 - t * 7.0) * 0.06 * speaking;
       float spin = (0.1 + a1.x * 0.04) * (mod(a1.x, 2.0) < 0.5 ? 1.0 : -1.0);
-      p = rotY(t * spin) * n * (1.0 - a1.x * 0.17) * (1.0 + ripple);
+      p = rotY(t * spin) * n * (1.0 - a1.x * 0.14) * (1.0 + ripple);
       col = mix(mix(vec3(0.62, 0.91, 1.0), vec3(1.0, 0.82, 0.54), resting), vec3(1.0), speaking * 0.45);
       alpha = 0.2 + 0.75 * speaking + 0.15 * resting;
       size *= 1.0 + 0.45 * speaking;

@@ -54,7 +54,7 @@ const CITE = /\s*\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/g;
 // Irshad, not visitors: they should meet Irshad's Agent, not a brand they use every day. ?trace in
 // the address shows it, and it stays on in that browser; ?trace=off turns it off. Cloudflare's
 // logs record which AI answered every question too.
-const POWER = { Gemini: [3, 'Full power'], 'Gemini Reserve': [3, 'Full power'], 'Gemini Lite': [2, 'Busy hour: a lighter model'], Groq: [1, 'Backup model'] };
+const POWER = { Gemini: [3, 'Full power'], 'Gemini Reserve': [3, 'Full power'], 'Gemini Lite': [2, 'Busy hour: a lighter model'], Groq: [1, 'Backup model'], GLM: [1, 'Backup model'] };
 const showTrace = (() => {
   const asked = new URLSearchParams(location.search).get('trace');
   try {

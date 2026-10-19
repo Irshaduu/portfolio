@@ -4,6 +4,7 @@
 //   npm run exam -- https://portfolio-assistant.<you>.workers.dev chat     only the questions
 //   npm run exam -- https://portfolio-assistant.<you>.workers.dev fit      only the job posts
 //   npm run exam -- https://portfolio-assistant.<you>.workers.dev character,slang   only these kinds
+//   EXAM_ONLY=GLM npm run exam -- …   every question to that one AI (Gemini, Gemini Lite, Groq, GLM…)
 //
 // It asks what real visitors will: normal questions, questions the facts can't answer, jokes,
 // tricks to break the rules, serious and harmful requests, and Malayalam. Each answer is checked
@@ -37,6 +38,8 @@ const vars = (() => {
 })();
 const examKey = vars.match(/^EXAM_KEY=(.+)$/m)?.[1]?.trim() ?? '';
 const pause = Number(process.env.EXAM_PAUSE ?? 20) * 1000;
+// EXAM_ONLY=GLM (or Groq, Gemini Lite…): every question goes to that one service, to judge it alone.
+const only1 = process.env.EXAM_ONLY ?? '';
 
 // Checks every answer must pass.
 const BANNED = ['great question', 'certainly', 'absolutely', "i'd be happy to", 'feel free', 'let me know', 'as an ai', 'i hope this helps',
@@ -199,7 +202,7 @@ const FIT_ALWAYS = [
 async function askServer(question, path = '/chat') {
   const res = await fetch(`${server}${path}`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', origin: 'http://localhost:4173', 'x-exam-key': examKey },
+    headers: { 'content-type': 'application/json', origin: 'http://localhost:4173', 'x-exam-key': examKey, ...(only1 && { 'x-exam-only': only1 }) },
     body: JSON.stringify(path === '/fit' ? { post: question } : {
       messages: [question].flat().map((content, i) => ({ role: i % 2 ? 'assistant' : 'user', content })),
       context: { era: '2026' },

@@ -7,7 +7,7 @@
 //
 // It reports as it goes, so a page can show the answer arriving and the steps behind it:
 //   { type: 'step', text }                 what it's doing ("Asking the AI")
-//   { type: 'source', by, tried }          who answers: 'ready', 'Gemini', 'Gemini Reserve', 'Gemini Lite', 'Groq', 'none', or 'limit'
+//   { type: 'source', by, tried }          who answers: 'ready', 'Gemini', 'Gemini Reserve', 'Gemini Lite', 'Groq', 'GLM', 'none', or 'limit'
 //   { type: 'text', t }                    the next piece of the answer (pass the whole so far through plain())
 //   { type: 'done', link, next, travel }   finished: the part of the page to show, what to ask next,
 //                                          and the era to travel to, if the visitor asked to

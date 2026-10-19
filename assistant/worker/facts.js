@@ -159,14 +159,14 @@ This assistant is one of his projects too: see the next section.
 ## #irshads-agent: Irshad's Agent, this assistant (personal, live, Oct 2026)
 Irshad built it, and it has its own card in Work. The suggestion buttons get ready-made answers
 instantly; typed questions go to an AI, through a small Cloudflare Worker of his that holds the keys
-(they never reach the page), with his rules and these facts. Four AI models in a chain: one that is
+(they never reach the page), with his rules and these facts. Five AI models in a chain: one that is
 busy or out of its free share rests as long as its provider asks, and the next one answers. Faint
 signal bars after each answer show which kind answered: three for full power, two for a lighter
 model, one for the backup. Answers stream word by word. If every model rests, the page answers from
 its own ready replies, and the crisis helpline always comes from the page, never from an AI. It can
 move the page, travel in time, and check a pasted job post against his work: what the site shows,
 with proof, and what it doesn't. It wears a different costume in each of the eight eras: a beige
-computer helper in 1997, an instant messenger in 2001, a globe of light in 2030. 133 automated tests,
+computer helper in 1997, an instant messenger in 2001, a globe of light in 2030. 136 automated tests,
 plus a live exam of 64 tricky messages and job posts. It runs on free AI tiers, at $0 a month. Its
 code is public: the assistant folder of his portfolio repository on GitHub.
 `.trim();

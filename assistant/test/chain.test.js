@@ -12,8 +12,8 @@ const clock = (start = 1_000_000) => {
   return now;
 };
 
-test('the order: Gemini, then Gemini Reserve, then Gemini Lite, then Groq', () => {
-  assert.deepEqual(routes(ENV).map((r) => r.name), ['Gemini', 'Gemini Reserve', 'Gemini Lite', 'Groq']);
+test('the order: Gemini, then Gemini Reserve, then Gemini Lite, then Groq, then GLM', () => {
+  assert.deepEqual(routes(ENV).map((r) => r.name), ['Gemini', 'Gemini Reserve', 'Gemini Lite', 'Groq', 'GLM']);
 });
 
 test('Gemini answers first when it can', async () => {
@@ -124,6 +124,7 @@ test('when every service fails there is no answer, and each says why', async () 
   assert.equal(result.route, null);
   assert.deepEqual(result.tried, [
     { name: 'Gemini', why: 'HTTP 429' }, { name: 'Gemini Reserve', why: 'HTTP 503' }, { name: 'Gemini Lite', why: 'HTTP 400' }, { name: 'Groq', why: 'HTTP 503' },
+    { name: 'GLM', why: 'not set up' },
   ]);
 });
 
@@ -146,4 +147,37 @@ test('rest times: the service\'s own wait for limits, long for set-up mistakes, 
   // Turned away for where one request came from: no rest, the next request may be fine.
   assert.equal(coolDown(400, null, 'User location is not supported for the API use.'), 0);
   assert.equal(coolDown(400, null, 'API key not valid. Please pass a valid API key.'), 600_000);
+});
+
+// GLM on Workers AI: called through the AI binding, not fetch.
+const ai = (run) => ({ ...ENV, AI: { run } });
+const allOut = { [GEMINI]: failure(429), [GEMINI_RESERVE]: failure(429), [GEMINI_LITE]: failure(429), [GROQ]: failure(429) };
+
+test('GLM answers through the Workers AI binding when the others are out, without thinking first', async () => {
+  const asked = [];
+  const { fetch } = fakeFetch(allOut);
+  const env = ai(async (model, input) => { asked.push({ model, input }); return answer('Hi ', 'there').body; });
+  const result = await firstAnswer(routes(env), REQUEST, { fetch, cooling: new Map() });
+  assert.equal(result.route.name, 'GLM');
+  assert.deepEqual([result.first, ...(await collect(result.rest))], ['Hi ', 'there']);
+  assert.deepEqual(asked, [{ model: 'glm-test', input: { ...REQUEST, chat_template_kwargs: { enable_thinking: false }, stream: true } }]);
+});
+
+test('GLM out of its day\'s neurons rests until midnight UTC', async () => {
+  const now = clock(Date.UTC(2026, 9, 19, 20, 0, 0)); // 8 pm UTC: four hours to go
+  const cooling = new Map();
+  const { fetch } = fakeFetch(allOut);
+  const env = ai(async () => { throw new Error('4006: you have used up your daily free allocation of 10,000 neurons'); });
+  const result = await firstAnswer(routes(env), REQUEST, { fetch, cooling, now });
+  assert.equal(result.route, null);
+  assert.deepEqual(result.tried.at(-1), { name: 'GLM', why: 'HTTP 429' });
+  assert.ok(cooling.get('GLM') > now() + 60_000, 'rests longer than a minute');
+});
+
+test('GLM too slow to start is given up on, like any service', async () => {
+  const { fetch } = fakeFetch(allOut);
+  const env = ai(() => new Promise(() => {})); // never answers
+  const result = await firstAnswer(routes(env), REQUEST, { fetch, cooling: new Map(), waitMs: 20 });
+  assert.equal(result.route, null);
+  assert.deepEqual(result.tried.at(-1), { name: 'GLM', why: 'too slow' });
 });

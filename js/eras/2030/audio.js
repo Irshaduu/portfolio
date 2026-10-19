@@ -8,7 +8,7 @@
 //     and rings out in the same space, a reverb generated here.
 //   - Each project's own numbers. Its object plays a motif built the way its shape is built:
 //     WorkshopOS locks 21 rings into place, Word Hunt rains 71 letters and circles 10 players,
-//     PhysioCoach breathes in, Catering sends 10 orbits round 6 apps, the agent's 4 models
+//     PhysioCoach breathes in, Catering sends 10 orbits round 6 apps, the agent's 5 models
 //     answer in turn while its 8 costumes circle.
 // It plays only while sound is on and awake (sound.js), so never in a hidden tab, and the
 // scene asks for no sound where reduced motion has stopped the motion.
@@ -318,10 +318,10 @@ const OBJECTS = {
     const mid = at(s, { x, y, wet: 0.5 });
     for (const step of [0, 2, 4, 6, 8, 10]) glass(s, mid, t + 1.6, note(step, 4), { len: 2.4, gain: 0.018, bright: 1 });
   },
-  // Irshad's Agent: its four models answer in turn, each handing over a step lower; its eight
+  // Irshad's Agent: its five models answer in turn, each handing over a step lower; its eight
   // costumes glint as they circle; then its own note settles.
   chain(s, x, y, t) {
-    [8, 6, 4, 2].forEach((step, i) => glass(s, at(s, { x: x + (i - 1.5) * 0.06, y, wet: 0.45 }), t + i * 0.42, note(step, 5), { len: 1.1, gain: 0.035, bright: 1.3 }));
+    [8, 6, 4, 2, 0].forEach((step, i) => glass(s, at(s, { x: x + (i - 2) * 0.06, y, wet: 0.45 }), t + i * 0.36, note(step, 5), { len: 1.1, gain: 0.035, bright: 1.3 }));
     for (let i = 0; i < 8; i++) {
       const a = (i / 8) * Math.PI * 2;
       glass(s, at(s, { x: x + Math.cos(a) * 0.16, y, z: Math.sin(a) * 1.5, wet: 0.45 }), t + 0.2 + i * 0.17, note(PENTA[i % 5], 6), { len: 0.3, gain: 0.012, bright: 2 });

@@ -50,6 +50,7 @@ export const ENV = {
   GEMINI_LITE_MODEL: 'gemini-lite-test',
   GROQ_API_KEY: 'test-groq',
   GROQ_MODEL: 'groq-test',
+  GLM_MODEL: 'glm-test', // set up only where a test gives it an AI binding
 };
 
 export async function collect(iterator) {

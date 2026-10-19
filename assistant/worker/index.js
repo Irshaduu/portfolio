@@ -116,10 +116,12 @@ export async function handle(request, env, deps) {
   const call = fit
     ? { messages: buildFitMessages(asked), temperature: 0.2, max_tokens: 4096 }
     : { messages: buildMessages(asked, readContext(body.context)), temperature: 0.5, max_tokens: 2048 };
-  // A refusal is logged with the service's own reason and the data centre this ran in: Gemini, for
-  // one, turns away requests from places it doesn't serve (see `placement` in wrangler.toml).
+  // A refusal is logged with the service's own reason and the data centre the question came in at.
   const log = (refused) => console.log(JSON.stringify({ ...refused, colo: request.cf?.colo ?? null }));
-  const result = await firstAnswer(routes(env), call, { log, ...deps });
+  // The exam can ask one service alone (x-exam-only: GLM), to judge a backup without spending the
+  // Geminis' day. Only with the exam key: visitors always get the whole chain.
+  const only = examining ? request.headers.get('x-exam-only') : null;
+  const result = await firstAnswer(routes(env).filter((r) => !only || r.name === only), call, { log, ...deps });
   const tried = result.tried.map(({ name, why }) => `${name}: ${why}`);
   // What the logs keep: what was asked for, which service answered and how long it took. Never
   // the question or the job post.

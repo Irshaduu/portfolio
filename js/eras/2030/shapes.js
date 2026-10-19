@@ -135,24 +135,24 @@ function party() {
   return new Float32Array(out);
 }
 
-// Irshad's Agent: its 4 AI models are 4 nested shells. One speaks while the others wait, then
+// Irshad's Agent: its 5 AI models are 5 nested shells. One speaks while the others wait, then
 // rests and hands over to the next, as the chain does. Its 8 costumes circle it, one for each
-// era, and its 133 tests sit at the core.
+// era, and its 136 tests sit at the core.
 // shells: a0 = (direction, 0), a1 = (shell, 0, seed, size)
 // costumes: a0 = (era, phase, 0, 1), a1 = (trail step, 0, seed, size)
 // tests: a0 = (position, 2)
 function chain() {
-  const rand = seeded(133);
+  const rand = seeded(136);
   const out = [];
-  [560, 430, 320, 230].forEach((n, shell) => {
+  [560, 450, 350, 260, 190].forEach((n, shell) => {
     for (let i = 0; i < n; i++) out.push(...fibonacci(i, n), 0, shell, 0, rand(), 1 + rand() * 0.6);
   });
   for (let era = 0; era < 8; era++) {
     const phase = rand() * TAU;
     for (let k = 0; k < 10; k++) out.push(era, phase, 0, 1, k, 0, rand(), 3.2 - k * 0.22);
   }
-  for (let c = 0; c < 133; c++) {
-    const [x, y, z] = fibonacci(c, 133);
+  for (let c = 0; c < 136; c++) {
+    const [x, y, z] = fibonacci(c, 136);
     const k = 0.12 + rand() * 0.07;
     out.push(x * k, y * k, z * k, 2, 0, 0, rand(), 1.4 + rand() * 0.9);
   }

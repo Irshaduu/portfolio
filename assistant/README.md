@@ -14,6 +14,7 @@ a question
    ├─        a second Gemini Flash ── at its limit, slow, or down ──┤
    ├─        Gemini Flash-Lite     ── at its limit, slow, or down ──┤
    ├─        Groq                  ── at its limit, slow, or down ──┤
+   ├─        GLM (Workers AI)      ── at its limit, slow, or down ──┤
    │                                                                ▼
    └─ The closest ready-made answer, or "I don't know, Irshad can answer that himself"
 ```
@@ -38,7 +39,14 @@ just as good, but it takes about five seconds, is sometimes overloaded, and refu
 isn't first. Google gives each model its own free allowance, so the reserve doubles the full-power
 answers. Those allowances are small: on 2026-10-18 the reserve's ran out after about 20 questions
 in a day (it still said "429" after a minute's rest, so it was the daily one, not the minute's). Only when both Flash models are out does **Flash-Lite** answer (smaller, a bigger daily
-share), and only then **Groq**: very fast, but stiffer, and it misreads slang.
+share), and only then the two backups: **Groq**, then **GLM-4.7-Flash** on Cloudflare Workers AI.
+Judged side by side on the same 29 exam messages (19 Oct 2026, each alone): Groq is stiffer and
+misreads slang ("Olakka" taken as praise), but invented nothing; GLM follows the job-fit format
+better and has about five times the daily room (10,000 free neurons, roughly 170 to 280 questions),
+but invented two facts ("a lot of land in Malappuram", "Jest tests") and was too slow twice. A wrong
+fact about Irshad is worse than a stiff reply, so Groq goes first and GLM takes over when Groq is
+out of its small share. GLM runs inside Cloudflare: no key, no card, and its "thinking" is switched
+off (`chat_template_kwargs`) so it answers in two or three seconds.
 
 **Why not more Gemini keys:** Google counts limits per project, so keys in one project share one
 allowance. Extra projects or accounts to pool allowances break Google's terms ("don't get around
@@ -53,7 +61,7 @@ answer"**: it shows the care taken over speed and cost, and if a ready answer ev
 loosely, it explains why. When one stands in for a resting AI, it says "Quick answer · the AI is
 resting". At the end of an AI answer, right after its last word like the ticks on a chat message,
 they see faint **signal bars**, like a phone's: three for either Gemini Flash,
-two for Flash-Lite, one for Groq. A tap (or hover) says "Full power", "Busy hour: a lighter model"
+two for Flash-Lite, one for either backup. A tap (or hover) says "Full power", "Busy hour: a lighter model"
 or "Backup model". When a long chat slides to a backup and the answers get plainer, the visitor
 knows why, the way a weak signal explains a bad call, and no screenshot ever says "Low". Nothing
 under the helpline or a trip in time.
@@ -64,7 +72,7 @@ resting (the server says when the first is free again). "back tomorrow" for the 
 faint "5 left today" near its end. Nothing more the rest of the time: a number only when it matters.
 To see it yourself, open the site once with `?trace` at the end of the address
 (`https://irshaduu.github.io/portfolio/?trace`) and open the agent: from then on, in that browser,
-a small line under each answer says "Gemini · 1.9 s", "Gemini Reserve", "Gemini Lite", "Groq" or "Quick answer", and
+a small line under each answer says "Gemini · 1.9 s", "Gemini Reserve", "Gemini Lite", "Groq", "GLM" or "Quick answer", and
 which was busy. `?trace=off` (then open the agent) hides it again. Cloudflare's logs record it for every question too.
 
 **Why a Worker and not Render:** it never sleeps, so it needs no uptime bot; it's free for 100,000
@@ -169,7 +177,7 @@ it 47 tricky questions and 7 job posts after every change, including the first r
 | File | What it does |
 |---|---|
 | `worker/index.js` | The server: checks each question, keeps each visitor to a fair share, streams the answer |
-| `worker/chain.js` | Asks Gemini Flash, then a second Flash, then Flash-Lite, then Groq. A service that fails rests for a while, so the next visitor skips it |
+| `worker/chain.js` | Asks Gemini Flash, then a second Flash, then Flash-Lite, then Groq, then GLM on Workers AI. A service that fails rests for a while, so the next visitor skips it |
 | `worker/prompt.js` | Who the assistant is, how it talks, and where the visitor is |
 | `worker/facts.js` | Everything the AI may say about Irshad: only what the public pages say |
 | `worker/limits.js` | 10 questions a minute and 50 a day per visitor, and which limit was reached |
@@ -277,11 +285,13 @@ The keys are stored encrypted at Cloudflare, work at once, and never touch GitHu
 
 ### Step 7. Check it
 
-Open the server's address in your browser. You should see all four services `"ready": true`:
+Open the server's address in your browser. You should see all five services `"ready": true`:
 
 ```
-{"ok":true,"services":[{"name":"Gemini","model":"gemini-3.6-flash","ready":true},{"name":"Gemini Reserve","model":"gemini-3.8-flash","ready":true},{"name":"Gemini Lite","model":"gemini-3.5-flash-lite","ready":true},{"name":"Groq","model":"openai/gpt-oss-120b","ready":true}]}
+{"ok":true,"services":[{"name":"Gemini","model":"gemini-3.6-flash","ready":true},{"name":"Gemini Reserve","model":"gemini-3.8-flash","ready":true},{"name":"Gemini Lite","model":"gemini-3.5-flash-lite","ready":true},{"name":"Groq","model":"openai/gpt-oss-120b","ready":true},{"name":"GLM","model":"@cf/zai-org/glm-4.7-flash","ready":true}]}
 ```
+
+GLM needs no key: it's Cloudflare's own Workers AI, reached through the `[ai]` binding in `wrangler.toml`.
 
 `"ready": false` means that key is missing: repeat step 6 for it.
 
@@ -336,8 +346,8 @@ the assistant can be built into the real page.
 | What happens | What the visitor gets |
 |---|---|
 | Gemini Flash hits its per-minute limit | The reserve Flash answers, at full power. Flash rests as long as Google asks (usually under a minute) |
-| Flash's daily allowance is used up | The reserve Flash answers, then Flash-Lite when the reserve runs out too, then Groq |
-| All four are at their limit or down | The closest ready-made answer, or "My AI brain is catching its breath. Ask me again in a minute…"; the header's dot turns amber with "back in 0:52" |
+| Flash's daily allowance is used up | The reserve Flash answers, then Flash-Lite when the reserve runs out too, then Groq, then GLM (its 10,000 neurons reset at midnight UTC, 5:30 am in India) |
+| All five are at their limit or down | The closest ready-made answer, or "My AI brain is catching its breath. Ask me again in a minute…"; the header's dot turns amber with "back in 0:52" |
 | One visitor asks more than 10 a minute or 50 a day | The agent says so in its own voice ("You're quick! Give me a minute…" or "We've talked a lot today!…"); the dot turns amber with "back in 0:38" or "back tomorrow"; the suggestion buttons still answer |
 | A key or a model name is wrong | That service rests 10 minutes at a time. Check the server's address (step 7) |
 | Gemini says "User location is not supported" | The next AI answers; Gemini doesn't rest, since it's about where that one request came from. The Relay should keep this from happening at all |
@@ -349,17 +359,16 @@ tried first, and how long it took. They never keep the question itself. When a s
 its own reason is logged too ("You exceeded your current quota…", "This model is currently
 experiencing high demand…"), with the Cloudflare data centre the question came in at.
 
-**Change a model or the order:** models are `GEMINI_MODEL` (with `GEMINI_THINKING`), `GEMINI_RESERVE_MODEL`, `GEMINI_LITE_MODEL` and `GROQ_MODEL` in `wrangler.toml`; the
+**Change a model or the order:** models are `GEMINI_MODEL` (with `GEMINI_THINKING`), `GEMINI_RESERVE_MODEL`, `GEMINI_LITE_MODEL`, `GROQ_MODEL` and `GLM_MODEL` in `wrangler.toml`; the
 order is `routes()` in `worker/chain.js`. Then `npm run deploy`.
 
 **Change how it talks:** `worker/prompt.js`. Then `npm test`, `npm run deploy` and `npm run exam`.
 
-**Try a change before visitors see it:** preview copies are off (`preview_urls = false` in
-`wrangler.toml`), because each copy is another door to the same keys and free allowance. Turn them
-on, deploy, then `npx wrangler versions upload --preview-alias test` gives a copy at
-`https://test-portfolio-assistant.irshaduu.workers.dev`. `--var GEMINI_MODEL:off` (and the same for
-`GEMINI_RESERVE_MODEL`) makes the copy skip the Flash models, so testing doesn't use their 20 a
-day. Turn previews off and deploy again when done: every copy closes.
+**Judge one AI alone:** `EXAM_ONLY=GLM npm run exam -- <server> normal,slang` sends every question
+to that one service (`Gemini`, `Gemini Reserve`, `Gemini Lite`, `Groq` or `GLM`), so a backup can be
+tested without spending the Flash models' 20 a day. It works only with the exam key; visitors always
+get the whole chain. There are no preview copies (`preview_urls = false`): each would be another
+door to the same keys, and Cloudflare offers none for a Worker with a Durable Object (the Relay).
 
 **When the site changes:** the AI only knows `worker/facts.js`. Update it (and any ready answer in
 `js/assistant/answers.js` that says the same thing), run `node tools/facts.mjs` from the

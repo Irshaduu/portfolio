@@ -35,6 +35,7 @@ test('the health check says which services have their keys, and the portfolio\'s
       { name: 'Gemini Reserve', model: 'gemini-reserve-test', ready: false },
       { name: 'Gemini Lite', model: 'gemini-lite-test', ready: false },
       { name: 'Groq', model: 'groq-test', ready: true },
+      { name: 'GLM', model: 'glm-test', ready: false },
     ],
   });
 });
@@ -64,7 +65,7 @@ test('when no service answers, the page is told to use its ready answers, and wh
   // The Geminis rest a minute after a 429, Groq 30 seconds after a 500: the first is back in 30.
   assert.deepEqual(await res.json(), {
     error: 'No AI service is free right now.', fallback: true, wait: 30,
-    tried: ['Gemini: HTTP 429', 'Gemini Reserve: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500'],
+    tried: ['Gemini: HTTP 429', 'Gemini Reserve: HTTP 429', 'Gemini Lite: HTTP 429', 'Groq: HTTP 500', 'GLM: not set up'],
   });
   assert.equal(res.headers.get('retry-after'), '30');
 });

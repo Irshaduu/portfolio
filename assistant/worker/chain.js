@@ -15,8 +15,11 @@ import { textDeltas } from './sse.js';
 // answers as a reserve: just as good, but about five seconds to the first word and sometimes
 // overloaded, which is why it isn't first. Each model has its own free share, so the reserve
 // doubles the full-power answers. Only when both are out does Gemini Flash-Lite answer (smaller,
-// two or three seconds, a bigger daily share), and only then Groq: very fast, but stiffer, and it
-// misreads slang. On Gemini's free tier Google may read and learn from the messages, which is why the chat
+// two or three seconds, a bigger daily share), and only then the two backups. Judged side by side on
+// the same 29 exam messages (19 Oct 2026): Groq is stiffer and misreads slang, but invented nothing;
+// GLM follows the job-fit format better and has five times the daily room, but invented two facts
+// and was too slow twice. Trust decides: Groq first, GLM when Groq is out of its small share.
+// On Gemini's free tier Google may read and learn from the messages, which is why the chat
 // asks visitors not to share personal or sensitive data. The trace (?trace on the page) and
 // Cloudflare's logs say which one answered.
 const GEMINI = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
@@ -36,8 +39,48 @@ export function routes(env) {
       // per-minute token limit) and out of the reply.
       extra: { reasoning_effort: 'low', include_reasoning: false },
     },
+    // GLM on Workers AI: inside Cloudflare, so no key and no relay (Google's location rules don't
+    // apply), 10,000 free neurons a day, then it rests until the day turns at 00:00 UTC. It thinks
+    // before it answers unless its chat template is told not to.
+    { name: 'GLM', key: env.AI ? 'binding' : undefined, model: env.GLM_MODEL, extra: { chat_template_kwargs: { enable_thinking: false } }, call: env.AI && workersAI(env.AI) },
   ];
 }
+
+// Workers AI answers through the Worker's own AI binding, not a web address. It streams the same
+// server-sent events, so its stream is wrapped as a response like any other service's, and it stops
+// when the chain gives up on it (too slow). Out of its day's neurons it says so in an error, which
+// becomes a 429 that rests it until midnight UTC.
+const workersAI = (ai) => async ({ model, ...input }, signal) => {
+  let stream;
+  try {
+    stream = await ai.run(model, input);
+  } catch (error) {
+    const message = String(error?.message ?? error);
+    const spent = /neuron|allocation|daily/i.test(message);
+    const untilMidnight = Math.ceil((Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() + 1) - Date.now()) / 1000);
+    return new Response(JSON.stringify({ error: { message } }), { status: spent ? 429 : 502, headers: spent ? { 'retry-after': String(untilMidnight) } : {} });
+  }
+  const reader = stream.getReader();
+  const body = new ReadableStream({
+    start(controller) {
+      signal?.addEventListener('abort', () => {
+        reader.cancel().catch(() => {});
+        try { controller.error(new DOMException('The service was too slow.', 'AbortError')); } catch {}
+      }, { once: true });
+    },
+    async pull(controller) {
+      try {
+        const { value, done } = await reader.read();
+        if (done) controller.close();
+        else controller.enqueue(value);
+      } catch (error) {
+        try { controller.error(error); } catch {}
+      }
+    },
+    cancel: () => reader.cancel().catch(() => {}),
+  });
+  return new Response(body, { headers: { 'content-type': 'text/event-stream' } });
+};
 
 const SECOND = 1000;
 const MINUTE = 60 * SECOND;
@@ -77,15 +120,18 @@ export async function firstAnswer(list, request, { fetch, cooling, now = Date.no
     const abort = new AbortController();
     const timer = setTimeout(() => abort.abort(), waitMs);
     try {
-      const res = await fetch(route.url, {
-        method: 'POST',
-        headers: { authorization: `Bearer ${route.key}`, 'content-type': 'application/json' },
-        body: JSON.stringify({ ...request, ...route.extra, model: route.model, stream: true }),
-        signal: abort.signal,
-      });
+      const body = { ...request, ...route.extra, model: route.model, stream: true };
+      const res = route.call
+        ? await Promise.race([route.call(body, abort.signal), new Promise((_, stop) => abort.signal.addEventListener('abort', () => stop(abort.signal.reason), { once: true }))])
+        : await fetch(route.url, {
+          method: 'POST',
+          headers: { authorization: `Bearer ${route.key}`, 'content-type': 'application/json' },
+          body: JSON.stringify(body),
+          signal: abort.signal,
+        });
       if (!res.ok || !res.body) {
-        const body = await res.text().catch(() => '');
-        const said = body.match(/"message"\s*:\s*"([^"]{1,300})/)?.[1] ?? body.slice(0, 300);
+        const refusal = await res.text().catch(() => '');
+        const said = refusal.match(/"message"\s*:\s*"([^"]{1,300})/)?.[1] ?? refusal.slice(0, 300);
         cooling.set(route.name, now() + coolDown(res.status, res.headers.get('retry-after'), said));
         tried.push({ name: route.name, why: `HTTP ${res.status}` });
         log({ service: route.name, status: res.status, said });
