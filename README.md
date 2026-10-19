@@ -332,6 +332,21 @@ A small inline script in `<head>` reads `?y=` and sets `data-era` before the pag
 so a shared 1997 link never flashes 2026 first. Without JavaScript the page is fully readable
 in 2026 and the time machine is hidden.
 
+**The loader.** A fresh visitor's browser can draw nothing of the page until all twelve
+stylesheets have arrived (the ten here and Google's two for the 2026 fonts): measured on the
+live site, a blank screen until about 2 s, 2.5 s on 3G. So the stylesheets are linked at the top
+of `<body>`, just after a tiny loader that `<head>` styles inline: the time machine's mark
+(the favicon's ring and dot), breathing, on the colours of the era the page opens in. The
+browser draws it first. It fades in only after **0.8 s**, so a quick load never shows it, and
+a script after the stylesheets removes it the moment the last one is in (a script always waits
+for the stylesheets before it), with the page hidden until then so no browser shows it
+half-dressed. If a stylesheet never arrives, the page shows anyway after 10 s. Measured on a
+copy served like GitHub Pages (gzip, ten-minute cache), in a fresh browser: never seen on a
+normal connection (ready in 0.5 s), seen from 1.1 to 1.6 s on slow 4G and from 1.2 to 2.1 s on
+3G, and never on a refresh at any speed (the stylesheets come from the cache). The page is ready
+just as soon as before; the screen just isn't blank. Safari may still wait for every stylesheet
+before drawing anything, and then simply looks as it did before.
+
 ### When something fails
 
 Every era should arrive whole, whatever the network or the device does. What happens when:

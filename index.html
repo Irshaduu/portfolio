@@ -25,6 +25,8 @@
     (function () {
       var d = document.documentElement, m = [1992, 1997, 2001, 2007, 2013, 2023, 2026, 2030];
       d.classList.add('js');
+      // If a stylesheet never arrives, the page shows anyway after 10 s, never stuck behind the loader.
+      setTimeout(function () { d.classList.add('styled'); }, 10000);
       // 2030 draws the name in WebGL; hide the text early so it can fly in instead of flashing.
       if (window.WebGL2RenderingContext && !matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('gl2');
       // Someone who has travelled before isn't invited to again (js/main.js remembers the first trip).
@@ -38,22 +40,38 @@
     })();
   </script>
 
+  <style>
+    /* The loader. On a first visit, a hard refresh or a slow connection, the page's stylesheets take
+       a moment, and until they all arrive the browser can draw nothing of it. So they are linked at
+       the top of <body>, just after the loader, and the browser draws the loader first: the time
+       machine's mark, breathing, in the colours of the era the page opens in. It fades in only after
+       0.8 s, so a quick load (a normal refresh, from the cache) never shows it, and it goes the moment
+       the last stylesheet is in (the script after them says so, as scripts wait for stylesheets).
+       Until then the page itself stays hidden, so no browser shows it half-dressed. Without
+       JavaScript there's no loader, and the page shows as it arrives. */
+    :root { --boot-bg: #04050a; --boot-ring: #7df3ff; --boot-dot: #b8a4ff; }
+    :root[data-era="1992"] { --boot-bg: #fff; --boot-ring: #000; --boot-dot: #00e; }
+    :root[data-era="1997"] { --boot-bg: #000; --boot-ring: #0ff; --boot-dot: #ff0; }
+    :root[data-era="2001"] { --boot-bg: #13161a; --boot-ring: #ff8a00; --boot-dot: #7fd0ff; }
+    :root[data-era="2007"] { --boot-bg: #eef3f7; --boot-ring: #2f80c9; --boot-dot: #ff8a00; }
+    :root[data-era="2013"] { --boot-bg: #2c3e50; --boot-ring: #1abc9c; --boot-dot: #f1c40f; }
+    :root[data-era="2023"] { --boot-bg: #09090b; --boot-ring: #a78bfa; --boot-dot: #60a5fa; }
+    :root[data-era="2030"] { --boot-bg: #020309; --boot-ring: #9fe8ff; --boot-dot: #9dffd6; }
+    .boot { display: none; }
+    html.js:not(.styled) { background: var(--boot-bg); }
+    html.js:not(.styled) body > :not(.boot) { visibility: hidden; }
+    html.js:not(.styled) .boot {
+      position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; pointer-events: none;
+      opacity: 0; animation: boot-in .4s .8s ease-out forwards;
+    }
+    .boot svg { width: 64px; height: 64px; animation: boot-breathe 2.4s ease-in-out infinite; }
+    @keyframes boot-in { to { opacity: 1; } }
+    @keyframes boot-breathe { 50% { transform: scale(.9); opacity: .55; } }
+    @media (prefers-reduced-motion: reduce) { .boot svg { animation: none; } }
+  </style>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- The default era's fonts load up front; every other era's load on first visit (js/eras.js). -->
-  <link rel="stylesheet" data-font="2026-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
-  <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
-
-  <link rel="stylesheet" href="css/base.css?v=c6cfed9d56">
-  <link rel="stylesheet" href="css/agent.css?v=1469642d1f">
-  <link rel="stylesheet" href="css/eras/1992.css?v=955a99b9d2">
-  <link rel="stylesheet" href="css/eras/1997.css?v=847bae04cb">
-  <link rel="stylesheet" href="css/eras/2001.css?v=c3c25aa69d">
-  <link rel="stylesheet" href="css/eras/2007.css?v=5885c1be76">
-  <link rel="stylesheet" href="css/eras/2013.css?v=a2282b6baa">
-  <link rel="stylesheet" href="css/eras/2023.css?v=779681c632">
-  <link rel="stylesheet" href="css/eras/2026.css?v=b8acab84da">
-  <link rel="stylesheet" href="css/eras/2030.css?v=419b8a7dfc">
   <link rel="stylesheet" href="css/print.css?v=5816515284" media="print">
   <script type="importmap">
     {
@@ -89,6 +107,24 @@
   <script type="module" src="js/main.js?v=0c9ebcebf5"></script>
 </head>
 <body>
+  <div class="boot" aria-hidden="true"><svg viewBox="0 0 32 32" focusable="false"><circle cx="16" cy="16" r="11" fill="none" stroke="var(--boot-ring)" stroke-width="3"/><circle cx="16" cy="16" r="4" fill="var(--boot-dot)"/></svg></div>
+  <!-- The stylesheets, here and not in <head>, so the loader above can show while they arrive. -->
+  <!-- The default era's fonts load up front; every other era's load on first visit (js/eras.js). -->
+  <link rel="stylesheet" data-font="2026-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
+  <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
+
+  <link rel="stylesheet" href="css/base.css?v=c6cfed9d56">
+  <link rel="stylesheet" href="css/agent.css?v=1469642d1f">
+  <link rel="stylesheet" href="css/eras/1992.css?v=955a99b9d2">
+  <link rel="stylesheet" href="css/eras/1997.css?v=847bae04cb">
+  <link rel="stylesheet" href="css/eras/2001.css?v=c3c25aa69d">
+  <link rel="stylesheet" href="css/eras/2007.css?v=5885c1be76">
+  <link rel="stylesheet" href="css/eras/2013.css?v=a2282b6baa">
+  <link rel="stylesheet" href="css/eras/2023.css?v=779681c632">
+  <link rel="stylesheet" href="css/eras/2026.css?v=b8acab84da">
+  <link rel="stylesheet" href="css/eras/2030.css?v=419b8a7dfc">
+  <script>document.documentElement.classList.add('styled');</script>
+
   <a class="skip-link" href="#main">Skip to content</a>
 
 
