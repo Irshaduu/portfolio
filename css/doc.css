@@ -76,7 +76,7 @@ a:hover { text-decoration: underline; text-underline-offset: .18em; }
   }
   body { background: none; }
   .doc-bar { display: none; }
-  .doc { width: auto; min-height: 0; margin: 0; padding: 0; border-radius: 0; box-shadow: none; font-size: 8.9pt; line-height: 1.3; }
+  .doc { width: auto; min-height: 0; margin: 0; padding: 0; border-radius: 0; box-shadow: none; font-size: 8.9pt; line-height: 1.28; }
   .r-sec { margin-top: .95em; }
   .doc--read { font-size: 9.8pt; line-height: 1.45; } /* a write-up, not a one-page resume */
 }

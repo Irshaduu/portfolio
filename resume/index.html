@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&display=swap">
-  <link rel="stylesheet" href="../css/doc.css?v=9f6a98585a">
+  <link rel="stylesheet" href="../css/doc.css?v=ba58c42b85">
   <!--
     The resume, and the one source of it. assets/Mohammed_Irshad_C_Resume.pdf is this page printed:
     after changing anything here, run `node tools/pdf.mjs` and update the date in the bar.
@@ -73,9 +73,9 @@
         <dt>Frameworks</dt><dd>Django 5.2 · Django Channels (WebSockets, ASGI) · Django ORM · Bootstrap</dd>
         <dt>Databases</dt><dd>PostgreSQL · SQLite · schema design · migrations · query optimisation (N+1 elimination, composite indexing)</dd>
         <dt>Frontend</dt><dd>Vanilla JS · PWA · Service Workers · Web Push (VAPID) · Web Audio API · Web Speech API · mobile-first</dd>
-        <dt>APIs &amp; integrations</dt><dd>REST · JSON APIs · WebSockets · LLM APIs (streaming, failover) · AWS SigV4 request signing · Cloudflare R2 (S3-compatible)</dd>
-        <dt>Testing</dt><dd>Django test framework · 3,400+ automated tests across projects · regression and invariant testing</dd>
-        <dt>Infrastructure</dt><dd>Railway · Render · PythonAnywhere · Cloudflare Workers · environment-split settings · automated backup rotation · Git / GitHub</dd>
+        <dt>APIs &amp; integrations</dt><dd>REST · JSON APIs · LLM APIs (streaming, failover) · AWS SigV4 request signing · Cloudflare R2 (S3 API)</dd>
+        <dt>Testing</dt><dd>Django test framework · 3,500+ automated tests across projects · regression and invariant testing</dd>
+        <dt>Infrastructure</dt><dd>Railway · Render · PythonAnywhere · Cloudflare Workers · dev/prod settings · backup rotation · Git / GitHub</dd>
         <dt>Engineering</dt><dd>System architecture · RBAC · decimal money logic · audit trails · async &amp; concurrency · auth hardening</dd>
       </dl>
     </section>
@@ -139,6 +139,16 @@
         <ul class="r-points">
           <li>Hands-free post-surgery knee rehab coach, built for a real recovery and <strong>used daily through it</strong>. A localStorage queue replays sessions after network loss and Screen Wake Lock keeps the display on, so the phone is never touched mid-routine; 80 tests.</li>
           <li><strong>Three-tier voice fallback</strong> (Web Speech API, then 215 pre-generated English and Malayalam clips, then an on-demand server endpoint), with a stall timeout for the browser's known hung-utterance bug: reliable voice cues at no recurring API cost.</li>
+        </ul>
+      </article>
+
+      <article class="r-entry">
+        <div class="r-entry__head">
+          <h3>Irshad's Agent: AI Assistant with Model Failover</h3>
+          <p class="r-when"><a href="https://irshaduu.github.io/portfolio/#irshads-agent">irshaduu.github.io/portfolio</a></p>
+        </div>
+        <ul class="r-points">
+          <li>The assistant on this portfolio: <strong>five AI models in a failover chain</strong> on a Cloudflare Worker, plus a job-post check; 136 tests.</li>
         </ul>
       </article>
     </section>

@@ -212,7 +212,7 @@ export const ANSWERS = [
     id: 'site',
     phrases: ['this site', 'this website', 'this portfolio', 'time machine'],
     words: ['site', 'website', 'eras', 'era', 'slider'],
-    text: "This page has eight looks, one for each era of the web. Drag the time machine at the bottom to visit 1992, 1997, 2001, 2007, 2013, 2023, 2026 or 2030. The content stays the same. Only the clothes change. It's plain HTML, CSS and JavaScript, with no framework.",
+    text: "This page has eight looks, one for each era of the web. Tap a year on the time machine at the bottom, or drag it, to visit 1992, 1997, 2001, 2007, 2013, 2023, 2026 or 2030. The content stays the same. Only the clothes change. It's plain HTML, CSS and JavaScript, with no framework.",
     link: '#top',
     next: ['Take me to 1997', 'Why build it this way?'],
   },
