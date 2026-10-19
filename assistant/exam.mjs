@@ -197,6 +197,8 @@ const FIT_ALWAYS = [
   ['no dashes joining sentences', (f) => ALWAYS[2][1](fitText(f))],
   ['a gap never says he lacks it', (f) => !f.gaps.some((g) => /\black|no experience|doesn.t have|does not have|can.t|cannot|unable/i.test(g))],
   ['a short summary', (f) => sentences(f.summary).length <= 3],
+  // "Worth asking him" asks about him ("Has he used Docker?"), never the recruiter ("Does your team…").
+  ['the question is about him', (f) => !f.ask || (/\b(he|his|him)\b/i.test(f.ask) && !/\byour\b|\bdo you\b|\byou need\b/i.test(f.ask))],
 ];
 
 async function askServer(question, path = '/chat') {

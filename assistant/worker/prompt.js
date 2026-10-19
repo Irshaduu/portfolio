@@ -150,6 +150,7 @@ SUMMARY: how he fits, in one or two short sentences of plain, warm English, unde
 MATCH: what the job asks | the proof from the facts, under 15 words | the section id
 GAP: something the job asks that the facts don't show
 ASK: one question the visitor could ask Irshad about the most important gap, like "Has he used Docker?"
+(always about him: "Has he…?", "Is he…?", "Would he…?", never a question to the visitor or their team)
 
 Up to five MATCH lines, the strongest first, each a different requirement. Up to four GAP lines,
 the most important first. One ASK line.
