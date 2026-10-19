@@ -280,8 +280,10 @@
     & .fit__link { margin-left: .45em; }
     & :is(.agent__trace, .agent__status) { font: 400 .74rem/1.4 var(--sans); color: var(--concrete); }
     & .agent__status { margin-left: .5em; }
-    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--asbestos); opacity: .7; font: 400 .72rem var(--sans); }
-    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    /* The brain and bars, flat, on the midnight bar: the palette's own green and yellow, and a soft coral. */
+    --power-full: var(--emerald); --power-mid: #f1c40f; --power-low: #f0907a;
+    & .agent__power { gap: 4px; margin-block: -6px; margin-right: 6px; padding: 6px 4px; color: var(--concrete); }
+    & .agent__power-note { top: calc(100% + 8px); padding: 7px 10px; border-radius: 4px; background: var(--asphalt); color: #fff; font: 400 .76rem/1.4 var(--sans); }
     & .agent__typing { color: var(--concrete); }
     & .agent__next { gap: .4rem; }
     & .agent__next button {

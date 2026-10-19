@@ -59,12 +59,14 @@ messages, which is why the chat asks visitors not to share personal or sensitive
 Under an answer the page knew without asking the AI (a tapped suggestion) they see **"Quick
 answer"**: it shows the care taken over speed and cost, and if a ready answer ever fits a little
 loosely, it explains why. When one stands in for a resting AI, it says "Quick answer · the AI is
-resting". At the end of an AI answer, right after its last word like the ticks on a chat message,
-they see faint **signal bars**, like a phone's: three for either Gemini Flash,
-two for Flash-Lite, one for either backup. A tap (or hover) says "Full power", "Busy hour: a lighter model"
-or "Backup model". When a long chat slides to a backup and the answers get plainer, the visitor
-knows why, the way a weak signal explains a bad call, and no screenshot ever says "Low". Nothing
-under the helpline or a trip in time.
+resting". In the header, beside the close button, a small **brain and three bars**, like a phone's
+signal, say how strong the AI that answered last was: three green for either Gemini Flash, two
+amber for Flash-Lite, one soft coral for either backup (never red: red says "broken"). Grey until
+the first answer, because the page can't know which AI will answer before one does; a quick answer
+doesn't change them. A tap (or hover) says "Full power", "Busy hour: a lighter model" or "Backup
+model", and that full power comes back by itself. When a long chat slides to a backup and the
+answers get plainer, the visitor knows why, the way a weak signal explains a bad call, and a visitor
+in a hurry knows there's a stronger level. No screenshot ever says "Low", and no AI is named.
 
 **The dot beside its name says when to wait.** Cyan and glowing: the AI is awake. Amber and still,
 with a small "back in 0:52" ticking down: the visitor used their minute's share, or every AI is

@@ -160,9 +160,10 @@ This assistant is one of his projects too: see the next section.
 Irshad built it, and it has its own card in Work. The suggestion buttons get ready-made answers
 instantly; typed questions go to an AI, through a small Cloudflare Worker of his that holds the keys
 (they never reach the page), with his rules and these facts. Five AI models in a chain: one that is
-busy or out of its free share rests as long as its provider asks, and the next one answers. Faint
-signal bars after each answer show which kind answered: three for full power, two for a lighter
-model, one for the backup. Answers stream word by word. If every model rests, the page answers from
+busy or out of its free share rests as long as its provider asks, and the next one answers. A small
+brain and three bars at the top of the chat show which kind answered last: three green for full
+power, two amber for a lighter model, one coral for a backup, and full power comes back by itself.
+Answers stream word by word. If every model rests, the page answers from
 its own ready replies, and the crisis helpline always comes from the page, never from an AI. It can
 move the page, travel in time, and check a pasted job post against his work: what the site shows,
 with proof, and what it doesn't. It wears a different costume in each of the eight eras: a beige

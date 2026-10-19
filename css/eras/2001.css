@@ -391,8 +391,10 @@
     & .agent__see a::before, & .fit__link::before { content: "\00bb\00a0"; color: var(--orange); }
     & :is(.agent__trace, .agent__status, .agent__note) { font: 10px/1.4 var(--pixel); letter-spacing: .06em; color: var(--steel); }
     & .agent__status { margin-left: .6em; }
-    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--led); opacity: .6; font: 10px var(--pixel); }
-    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    /* The brain and bars, in the brushed-metal bar: deeper colours to read on silver. */
+    --power-full: #3f8f1d; --power-mid: #b87200; --power-low: #c25a3e;
+    & .agent__power { gap: 4px; margin-block: -4px; margin-right: 6px; padding: 4px; color: #4a525c; }
+    & .agent__power-note { top: calc(100% + 2px); padding: 5px 7px; border: 1px solid #1d2228; background: #f2f5f8; color: #1d2228; font: 10px/1.45 var(--pixel); letter-spacing: .06em; box-shadow: 2px 2px 0 rgb(0 0 0 / .25); }
     & .agent__typing { color: var(--led); }
     & .agent__next { gap: 5px; }
     & .agent__next button { padding: 6px 12px; text-align: left; }

@@ -414,8 +414,8 @@ chosen by why they came, and every answer ends with what to ask next. Answers ac
 a wide screen an answer about Word Hunt scrolls there and lays a ring of light over the card
 (`.agent-spot`, never touching the card's own styles); "See Word Hunt" does it on a phone; "take me
 to 1997" travels. Visitors never see which AI answered: "Quick answer" sits under an answer the page
-knew without asking the AI, and faint signal bars after an AI answer's last word (three for full power, fewer
-when a backup answered; a tap says it in words). Open the page once with `?trace` and a small line under every
+knew without asking the AI, and a small brain and three bars in the header say how strong the AI that answered last was
+(three green for full power, two amber for a lighter model, one soft coral for a backup, grey before the first answer; a tap says it in words). Open the page once with `?trace` and a small line under every
 answer says where it came from ("Gemini · 1.9 s", "Groq", what was busy). The conversation is kept for the visit (sessionStorage), across eras and reloads.
 
 **The job-fit check:** a recruiter taps "Does he fit my job?" or just pastes a job post, and gets a

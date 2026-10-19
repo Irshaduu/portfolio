@@ -47,14 +47,18 @@ const CITE = /\s*\((#[a-z-]+)(?:[\s,]+#[a-z-]+)*\)/g;
 
 // Under an answer, visitors see "Quick answer" for one the page knew without asking the AI: it
 // shows the care taken over speed and cost, and explains an answer that fits a little loosely.
-// Under an AI answer, faint signal bars say how strong the AI that answered was (POWER): when the
-// strongest is busy and a backup answers, a weaker answer is explained the way a weak phone signal
-// explains a bad call, without the word "low" on anyone's screenshot. A tap says it in words.
-// Nothing under the helpline or a trip in time. Which AI answered ("Gemini · 1.9 s", "Groq") is for
-// Irshad, not visitors: they should meet Irshad's Agent, not a brand they use every day. ?trace in
-// the address shows it, and it stays on in that browser; ?trace=off turns it off. Cloudflare's
-// logs record which AI answered every question too.
-const POWER = { Gemini: [3, 'Full power'], 'Gemini Reserve': [3, 'Full power'], 'Gemini Lite': [2, 'Busy hour: a lighter model'], Groq: [1, 'Backup model'], GLM: [1, 'Backup model'] };
+// In the header, a brain and three bars say how strong the AI that answered last was (POWER):
+// green for full power, amber for the lighter model, soft coral (never red: red says "broken") for a
+// backup. So when a long chat's answers get plainer, the visitor sees why, the way a weak phone
+// signal explains a bad call, and a visitor in a hurry sees there's a stronger level that comes
+// back. Grey until the first answer: the page can't know which AI will answer before one does. A
+// tap (or a hover) says it in words. Which AI answered ("Gemini · 1.9 s", "Groq") is for Irshad,
+// not visitors: they should meet Irshad's Agent, not a brand they use every day. ?trace in the
+// address shows it under each answer, and it stays on in that browser; ?trace=off turns it off.
+// Cloudflare's logs record which AI answered every question too.
+const BACK = 'Full power comes back by itself.';
+const POWER = { Gemini: [3, 'Full power.'], 'Gemini Reserve': [3, 'Full power.'], 'Gemini Lite': [2, `Busy hour: a lighter model. ${BACK}`], Groq: [1, `Backup model. ${BACK}`], GLM: [1, `Backup model. ${BACK}`] };
+const NO_POWER = [0, 'Thinking power: it shows after the first answer.'];
 const showTrace = (() => {
   const asked = new URLSearchParams(location.search).get('trace');
   try {
@@ -96,6 +100,7 @@ export function mount(ctx) {
   const input = form.elements.q;
   const sendButton = form.querySelector('.agent__send');
   const askHint = input.placeholder;
+  const power = panel.querySelector('.agent__power');
 
   // { role: 'user' | 'assistant', text, post?, id?, by?, link?, next?, fit?, trace?, label? }
   // (post: the visitor's message is a job post; id: which ready answer; fit: the check of a post)
@@ -191,19 +196,8 @@ export function mount(ctx) {
     return a;
   }
 
-  // The signal bars, as a button: a tap (or a hover) says what they mean.
-  function signal([level, note]) {
-    const b = el('button', 'agent__signal');
-    b.type = 'button';
-    b.title = note;
-    b.setAttribute('aria-label', `Answer strength: ${note}`);
-    for (let i = 1; i <= 3; i++) b.append(el('i', i <= level ? 'is-on' : null));
-    b.append(el('span', 'agent__signal-note', note));
-    return b;
-  }
-
   // `seen`: the answer just before pointed to the same part, so its "See …" isn't repeated.
-  function finish(li, { text, fit, post, link, seen, next, by, trace, label, more }) {
+  function finish(li, { text, fit, post, link, seen, next, trace, label, more }) {
     if (fit) {
       drawFit(li, fit);
       if (!fit.summary) li.querySelector('.agent__text').textContent = 'Here is how the post compares with his work.';
@@ -221,9 +215,6 @@ export function mount(ctx) {
       const p = el('p', 'agent__trace', line);
       if (!showTrace && line.startsWith('Quick answer')) p.title = 'Answered instantly, without asking the AI.';
       li.append(p);
-    } else if (!showTrace && POWER[by]) {
-      // Right after the last word, like the ticks on a chat message: no line of its own.
-      li.querySelector('.agent__text').append(signal(POWER[by]));
     }
     if (next?.length || more) {
       const row = el('div', 'agent__next');
@@ -260,6 +251,7 @@ export function mount(ctx) {
       before = m.link;
     });
     if (messages.length) log.querySelector('.agent__next')?.remove(); // the greeting's starters, once talking
+    showPower(messages.findLast((m) => POWER[m.by])?.by);
     setWaiting(messages.at(-1)?.id === 'fit'); // still waiting for the job post it asked for
     const lastQuestion = [...log.querySelectorAll('.agent__msg--me')].at(-1);
     if (lastQuestion) showFrom(lastQuestion);
@@ -370,6 +362,7 @@ export function mount(ctx) {
       blip(880, 0.08);
       if (result.id === 'fit') setWaiting(true);
       noteStatus(result);
+      if (POWER[result.by]) showPower(result.by);
       act(result);
     } catch {
       li.querySelector('.fit')?.remove();
@@ -444,6 +437,17 @@ export function mount(ctx) {
   window.visualViewport?.addEventListener('scroll', fitKeyboard);
   input.addEventListener('focus', () => setTimeout(fitKeyboard, 300)); // after the keyboard has risen
   input.addEventListener('blur', () => setTimeout(fitKeyboard, 300));
+
+  // ---- the header's brain and bars: how strong the AI that answered last was (POWER) ----------
+
+  // Only an AI answer changes them: a quick answer or a rest says nothing about the AI's power.
+  function showPower(by) {
+    const [level, note] = POWER[by] ?? NO_POWER;
+    power.dataset.level = level;
+    power.querySelectorAll('.agent__bars i').forEach((bar, i) => bar.classList.toggle('is-on', i < level));
+    power.querySelector('.agent__power-note').textContent = note;
+    power.setAttribute('aria-label', level ? `Thinking power: ${note}` : note);
+  }
 
   // ---- the header's dot: is the AI awake? ------------------------------------------------
 
@@ -542,8 +546,8 @@ export function mount(ctx) {
   });
   panel.addEventListener('click', (event) => {
     if (event.target.closest('[data-agent-close]')) return close();
-    const bars = event.target.closest('.agent__signal');
-    if (bars) return bars.toggleAttribute('data-open');
+    if (event.target.closest('.agent__power')) return power.toggleAttribute('data-open');
+    power.removeAttribute('data-open'); // a tap anywhere else puts the note away
     const chip = event.target.closest('[data-ask]');
     if (chip) return send(chip.dataset.ask, { deep: 'deep' in chip.dataset, tapped: true });
     const see = event.target.closest('[data-agent-point]');

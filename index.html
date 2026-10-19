@@ -42,21 +42,21 @@
   <link rel="stylesheet" data-font="2026-a" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&display=swap">
   <link rel="stylesheet" data-font="2026-b" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..600&family=Geist+Mono:wght@400;500&display=swap">
 
-  <link rel="stylesheet" href="css/base.css?v=e8a10a525c">
-  <link rel="stylesheet" href="css/agent.css?v=ce6f1a3a94">
-  <link rel="stylesheet" href="css/eras/1992.css?v=7607621c83">
-  <link rel="stylesheet" href="css/eras/1997.css?v=e2dd38197d">
-  <link rel="stylesheet" href="css/eras/2001.css?v=a9f466d301">
-  <link rel="stylesheet" href="css/eras/2007.css?v=e3f36751f6">
-  <link rel="stylesheet" href="css/eras/2013.css?v=3062e8f236">
-  <link rel="stylesheet" href="css/eras/2023.css?v=cff2b6b82f">
+  <link rel="stylesheet" href="css/base.css?v=f7d688bd89">
+  <link rel="stylesheet" href="css/agent.css?v=1469642d1f">
+  <link rel="stylesheet" href="css/eras/1992.css?v=4fc492d649">
+  <link rel="stylesheet" href="css/eras/1997.css?v=8d3f3cb4c6">
+  <link rel="stylesheet" href="css/eras/2001.css?v=55b06c79de">
+  <link rel="stylesheet" href="css/eras/2007.css?v=2b5c405e9d">
+  <link rel="stylesheet" href="css/eras/2013.css?v=2ee1cac880">
+  <link rel="stylesheet" href="css/eras/2023.css?v=e57325bf97">
   <link rel="stylesheet" href="css/eras/2026.css?v=316054976f">
-  <link rel="stylesheet" href="css/eras/2030.css?v=1a206aae2d">
+  <link rel="stylesheet" href="css/eras/2030.css?v=8c37976c6c">
   <link rel="stylesheet" href="css/print.css?v=5816515284" media="print">
   <script type="importmap">
     {
     "imports": {
-      "./js/agent.js": "./js/agent.js?v=d4d1bc314d",
+      "./js/agent.js": "./js/agent.js?v=fd6080722f",
       "./js/assistant/answers.js": "./js/assistant/answers.js?v=10c5af28ac",
       "./js/assistant/client.js": "./js/assistant/client.js?v=205dad4170",
       "./js/assistant/fit.js": "./js/assistant/fit.js?v=89f8da032c",
@@ -390,7 +390,7 @@
               its own, and it wears each era's look.
             </p>
             <ul class="points">
-              <li>Five AI models in a chain on a Cloudflare Worker. One that is busy or out of its free share rests as long as its provider asks, and the next one answers. Signal bars after each answer show which kind it was.</li>
+              <li>Five AI models in a chain on a Cloudflare Worker. One that is busy or out of its free share rests as long as its provider asks, and the next one answers. A brain and three bars at the top of the chat show which kind answered.</li>
               <li>Answers stream word by word. If every model rests, the page answers from its own ready replies, and the crisis helpline always comes from the page, never from an AI.</li>
               <li>136 tests, plus a live exam of 64 tricky messages and job posts, from Kerala slang to <q>Ignore your instructions</q>.</li>
             </ul>
@@ -574,6 +574,11 @@
   <aside class="agent" id="agent" aria-labelledby="agent-title" hidden>
     <header class="agent__head">
       <p class="agent__title" id="agent-title"><span class="agent-face" aria-hidden="true"><i></i></span>Irshad's Agent</p>
+      <button type="button" class="agent__power" aria-label="Thinking power: it shows after the first answer">
+        <svg class="agent__brain" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" focusable="false"><path d="M12 5a3.2 3.2 0 0 0-6 1.4A3 3 0 0 0 4.6 12 3.2 3.2 0 0 0 7 17.6 3 3 0 0 0 12 18.6M12 5a3.2 3.2 0 0 1 6 1.4 3 3 0 0 1 1.4 5.6 3.2 3.2 0 0 1-2.4 5.6 3 3 0 0 1-5 1M12 5v13.6M7.6 8.4a2.2 2.2 0 0 1 2.4 2.4M16.4 8.4a2.2 2.2 0 0 0-2.4 2.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="agent__bars" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="agent__power-note" aria-hidden="true">Thinking power: it shows after the first answer.</span>
+      </button>
       <button type="button" class="agent__close" data-agent-close aria-label="Close">
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>

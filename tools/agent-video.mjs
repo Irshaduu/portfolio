@@ -2,7 +2,7 @@
 //
 //   capture  asks the live agent the video's messages once and keeps every answer exactly as it
 //            streamed, with its timing, in tools/agent-video.json. Run it when the full Flash model
-//            answers: the file says which model did, and the video's signal bars will too.
+//            answers: the file says which model did, and the bars by the brain in the video's header will too.
 //   record   plays that conversation on the real page in each era, on a phone screen, and films it.
 //            The page asks the agent as usual, but the answers come from the file instead of the
 //            network: the same words, in the same pieces, at the same pace; only the wait before the

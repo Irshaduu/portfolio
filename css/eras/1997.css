@@ -297,8 +297,11 @@
     & .agent__see a { font: 12px var(--win); }
     & :is(.agent__trace, .agent__status) { margin-left: 0; font: 11px var(--win); color: #808080; }
     & .agent__status::before { content: " "; }
-    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 4px; color: #000; opacity: .5; font: 11px var(--win); }
-    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    /* The brain and bars, in the title bar's silver; the note is a yellow Windows tooltip. */
+    --power-full: #7ddc6f; --power-mid: #ffd24d; --power-low: #ff9e85;
+    & .agent__power { gap: 3px; margin-right: 4px; padding: 0 2px; color: #c0c0c0; }
+    & .agent__brain { width: 14px; height: 14px; }
+    & .agent__power-note { top: calc(100% + 6px); padding: 2px 4px; border: 1px solid #000; background: #ffffe1; color: #000; font: 11px/1.3 var(--win); }
     & .agent__typing { color: #000080; }
     & .agent__next { gap: 4px; }
     & .agent__next button, & .fit__mail {

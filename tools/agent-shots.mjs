@@ -5,7 +5,7 @@
 // use another one), drives it over the DevTools protocol, and stops both again.
 //
 // The conversation is a real one, word for word: the agent's answer to "Are you ChatGPT?" in its
-// exam on 18 Oct 2026, from the reserve Flash (so three signal bars, full power).
+// exam on 18 Oct 2026, from the reserve Flash (so the header's brain shows three green bars, full power).
 
 import { spawn } from 'node:child_process';
 import { existsSync, writeFileSync } from 'node:fs';

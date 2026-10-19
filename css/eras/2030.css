@@ -570,6 +570,7 @@
     }
     & .agent__title { font-family: var(--display); font-weight: 400; letter-spacing: .14em; }
     & .agent__send { box-shadow: 0 0 18px rgb(159 232 255 / .35); }
+    & .agent__bars i.is-on { box-shadow: 0 0 5px color-mix(in srgb, var(--power) 55%, transparent); } /* a faint light, as everything here has */
 
     /* ---- room to read (js/reading.js) ----
        Reading down the page, the bar docks: on a phone it sinks into the bottom edge and leaves a

@@ -87,6 +87,7 @@
   :root:is([data-era="2023"], [data-era="2026"], [data-era="2030"]) {
     --agent-glow: color-mix(in srgb, var(--agent-accent) 25%, transparent);
     --agent-tint: color-mix(in srgb, var(--agent-accent) 10%, transparent);
+    --power-full: #97c459; --power-mid: #ef9f27; --power-low: #f0997b; /* the brain's bars: green, amber, soft coral */
 
     & .agent-launch {
       padding: .5rem 1.15rem .5rem .5rem; border-radius: 999px; border: 1px solid var(--line-2);
@@ -125,13 +126,15 @@
     & .agent__see a { font: 500 .68rem/1 var(--agent-mono); letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: var(--agent-accent); }
     & .agent__see a::after { content: " \2198"; }
     & .agent__trace { font: 400 .64rem/1.4 var(--agent-mono); letter-spacing: .06em; color: var(--ink-3); }
-    /* Small and quiet, after the last word: the faintest ink, a little brighter when asked. A bigger
-       tap area than it looks, which doesn't push the lines apart. */
-    & .agent__signal {
-      padding: 6px 8px 6px 4px; margin: -6px 0 -6px .3em; opacity: .6;
-      color: var(--ink-3); font: 400 .62rem/1 var(--agent-mono); letter-spacing: .06em; transition: opacity .2s;
+    /* The brain and bars, beside the close button: small and quiet, in muted colours (green, amber,
+       soft coral), a little brighter when asked. A bigger tap area than it looks. */
+    & .agent__power { padding: 8px 6px; margin: -8px 0 -8px auto; color: var(--ink-3); opacity: .85; transition: opacity .2s; }
+    & .agent__power:hover, & .agent__power[data-open] { opacity: 1; }
+    & .agent__power-note {
+      top: calc(100% - 2px); padding: .45rem .65rem; border-radius: 10px; border: 1px solid var(--line-2);
+      background: var(--agent-panel-phone); color: var(--ink-2); font: 400 .64rem/1.45 var(--agent-mono); letter-spacing: .04em;
+      box-shadow: 0 12px 30px -12px rgb(0 0 0 / .9);
     }
-    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
     & .agent__next button {
       padding: .32rem .7rem; border-radius: 999px; text-align: left;
       border: 1px solid var(--line-2); background: rgb(255 255 255 / .025); color: var(--ink-2); font-size: .78rem; line-height: 1.3;

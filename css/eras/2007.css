@@ -351,8 +351,10 @@
     & .agent__see a::before, & .fit__link::before { content: "\00bb\00a0"; color: var(--orange); }
     & :is(.agent__trace, .agent__status) { font: 11px var(--sans); color: var(--ink-2); }
     & .agent__status { margin-left: .5em; }
-    & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--blue); opacity: .55; font: 11px var(--sans); }
-    & .agent__signal:hover, & .agent__signal[data-open] { opacity: 1; }
+    /* The brain and bars, white on the glossy blue bar, with pale lit colours. */
+    --power-full: #b9f07e; --power-mid: #ffd27a; --power-low: #ffb29c;
+    & .agent__power { gap: 4px; margin-block: -4px; margin-right: 6px; padding: 4px; color: rgb(255 255 255 / .8); filter: drop-shadow(0 1px 0 rgb(0 0 0 / .2)); }
+    & .agent__power-note { top: calc(100% + 6px); padding: 6px 9px; border: 1px solid #b8cde3; border-radius: 6px; background: #fff; color: #333; font: 11px/1.4 var(--sans); box-shadow: 0 3px 10px rgb(0 0 0 / .2); filter: none; }
     & .agent__typing { color: var(--blue); }
     & .agent__next { gap: 5px; }
     & .agent__next button {
