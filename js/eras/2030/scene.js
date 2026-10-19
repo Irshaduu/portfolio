@@ -16,7 +16,7 @@ let audio = new Proxy({}, { get: () => () => {} });
 load(new URL('./audio.js', import.meta.url)).then((m) => { audio = m; }, () => {});
 
 const root = document.documentElement;
-const KIND = { machine: 0, letters: 1, breath: 2, party: 3 };
+const KIND = { machine: 0, letters: 1, breath: 2, party: 3, chain: 4 };
 
 const small = matchMedia('(max-width: 760px)').matches;
 const weak = (navigator.hardwareConcurrency || 8) <= 4 || (navigator.deviceMemory || 8) <= 4;
@@ -168,6 +168,34 @@ void main() {
       col = vec3(1.0, 0.95, 0.85);
       alpha = 0.1 + 0.9 * lit;
     }
+  } else if (uKind == 4) {
+    // Irshad's Agent: four shells, one speaking at a time. Each speaks for four seconds, then
+    // rests, gold, while the next one takes over; after the fourth, all wake for a new day.
+    float cycle = mod(t, 16.0);
+    float turn = floor(cycle / 4.0);
+    float f = fract(cycle / 4.0);
+    if (a0.w < 0.5) {
+      vec3 n = a0.xyz;
+      float speaking = abs(a1.x - turn) < 0.5 ? smoothstep(0.0, 0.12, f) * (1.0 - smoothstep(0.88, 1.0, f)) : 0.0;
+      float resting = a1.x < turn - 0.5 ? 1.0 : 0.0;
+      float ripple = sin(n.y * 9.0 - t * 7.0) * 0.06 * speaking;
+      float spin = (0.1 + a1.x * 0.04) * (mod(a1.x, 2.0) < 0.5 ? 1.0 : -1.0);
+      p = rotY(t * spin) * n * (1.0 - a1.x * 0.17) * (1.0 + ripple);
+      col = mix(mix(vec3(0.62, 0.91, 1.0), vec3(1.0, 0.82, 0.54), resting), vec3(1.0), speaking * 0.45);
+      alpha = 0.2 + 0.75 * speaking + 0.15 * resting;
+      size *= 1.0 + 0.45 * speaking;
+    } else if (a0.w < 1.5) {
+      float ang = a0.y + t * 0.32 - a1.x * 0.07;
+      p = rotY(a0.x * 0.785) * rotX((a0.x / 7.0 - 0.5) * 1.3) * vec3(cos(ang), 0.0, sin(ang)) * 1.32;
+      col = mix(vec3(0.62, 0.91, 1.0), vec3(1.0, 0.56, 0.72), a0.x / 7.0);
+      alpha = 1.0 - a1.x / 10.0;
+    } else {
+      float pulse = 0.5 + 0.5 * sin(t * 2.4 + a1.z * TAU);
+      p = a0.xyz * (1.0 + 0.08 * pulse);
+      col = vec3(1.0, 0.95, 0.85);
+      alpha = 0.35 + 0.5 * pulse;
+    }
+    p = rotX(0.3) * p;
   } else {
     // Catering: beads and their trails on ten orbits, six apps at the centre.
     if (a0.w < 1.5) {

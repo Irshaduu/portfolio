@@ -9,7 +9,7 @@
 // and js/agent.js shows them as a card, line by line as they arrive.
 
 // The parts of the page a match may point to (the same as SECTIONS in assistant/worker/prompt.js).
-export const SECTIONS = ['#top', '#work', '#workshopos', '#word-hunt', '#physiocoach', '#catering', '#stack', '#story', '#contact'];
+export const SECTIONS = ['#top', '#work', '#workshopos', '#word-hunt', '#physiocoach', '#catering', '#irshads-agent', '#stack', '#story', '#contact'];
 
 export const MAX_POST = 6000; // characters in one job post (the same in assistant/worker/index.js)
 

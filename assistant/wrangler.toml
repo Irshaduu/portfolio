@@ -5,6 +5,12 @@ name = "portfolio-assistant"
 main = "worker/index.js"
 compatibility_date = "2026-09-20"
 
+# No preview copies at <version>-portfolio-assistant.irshaduu.workers.dev: each one is a second
+# door to the same keys and the same free AI allowance. To try a change before it goes live, set
+# this to true, deploy, upload a copy (npx wrangler versions upload --preview-alias test), try it,
+# then set it back to false and deploy again: every copy closes.
+preview_urls = false
+
 # Logs in the Cloudflare dashboard: which service answered each question, and how fast.
 [observability]
 enabled = true

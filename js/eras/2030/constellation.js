@@ -1,6 +1,7 @@
 // 2030: the Stack as a night sky. Every tool is a star, and every project is a constellation:
 // the tools it was built with (each chip's data-in), joined by the shortest set of lines that
-// connects them all. Python is in every one, so all four meet there.
+// connects them all. Python is in the four Django projects, so they meet there; the agent is all
+// JavaScript, and meets three of them there instead.
 //
 // Hover or touch a star to light every project that uses it; tap to keep it lit. The legend
 // buttons light one project, and work from the keyboard. The lit projects' cards glow too.
@@ -12,7 +13,7 @@ import { load } from '../../load.js';
 let audio = new Proxy({}, { get: () => () => {} });
 load(new URL('./audio.js', import.meta.url)).then((m) => { audio = m; }, () => {});
 
-const LABELS = { workshopos: 'WorkshopOS', 'word-hunt': 'Word Hunt', physiocoach: 'PhysioCoach', catering: 'Catering' };
+const LABELS = { workshopos: 'WorkshopOS', 'word-hunt': 'Word Hunt', physiocoach: 'PhysioCoach', catering: 'Catering', 'irshads-agent': "Irshad's Agent" };
 const IN_A_SENTENCE = { ...LABELS, catering: 'the catering spec' };
 const PROJECTS = Object.keys(LABELS);
 const SVG = 'http://www.w3.org/2000/svg';

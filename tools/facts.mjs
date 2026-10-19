@@ -4,7 +4,8 @@
 // if two give different values, or a file no longer words a fact the way it's looked for, this says
 // where and exits with an error. Run it after changing any number, before printing the PDFs.
 
-import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
 const root = resolve(import.meta.dirname, '..');
@@ -130,6 +131,18 @@ const FACTS = [
     catering: [/([\d,]+ to [\d,]+) people register/],
     assistant: [/([\d,]+ to [\d,]+) sign-ups/],
   } },
+  { fact: "Irshad's Agent tests", find: {
+    portfolio: [/id="irshads-agent"[\s\S]*?<dt>Tests<\/dt><dd>(\d+)/, /(\d+) tests, plus a live exam/],
+    assistant: [/(\d+) automated tests,\s+plus a live exam/],
+  } },
+  { fact: "Irshad's Agent exam messages", find: {
+    portfolio: [/live exam of (\d+) tricky/],
+    assistant: [/live exam of (\d+) tricky/],
+  } },
+  { fact: "Irshad's Agent AI models", find: {
+    portfolio: [/<dt>AI models<\/dt><dd>(\d+)/, /(\w+) AI models in a chain/],
+    assistant: [/(\w+) AI models in a chain/],
+  } },
   { fact: 'Full-stack course grade', find: {
     portfolio: [/Grade A\+ \((\d+)%\)/],
     resume: [/Grade A\+ \((\d+)%\)/],
@@ -160,8 +173,25 @@ for (const { fact, find, same = (v) => v, raw = false } of FACTS) {
   found[fact] = values[0]?.value;
 }
 
-// "3,400+ automated tests" must still be true of the projects' own counts.
-const total = ['WorkshopOS Django tests', 'WorkshopOS JavaScript tests', 'Word Hunt tests', 'PhysioCoach tests'].reduce((sum, fact) => sum + (found[fact] ?? 0), 0);
+// The agent's code is in this repository, so its numbers are counted, not taken on trust: its tests
+// (run here), its exam's messages and job posts, and the AI models in its chain.
+const testFiles = readdirSync(join(root, 'assistant/test')).filter((name) => name.endsWith('.test.js')).map((name) => join(root, 'assistant/test', name));
+const run = spawnSync(process.execPath, ['--test', '--test-reporter=tap', ...testFiles], { encoding: 'utf8' });
+const ran = Number(run.stdout.match(/^# tests (\d+)/m)?.[1]);
+if (run.status !== 0) problems.push("Irshad's Agent tests: some fail (cd assistant && npm test)");
+else if (ran !== found["Irshad's Agent tests"]) problems.push(`Irshad's Agent tests: the pages say ${found["Irshad's Agent tests"]}, but ${ran} ran`);
+const exam = readFileSync(join(root, 'assistant/exam.mjs'), 'utf8');
+const listed = (from) => {
+  const start = exam.indexOf(from);
+  return (exam.slice(start, exam.indexOf('\n];', start)).match(/^ {2}\['/gm) ?? []).length;
+};
+const examined = listed('const QUESTIONS = [') + listed('const POSTS = [');
+if (examined !== found["Irshad's Agent exam messages"]) problems.push(`Irshad's Agent exam: the pages say ${found["Irshad's Agent exam messages"]} messages, but assistant/exam.mjs has ${examined}`);
+const { routes } = await import('../assistant/worker/chain.js');
+if (routes({}).length !== found["Irshad's Agent AI models"]) problems.push(`Irshad's Agent AI models: the pages say ${found["Irshad's Agent AI models"]}, but its chain has ${routes({}).length}`);
+
+// "3,500+ automated tests" must still be true of the projects' own counts.
+const total = ['WorkshopOS Django tests', 'WorkshopOS JavaScript tests', 'Word Hunt tests', 'PhysioCoach tests', "Irshad's Agent tests"].reduce((sum, fact) => sum + (found[fact] ?? 0), 0);
 for (const page of ['portfolio', 'resume', 'assistant', 'answers']) {
   const claim = html[page].match(/([\d,]+)\+(?:<\/span> <span class="fact__l">| )automated tests/);
   if (!claim) problems.push(`Total tests: no "N+ automated tests" on ${PAGES[page]}`);

@@ -70,7 +70,9 @@ async function syncModule() {
 // conversation waits for the way back.
 let agent = null;
 document.addEventListener('click', async (event) => {
-  if (!event.target.closest('[data-agent-open]')) return;
+  const opener = event.target.closest('[data-agent-open]');
+  if (!opener) return;
+  if (opener.matches('a')) event.preventDefault(); // "Talk to it" opens the chat, not a new address
   agent ??= load(new URL('./agent.js', import.meta.url)).then((module) => module.mount(ctx));
   try {
     (await agent).open();

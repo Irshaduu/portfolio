@@ -387,6 +387,7 @@
     & .agent__msg--bot > .agent__text::before { content: "IrshadsAgent: "; font-weight: bold; color: var(--blue); }
     & .agent__msg--bot:first-child > .agent__text::before { content: none; } /* the greeting signs on by itself */
     & .agent__see a, & .fit__link { font: 10px/1.4 var(--pixel); letter-spacing: .08em; text-transform: uppercase; color: var(--led); }
+    & .fit__link { margin-left: .45em; }
     & .agent__see a::before, & .fit__link::before { content: "\00bb\00a0"; color: var(--orange); }
     & :is(.agent__trace, .agent__status, .agent__note) { font: 10px/1.4 var(--pixel); letter-spacing: .06em; color: var(--steel); }
     & .agent__status { margin-left: .6em; }

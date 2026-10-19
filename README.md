@@ -369,7 +369,7 @@ the download always match, and links shared before keep working. To change the r
 3. Run `node tools/facts.mjs`. It finds the 18 facts the pages share (test counts, models, routes,
    modules and so on) by their wording on each page, and in the assistant's fact sheet and ready
    answers, and says where any two disagree. It
-   also checks that "3,400+ tests" still adds up, that the resume's phone number is the one the
+   also checks that "3,500+ tests" still adds up, that the resume's phone number is the one the
    WhatsApp links use, and that no Google Drive link has come back.
 4. Run `node tools/pdf.mjs`. It starts its own local server, prints every document page with
    headless Edge or Chrome, and stops. Check the resume is still one page.
@@ -488,6 +488,8 @@ tools/share-card.html the link preview picture (assets/share.png); how to rebuil
 tools/duo.html        the full-size laptop-and-phone pictures the live-app cards link to
 tools/era-screens.html the live apps' screens as 1997, 2001 and 2007 would have shown them
 tools/screens.mjs     photographs those screens into assets/shots/eras/
+tools/agent-video.mjs films Irshad's Agent on a phone in each era from real, recorded answers (agent-video.json)
+tools/agent-shots.mjs the agent in all eight costumes, the picture its card opens when tapped
 assets/               resume PDF, the write-ups' PDFs (docs/), link preview picture, project pictures and clips (shots/),
                       the old eras' screens (shots/eras/), and the drawn 1997, 2001 and 2013 devices (devices/)
 ```

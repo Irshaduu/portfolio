@@ -158,6 +158,7 @@
     & #word-hunt .mark { --mk-fill: #a05000; --mk-fill-2: #0ff; }
     & #physiocoach .mark { --mk-fill-2: #ffffc0; }
     & #catering .mark { --mk-fill: #e0e0e0; --mk-fill-2: #ff0; }
+    & #irshads-agent .mark { --mk-fill: #ffffc0; }
     & .blink { display: inline-block; padding: 0 4px; font: bold 13px Arial, sans-serif; color: #ff0; background: #f00; vertical-align: middle; text-decoration: none; animation: tt97-blink 1.1s steps(1) infinite; }
     & .project__tagline { font-style: italic; color: #0ff; }
     & .points li { padding-left: 1.2em; text-indent: -1.2em; }

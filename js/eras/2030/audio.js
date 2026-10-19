@@ -8,7 +8,8 @@
 //     and rings out in the same space, a reverb generated here.
 //   - Each project's own numbers. Its object plays a motif built the way its shape is built:
 //     WorkshopOS locks 21 rings into place, Word Hunt rains 71 letters and circles 10 players,
-//     PhysioCoach breathes in, Catering sends 10 orbits round 6 apps.
+//     PhysioCoach breathes in, Catering sends 10 orbits round 6 apps, the agent's 4 models
+//     answer in turn while its 8 costumes circle.
 // It plays only while sound is on and awake (sound.js), so never in a hidden tab, and the
 // scene asks for no sound where reduced motion has stopped the motion.
 
@@ -20,8 +21,8 @@ const LYDIAN = [0, 2, 4, 6, 7, 9, 11];
 // Step `step` of A Lydian, counting from the A of `octave` (octave 4 starts at A4, 440 Hz).
 // Steps past 6 carry on into the next octave.
 const note = (step, octave = 4) => 440 * 2 ** ((LYDIAN[step % 7] + 12 * (octave - 4 + Math.floor(step / 7))) / 12);
-// Each project's note. Together they make A major 7, the chord of the whole sky.
-const NOTE = { workshopos: 0, 'word-hunt': 2, physiocoach: 4, catering: 6 };
+// Each project's note. Together they make A major 9, the chord of the whole sky.
+const NOTE = { workshopos: 0, 'word-hunt': 2, physiocoach: 4, catering: 6, 'irshads-agent': 8 };
 const PENTA = [0, 1, 2, 4, 5]; // the five steps that never clash, for showers of grains
 
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -317,6 +318,16 @@ const OBJECTS = {
     const mid = at(s, { x, y, wet: 0.5 });
     for (const step of [0, 2, 4, 6, 8, 10]) glass(s, mid, t + 1.6, note(step, 4), { len: 2.4, gain: 0.018, bright: 1 });
   },
+  // Irshad's Agent: its four models answer in turn, each handing over a step lower; its eight
+  // costumes glint as they circle; then its own note settles.
+  chain(s, x, y, t) {
+    [8, 6, 4, 2].forEach((step, i) => glass(s, at(s, { x: x + (i - 1.5) * 0.06, y, wet: 0.45 }), t + i * 0.42, note(step, 5), { len: 1.1, gain: 0.035, bright: 1.3 }));
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2;
+      glass(s, at(s, { x: x + Math.cos(a) * 0.16, y, z: Math.sin(a) * 1.5, wet: 0.45 }), t + 0.2 + i * 0.17, note(PENTA[i % 5], 6), { len: 0.3, gain: 0.012, bright: 2 });
+    }
+    glass(s, at(s, { x, y, wet: 0.5 }), t + 1.9, note(NOTE['irshads-agent'], 4), { len: 2.4, gain: 0.04, bright: 1 });
+  },
 };
 
 export function object(kind, x, y) {
@@ -334,13 +345,13 @@ export function chart(x, y) {
   const t = s.ctx.currentTime + 0.03;
   for (const [i, p] of Object.keys(NOTE).entries()) {
     const start = t + i * 0.25;
-    const line = at(s, { x: x + (i - 1.5) * 0.15, y, wet: 0.55 });
+    const line = at(s, { x: x + (i - (Object.keys(NOTE).length - 1) / 2) * 0.15, y, wet: 0.55 });
     glide(s, line, start, note(NOTE[p], 4), note(NOTE[p], 5), { len: 2.6, gain: 0.025, attack: 0.4 });
     for (let k = 0; k < 4; k++) glass(s, line, start + rand(0.3, 2.4), note(NOTE[p], 6), { len: 0.5, gain: 0.012, bright: 1.5 });
   }
 }
 
-// A star sings the chord of the projects it's in: Python, in all four, is the whole chord.
+// A star sings the chord of the projects it's in: Python, in four of the five, is nearly the whole chord.
 // Pinning it adds the low note under it.
 let lastStar = -Infinity;
 export function star(projects, x, y, { pinned = false } = {}) {
@@ -350,7 +361,7 @@ export function star(projects, x, y, { pinned = false } = {}) {
   if (t - lastStar < 0.07 && !pinned) return;
   lastStar = t;
   const here = at(s, { x, y, wet: 0.55 });
-  const gain = 0.04 / Math.sqrt(projects.length); // one note or four, about as loud
+  const gain = 0.04 / Math.sqrt(projects.length); // one note or five, about as loud
   projects.forEach((p, i) => glass(s, here, t + i * 0.035, note(NOTE[p], 5), { len: 1.6, gain, bright: 1.3 }));
   if (pinned) glass(s, here, t, note(NOTE[projects[0]], 3), { len: 1.4, gain: 0.03, ratio: 2, bright: 0.8 });
 }

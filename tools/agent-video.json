@@ -1,0 +1,185 @@
+{
+ "recorded": "stand-in: Lite answers from 19 Oct 2026, 00:xx IST (replace with: node tools/agent-video.mjs capture)",
+ "server": "https://portfolio-assistant.irshaduu.workers.dev",
+ "chat": [
+  {
+   "q": "Is Irshad better than ChatGPT?",
+   "events": [
+    {
+     "at": 3313,
+     "name": "meta",
+     "data": {
+      "by": "Gemini Lite",
+      "tried": [
+       "Gemini: resting",
+       "Gemini Reserve: resting",
+       "Gemini Lite: answered"
+      ]
+     }
+    },
+    {
+     "at": 3313,
+     "name": "text",
+     "data": {
+      "t": "ChatGPT can write a poem, but it cannot fix a car workshop's accounts."
+     }
+    },
+    {
+     "at": 3328,
+     "name": "text",
+     "data": {
+      "t": " Irshad builds software that actually runs businesses. (#workshopos)"
+     }
+    },
+    {
+     "at": 3330,
+     "name": "done",
+     "data": {}
+    }
+   ]
+  },
+  {
+   "q": "Will he work for free?",
+   "events": [
+    {
+     "at": 4645,
+     "name": "meta",
+     "data": {
+      "by": "Gemini Lite",
+      "tried": [
+       "Gemini: resting",
+       "Gemini Reserve: resting",
+       "Gemini Lite: answered"
+      ]
+     }
+    },
+    {
+     "at": 4645,
+     "name": "text",
+     "data": {
+      "t": "Irshad loves building things, but rent and coffee aren't free. Money is his department"
+     }
+    },
+    {
+     "at": 4645,
+     "name": "text",
+     "data": {
+      "t": ", so ask him directly. (#contact)"
+     }
+    },
+    {
+     "at": 4645,
+     "name": "done",
+     "data": {}
+    }
+   ]
+  },
+  {
+   "q": "Does he know PHP?",
+   "events": [
+    {
+     "at": 3675,
+     "name": "meta",
+     "data": {
+      "by": "Gemini Lite",
+      "tried": [
+       "Gemini: HTTP 404",
+       "Gemini Reserve: HTTP 404",
+       "Gemini Lite: answered"
+      ]
+     }
+    },
+    {
+     "at": 3675,
+     "name": "text",
+     "data": {
+      "t": "He hasn't told me about PHP yet."
+     }
+    },
+    {
+     "at": 3675,
+     "name": "text",
+     "data": {
+      "t": " He sticks to Python and Django for his backends. Ask him on WhatsApp, he might just tell you. (#stack"
+     }
+    },
+    {
+     "at": 3676,
+     "name": "text",
+     "data": {
+      "t": ")"
+     }
+    },
+    {
+     "at": 3676,
+     "name": "done",
+     "data": {}
+    }
+   ]
+  }
+ ],
+ "fit": {
+  "post": "Python Developer (Django) – Kochi, Kerala\nFull-time · On-site (Infopark) · 1–3 years\n\nAbout us\nWe're a growing product company building billing and inventory software for retail and service businesses across Kerala. We're moving our older system to Django.\n\nWhat you'll do\n• Build and maintain backend features and REST APIs in Django\n• Design PostgreSQL schemas and write efficient queries\n• Write unit and integration tests for new and existing code\n• Work with our front-end and mobile teams\n• Fix production issues and keep the codebase clean\n\nWhat we're looking for\n• 1–3 years of experience with Python and Django\n• Good knowledge of REST APIs and PostgreSQL\n• Comfortable with Git and code reviews\n• Habit of writing automated tests\n\nNice to have\n• Exposure to PHP or Java, to help move the older system across\n• Experience integrating with SAP or Oracle ERP\n• Experience with billing, inventory or accounting systems",
+  "events": [
+   {
+    "at": 5659,
+    "name": "meta",
+    "data": {
+     "by": "Gemini Lite",
+     "tried": [
+      "Gemini: HTTP 404",
+      "Gemini Reserve: HTTP 404",
+      "Gemini Lite: answered"
+     ]
+    }
+   },
+   {
+    "at": 5659,
+    "name": "text",
+    "data": {
+     "t": "SUMMARY: He fits well with his strong Django background and real experience building inventory systems.\nMATCH: Django and"
+    }
+   },
+   {
+    "at": 5659,
+    "name": "text",
+    "data": {
+     "t": " Python | Built a full Django inventory system for a workshop | #workshopos\nMATCH: PostgreSQL and REST | PostgreSQL is"
+    }
+   },
+   {
+    "at": 5659,
+    "name": "text",
+    "data": {
+     "t": " in his stack with REST APIs | #stack\nMATCH: Automated tests | Wrote 3,185 Django"
+    }
+   },
+   {
+    "at": 5659,
+    "name": "text",
+    "data": {
+     "t": " tests for WorkshopOS | #workshopos\nMATCH: Inventory systems | Built stock, billing, and ledger systems in Workshop"
+    }
+   },
+   {
+    "at": 5660,
+    "name": "text",
+    "data": {
+     "t": "OS | #workshopos\nGAP: PHP or Java\nGAP: SAP or Oracle ERP\nASK: Is he open"
+    }
+   },
+   {
+    "at": 5660,
+    "name": "text",
+    "data": {
+     "t": " to working on-site at Infopark in Kochi?"
+    }
+   },
+   {
+    "at": 5660,
+    "name": "done",
+    "data": {}
+   }
+  ]
+ }
+}

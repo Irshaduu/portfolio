@@ -11,7 +11,7 @@
 import { FACTS } from './facts.js';
 
 // The section ids the AI may point to. The page turns (#work) into a link and shows that part.
-export const SECTIONS = ['#top', '#work', '#workshopos', '#word-hunt', '#physiocoach', '#catering', '#stack', '#story', '#contact'];
+export const SECTIONS = ['#top', '#work', '#workshopos', '#word-hunt', '#physiocoach', '#catering', '#irshads-agent', '#stack', '#story', '#contact'];
 export const ERAS = ['1992', '1997', '2001', '2007', '2013', '2023', '2026', '2030'];
 export const INTENTS = { hire: 'to hire', build: 'with a project', explore: 'just to look around' };
 

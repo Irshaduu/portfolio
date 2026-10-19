@@ -148,6 +148,18 @@
   }
   .duo video.is-playing { opacity: 1; }
   .duo video[data-future] { display: none; }
+  /* The phone alone (Irshad's Agent): as wide as the phone and its margins, no computer behind.
+     Its screen holds one picture and one clip per era, and shows the era's own: the agent wears
+     each era's clothes, so each era films its own. */
+  .duo--solo { --w: calc(var(--phone-x) + 249 + var(--pr) + var(--rim) + var(--edge)); width: min(100%, 17rem); margin-inline: auto; }
+  .duo__screen > [data-screen] { display: none; }
+  :root:is([data-era="1997"]) .duo__screen > [data-screen="1997"],
+  :root:is([data-era="2001"]) .duo__screen > [data-screen="2001"],
+  :root:is([data-era="2007"]) .duo__screen > [data-screen="2007"],
+  :root:is([data-era="2013"]) .duo__screen > [data-screen="2013"],
+  :root:is([data-era="2023"]) .duo__screen > [data-screen="2023"],
+  :root:is([data-era="2026"]) .duo__screen > [data-screen="2026"],
+  :root:is([data-era="2030"]) .duo__screen > [data-screen="2030"] { display: block; }
 
   /* Today's devices, which 2026 wears as they are: a dark browser window and a phone in front. */
   .duo__win { overflow: hidden; border-radius: calc(12 * var(--u)); background: #0c0f16; box-shadow: 0 0 0 calc(1 * var(--u)) rgb(255 255 255 / .14), 0 calc(28 * var(--u)) calc(56 * var(--u)) calc(-22 * var(--u)) rgb(0 0 0 / .75); }

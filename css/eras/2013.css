@@ -68,6 +68,7 @@
     & .project:nth-child(2) { --tile: var(--amethyst); --tile-dark: var(--wisteria); }
     & .project:nth-child(3) { --tile: var(--carrot); --tile-dark: var(--pumpkin); }
     & .project:nth-child(4) { --tile: var(--emerald); --tile-dark: var(--nephritis); }
+    & .project:nth-child(5) { --tile: var(--alizarin); --tile-dark: var(--pomegranate); }
     & .project--feature { grid-column: 1 / -1; }
     & .project__main { display: flex; flex-direction: column; gap: 1.25rem; padding-bottom: 1.25rem; }
     & .project__main > :not(.project__head) { margin-inline: 1.75rem; }
@@ -276,6 +277,7 @@
     & .agent__msg--bot { gap: .5rem; }
     & .agent__msg--bot > .agent__text { justify-self: start; padding: .55rem .95rem; border-radius: 18px; background: var(--clouds); }
     & .agent__see a, & .fit__link { font: 700 .72rem/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--belize); }
+    & .fit__link { margin-left: .45em; }
     & :is(.agent__trace, .agent__status) { font: 400 .74rem/1.4 var(--sans); color: var(--concrete); }
     & .agent__status { margin-left: .5em; }
     & .agent__signal { margin: -6px 0 -6px .3em; padding: 6px 6px 6px 3px; color: var(--asbestos); opacity: .7; font: 400 .72rem var(--sans); }

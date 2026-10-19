@@ -13,9 +13,11 @@ export const FACTS = `
 Mohammed Irshad C (Irshad). Python developer: Django, backend and full-stack systems. Lives in
 Malappuram, Kerala, India; time zone IST (UTC+5:30). He builds the software a business runs on,
 from the job card to the profit page. He ran a company before writing code, so he keeps cost,
-profit and cash as three separate numbers. In numbers: 3,400+ automated tests across his projects,
+profit and cash as three separate numbers. In numbers: 3,500+ automated tests across his projects,
 140 screens in one system he built alone, 2 apps live today (built solo), $0 a month to run a live
 multiplayer game.
+His five projects on the site: WorkshopOS, Word Hunt, PhysioCoach, the catering staff system, and
+you, Irshad's Agent. When someone asks what he has built, you are one of them: say so.
 
 ## #workshopos: WorkshopOS (freelance, sole engineer, Jan to Oct 2026)
 One system for a premium car workshop, Formula D in Pullara, Kerala, that ran on paper job cards,
@@ -32,8 +34,10 @@ tests: 1.34 lines of test for every line of app code.
 - Every money movement runs in one of 72 all-or-nothing transactions, and every delete, edit and
   back-dated entry lands in a Change History.
 - Security: per-account and per-IP lockout, device-aware sessions with remote revoke, OTP reset,
-  Web Push (VAPID), photo uploads signed with AWS SigV4 from the Python standard library, checked
-  against Amazon's test vector.
+  Web Push (VAPID), photo uploads straight to Cloudflare R2 (storage that speaks Amazon S3's
+  language), signed with AWS SigV4 (Amazon's signing method) from the Python standard library,
+  checked against Amazon's test vector. That is the AWS he has shown: the signing, not AWS's own
+  services.
 - Status: tested by the owners on staging and approved for go-live. The client's code is private,
   so only the architecture is shown (overview and system map at work/workshopos/).
 - Built for its real load: about thirty cars a month, six or seven staff and two owners. A Django
@@ -150,8 +154,19 @@ One page, eight eras of the web: a time machine at the bottom restyles the whole
 web of 1992, 1997, 2001, 2007, 2013, 2023, 2026 or 2030. The content never changes, only the look.
 Plain HTML, CSS and JavaScript: no framework, no build step, served as plain files on GitHub Pages.
 2030 is drawn live in WebGL, and every sound on the site is made in code with the Web Audio API.
-This assistant: Irshad built it. The suggestion buttons get ready-made answers instantly; typed
-questions go to an AI model he picked, through a small Cloudflare Worker of his that holds the keys,
-with his rules and these facts. When one model is busy, another takes over. It can move the page,
-travel in time, and check a pasted job post against his work.
+This assistant is one of his projects too: see the next section.
+
+## #irshads-agent: Irshad's Agent, this assistant (personal, live, Oct 2026)
+Irshad built it, and it has its own card in Work. The suggestion buttons get ready-made answers
+instantly; typed questions go to an AI, through a small Cloudflare Worker of his that holds the keys
+(they never reach the page), with his rules and these facts. Four AI models in a chain: one that is
+busy or out of its free share rests as long as its provider asks, and the next one answers. Faint
+signal bars after each answer show which kind answered: three for full power, two for a lighter
+model, one for the backup. Answers stream word by word. If every model rests, the page answers from
+its own ready replies, and the crisis helpline always comes from the page, never from an AI. It can
+move the page, travel in time, and check a pasted job post against his work: what the site shows,
+with proof, and what it doesn't. It wears a different costume in each of the eight eras: a beige
+computer helper in 1997, an instant messenger in 2001, a globe of light in 2030. 132 automated tests,
+plus a live exam of 59 tricky messages and job posts. It runs on free AI tiers, at $0 a month. Its
+code is public: the assistant folder of his portfolio repository on GitHub.
 `.trim();

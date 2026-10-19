@@ -341,6 +341,13 @@ order is `routes()` in `worker/chain.js`. Then `npm run deploy`.
 
 **Change how it talks:** `worker/prompt.js`. Then `npm test`, `npm run deploy` and `npm run exam`.
 
+**Try a change before visitors see it:** preview copies are off (`preview_urls = false` in
+`wrangler.toml`), because each copy is another door to the same keys and free allowance. Turn them
+on, deploy, then `npx wrangler versions upload --preview-alias test` gives a copy at
+`https://test-portfolio-assistant.irshaduu.workers.dev`. `--var GEMINI_MODEL:off` (and the same for
+`GEMINI_RESERVE_MODEL`) makes the copy skip the Flash models, so testing doesn't use their 20 a
+day. Turn previews off and deploy again when done: every copy closes.
+
 **When the site changes:** the AI only knows `worker/facts.js`. Update it (and any ready answer in
 `js/assistant/answers.js` that says the same thing), run `node tools/facts.mjs` from the
 `portfolio` folder to check the numbers still match the pages, then `npm run deploy`.

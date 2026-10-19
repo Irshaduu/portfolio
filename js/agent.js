@@ -22,7 +22,7 @@ const KEEP = 30; // messages kept
 const PLACES = {
   '#top': 'the top', '#work': 'Work', '#workshopos': 'WorkshopOS', '#word-hunt': 'Word Hunt',
   '#physiocoach': 'PhysioCoach', '#catering': 'the catering system', '#stack': 'the Stack',
-  '#story': 'the Story', '#contact': 'Contact', 'resume/': 'the resume', 'work/workshopos/#map': 'the system map',
+  '#story': 'the Story', '#contact': 'Contact', '#irshads-agent': 'how I was built', 'resume/': 'the resume', 'work/workshopos/#map': 'the system map',
 };
 
 // The first questions offered, by why the visitor came (the 2026 intent picker).

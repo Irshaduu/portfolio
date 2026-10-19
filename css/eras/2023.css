@@ -114,7 +114,7 @@
       border-color: var(--line-2); transform: translateY(-2px);
       box-shadow: inset 0 1px 0 rgb(255 255 255 / .08), 0 0 0 1px rgb(167 139 250 / .18), 0 30px 70px -30px rgb(124 58 237 / .45);
     }
-    & .project--feature, & .project:last-child {
+    & .project--feature, & .project:last-child:nth-child(even) {
       grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(1.5rem, 4vw, 3rem);
     }
     & .project--feature::before {
@@ -123,18 +123,19 @@
     }
     & .project__main, & .project__data { position: relative; display: flex; flex-direction: column; gap: 1.2rem; }
     & .project__data { flex: 1; }
-    /* The last card spans the row like the feature, but its picture sits with its words: its name
-       with the picture under it on the left, its story, numbers and links down the right, so
-       neither side is left half empty. Narrower than that, it reads top to bottom in one column. */
+    /* A last card left alone in its row spans it like the feature, but its picture sits with its
+       words: its name with the picture under it on the left, its story, numbers and links down the
+       right, so neither side is left half empty. Narrower than that, it reads top to bottom in one
+       column. */
     @media (min-width: 721px) and (max-width: 900px) {
-      & .project:last-child:not(.project--feature) { grid-template-columns: minmax(0, 1fr); }
+      & .project:last-child:nth-child(even) { grid-template-columns: minmax(0, 1fr); }
     }
     @media (min-width: 901px) {
-      & .project:last-child:not(.project--feature) { grid-template-rows: repeat(4, auto) 1fr; row-gap: 1.2rem; align-items: start; }
-      & .project:last-child:not(.project--feature) :is(.project__main, .project__data) { display: contents; }
-      & .project:last-child:not(.project--feature) :is(.project__head, .shot) { grid-column: 1; }
-      & .project:last-child:not(.project--feature) .shot { grid-row: 2 / span 4; }
-      & .project:last-child:not(.project--feature) :is(.project__summary, .points, .stats, .tags, .project__foot) { grid-column: 2; }
+      & .project:last-child:nth-child(even) { grid-template-rows: repeat(4, auto) 1fr; row-gap: 1.2rem; align-items: start; }
+      & .project:last-child:nth-child(even) :is(.project__main, .project__data) { display: contents; }
+      & .project:last-child:nth-child(even) :is(.project__head, .shot) { grid-column: 1; }
+      & .project:last-child:nth-child(even) .shot { grid-row: 2 / span 4; }
+      & .project:last-child:nth-child(even) :is(.project__summary, .points, .stats, .tags, .project__foot) { grid-column: 2; }
     }
     & .project__head { display: grid; gap: .6rem; }
     & .shot a { overflow: hidden; border-radius: 16px; border: 1px solid var(--line); background: rgb(255 255 255 / .02); transition: border-color .25s; }
@@ -302,6 +303,7 @@
     & .agent__form { border-radius: 16px; background: rgb(255 255 255 / .04); }
     & .agent__send { width: 34px; height: 34px; border-radius: 10px; }
     & .agent__see a, & .fit__link { font-family: var(--sans); font-weight: 600; letter-spacing: .02em; text-transform: none; }
+    & .fit__link { margin-left: .45em; }
     /* Its face: a rosette knotted round a hexagon, like that year's best-known AI mark, but its
        own shape, in the year's gradient. A mark, not a face, as that year's AIs had: no eyes. It
        turns slowly, and spins while it answers, as the chat logos did. */
